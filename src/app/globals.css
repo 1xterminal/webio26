@@ -58,9 +58,11 @@
     clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
   }
 
+  /* .gpu promotes an element to its own compositor layer.
+     will-change is intentionally OMITTED here to prevent over-application.
+     Add will-change: transform at the specific animation call site instead. */
   .gpu {
     transform: translateZ(0);
-    will-change: transform, opacity;
     backface-visibility: hidden;
   }
 
@@ -151,6 +153,43 @@
     100% {
       transform: translateX(100%);
     }
+  }
+
+  /* ─── Hero Section Keyframes ──────────────────────────────── */
+  @keyframes hero-glow-1 {
+    0%, 100% { transform: translateZ(0) translate(0px, 0px); opacity: 0.35; }
+    50% { transform: translateZ(0) translate(30px, -20px); opacity: 0.5; }
+  }
+  @keyframes hero-glow-2 {
+    0%, 100% { transform: translateZ(0) translate(0px, 0px); opacity: 0.15; }
+    50% { transform: translateZ(0) translate(-25px, 20px); opacity: 0.25; }
+  }
+  @keyframes hero-glow-3 {
+    0%, 100% { transform: translateZ(0) translate(0px, 0px); opacity: 0.2; }
+    50% { transform: translateZ(0) translate(15px, -15px); opacity: 0.35; }
+  }
+
+  /* ─── Competition Page Keyframes ──────────────────────────── */
+  @keyframes native-float-1 {
+    0%, 100% { transform: translateZ(0) translateY(0px) rotate(0deg); }
+    50% { transform: translateZ(0) translateY(-30px) rotate(5deg); }
+  }
+  @keyframes native-float-2 {
+    0%, 100% { transform: translateZ(0) translateY(0px) rotate(0deg); }
+    50% { transform: translateZ(0) translateY(40px) rotate(-10deg); }
+  }
+  @keyframes native-flare {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ─── No-scrollbar utility ─────────────────────────────────── */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 

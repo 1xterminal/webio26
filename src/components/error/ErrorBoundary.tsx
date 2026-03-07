@@ -17,7 +17,7 @@ class ErrorBoundary extends Component<Props, State> {
     hasError: false
   };
 
-  public static getDerivedStateFromError(_: Error): State {
+  public static getDerivedStateFromError(): State {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
@@ -44,7 +44,7 @@ class ErrorBoundary extends Component<Props, State> {
                 Oops! Something went <span className="text-neon-orange">wrong</span>
               </h2>
               <p className="text-white/50 mb-8 leading-relaxed">
-                An unexpected error occurred in our system. Don't worry, your data is safe.
+                An unexpected error occurred in our system. Don&apos;t worry, your data is safe.
               </p>
               <button
                 onClick={() => window.location.reload()}

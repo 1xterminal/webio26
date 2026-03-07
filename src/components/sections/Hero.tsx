@@ -50,6 +50,7 @@ export function Hero() {
           style={{ background: '#55D5E7', animation: 'hero-glow-3 14s ease-in-out infinite', willChange: 'transform, opacity' }}
         />
 
+
         {/* Static 3D Elements */}
         {/* Top left cluster */}
         <Image src="/assets/element/ELEMEN%202.png" alt="" width={320} height={320} sizes="(max-width:768px) 25vw, (max-width:1024px) 256px, 320px" className="absolute top-[2%] left-[2%] w-[25vw] md:w-64 lg:w-80 opacity-40 md:opacity-60 object-contain rotate-12" />
