@@ -139,7 +139,7 @@ export function Timeline() {
                                                 <span className="px-2 py-0.5 rounded text-[9px] bg-neon-orange/20 border border-neon-orange/50 text-neon-orange animate-pulse font-bold tracking-wider">SEDANG BERLANGSUNG</span>
                                             )}
                                         </div>
-                                        <h4 className={`text-2xl font-bold font-raela transition-colors duration-500 mb-3 ${isActive ? 'text-white' : 'text-white/90'}`}>{event.title}</h4>
+                                        <h3 className={`text-2xl font-bold font-raela transition-colors duration-500 mb-3 ${isActive ? 'text-white' : 'text-white/90'}`}>{event.title}</h3>
                                         <p className="text-white/70 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}">{event.description}</p>
                                     </div>
 

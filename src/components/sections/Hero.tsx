@@ -130,6 +130,7 @@ export function Hero() {
                     e.preventDefault();
                     document.getElementById('tracks')?.scrollIntoView({ behavior: 'smooth' });
                   }}
+                  aria-label="Learn more about competition tracks"
                   className="group px-8 py-4 bg-white text-black font-bold text-lg tracking-wide hover:bg-white/90 transition-colors inline-block"
                 >
                   <span className="flex items-center gap-3">

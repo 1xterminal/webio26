@@ -104,17 +104,17 @@ export function Footer() {
             <h3 className="text-[10px] font-raela font-black uppercase tracking-[0.2em] text-white/30 mb-4">Contact</h3>
             <ul className="space-y-3">
               <li>
-                <a href="https://instagram.com/iofest.untar" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
+                <a href="https://instagram.com/iofest.untar" target="_blank" rel="noopener noreferrer" aria-label="Follow I/O Festival on Instagram" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
                   <Instagram className="w-4 h-4 shrink-0" /> @iofest.untar
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
+                <a href="#" aria-label="Contact us on LINE Official Account" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
                   <MessageCircle className="w-4 h-4 shrink-0" /> LINE Official
                 </a>
               </li>
               <li>
-                <a href="mailto:iobemftiuntar@gmail.com" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
+                <a href="mailto:iobemftiuntar@gmail.com" aria-label="Send us an email" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
                   <Mail className="w-4 h-4 shrink-0" /> iobemftiuntar@gmail.com
                 </a>
               </li>

@@ -190,24 +190,39 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     className="absolute -top-20 -right-20 w-100 h-100 opacity-40 max-md:blur-none blur-[2px] max-md:hidden transform-gpu"
                     style={{ animation: 'native-float-1 10s ease-in-out infinite', willChange: 'transform' }}
                 >
-                    <Image src="/assets/element/ELEMEN 3.png" alt="" width={400} height={400} className="object-contain" />
+                    <Image src="/assets/element/ELEMEN 3.png" alt="" width={400} height={400} className="object-contain" priority />
                 </div>
                 <div
                     className="absolute top-1/2 -left-32 w-87.5 h-87.5 opacity-30 max-md:blur-none blur-xs transform-gpu"
                     style={{ animation: 'native-float-2 15s ease-in-out infinite 2s', willChange: 'transform' }}
                 >
-                    <Image src="/assets/element/ELEMEN 2.png" alt="" width={350} height={350} className="object-contain" />
+                    <Image src="/assets/element/ELEMEN 2.png" alt="" width={350} height={350} className="object-contain" priority />
                 </div>
                 <div
                     className="absolute bottom-[-10%] right-[10%] w-125 h-125 transform-gpu"
                     style={{ animation: 'native-flare 8s ease-in-out infinite', willChange: 'opacity' }}
                 >
-                    <Image src="/assets/element/ELEMEN FLARE 1.png" alt="" width={500} height={500} className="object-contain" />
+                    <Image src="/assets/element/ELEMEN FLARE 1.png" alt="" width={500} height={500} className="object-contain" priority />
                 </div>
             </div>
 
             <div className="pt-28 pb-20 px-4 relative z-10">
                 <div className="max-w-3xl mx-auto">
+                    {/* Visible Breadcrumbs for SEO & UX */}
+                    <motion.nav 
+                        initial={{ opacity: 0, y: -10 }} 
+                        animate={{ opacity: 1, y: 0 }} 
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="mb-8 flex items-center gap-2 text-[10px] font-raela font-bold uppercase tracking-[0.2em] text-white/30"
+                        aria-label="Breadcrumb navigation"
+                    >
+                        <Link href="/" className="hover:text-white transition-colors">Home</Link>
+                        <span className="opacity-20">/</span>
+                        <span className="text-white/10">Kompetisi</span>
+                        <span className="opacity-20">/</span>
+                        <span className="text-white/60 tracking-normal capitalize">{data.slug.replace('-', ' ')}</span>
+                    </motion.nav>
+
                     {/* Premium Performant Back Button */}
                     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, ease: 'easeOut' }}>
                         <Link
