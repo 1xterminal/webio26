@@ -1,23 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { Mail, MapPin, Send, Handshake } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Map, MapMarker, MarkerContent, MarkerTooltip, MarkerPopup, MapControls } from '@/components/ui/map';
+import { useContactForm } from '@/hooks/useContactForm';
+import { siteConfig } from '@/lib/config';
 
 export function Contact() {
-    const [company, setCompany] = useState('');
-    const [email, setEmail] = useState('');
-    const [type, setType] = useState('');
-    const [message, setMessage] = useState('');
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        const mailtoLink = `mailto:iobemftiuntar@gmail.com?subject=${encodeURIComponent(
-            `[Partnership] ${type || 'Kerjasama'} — ${company}`
-        )}&body=${encodeURIComponent(`Perusahaan/Organisasi: ${company}\nEmail: ${email}\nJenis Kerjasama: ${type}\n\n${message}`)}`;
-        window.location.href = mailtoLink;
-    };
+    const { formData, setters, status, handleSubmit } = useContactForm();
 
     return (
         <section id="contact" className="py-24 relative bg-black overflow-hidden border-t border-white/5">
@@ -64,7 +54,7 @@ export function Contact() {
                                 </div>
                                 <div>
                                     <h4 className="text-white font-bold font-raela">Email</h4>
-                                    <p className="text-white/60 text-sm">iobemftiuntar@gmail.com</p>
+                                    <p className="text-white/60 text-sm">{siteConfig.contact.email}</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4">
@@ -74,8 +64,8 @@ export function Contact() {
                                 <div>
                                     <h4 className="text-white font-bold font-raela">Location</h4>
                                     <p className="text-white/60 text-sm leading-relaxed">
-                                        Universitas Tarumanagara<br />
-                                        Jl. Letjen S. Parman No.1, Jakarta Barat
+                                        {siteConfig.contact.address.split(',')[0]}<br />
+                                        {siteConfig.contact.address.split(',').slice(1).join(',').trim()}
                                     </p>
                                 </div>
                             </div>
@@ -83,9 +73,9 @@ export function Contact() {
 
                         <div className="w-full h-48 border border-white/10 relative overflow-hidden">
                             <div className="absolute inset-0 bg-neon-blue/20 pointer-events-none z-10" />
-                            <Map center={[106.7888, -6.1678]} zoom={16} pitch={45}>
+                            <Map center={[siteConfig.contact.mapLocation.lng, siteConfig.contact.mapLocation.lat]} zoom={16} pitch={45}>
                                 <MapControls position="bottom-right" showZoom />
-                                <MapMarker longitude={106.7888} latitude={-6.1678}>
+                                <MapMarker longitude={siteConfig.contact.mapLocation.lng} latitude={siteConfig.contact.mapLocation.lat}>
                                     <MarkerContent className="group z-10">
                                         <div className="size-8 rounded-full border-2 border-white shadow-[0_0_15px_rgba(255,139,83,0.8)] relative group shrink-0 cursor-pointer flex items-center justify-center bg-neon-orange text-black transition-transform group-hover:scale-110">
                                             <span className="animate-ping absolute inset-0 -m-1 rounded-full bg-neon-orange opacity-40"></span>
@@ -93,13 +83,13 @@ export function Contact() {
                                         </div>
                                     </MarkerContent>
                                     <MarkerTooltip className="bg-black/90 border border-white/10 text-white text-xs px-2 py-1 pointer-events-none rounded shadow-md z-50">
-                                        Universitas Tarumanagara
+                                        {siteConfig.name}
                                     </MarkerTooltip>
                                     <MarkerPopup className="bg-black border border-neon-orange/20 backdrop-blur-md p-4 w-64 rounded-xl shadow-[0_0_20px_rgba(255,139,83,0.15)] text-left z-50">
                                         <div className="space-y-2">
-                                            <p className="font-raela font-bold text-white text-lg leading-tight uppercase tracking-wide">Universitas Tarumanagara</p>
+                                            <p className="font-raela font-bold text-white text-lg leading-tight uppercase tracking-wide">{siteConfig.name}</p>
                                             <p className="text-xs text-white/60 font-sans leading-relaxed">
-                                                Kampus 1, Jl. Letjen S. Parman No.1, Jakarta Barat
+                                                {siteConfig.contact.address}
                                             </p>
                                         </div>
                                     </MarkerPopup>
@@ -120,8 +110,8 @@ export function Contact() {
                                     id="company"
                                     type="text"
                                     required
-                                    value={company}
-                                    onChange={(e) => setCompany(e.target.value)}
+                                    value={formData.company}
+                                    onChange={(e) => setters.setCompany(e.target.value)}
                                     className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white focus:outline-none focus:border-neon-orange transition-colors"
                                     placeholder="PT Contoh Indonesia"
                                 />
@@ -132,18 +122,21 @@ export function Contact() {
                                     id="email"
                                     type="email"
                                     required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={formData.email}
+                                    onChange={(e) => setters.setEmail(e.target.value)}
                                     className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white focus:outline-none focus:border-neon-orange transition-colors"
                                     placeholder="partnership@company.com"
                                 />
+                                {status === 'error' && !formData.email.includes('@') && (
+                                    <p className="text-red-500 text-xs mt-1">Format email tidak valid</p>
+                                )}
                             </div>
                             <div className="space-y-2">
                                 <label htmlFor="type" className="text-sm font-raela font-bold text-white/80 uppercase tracking-wider">Jenis Kerjasama</label>
                                 <select
                                     id="type"
-                                    value={type}
-                                    onChange={(e) => setType(e.target.value)}
+                                    value={formData.type}
+                                    onChange={(e) => setters.setType(e.target.value)}
                                     className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white focus:outline-none focus:border-neon-orange transition-colors appearance-none"
                                 >
                                     <option value="" className="bg-black">Pilih jenis kerjasama</option>
@@ -160,17 +153,18 @@ export function Contact() {
                                     id="message"
                                     required
                                     rows={4}
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
+                                    value={formData.message}
+                                    onChange={(e) => setters.setMessage(e.target.value)}
                                     className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white focus:outline-none focus:border-neon-orange transition-colors resize-none"
                                     placeholder="Ceritakan tentang kerjasama yang Anda minati..."
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="w-full bg-neon-orange text-white font-raela font-bold text-lg px-8 py-4 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 group"
+                                disabled={status === 'submitting'}
+                                className="w-full bg-neon-orange text-white font-raela font-bold text-lg px-8 py-4 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 group disabled:opacity-50"
                             >
-                                KIRIM PENAWARAN SPONSORSHIP
+                                {status === 'submitting' ? 'MENGIRIM...' : 'KIRIM PENAWARAN SPONSORSHIP'}
                                 <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                             </button>
                         </form>

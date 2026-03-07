@@ -1,22 +1,16 @@
+<<<<<<< HEAD
+import WebGLGallery from './WebGL/WebGLGallery';
+export default WebGLGallery;
+=======
 import * as THREE from 'three';
-import normalizeWheel from 'normalize-wheel';
 import { vertexShader, fragmentShader } from './glsl';
+import { logger } from './logger';
+import { TextureManager } from './TextureManager';
+import { InteractionHandler } from './InteractionHandler';
 
 interface Size {
     width: number;
     height: number;
-}
-
-interface ImageInfo {
-    width: number;
-    height: number;
-    aspectRatio: number;
-    uvs: {
-        xStart: number;
-        xEnd: number;
-        yStart: number;
-        yEnd: number;
-    };
 }
 
 export default class WebGLGallery {
@@ -36,79 +30,58 @@ export default class WebGLGallery {
     mesh!: THREE.InstancedMesh;
     meshCount: number;
 
-    imageInfos: ImageInfo[] = [];
-    atlasTexture: THREE.Texture | null = null;
-    blurryAtlasTexture: THREE.Texture | null = null;
+    textureManager: TextureManager;
+    interaction: InteractionHandler;
 
-    shaderParameters = { maxX: 0, maxY: 0 };
-
-    drag = {
-        xCurrent: 0, xTarget: 0,
-        yCurrent: 0, yTarget: 0,
-        isDown: false,
-        startX: 0, startY: 0,
-        lastX: 0, lastY: 0,
-    };
-    dragSensitivity: number = 1.5;
-    dragDamping: number = 0.1;
-
-    scrollY = { target: 0, current: 0, direction: 0 };
-
-    animationFrameId: number = 0;
-    isHovered: boolean = false;
     isInView: boolean = true;
     observer!: IntersectionObserver;
-
-    // Binded methods for cleanup
-    private boundOnResize: () => void;
-    private boundOnWheel: (e: WheelEvent) => void;
-    private boundOnPointerMove: (e: PointerEvent) => void;
-    private boundOnPointerUp: (e: PointerEvent) => void;
+    animationFrameId: number = 0;
 
     constructor(container: HTMLElement, canvas: HTMLCanvasElement) {
         this.container = container;
         this.canvas = canvas;
         this.clock = new THREE.Clock();
-
-        // Responsive mesh count for mobile performance
         this.meshCount = window.innerWidth < 768 ? 80 : 200;
 
-        this.boundOnResize = this.onResize.bind(this);
-        this.boundOnWheel = this.onWheel.bind(this);
-        this.boundOnPointerMove = this.onPointerMove.bind(this);
-        this.boundOnPointerUp = this.onPointerUp.bind(this);
+        this.textureManager = new TextureManager();
+        this.interaction = new InteractionHandler(this.canvas, () => {});
 
         this.init();
     }
 
     async init() {
-        this.createScene();
-        this.createCamera();
-        this.createRenderer();
-        this.setSizes();
+        try {
+            this.createScene();
+            this.createCamera();
+            this.createRenderer();
+            this.setSizes();
 
-        this.shaderParameters = {
-            maxX: this.sizes.width * 2,
-            maxY: this.sizes.height * 2,
-        };
+            this.createGeometry();
+            this.createMaterial();
+            this.createInstancedMesh();
 
-        this.createGeometry();
-        this.createMaterial();
-        this.createInstancedMesh();
+            this.setupObserver();
 
-        // Setup interactions
-        this.addEventListeners();
-        this.bindDrag(this.canvas);
+            const urls: string[] = new Array(17).fill(0).map((_, i) => `/covers/image_${i}.webp`);
+            await this.textureManager.loadTextureAtlas(urls);
+            this.textureManager.createBlurryAtlas();
+            this.fillMeshData();
 
-        // Fetch and apply images
-        await this.fetchCovers();
+            this.material.uniforms.uAtlas.value = this.textureManager.atlasTexture;
 
-        // Setup Intersection Observer to pause when off-screen
+            if (this.isInView) this.renderLoop();
+            logger.info('WebGLGallery initialized');
+        } catch (error) {
+            logger.error('Failed to initialize WebGLGallery', {}, error as Error);
+        }
+    }
+
+    private setupObserver() {
         this.observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
                 if (!this.isInView) {
                     this.isInView = true;
-                    this.time = this.clock.getElapsedTime(); // reset time to prevent huge delta jumps
+                    this.time = this.clock.getElapsedTime();
                     this.renderLoop();
                 }
             } else {
@@ -117,11 +90,6 @@ export default class WebGLGallery {
             }
         }, { rootMargin: '200px' });
         this.observer.observe(this.container);
-
-        // Start loop (will only run if isInView)
-        if (this.isInView) {
-            this.renderLoop();
-        }
     }
 
     createScene() {
@@ -131,7 +99,6 @@ export default class WebGLGallery {
     createCamera() {
         const { clientWidth, clientHeight } = this.container;
         this.camera = new THREE.PerspectiveCamera(75, clientWidth / clientHeight, 0.1, 100);
-        this.scene.add(this.camera);
         this.camera.position.z = 10;
     }
 
@@ -147,6 +114,7 @@ export default class WebGLGallery {
             canvas: this.canvas,
             alpha: true,
             antialias: true,
+            powerPreference: 'high-performance'
         });
         this.renderer.setSize(this.dimensions.width, this.dimensions.height);
         this.renderer.setPixelRatio(this.dimensions.pixelRatio);
@@ -156,7 +124,6 @@ export default class WebGLGallery {
         const fov = this.camera.fov * (Math.PI / 180);
         const height = this.camera.position.z * Math.tan(fov / 2) * 2;
         const width = height * this.camera.aspect;
-
         this.sizes = { width, height };
     }
 
@@ -172,7 +139,7 @@ export default class WebGLGallery {
             transparent: true,
             uniforms: {
                 uTime: { value: 0 },
-                uMaxXdisplacement: { value: new THREE.Vector2(this.shaderParameters.maxX, this.shaderParameters.maxY) },
+                uMaxXdisplacement: { value: new THREE.Vector2(this.sizes.width * 2.5, this.sizes.height * 2.5) },
                 uWrapperTexture: {
                     value: new THREE.TextureLoader().load("/photo_frame.webp", (tex) => {
                         tex.minFilter = THREE.NearestFilter;
@@ -181,10 +148,8 @@ export default class WebGLGallery {
                         tex.needsUpdate = true;
                     }),
                 },
-                uAtlas: new THREE.Uniform(null),
-                uBlurryAtlas: new THREE.Uniform(null),
+                uAtlas: { value: null },
                 uScrollY: { value: 0 },
-                uSpeedY: { value: 0 },
                 uDrag: { value: new THREE.Vector2(0, 0) },
             },
         });
@@ -195,110 +160,30 @@ export default class WebGLGallery {
         this.scene.add(this.mesh);
     }
 
-    async fetchCovers() {
-        const urls: string[] = new Array(17).fill(0).map((_, i) => `/covers/image_${i}.webp`);
-        await this.loadTextureAtlas(urls);
-        this.createBlurryAtlas();
-        this.fillMeshData();
-    }
-
-    async loadTextureAtlas(urls: string[]) {
-        const imagePromises = urls.map(async (path) => {
-            return await new Promise<CanvasImageSource>((resolve) => {
-                const img = new Image();
-                img.crossOrigin = "anonymous";
-                img.onload = () => resolve(img);
-                img.onerror = () => {
-                    // Placeholder fallback to avoid crashing on missing image
-                    const canvas = document.createElement("canvas");
-                    canvas.width = 500; canvas.height = 500;
-                    const ctx = canvas.getContext("2d")!;
-                    ctx.fillStyle = "#222"; ctx.fillRect(0, 0, 500, 500);
-                    resolve(canvas);
-                };
-                img.src = path;
-            });
-        });
-
-        const images = await Promise.all(imagePromises);
-
-        const atlasWidth = Math.max(...images.map((img) => (img as HTMLCanvasElement).width));
-        let totalHeight = 0;
-        images.forEach((img) => { totalHeight += (img as HTMLCanvasElement).height; });
-
-        const canvas = document.createElement("canvas");
-        canvas.width = atlasWidth;
-        canvas.height = totalHeight;
-        const ctx = canvas.getContext("2d")!;
-
-        let currentY = 0;
-        this.imageInfos = images.map((img) => {
-            const el = img as HTMLCanvasElement;
-            const aspectRatio = el.width / el.height;
-            ctx.drawImage(img, 0, currentY);
-
-            const info = {
-                width: el.width,
-                height: el.height,
-                aspectRatio,
-                uvs: {
-                    xStart: 0,
-                    xEnd: el.width / atlasWidth,
-                    yStart: 1 - currentY / totalHeight,
-                    yEnd: 1 - (currentY + el.height) / totalHeight,
-                },
-            };
-
-            currentY += el.height;
-            return info;
-        });
-
-        this.atlasTexture = new THREE.Texture(canvas);
-        this.atlasTexture.wrapS = THREE.ClampToEdgeWrapping;
-        this.atlasTexture.wrapT = THREE.ClampToEdgeWrapping;
-        this.atlasTexture.minFilter = THREE.LinearFilter;
-        this.atlasTexture.magFilter = THREE.LinearFilter;
-        this.atlasTexture.needsUpdate = true;
-        this.material.uniforms.uAtlas.value = this.atlasTexture;
-    }
-
-    createBlurryAtlas() {
-        if (!this.atlasTexture) return;
-        const blurryCanvas = document.createElement("canvas");
-        blurryCanvas.width = (this.atlasTexture.image as HTMLCanvasElement).width;
-        blurryCanvas.height = (this.atlasTexture.image as HTMLCanvasElement).height;
-        const ctx = blurryCanvas.getContext("2d")!;
-        ctx.filter = "blur(100px)";
-        ctx.drawImage(this.atlasTexture.image as CanvasImageSource, 0, 0);
-
-        this.blurryAtlasTexture = new THREE.Texture(blurryCanvas);
-        this.blurryAtlasTexture.wrapS = THREE.ClampToEdgeWrapping;
-        this.blurryAtlasTexture.wrapT = THREE.ClampToEdgeWrapping;
-        this.blurryAtlasTexture.minFilter = THREE.LinearFilter;
-        this.blurryAtlasTexture.magFilter = THREE.LinearFilter;
-        this.blurryAtlasTexture.needsUpdate = true;
-        this.material.uniforms.uBlurryAtlas.value = this.blurryAtlasTexture;
-    }
-
     fillMeshData() {
-        const initialPosition = new Float32Array(this.meshCount * 3);
-        const meshSpeed = new Float32Array(this.meshCount);
-        const aTextureCoords = new Float32Array(this.meshCount * 4);
-        const aImageAspect = new Float32Array(this.meshCount);
+        const count = this.meshCount;
+        const initialPosition = new Float32Array(count * 3);
+        const meshSpeed = new Float32Array(count);
+        const aTextureCoords = new Float32Array(count * 4);
+        const aImageAspect = new Float32Array(count);
 
-        for (let i = 0; i < this.meshCount; i++) {
-            initialPosition[i * 3 + 0] = (Math.random() - 0.5) * this.shaderParameters.maxX * 2; // x
-            initialPosition[i * 3 + 1] = (Math.random() - 0.5) * this.shaderParameters.maxY * 2; // y
-            initialPosition[i * 3 + 2] = Math.random() * (7 - -30) - 30; // z
+        const imageInfos = this.textureManager.imageInfos;
+        const maxX = this.sizes.width * 2.5;
+        const maxY = this.sizes.height * 2.5;
+
+        for (let i = 0; i < count; i++) {
+            initialPosition[i * 3 + 0] = (Math.random() - 0.5) * maxX * 2;
+            initialPosition[i * 3 + 1] = (Math.random() - 0.5) * maxY * 2;
+            initialPosition[i * 3 + 2] = Math.random() * (7 - -30) - 30;
 
             meshSpeed[i] = Math.random() * 0.5 + 0.5;
 
-            const imageIndex = i % this.imageInfos.length;
-            aTextureCoords[i * 4 + 0] = this.imageInfos[imageIndex].uvs.xStart;
-            aTextureCoords[i * 4 + 1] = this.imageInfos[imageIndex].uvs.xEnd;
-            aTextureCoords[i * 4 + 2] = this.imageInfos[imageIndex].uvs.yStart;
-            aTextureCoords[i * 4 + 3] = this.imageInfos[imageIndex].uvs.yEnd;
-            aImageAspect[i] = this.imageInfos[imageIndex].aspectRatio;
+            const info = imageInfos[i % imageInfos.length];
+            aTextureCoords[i * 4 + 0] = info.uvs.xStart;
+            aTextureCoords[i * 4 + 1] = info.uvs.xEnd;
+            aTextureCoords[i * 4 + 2] = info.uvs.yStart;
+            aTextureCoords[i * 4 + 3] = info.uvs.yEnd;
+            aImageAspect[i] = info.aspectRatio;
         }
 
         this.geometry.setAttribute("aInitialPosition", new THREE.InstancedBufferAttribute(initialPosition, 3));
@@ -307,98 +192,27 @@ export default class WebGLGallery {
         this.mesh.geometry.setAttribute("aImageAspect", new THREE.InstancedBufferAttribute(aImageAspect, 1));
     }
 
-    addEventListeners() {
-        window.addEventListener("resize", this.boundOnResize);
-        window.addEventListener("wheel", this.boundOnWheel, { passive: true });
-
-        // Manage hover state so scroll only affects gallery speed when hovered
-        this.container.addEventListener("mouseenter", () => this.isHovered = true);
-        this.container.addEventListener("mouseleave", () => this.isHovered = false);
-    }
-
-    bindDrag(element: HTMLElement) {
-        const onPointerDown = (e: PointerEvent) => {
-            this.drag.isDown = true;
-            this.drag.startX = e.clientX;
-            this.drag.startY = e.clientY;
-            this.drag.lastX = e.clientX;
-            this.drag.lastY = e.clientY;
-            element.setPointerCapture(e.pointerId);
-        };
-
-        element.addEventListener("pointerdown", onPointerDown);
-        window.addEventListener("pointermove", this.boundOnPointerMove);
-        window.addEventListener("pointerup", this.boundOnPointerUp);
-    }
-
-    onPointerMove(e: PointerEvent) {
-        if (!this.drag.isDown) return;
-        const dx = e.clientX - this.drag.lastX;
-        const dy = e.clientY - this.drag.lastY;
-        this.drag.lastX = e.clientX;
-        this.drag.lastY = e.clientY;
-
-        const worldPerPixelX = (this.sizes.width / window.innerWidth) * this.dragSensitivity;
-        const worldPerPixelY = (this.sizes.height / window.innerHeight) * this.dragSensitivity;
-
-        this.drag.xTarget += -dx * worldPerPixelX;
-        this.drag.yTarget += dy * worldPerPixelY;
-    }
-
-    onPointerUp() {
-        this.drag.isDown = false;
-    }
-
-    onResize() {
-        const { clientWidth, clientHeight } = this.container;
-        this.dimensions = {
-            width: clientWidth,
-            height: clientHeight,
-            pixelRatio: Math.min(2, window.devicePixelRatio),
-        };
-
-        this.camera.aspect = clientWidth / clientHeight;
-        this.camera.updateProjectionMatrix();
-        this.setSizes();
-
-        this.renderer.setPixelRatio(this.dimensions.pixelRatio);
-        this.renderer.setSize(this.dimensions.width, this.dimensions.height);
-    }
-
-    onWheel(event: WheelEvent) {
-        const normalizedWheel = normalizeWheel(event);
-
-        // We let normal scroll pass through (passive: true), 
-        // but we pick up the delta to move the Z-axis in the WebGL scene.
-        // We scale it down slightly so the gallery moves nicely alongside page scroll.
-        const scrollY = (normalizedWheel.pixelY * this.sizes.height) / window.innerHeight;
-
-        this.scrollY.target += scrollY;
-        if (this.material) {
-            this.material.uniforms.uSpeedY.value += scrollY;
-        }
-    }
-
     renderLoop = () => {
         if (!this.isInView) return;
 
-        const now = this.clock.getElapsedTime();
-        const delta = now - this.time;
-        this.time = now;
+        const delta = this.clock.getDelta();
+        const timeScale = delta / (1 / 60) || 1;
 
         if (this.material) {
-            const normalizedDelta = delta / (1 / 60) || 1;
-            this.material.uniforms.uTime.value += normalizedDelta * 0.015;
+            this.material.uniforms.uTime.value += timeScale * 0.015;
 
-            this.drag.xCurrent += (this.drag.xTarget - this.drag.xCurrent) * this.dragDamping;
-            this.drag.yCurrent += (this.drag.yTarget - this.drag.yCurrent) * this.dragDamping;
-            this.material.uniforms.uDrag.value.set(this.drag.xCurrent, this.drag.yCurrent);
+            // Interpolate interactions
+            const damping = 0.1;
+            const worldScaleX = (this.sizes.width / window.innerWidth) * 1.5;
+            const worldScaleY = (this.sizes.height / window.innerHeight) * 1.5;
 
-            const interpolate = (current: number, target: number, ease: number) => current + (target - current) * ease;
-            this.scrollY.current = interpolate(this.scrollY.current, this.scrollY.target, 0.12);
+            this.interaction.drag.xCurrent += (this.interaction.drag.xTarget * worldScaleX - this.interaction.drag.xCurrent) * damping;
+            this.interaction.drag.yCurrent += (this.interaction.drag.yTarget * worldScaleY - this.interaction.drag.yCurrent) * damping;
+            
+            this.material.uniforms.uDrag.value.set(this.interaction.drag.xCurrent, this.interaction.drag.yCurrent);
 
-            this.material.uniforms.uScrollY.value = this.scrollY.current;
-            this.material.uniforms.uSpeedY.value *= 0.835;
+            this.interaction.scrollY.current += (this.interaction.scrollY.target * worldScaleY - this.interaction.scrollY.current) * 0.12;
+            this.material.uniforms.uScrollY.value = this.interaction.scrollY.current;
         }
 
         this.renderer.render(this.scene, this.camera);
@@ -406,17 +220,19 @@ export default class WebGLGallery {
     }
 
     destroy() {
+        logger.info('Destroying WebGLGallery');
         if (this.observer) this.observer.disconnect();
         cancelAnimationFrame(this.animationFrameId);
-        window.removeEventListener("resize", this.boundOnResize);
-        window.removeEventListener("wheel", this.boundOnWheel);
-        window.removeEventListener("pointermove", this.boundOnPointerMove);
-        window.removeEventListener("pointerup", this.boundOnPointerUp);
+        
+        this.interaction.dispose();
+        this.textureManager.dispose();
 
         if (this.geometry) this.geometry.dispose();
-        if (this.material) this.material.dispose();
-        if (this.atlasTexture) this.atlasTexture.dispose();
-        if (this.blurryAtlasTexture) this.blurryAtlasTexture.dispose();
-        this.renderer.dispose();
+        if (this.material) {
+            if (this.material.uniforms.uWrapperTexture.value) this.material.uniforms.uWrapperTexture.value.dispose();
+            this.material.dispose();
+        }
+        if (this.renderer) this.renderer.dispose();
     }
 }
+>>>>>>> parent of c3e9708 (revert everything)

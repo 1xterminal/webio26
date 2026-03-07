@@ -1,0 +1,13 @@
+{
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "bracketSpacing": true,
+<<<<<<< HEAD
+  "arrowParens": "avoid"
+=======
+  "arrowParens": "always"
+>>>>>>> parent of c3e9708 (revert everything)
+}

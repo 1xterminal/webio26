@@ -12,7 +12,16 @@ export function useRegistrationStatus(): RegistrationStatus {
     const [status, setStatus] = useState<RegistrationStatus>('upcoming');
 
     useEffect(() => {
-        setStatus(getRegistrationStatus());
+<<<<<<< HEAD
+        const frame = requestAnimationFrame(() => {
+            setStatus(getRegistrationStatus());
+        });
+        return () => cancelAnimationFrame(frame);
+=======
+        queueMicrotask(() => {
+            setStatus(getRegistrationStatus());
+        });
+>>>>>>> parent of c3e9708 (revert everything)
     }, []);
 
     return status;
