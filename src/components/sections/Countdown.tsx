@@ -63,12 +63,19 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
     const [now, setNow] = useState(new Date());
 
     useEffect(() => {
-        setIsMounted(true);
-        setNow(new Date());
+        const frame = requestAnimationFrame(() => {
+            setIsMounted(true);
+            setNow(new Date());
+        });
+
         const timer = setInterval(() => {
             setNow(new Date());
         }, 1000);
-        return () => clearInterval(timer);
+        
+        return () => {
+            cancelAnimationFrame(frame);
+            clearInterval(timer);
+        };
     }, []);
 
     // Use a fixed reference date during SSR and initial hydration to prevent mismatch
@@ -112,7 +119,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-[shimmer_3s_infinite] pointer-events-none -translate-x-full" />
 
             <div className="relative z-10 text-center md:text-left mb-10">
-                <p className="text-sm md:text-base tracking-[0.2em] font-bold uppercase text-white mb-2 relative inline-flex items-center gap-3">
+                <p className="text-sm md:text-base tracking-[0.2em] font-black uppercase text-white mb-2 relative inline-flex items-center gap-3 font-raela">
                     <span 
                         className={`w-2 h-2 rounded-full animate-pulse ${!accentColor && 'bg-neon-orange shadow-[0_0_10px_rgba(249,115,22,1)]'}`} 
                         style={accentColor ? { backgroundColor: accentColor, boxShadow: `0 0 10px ${accentColor}` } : {}}
@@ -120,7 +127,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                     {getLabel(phase)}
                 </p>
                 {subLabel && (
-                    <p className="text-xs md:text-sm text-white/50 font-mono tracking-widest pl-5">
+                    <p className="text-xs md:text-sm text-white/50 font-raela tracking-widest pl-5 font-bold">
                         {subLabel}
                     </p>
                 )}
@@ -152,7 +159,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                                     {value.toString().padStart(2, '0')}
                                 </span>
                                 <span 
-                                    className={`text-[8px] md:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em] mt-2 sm:mt-4 lg:mt-5 font-mono font-bold text-center ${!accentColor && 'text-neon-orange/80'}`}
+                                    className={`text-[8px] md:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em] mt-2 sm:mt-4 lg:mt-5 font-raela font-black text-center ${!accentColor && 'text-neon-orange/80'}`}
                                     style={accentColor ? { color: accentColor, opacity: 0.9 } : {}}
                                 >
                                     {labels[interval]}
@@ -167,7 +174,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                     </motion.div>
                 </div>
             ) : (
-                <p className="relative z-10 text-white/70 text-xl md:text-2xl font-mono text-center py-8">
+                <p className="relative z-10 text-white/70 text-xl md:text-2xl font-raela font-black text-center py-8">
                     Sampai jumpa tahun depan!
                 </p>
             )}

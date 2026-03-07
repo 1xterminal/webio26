@@ -13,6 +13,7 @@
 
   --font-raela: var(--font-raela);
   --font-jakarta: var(--font-jakarta);
+  --font-mono: var(--font-jakarta); /* No other font is allowed, mapping mono to sans */
 }
 
 @layer base {
@@ -29,6 +30,10 @@
     overflow-x: hidden;
     position: relative;
     touch-action: pan-y;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-raela), sans-serif;
   }
 
   body {

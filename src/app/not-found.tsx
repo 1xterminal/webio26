@@ -26,7 +26,7 @@ export default function NotFound() {
           Halaman Tidak Ditemukan
         </h2>
 
-        <p className="text-white/40 text-sm font-mono mb-10 leading-relaxed">
+        <p className="text-white/40 text-sm mb-10 leading-relaxed font-jakarta">
           Halaman yang kamu cari tidak tersedia atau sudah dipindahkan.
         </p>
 

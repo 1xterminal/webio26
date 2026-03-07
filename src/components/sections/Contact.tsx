@@ -23,7 +23,7 @@ export function Contact() {
         <section id="contact" className="py-24 relative bg-black overflow-hidden border-t border-white/5">
             <div className="max-w-7xl mx-auto px-4 relative z-10">
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 text-neon-orange text-xs font-mono uppercase tracking-[0.2em] mb-4">
+                    <div className="inline-flex items-center gap-2 text-neon-orange text-xs font-raela font-black uppercase tracking-[0.2em] mb-4">
                         <Handshake className="w-4 h-4" /> Sponsorship & Partnership
                     </div>
                     <h2 className="font-raela font-bold text-3xl md:text-5xl text-white mb-4 uppercase tracking-widest">

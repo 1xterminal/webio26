@@ -153,7 +153,7 @@ export default function KelengkapanPage() {
 
                     {/* Contact */}
                     <div className="mt-10 pt-8 border-t border-white/10">
-                        <p className="text-xs tracking-[0.15em] uppercase text-white/25 font-mono mb-4 text-center">
+                        <p className="text-xs tracking-[0.15em] uppercase text-white/25 font-raela font-black mb-4 text-center">
                             Contact Person
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -174,7 +174,7 @@ export default function KelengkapanPage() {
 
                     {/* Back */}
                     <div className="mt-10 text-center">
-                        <Link href="/" className="text-white/30 hover:text-white/50 text-xs font-mono transition-colors">
+                        <Link href="/" className="text-white/30 hover:text-white/50 text-xs font-jakarta transition-colors">
                             ← Kembali ke Beranda
                         </Link>
                     </div>

@@ -60,7 +60,7 @@ export function Sponsors() {
                                         className="border border-white/10 bg-white/2 hover:bg-white/5 transition-colors flex items-center justify-center rounded-lg"
                                         style={{ width: logo.width, height: logo.height }}
                                     >
-                                        <span className="text-white/20 text-xs font-mono">{logo.name}</span>
+                                        <span className="text-white/20 text-xs">{logo.name}</span>
                                     </div>
                                 ))}
                             </div>

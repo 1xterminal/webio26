@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Download, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap } from 'lucide-react';
 import type { CompetitionData } from '@/lib/competitions';
 import { StarDust } from '@/components/effects/StarDust';
 import Image from 'next/image';
@@ -17,21 +17,26 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
 
     // Auto-calculate relevant live timeline segment utilizing client-side hydration bypassing server mismatch
     useEffect(() => {
-        const now = new Date();
-        const stages = [
-            new Date('2026-04-06T00:00:00'), // Regular
-            new Date('2026-04-30T00:00:00'), // Close Registration
-            new Date('2026-05-01T00:00:00'), // Preliminary
-            new Date('2026-05-13T00:00:00'), // Finalist Announce
-            new Date('2026-06-04T00:00:00'), // Final & Awarding
-        ];
-        let phase = 0;
-        for (let i = 0; i < stages.length; i++) {
-            if (now >= stages[i]) phase = i + 1;
-            else break;
-        }
-        if (phase >= 6) phase = 5;
-        setCurrentPhase(phase);
+        const calculateInitialPhase = () => {
+            const now = new Date();
+            const stages = [
+                new Date('2026-04-06T00:00:00'), // Regular
+                new Date('2026-04-30T00:00:00'), // Close Registration
+                new Date('2026-05-01T00:00:00'), // Preliminary
+                new Date('2026-05-13T00:00:00'), // Finalist Announce
+                new Date('2026-06-04T00:00:00'), // Final & Awarding
+            ];
+            let phase = 0;
+            for (let i = 0; i < stages.length; i++) {
+                if (now >= stages[i]) phase = i + 1;
+                else break;
+            }
+            if (phase >= 6) phase = 5;
+            setCurrentPhase(phase);
+        };
+        
+        const frame = requestAnimationFrame(calculateInitialPhase);
+        return () => cancelAnimationFrame(frame);
     }, []);
 
     const timelineStages = [
@@ -94,7 +99,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                             style={{ boxShadow: '0 8px 32px -10px rgba(0,0,0,0.5)' }}
                         >
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300 ease-out relative z-10" />
-                            <span className="relative z-10">Back to Tracks</span>
+                            <span className="relative z-10 font-raela">Back to Tracks</span>
 
                             {/* Glowing Theme Accent - Animated entirely via Opacity to bypass Layout Recalculation on Mobile CPU */}
                             <div
@@ -137,116 +142,129 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.11 }}
-                        className="mb-12 w-full"
+                        className="mb-12 w-full font-raela"
                     >
                         <Countdown accentColor={data.accentHex} />
                     </motion.div>
 
-                    {/* Info Grid (Summary) */}
+                    {/* Info Grid (Summary) - NEW REDESIGN */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.12 }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+                        className="flex flex-col gap-6 mb-12"
                     >
-                        {/* Kategori & Tim Card */}
+                        {/* Top Tier: Pendaftaran (Full Width) */}
                         <div
-                            className="group relative p-5 md:p-6 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 z-10 w-full"
+                            className="group relative p-6 md:p-8 rounded-3xl backdrop-blur-md md:backdrop-blur-xl transition-all duration-500 overflow-hidden z-10 w-full border border-white/5"
                             style={{
                                 background: 'rgba(20, 20, 20, 0.6)',
-                                boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                border: '1px solid rgba(255,255,255,0.05)'
+                                boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
                             }}
                         >
-                            <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                            <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-20 group-hover:opacity-50 blur-[40px] transition-opacity duration-500 -translate-y-1/4 translate-x-1/4" style={{ background: data.accentHex }} />
-                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: `inset 0 0 10px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
+                            <div className="absolute inset-0 opacity-5 group-hover:opacity-15 transition-opacity duration-700 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
+                            <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10 group-hover:opacity-30 blur-[80px] transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" style={{ background: data.accentHex }} />
+                            <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ border: `1px solid ${data.accentHex}40`, boxShadow: `inset 0 0 20px ${data.accentHex}10` }} />
 
-                            <div className="relative z-10">
-                                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
-                                    <Users className="w-6 h-6 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
+                            <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-8">
+                                <div className="flex-shrink-0">
+                                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110 shadow-xl border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                        <Wallet className="w-8 h-8 text-white" style={{ filter: `drop-shadow(0 0 12px ${data.accentHex})` }} />
+                                    </div>
+                                    <h3 className="text-white/80 text-sm font-raela uppercase tracking-[0.1em] mb-0.5 font-black">Biaya Pendaftaran</h3>
+                                    <p className="text-white/50 text-xs font-raela uppercase tracking-wider font-bold">Per Tim</p>
                                 </div>
-                                <h3 className="text-white/50 text-xs font-mono uppercase tracking-[0.2em] mb-2 group-hover:text-white/80 transition-colors">Kategori & Tim</h3>
-                                <p className="text-white font-bold text-base md:text-lg leading-tight">{data.details.categories}</p>
-                            </div>
-                        </div>
 
-                        {/* Pendaftaran Card */}
-                        <div
-                            className="group relative p-5 md:p-6 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 z-10 w-full"
-                            style={{
-                                background: 'rgba(20, 20, 20, 0.6)',
-                                boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                border: '1px solid rgba(255,255,255,0.05)'
-                            }}
-                        >
-                            <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                            <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-20 group-hover:opacity-50 blur-[40px] transition-opacity duration-500 -translate-y-1/4 translate-x-1/4" style={{ background: data.accentHex }} />
-                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: `inset 0 0 10px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
-
-                            <div className="relative z-10">
-                                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
-                                    <Wallet className="w-6 h-6 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
-                                </div>
-                                <h3 className="text-white/50 text-xs font-mono uppercase tracking-[0.2em] mb-2 group-hover:text-white/80 transition-colors">Pendaftaran</h3>
-                                <div className="flex flex-col gap-3 w-full mt-2">
+                                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-8">
                                     {(Array.isArray(data.details.fee) ? data.details.fee : []).map((tier, idx) => (
                                         <div
                                             key={idx}
-                                            className="flex flex-col rounded-xl relative overflow-hidden border transition-colors duration-300"
-                                            style={{
-                                                background: `linear-gradient(135deg, ${data.accentHex}0a, transparent)`,
-                                                borderColor: `${data.accentHex}20`,
-                                            }}
+                                            className="group/tier flex flex-col rounded-3xl relative overflow-hidden border transition-all duration-700 bg-white/[0.01] hover:bg-white/[0.03]"
+                                            style={{ borderColor: `${data.accentHex}15` }}
                                         >
-                                            {/* Left Accent Bar using competition palette */}
-                                            <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl" style={{ backgroundColor: data.accentHex }} />
-
                                             {/* Tier Header */}
-                                            <div className="flex items-center gap-2 px-4 pt-3 pb-2 border-b" style={{ borderColor: `${data.accentHex}15` }}>
-                                                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: data.accentHex }} />
-                                                <span className="text-white/70 text-[10px] font-mono uppercase tracking-widest font-bold">{tier.type}</span>
+                                            <div className="px-6 py-5 border-b border-white/5 flex justify-center items-center bg-white/[0.02]">
+                                                <span className="text-white font-raela font-black uppercase tracking-[0.15em] text-lg lg:text-xl">{tier.type}</span>
                                             </div>
 
-                                            {/* Pricing Row */}
-                                            <div className="flex flex-row gap-0 divide-x pb-3 pt-2.5 px-4" style={{ borderColor: `${data.accentHex}15` }}>
-                                                {/* Early Bird */}
-                                                <div className="flex-1 flex flex-col pr-4">
-                                                    <span className="text-white/40 text-[9px] uppercase font-mono tracking-wider mb-1.5">Early Bird</span>
-                                                    <span className="font-bold text-sm tracking-wide" style={{ color: data.accentHex }}>{tier.early}</span>
+                                            <div className="p-6 flex flex-col items-center text-center relative">
+                                                {/* Early Bird - HERO SECTION */}
+                                                <div className="mb-4 w-full">
+                                                    <span className="block text-xs text-white/50 uppercase tracking-[0.2em] mb-2 font-raela font-black">Early Bird</span>
+                                                    <div className="relative inline-block group/price">
+                                                        <span className="block font-raela font-black text-3xl lg:text-4xl tracking-tight text-white mb-1 transition-all duration-500 group-hover/tier:scale-110" style={{ color: data.accentHex }}>
+                                                            {tier.early}
+                                                        </span>
+                                                        <div className="absolute inset-0 blur-2xl opacity-10 group-hover/tier:opacity-30 scale-150 transition-opacity pointer-events-none" style={{ backgroundColor: data.accentHex }} />
+                                                    </div>
                                                 </div>
 
-                                                {/* Regular */}
-                                                <div className="flex-1 flex flex-col pl-4">
-                                                    <span className="text-white/40 text-[9px] uppercase font-mono tracking-wider mb-1.5">Regular</span>
-                                                    <span className="text-white/80 font-bold text-sm tracking-wide">{tier.regular}</span>
+                                                {/* Separator / OR */}
+                                                <div className="flex items-center gap-3 w-full opacity-10 mb-4">
+                                                    <div className="h-[1px] flex-1 bg-white" />
+                                                    <span className="text-[8px] font-raela text-white uppercase tracking-widest">Regular Price</span>
+                                                    <div className="h-[1px] flex-1 bg-white" />
+                                                </div>
+
+                                                {/* Regular - SECONDARY SECTION */}
+                                                <div className="opacity-30 group-hover/tier:opacity-50 transition-all duration-500 transform group-hover/tier:translate-y-[-2px]">
+                                                    <span className="block text-[8px] text-white/50 uppercase tracking-widest mb-1 font-raela">Regular</span>
+                                                    <span className="block font-bold text-lg text-white/80 line-through decoration-white/30 whitespace-nowrap">
+                                                        {tier.regular}
+                                                    </span>
                                                 </div>
                                             </div>
+
+                                            {/* Corner Visual Accent */}
+                                            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/5 to-transparent pointer-events-none -translate-y-1/2 translate-x-1/2 rounded-full" />
+                                            
+                                            {/* Hover Glow Sweep */}
+                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover/tier:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Penghargaan Card */}
-                        <div
-                            className="group relative p-5 md:p-6 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 z-10 w-full"
-                            style={{
-                                background: 'rgba(20, 20, 20, 0.6)',
-                                boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                border: '1px solid rgba(255,255,255,0.05)'
-                            }}
-                        >
-                            <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                            <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-20 group-hover:opacity-50 blur-[40px] transition-opacity duration-500 -translate-y-1/4 translate-x-1/4" style={{ background: data.accentHex }} />
-                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: `inset 0 0 10px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
-
-                            <div className="relative z-10">
-                                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
-                                    <Trophy className="w-6 h-6 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Anggota Tim Card */}
+                            <div
+                                className="group relative p-6 rounded-2xl backdrop-blur-md transition-all duration-500 overflow-hidden hover:-translate-y-1 border border-white/5 flex items-center gap-6"
+                                style={{
+                                    background: 'rgba(20, 20, 20, 0.6)',
+                                    boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
+                                }}
+                            >
+                                <div className="absolute inset-0 opacity-5 group-hover:opacity-15 transition-opacity duration-700 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
+                                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 group-hover:opacity-30 blur-[40px] transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" style={{ background: data.accentHex }} />
+                                
+                                <div className="w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 border border-white/5 bg-white/[0.03] relative z-10">
+                                    <Users className="w-7 h-7 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
                                 </div>
-                                <h3 className="text-white/50 text-xs font-mono uppercase tracking-[0.2em] mb-2 group-hover:text-white/80 transition-colors">Penghargaan</h3>
-                                <p className="text-white font-bold text-base md:text-lg leading-tight">{data.details.prizes}</p>
+                                <div className="relative z-10">
+                                    <h3 className="text-white/80 text-sm font-raela uppercase tracking-[0.1em] mb-1.5 font-black">Anggota Tim</h3>
+                                    <p className="text-white font-bold text-sm md:text-base leading-snug tracking-wide">Maksimal 3 Orang</p>
+                                </div>
+                            </div>
+
+                            {/* Hadiah Card */}
+                            <div
+                                className="group relative p-6 rounded-2xl backdrop-blur-md transition-all duration-500 overflow-hidden hover:-translate-y-1 border border-white/5 flex items-center gap-6"
+                                style={{
+                                    background: 'rgba(20, 20, 20, 0.6)',
+                                    boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
+                                }}
+                            >
+                                <div className="absolute inset-0 opacity-5 group-hover:opacity-15 transition-opacity duration-700 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
+                                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 group-hover:opacity-30 blur-[40px] transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" style={{ background: data.accentHex }} />
+
+                                <div className="w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 border border-white/5 bg-white/[0.03] relative z-10">
+                                    <Trophy className="w-7 h-7 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
+                                </div>
+                                <div className="relative z-10">
+                                    <h3 className="text-white/80 text-sm font-raela uppercase tracking-[0.1em] mb-1.5 font-black">Hadiah</h3>
+                                    <p className="text-white font-bold text-sm md:text-base leading-snug tracking-wide">{data.details.prizes}</p>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
@@ -290,8 +308,8 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                 {/* Content Layer */}
                                 <div className="relative z-10 flex flex-col h-full">
                                     {/* Icon Badge */}
-                                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/[0.03] border border-white/10 mb-8 group-hover:bg-white/10 transition-colors duration-500 shadow-xl" style={{ boxShadow: `0 8px 32px -5px ${data.accentHex}30` }}>
-                                        <Landmark className="w-6 h-6" style={{ color: data.accentHex }} />
+                                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white/[0.03] border border-white/5 transition-transform duration-500 group-hover:scale-110 shadow-xl relative z-10 mb-10" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                        <Landmark className="w-8 h-8 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
                                     </div>
 
                                     <div className="flex-1">
@@ -324,8 +342,8 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                 </div>
 
                                 <div className="relative z-10 flex flex-col h-full">
-                                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/[0.03] border border-white/10 mb-8 group-hover:bg-white/10 transition-colors duration-500 shadow-xl" style={{ boxShadow: `0 8px 32px -5px ${data.accentHex}30` }}>
-                                        <Recycle className="w-6 h-6" style={{ color: data.accentHex }} />
+                                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white/[0.03] border border-white/5 transition-transform duration-500 group-hover:scale-110 shadow-xl relative z-10 mb-10" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                        <Recycle className="w-8 h-8 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
                                     </div>
 
                                     <div className="flex-1">
@@ -358,8 +376,8 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                 </div>
 
                                 <div className="relative z-10 flex flex-col h-full">
-                                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/[0.03] border border-white/10 mb-8 group-hover:bg-white/10 transition-colors duration-500 shadow-xl" style={{ boxShadow: `0 8px 32px -5px ${data.accentHex}30` }}>
-                                        <GraduationCap className="w-6 h-6" style={{ color: data.accentHex }} />
+                                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white/[0.03] border border-white/5 transition-transform duration-500 group-hover:scale-110 shadow-xl relative z-10 mb-10" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                        <GraduationCap className="w-8 h-8 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
                                     </div>
 
                                     <div className="flex-1">
@@ -384,7 +402,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                         transition={{ delay: 0.15 }}
                         className="mb-16 mt-8"
                     >
-                        <h2 className="text-xs font-mono uppercase tracking-[0.15em] text-white/30 mb-8">Timeline</h2>
+                        <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-8 font-black">Timeline</h2>
 
                         {/* Scrollable Container on Mobile for clean overflow without shrinking */}
                         <div className="relative w-full overflow-x-auto no-scrollbar pb-6 -mx-4 px-4 md:mx-0 md:px-0" style={{ scrollBehavior: 'smooth' }}>
@@ -428,10 +446,10 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                                 </div>
 
                                                 {/* Rendered Text Values */}
-                                                <span className={`font-mono text-xs font-bold transition-colors duration-500 whitespace-nowrap ${isActive ? 'text-white' : isPassed ? 'text-white/80' : 'text-white/30'}`}>
+                                                <span className={`font-raela text-xs font-black transition-colors duration-500 whitespace-nowrap ${isActive ? 'text-white' : isPassed ? 'text-white/80' : 'text-white/30'}`}>
                                                     {item.date}
                                                 </span>
-                                                <span className={`text-[10px] mt-1 transition-colors duration-500 text-center uppercase tracking-wider ${isActive ? 'text-white/90 font-bold' : isPassed ? 'text-white/50' : 'text-white/20'}`}>
+                                                <span className={`text-[10px] mt-1 transition-colors duration-500 text-center uppercase tracking-wider font-bold ${isActive ? 'text-white/90 font-bold' : isPassed ? 'text-white/50' : 'text-white/20'}`}>
                                                     {item.label}
                                                 </span>
                                             </div>
@@ -449,7 +467,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                         transition={{ delay: 0.2 }}
                         className="mb-16 block"
                     >
-                        <h2 className="text-xs font-mono uppercase tracking-[0.15em] text-white/30 mb-6">Kelengkapan Lomba</h2>
+                        <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-6 font-black">Kelengkapan Lomba</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {/* Rulebook Card */}
                             <a
@@ -472,8 +490,8 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                 </div>
 
                                 <div className="relative z-10 flex-1 w-full">
-                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors">Rulebook</span>
-                                    <span className="text-white/50 text-xs font-mono group-hover:text-white/80 transition-colors block mb-4">Panduan lengkap</span>
+                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">Rulebook</span>
+                                    <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">Panduan lengkap</span>
                                     <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-3 py-1.5 rounded-full group-hover:bg-white/20 transition-colors">
                                         Buka Tautan <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
                                     </div>
@@ -501,8 +519,8 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                 </div>
 
                                 <div className="relative z-10 flex-1 w-full">
-                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors">Orisinalitas</span>
-                                    <span className="text-white/50 text-xs font-mono group-hover:text-white/80 transition-colors block mb-4">Format surat resmi</span>
+                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">Orisinalitas</span>
+                                    <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">Format surat resmi</span>
                                     <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-3 py-1.5 rounded-full group-hover:bg-white/20 transition-colors">
                                         Buka Tautan <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
                                     </div>
@@ -530,8 +548,8 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                 </div>
 
                                 <div className="relative z-10 flex-1 w-full">
-                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors">Twibbon</span>
-                                    <span className="text-white/50 text-xs font-mono group-hover:text-white/80 transition-colors block mb-4">Aset sosial media</span>
+                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">Twibbon</span>
+                                    <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">Aset sosial media</span>
                                     <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-3 py-1.5 rounded-full group-hover:bg-white/20 transition-colors">
                                         Buka Tautan <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
                                     </div>

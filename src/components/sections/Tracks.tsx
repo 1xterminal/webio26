@@ -51,7 +51,7 @@ export function Tracks() {
                     <p className="text-white/60 max-w-2xl mx-auto text-lg mb-3">
                         Pilih satu cabang kompetisi yang sesuai dengan minat Anda. Lima tim terbaik pada setiap cabang akan berebut kejuaraan di laga Grand Final.
                     </p>
-                    <p className="text-white/30 text-sm font-mono">
+                    <p className="text-white/30 text-sm">
                         Terbuka untuk Mahasiswa, Siswa, dan Umum.
                     </p>
                 </motion.div>

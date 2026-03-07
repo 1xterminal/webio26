@@ -55,7 +55,7 @@ export function Timeline() {
                     className="text-center mb-12 md:mb-20"
                 >
                     <h2 className="font-raela font-bold text-3xl md:text-6xl mb-4 text-white">JADWAL <span className="text-neon-orange">ACARA</span></h2>
-                    <p className="text-white/60">Tandai kalendermu. Perjalanan dimulai sekarang.</p>
+                    <p className="text-white/60 font-raela">Tandai kalendermu. Perjalanan dimulai sekarang.</p>
                 </motion.div>
 
                 <div className="relative">
@@ -77,7 +77,7 @@ export function Timeline() {
                             >
                                 {/* Content Side */}
                                 <div className={`flex-1 pl-12 md:pl-0 ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'}`}>
-                                    <h3 className={`font-mono text-sm mb-2 ${event.highlight ? 'text-neon-orange' : 'text-neon-blue'}`}>{event.date}</h3>
+                                    <h3 className={`font-raela text-sm mb-2 ${event.highlight ? 'text-neon-orange' : 'text-neon-blue'}`}>{event.date}</h3>
                                     <h4 className="text-2xl font-bold font-raela text-white mb-2">{event.title}</h4>
                                     <p className="text-white/60 text-sm">{event.description}</p>
                                 </div>

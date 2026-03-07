@@ -89,7 +89,7 @@ export function Preloader() {
                             initial={{ y: 10, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.6, delay: 0.5 }}
-                            className="font-mono text-xs md:text-sm tracking-[0.3em] uppercase text-white/50"
+                            className="font-raela font-bold text-xs md:text-sm tracking-[0.3em] uppercase text-white/50"
                         >
                             Technology Into Action
                         </motion.span>

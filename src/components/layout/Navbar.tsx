@@ -79,7 +79,7 @@ export function Navbar() {
                   onMouseLeave={handleMouseLeave}
                 >
                   <button
-                    className={`font-medium transition-all duration-300 relative group flex items-center gap-1 rounded-full ${isScrolled ? 'text-sm' : 'text-base'} ${showDropdown ? 'text-white bg-white/10 px-3.5 py-1.5 -mx-3.5 -my-1.5' : 'text-white/70 hover:text-white'}`}
+                    className={`font-raela font-bold transition-all duration-300 relative group flex items-center gap-1 rounded-full ${isScrolled ? 'text-sm' : 'text-base'} ${showDropdown ? 'text-white bg-white/10 px-3.5 py-1.5 -mx-3.5 -my-1.5' : 'text-white/70 hover:text-white'}`}
                   >
                     {item.name}
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} />
@@ -89,7 +89,7 @@ export function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`font-medium text-white/70 hover:text-white transition-all duration-300 relative group ${isScrolled ? 'text-sm' : 'text-base'}`}
+                  className={`font-raela font-bold text-white/70 hover:text-white transition-all duration-300 relative group ${isScrolled ? 'text-sm' : 'text-base'}`}
                 >
                   {item.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-neon-blue group-hover:w-full transition-all duration-300" />
@@ -100,11 +100,11 @@ export function Navbar() {
 
           <div className="flex items-center gap-4">
             {regStatus === 'open' ? (
-              <Link href="/kelengkapan" className={`hidden md:block bg-white text-black rounded-full font-bold tracking-tight hover:bg-neon-orange hover:text-white hover:shadow-[0_0_20px_rgba(255,139,83,0.4)] ${transitionClass} transform hover:-translate-y-0.5 ${isScrolled ? 'px-5 py-2 text-sm' : 'px-6 py-2.5 text-base'}`}>
+              <Link href="/kelengkapan" className={`hidden md:block bg-white text-black rounded-full font-raela font-black tracking-tight hover:bg-neon-orange hover:text-white hover:shadow-[0_0_20px_rgba(255,139,83,0.4)] ${transitionClass} transform hover:-translate-y-0.5 ${isScrolled ? 'px-5 py-2 text-sm' : 'px-6 py-2.5 text-base'}`}>
                 Register
               </Link>
             ) : (
-              <span className={`hidden md:block rounded-full font-bold tracking-tight cursor-not-allowed ${transitionClass} ${isScrolled ? 'px-5 py-2 text-sm' : 'px-6 py-2.5 text-base'} ${regStatus === 'upcoming' ? 'bg-white/20 text-white/50' : 'bg-white/10 text-white/30'}`}>
+              <span className={`hidden md:block rounded-full font-raela font-black tracking-tight cursor-not-allowed ${transitionClass} ${isScrolled ? 'px-5 py-2 text-sm' : 'px-6 py-2.5 text-base'} ${regStatus === 'upcoming' ? 'bg-white/20 text-white/50' : 'bg-white/10 text-white/30'}`}>
                 {regStatus === 'upcoming' ? 'Coming Soon' : 'Closed'}
               </span>
             )}
