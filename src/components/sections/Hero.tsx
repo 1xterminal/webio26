@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Countdown } from '@/components/sections/Countdown';
 import Image from 'next/image';
@@ -9,14 +8,41 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center">
 
-      {/* Light leaks & 3D Elements */}
+      {/* Light leaks & 3D Elements - Pure CSS animations */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @keyframes hero-glow-1 {
+            0%, 100% { transform: translate(0px, 0px); opacity: 0.35; }
+            50% { transform: translate(30px, -20px); opacity: 0.5; }
+        }
+        @keyframes hero-glow-2 {
+            0%, 100% { transform: translate(0px, 0px); opacity: 0.15; }
+            50% { transform: translate(-25px, 20px); opacity: 0.25; }
+        }
+        @keyframes hero-glow-3 {
+            0%, 100% { transform: translate(0px, 0px); opacity: 0.2; }
+            50% { transform: translate(15px, -15px); opacity: 0.35; }
+        }
+        @keyframes hero-fade-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes hero-fade-right {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes hero-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+      `}} />
       <div className="absolute inset-0 z-0 pointer-events-none" style={{ isolation: 'isolate' }}>
         <div
           className="absolute -top-50 -right-37.5 w-125 h-125 rounded-full transform-gpu max-md:hidden blur-[150px] pointer-events-none"
           style={{ background: '#a64dff', animation: 'hero-glow-1 10s ease-in-out infinite', willChange: 'transform, opacity' }}
         />
         <div
-          className="absolute bottom-[5%] -left-25 w-112.5 h-112.5 rounded-full transform-gpu blur-[40px] md:blur-[150px] pointer-events-none"
+          className="absolute bottom-[5%] -left-25 w-112.5 h-112.5 rounded-full transform-gpu blur-2xl md:blur-[150px] pointer-events-none"
           style={{ background: '#ff8c42', animation: 'hero-glow-2 12s ease-in-out infinite', willChange: 'transform, opacity' }}
         />
         <div
@@ -26,31 +52,31 @@ export function Hero() {
 
 
         {/* Static 3D Elements */}
-        {/* Top left cluster — only the main above-fold image is priority */}
-        <Image src="/assets/element/ELEMEN%202.png" alt="" width={400} height={400} className="absolute top-[2%] left-[2%] w-[25vw] md:w-64 lg:w-80 opacity-40 md:opacity-60 object-contain rotate-12" priority />
-        <Image src="/assets/element/ELEMEN%209.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[35%] left-[5%] w-[15vw] md:w-32 lg:w-40 opacity-20 md:opacity-40 object-contain -rotate-12" />
+        {/* Top left cluster */}
+        <Image src="/assets/element/ELEMEN%202.png" alt="" width={320} height={320} sizes="(max-width:768px) 25vw, (max-width:1024px) 256px, 320px" className="absolute top-[2%] left-[2%] w-[25vw] md:w-64 lg:w-80 opacity-40 md:opacity-60 object-contain rotate-12" />
+        <Image src="/assets/element/ELEMEN%209.png" alt="" width={160} height={160} sizes="(max-width:1024px) 128px, 160px" className="max-md:hidden absolute top-[35%] left-[5%] w-[15vw] md:w-32 lg:w-40 opacity-20 md:opacity-40 object-contain -rotate-12" loading="lazy" />
 
-        {/* Top right cluster — only the main above-fold image is priority */}
-        <Image src="/assets/element/ELEMEN%205.png" alt="" width={400} height={400} className="absolute top-[5%] right-[2%] w-[20vw] md:w-48 lg:w-72 opacity-40 md:opacity-60 object-contain -rotate-6" priority />
-        <Image src="/assets/element/ELEMEN%206.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[38%] right-[4%] w-[12vw] md:w-40 opacity-30 md:opacity-50 object-contain rotate-12" />
+        {/* Top right cluster */}
+        <Image src="/assets/element/ELEMEN%205.png" alt="" width={288} height={288} sizes="(max-width:768px) 20vw, (max-width:1024px) 192px, 288px" className="absolute top-[5%] right-[2%] w-[20vw] md:w-48 lg:w-72 opacity-40 md:opacity-60 object-contain -rotate-6" />
+        <Image src="/assets/element/ELEMEN%206.png" alt="" width={160} height={160} sizes="160px" className="max-md:hidden absolute top-[38%] right-[4%] w-[12vw] md:w-40 opacity-30 md:opacity-50 object-contain rotate-12" loading="lazy" />
 
-        {/* Bottom left cluster — lazy load; below the fold on initial view */}
-        <Image src="/assets/element/ELEMEN%207.png" alt="" width={400} height={400} className="absolute bottom-[2%] left-[3%] w-[20vw] md:w-56 lg:w-64 opacity-30 md:opacity-50 object-contain rotate-30" />
-        <Image src="/assets/element/ELEMEN%2010.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[28%] left-[12%] w-[10vw] md:w-32 opacity-20 md:opacity-40 object-contain -rotate-12" />
+        {/* Bottom left cluster */}
+        <Image src="/assets/element/ELEMEN%207.png" alt="" width={256} height={256} sizes="(max-width:768px) 20vw, (max-width:1024px) 224px, 256px" className="absolute bottom-[2%] left-[3%] w-[20vw] md:w-56 lg:w-64 opacity-30 md:opacity-50 object-contain rotate-30" loading="lazy" />
+        <Image src="/assets/element/ELEMEN%2010.png" alt="" width={128} height={128} sizes="128px" className="max-md:hidden absolute bottom-[28%] left-[12%] w-[10vw] md:w-32 opacity-20 md:opacity-40 object-contain -rotate-12" loading="lazy" />
 
-        {/* Bottom right cluster — lazy load; below the fold */}
-        <Image src="/assets/element/ELEMEN%20%208.png" alt="" width={400} height={400} className="absolute bottom-[5%] right-[2%] w-[30vw] md:w-72 lg:w-80 opacity-40 md:opacity-60 object-contain -rotate-12" />
-        <Image src="/assets/element/ELEMEN%2010.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[40%] right-[10%] w-[12vw] md:w-40 opacity-20 md:opacity-40 object-contain rotate-45" />
+        {/* Bottom right cluster */}
+        <Image src="/assets/element/ELEMEN%20%208.png" alt="" width={320} height={320} sizes="(max-width:768px) 30vw, (max-width:1024px) 288px, 320px" className="absolute bottom-[5%] right-[2%] w-[30vw] md:w-72 lg:w-80 opacity-40 md:opacity-60 object-contain -rotate-12" loading="lazy" />
+        <Image src="/assets/element/ELEMEN%2010.png" alt="" width={160} height={160} sizes="160px" className="max-md:hidden absolute bottom-[40%] right-[10%] w-[12vw] md:w-40 opacity-20 md:opacity-40 object-contain rotate-45" loading="lazy" />
 
-        {/* Center/Midground cluster — lazy, behind glass */}
-        <Image src="/assets/element/ELEMEN%203.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[18%] left-[40%] w-64 opacity-40 object-contain -z-10 -rotate-6" priority />
-        <Image src="/assets/element/ELEMEN%202.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[18%] right-[40%] w-48 opacity-30 object-contain -z-10 rotate-12" priority />
-        <Image src="/assets/element/ELEMEN%209.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[45%] left-[25%] w-56 opacity-35 object-contain -z-10 rotate-45" priority />
-        <Image src="/assets/element/ELEMEN%206.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[50%] right-[25%] w-60 opacity-30 object-contain -z-10 -rotate-12" priority />
+        {/* Center/Midground cluster (Deep behind glass) */}
+        <Image src="/assets/element/ELEMEN%203.png" alt="" width={256} height={256} sizes="256px" className="max-md:hidden absolute top-[18%] left-[40%] w-64 opacity-40 object-contain -z-10 -rotate-6" loading="lazy" />
+        <Image src="/assets/element/ELEMEN%202.png" alt="" width={192} height={192} sizes="192px" className="max-md:hidden absolute bottom-[18%] right-[40%] w-48 opacity-30 object-contain -z-10 rotate-12" loading="lazy" />
+        <Image src="/assets/element/ELEMEN%209.png" alt="" width={224} height={224} sizes="224px" className="max-md:hidden absolute top-[45%] left-[25%] w-56 opacity-35 object-contain -z-10 rotate-45" loading="lazy" />
+        <Image src="/assets/element/ELEMEN%206.png" alt="" width={240} height={240} sizes="240px" className="max-md:hidden absolute top-[50%] right-[25%] w-60 opacity-30 object-contain -z-10 -rotate-12" loading="lazy" />
 
         {/* Stars scattered */}
-        <Image src="/assets/element/ELEMEN%20STARS.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[15%] left-[25%] w-[8vw] md:w-20 opacity-20 md:opacity-30 object-contain" priority />
-        <Image src="/assets/element/ELEMEN%20STARS.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[20%] right-[32%] w-[12vw] md:w-28 opacity-20 md:opacity-30 object-contain" priority />
+        <Image src="/assets/element/ELEMEN%20STARS.png" alt="" width={80} height={80} sizes="80px" className="max-md:hidden absolute top-[15%] left-[25%] w-[8vw] md:w-20 opacity-20 md:opacity-30 object-contain" loading="lazy" />
+        <Image src="/assets/element/ELEMEN%20STARS.png" alt="" width={112} height={112} sizes="112px" className="max-md:hidden absolute bottom-[20%] right-[32%] w-[12vw] md:w-28 opacity-20 md:opacity-30 object-contain" loading="lazy" />
       </div>
 
       {/* Main content */}
@@ -77,11 +103,9 @@ export function Hero() {
             <div className="lg:col-span-7 space-y-6">
 
               {/* Title */}
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
+              <h1
                 className="font-raela font-black text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] tracking-tighter leading-[0.85]"
+                style={{ animation: 'hero-fade-up 0.7s ease-out both' }}
               >
                 <span className="block text-white">I/O</span>
                 <span
@@ -92,24 +116,20 @@ export function Hero() {
                 >
                   FESTIVAL
                 </span>
-              </motion.h1>
+              </h1>
 
               {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
+              <p
                 className="text-white/50 text-lg md:text-xl leading-relaxed max-w-md"
+                style={{ animation: 'hero-fade-up 0.6s ease-out 0.15s both' }}
               >
                 FTI UNTAR menyelenggarakan kompetisi teknologi tingkat nasional. Peserta dapat memilih tiga cabang kompetisi.
-              </motion.p>
+              </p>
 
               {/* CTAs */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+              <div
                 className="flex flex-col sm:flex-row items-start gap-4 pt-2"
+                style={{ animation: 'hero-fade-up 0.6s ease-out 0.3s both' }}
               >
                 <button
                   onClick={(e) => {
@@ -123,31 +143,27 @@ export function Hero() {
                     Learn More <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </button>
-              </motion.div>
+              </div>
             </div>
 
             {/* Right - Countdown */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+            <div
               className="lg:col-span-5 flex justify-center lg:justify-end"
+              style={{ animation: 'hero-fade-right 0.7s ease-out 0.3s both' }}
             >
               <Countdown />
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
+      <div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20 z-20"
+        style={{ animation: 'hero-fade-in 0.8s ease-out 1.2s both' }}
       >
         <ChevronDown className="w-4 h-4 animate-bounce" />
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -5,14 +5,8 @@ import { cn } from '@/lib/utils';
 
 const raela = localFont({
   src: [
-    { path: './fonts/raelagrotesque/RaelaGrotesque-Thin-BF67b427f305180.ttf', weight: '100', style: 'normal' },
-    { path: './fonts/raelagrotesque/RaelaGrotesque-ExtraLight-BF67b427f310b80.ttf', weight: '200', style: 'normal' },
     { path: './fonts/raelagrotesque/RaelaGrotesque-Light-BF67b427f312600.ttf', weight: '300', style: 'normal' },
-    { path: './fonts/raelagrotesque/RaelaGrotesque-Regular-BF67b427f3144cd.ttf', weight: '400', style: 'normal' },
-    { path: './fonts/raelagrotesque/RaelaGrotesque-Medium-BF67b427f311230.ttf', weight: '500', style: 'normal' },
-    { path: './fonts/raelagrotesque/RaelaGrotesque-SemiBold-BF67b427f313d28.ttf', weight: '600', style: 'normal' },
     { path: './fonts/raelagrotesque/RaelaGrotesque-Bold-BF67b427f311913.ttf', weight: '700', style: 'normal' },
-    { path: './fonts/raelagrotesque/RaelaGrotesque-ExtraBold-BF67b427f30ffda.ttf', weight: '800', style: 'normal' },
     { path: './fonts/raelagrotesque/RaelaGrotesque-Black-BF67b427f2c4ada.ttf', weight: '900', style: 'normal' },
   ],
   variable: '--font-raela',
@@ -45,8 +39,8 @@ export const metadata: Metadata = {
   },
   description: 'I/O Festival 2026 adalah kompetisi IT tingkat nasional bergengsi untuk mahasiswa dan siswa SMA/SMK. Ikuti cabang lomba UI/UX Design, Web Development, dan Business Case. Daftar sekarang!',
   keywords: [
-    'I/O Festival 2026', 'lomba IT tingkat nasional', 'kompetisi IT', 'lomba mahasiswa', 'lomba SMA SMK', 
-    'kompetisi UI/UX', 'lomba Web Development', 'lomba Business Case', 'IT competition Indonesia', 
+    'I/O Festival 2026', 'lomba IT tingkat nasional', 'kompetisi IT', 'lomba mahasiswa', 'lomba SMA SMK',
+    'kompetisi UI/UX', 'lomba Web Development', 'lomba Business Case', 'IT competition Indonesia',
     'teknologi', 'inovasi', 'event IT 2026', 'Tarumanagara'
   ],
   authors: [{ name: 'BEM FTI UNTAR', url: 'https://bemftiuntar.com' }],
@@ -121,11 +115,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="dark">
-      <head>
-        <link rel="preload" href="/assets/logo/logo-io.webp" as="image" type="image/webp" />
-        <link rel="preconnect" href="https://basemaps.cartocdn.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://basemaps.cartocdn.com" />
-      </head>
+      <head />
       <body
         className={cn(
           raela.variable,
