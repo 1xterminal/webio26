@@ -48,15 +48,13 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
 };
 
 export function CompetitionPage({ slug }: { slug: string }) {
-    const data = getCompetition(slug);
-    if (!data) return null;
-
-    const Icon = data.icon;
     const [currentPhase, setCurrentPhase] = useState(0);
     const regStatus = useRegistrationStatus();
+    const data = getCompetition(slug);
 
     // Auto-calculate relevant live timeline segment utilizing client-side hydration bypassing server mismatch
     useEffect(() => {
+        if (!data) return;
         const calculateInitialPhase = () => {
             const now = new Date();
             // Matching standard timeline milestones with start times
@@ -86,7 +84,11 @@ export function CompetitionPage({ slug }: { slug: string }) {
             clearTimeout(timeoutId);
             clearInterval(interval);
         };
-    }, []);
+    }, [data]);
+
+    if (!data) return null;
+
+    const Icon = data.icon;
 
     const timelineStages = [
         { date: '15 Mar - 5 Apr', label: 'Early Bird' },
