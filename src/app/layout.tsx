@@ -101,6 +101,8 @@ export const viewport: Viewport = {
 
 import { Preloader } from '@/components/layout/Preloader';
 import { PreloaderGate } from '@/components/layout/PreloaderGate';
+import ErrorBoundary from '@/components/error/ErrorBoundary';
+
 
 export default function RootLayout({
   children,
@@ -127,7 +129,9 @@ export default function RootLayout({
             <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:font-bold">Skip to content</a>
             <NoiseOverlay />
 
-            {children}
+            <ErrorBoundary>
+              {children}
+            </ErrorBoundary>
           </SmoothScroll>
         </PreloaderGate>
       </body>

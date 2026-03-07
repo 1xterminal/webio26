@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { logger } from '@/lib/logger';
 import { siteConfig } from '@/lib/config';
 
 export function useContactForm() {
@@ -32,9 +33,10 @@ export function useContactForm() {
             )}&body=${encodeURIComponent(`Perusahaan/Organisasi: ${company}\nEmail: ${email}\nJenis Kerjasama: ${type}\n\n${message}`)}`;
             
             window.location.href = mailtoLink;
+            logger.info('Partnership form initiated', { company, type });
             setStatus('success');
         } catch (error) {
-            console.error('Form submission error:', error);
+            logger.error('Form submission error', { error: error instanceof Error ? error.message : String(error) });
             setStatus('error');
         }
     };

@@ -85,7 +85,7 @@ export class TextureManager {
             
             logger.info('Texture atlas loaded successfully', { count: urls.length });
         } catch (error) {
-            logger.error('Error loading texture atlas', {}, error as Error);
+            logger.error('Error loading texture atlas', { error: (error as Error).message });
             throw error;
         }
     }

@@ -71,6 +71,9 @@ export function StarDust() {
                 const cx = cvs.width * 0.5;
                 const cy = cvs.height * 0.45;
                 const radius = Math.min(cvs.width, cvs.height) * 0.8;
+                
+                // PERFORMANCE: Draw glow only if it's the first frame or needed (Actually better to use CSS for this)
+                // For now, let's keep it but ideally this should be a static layer.
                 const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
                 glow.addColorStop(0, 'rgba(160, 165, 180, 0.025)');
                 glow.addColorStop(0.4, 'rgba(155, 160, 175, 0.025)');
@@ -90,7 +93,9 @@ export function StarDust() {
 
                     ctx.beginPath();
                     ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(220,220,230,${m.alpha.toFixed(3)})`;
+                    // Use a cached string for color if possible, but particles have different alphas?
+                    // No, they have fixed alphas in this implementation.
+                    ctx.fillStyle = `rgba(220,220,230,${m.alpha})`;
                     ctx.fill();
                 }
             }
