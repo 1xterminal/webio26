@@ -642,20 +642,36 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                                 href={`https://wa.me/${cp.whatsapp}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="relative flex-1 px-4 py-3 rounded-2xl bg-white/[0.03] hover:bg-[#25D366]/10 text-white/70 hover:text-[#25D366] text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5 hover:border-[#25D366]/50 flex items-center justify-center group/btn shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden"
+                                                className="relative flex-1 px-4 py-3 rounded-2xl bg-white/[0.03] text-white/70 hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5 flex items-center justify-center group/btn shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden hover:shadow-lg"
+                                                style={{ '--btn-hover-color': data.accentHex } as React.CSSProperties}
                                             >
                                                 <span className="relative z-10 drop-shadow-md">WhatsApp</span>
-                                                <div className="absolute inset-0 bg-[#25D366] opacity-0 group-hover/btn:opacity-10 transition-opacity duration-300" />
+                                                <div 
+                                                    className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-300"
+                                                    style={{ backgroundColor: data.accentHex }}
+                                                />
+                                                <div 
+                                                    className="absolute inset-0 border-2 rounded-2xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none"
+                                                    style={{ borderColor: data.accentHex }}
+                                                />
                                             </a>
 
                                             <a 
                                                 href={`https://line.me/ti/p/~${cp.line}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="relative flex-1 px-4 py-3 rounded-2xl bg-white/[0.03] hover:bg-[#06C755]/10 text-white/70 hover:text-[#06C755] text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5 hover:border-[#06C755]/50 flex items-center justify-center group/btn shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden"
+                                                className="relative flex-1 px-4 py-3 rounded-2xl bg-white/[0.03] text-white/70 hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5 flex items-center justify-center group/btn shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden hover:shadow-lg"
+                                                style={{ '--btn-hover-color': data.accentHex } as React.CSSProperties}
                                             >
                                                 <span className="relative z-10 drop-shadow-md">LINE</span>
-                                                <div className="absolute inset-0 bg-[#06C755] opacity-0 group-hover/btn:opacity-10 transition-opacity duration-300" />
+                                                <div 
+                                                    className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-300"
+                                                    style={{ backgroundColor: data.accentHex }}
+                                                />
+                                                <div 
+                                                    className="absolute inset-0 border-2 rounded-2xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none"
+                                                    style={{ borderColor: data.accentHex }}
+                                                />
                                             </a>
                                         </div>
                                     </div>
