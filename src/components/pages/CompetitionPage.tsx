@@ -598,3 +598,6 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
         </>
     );
 }
+        </>
+    );
+}

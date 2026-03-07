@@ -6,7 +6,11 @@
   "printWidth": 100,
   "bracketSpacing": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
   "arrowParens": "avoid"
+=======
+  "arrowParens": "always"
+>>>>>>> parent of c3e9708 (revert everything)
 =======
   "arrowParens": "always"
 >>>>>>> parent of c3e9708 (revert everything)
