@@ -95,15 +95,15 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, ease: 'easeOut' }}>
                         <Link
                             href="/"
-                            className="group relative inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/[0.03] border border-white/10 text-white/50 hover:text-white hover:bg-white/[0.08] hover:border-white/20 text-xs font-raela font-bold tracking-[0.1em] uppercase transition-all duration-300 mb-12 w-fit overflow-hidden"
+                            className="group relative inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/[0.03] border border-white/10 text-white/50 hover:text-white hover:bg-white/[0.08] hover:border-white/20 text-xs font-raela font-bold tracking-[0.1em] uppercase transition-colors duration-300 ease-out mb-12 w-fit overflow-hidden transform-gpu"
                             style={{ boxShadow: '0 8px 32px -10px rgba(0,0,0,0.5)' }}
                         >
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300 ease-out relative z-10" />
-                            <span className="relative z-10 font-raela">Back to Tracks</span>
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1.5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative z-10 will-change-transform" />
+                            <span className="relative z-10 font-raela">Back</span>
 
                             {/* Glowing Theme Accent - Animated entirely via Opacity to bypass Layout Recalculation on Mobile CPU */}
                             <div
-                                className="absolute bottom-0 left-0 w-full h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                                className="absolute bottom-0 left-0 w-full h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0"
                                 style={{ background: `linear-gradient(90deg, transparent, ${data.accentHex || '#fff'}, transparent)` }}
                             />
                         </Link>
