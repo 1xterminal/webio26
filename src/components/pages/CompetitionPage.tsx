@@ -469,92 +469,70 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                     >
                         <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-6 font-black">Kelengkapan Lomba</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {/* Rulebook Card */}
-                            <a
-                                href={data.rulebookUrl || '#'}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
-                                style={{
-                                    background: 'rgba(20, 20, 20, 0.6)',
-                                    boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                    border: '1px solid rgba(255,255,255,0.05)'
-                                }}
-                            >
-                                <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20 group-hover:opacity-50 blur-[30px] transition-opacity duration-500 -translate-y-1/4 translate-x-1/4" style={{ background: data.accentHex }} />
-                                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: `inset 0 0 10px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
+                            {[
+                                { title: 'Rulebook', desc: 'Panduan lengkap', href: data.rulebookUrl || '#' },
+                                { title: 'Orisinalitas', desc: 'Format surat resmi', href: '/assets/documents/Surat_Pernyataan_Orisinalitas.pdf' },
+                                { title: 'Twibbon', desc: 'Aset sosial media', href: '/assets/documents/Twibbon.zip' },
+                            ].map((doc, idx) => {
+                                const isLocked = regStatus === 'upcoming';
+                                
+                                return isLocked ? (
+                                    <div
+                                        key={idx}
+                                        className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
+                                        style={{
+                                            background: 'rgba(20, 20, 20, 0.6)',
+                                            boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+                                            border: '1px solid rgba(255,255,255,0.05)'
+                                        }}
+                                    >
+                                        <div className="absolute inset-0 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)`, opacity: 0.05 }} />
+                                        
+                                        <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
+                                            <ExternalLink className="w-5 h-5 text-white/30" />
+                                        </div>
 
-                                <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
-                                    <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
-                                </div>
-
-                                <div className="relative z-10 flex-1 w-full">
-                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">Rulebook</span>
-                                    <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">Panduan lengkap</span>
-                                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-3 py-1.5 rounded-full group-hover:bg-white/20 transition-colors">
-                                        Buka Tautan <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
+                                        <div className="relative z-10 flex-1 w-full flex flex-col h-full">
+                                            <div className="flex items-center gap-3 mb-1">
+                                                <span className="text-white/50 font-bold text-base font-raela">{doc.title}</span>
+                                            </div>
+                                            <span className="text-white/30 text-xs block mb-4">{doc.desc}</span>
+                                            <div className="mt-auto flex items-center gap-2 text-[10px] font-raela font-black uppercase tracking-widest text-white/50 bg-white/10 w-fit px-3 py-1.5 rounded-full border border-white/5">
+                                                Coming Soon
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                ) : (
+                                    <a
+                                        key={idx}
+                                        href={doc.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
+                                        style={{
+                                            background: 'rgba(20, 20, 20, 0.6)',
+                                            boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+                                            border: '1px solid rgba(255,255,255,0.05)'
+                                        }}
+                                    >
+                                        <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
+                                        <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20 group-hover:opacity-50 blur-[30px] transition-opacity duration-500 -translate-y-1/4 translate-x-1/4" style={{ background: data.accentHex }} />
+                                        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: `inset 0 0 10px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
 
-                            {/* Pernyataan Orisinalitas Card */}
-                            <a
-                                href="/assets/documents/Surat_Pernyataan_Orisinalitas.pdf"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
-                                style={{
-                                    background: 'rgba(20, 20, 20, 0.6)',
-                                    boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                    border: '1px solid rgba(255,255,255,0.05)'
-                                }}
-                            >
-                                <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20 group-hover:opacity-50 blur-[30px] transition-opacity duration-500 -translate-y-1/4 translate-x-1/4" style={{ background: data.accentHex }} />
-                                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: `inset 0 0 10px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
+                                        <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                            <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
+                                        </div>
 
-                                <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
-                                    <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
-                                </div>
-
-                                <div className="relative z-10 flex-1 w-full">
-                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">Orisinalitas</span>
-                                    <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">Format surat resmi</span>
-                                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-3 py-1.5 rounded-full group-hover:bg-white/20 transition-colors">
-                                        Buka Tautan <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
-                                    </div>
-                                </div>
-                            </a>
-
-                            {/* Twibbon Card */}
-                            <a
-                                href="/assets/documents/Twibbon.zip"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
-                                style={{
-                                    background: 'rgba(20, 20, 20, 0.6)',
-                                    boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                    border: '1px solid rgba(255,255,255,0.05)'
-                                }}
-                            >
-                                <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20 group-hover:opacity-50 blur-[30px] transition-opacity duration-500 -translate-y-1/4 translate-x-1/4" style={{ background: data.accentHex }} />
-                                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: `inset 0 0 10px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
-
-                                <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
-                                    <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
-                                </div>
-
-                                <div className="relative z-10 flex-1 w-full">
-                                    <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">Twibbon</span>
-                                    <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">Aset sosial media</span>
-                                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-3 py-1.5 rounded-full group-hover:bg-white/20 transition-colors">
-                                        Buka Tautan <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
-                                    </div>
-                                </div>
-                            </a>
+                                        <div className="relative z-10 flex-1 w-full flex flex-col h-full">
+                                            <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">{doc.title}</span>
+                                            <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">{doc.desc}</span>
+                                            <div className="mt-auto flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-3 py-1.5 rounded-full group-hover:bg-white/20 transition-colors">
+                                                Buka Tautan <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
+                                            </div>
+                                        </div>
+                                    </a>
+                                );
+                            })}
                         </div>
                     </motion.div>
 
