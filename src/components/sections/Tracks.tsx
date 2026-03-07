@@ -70,6 +70,7 @@ export function Tracks() {
                         >
                             <Link
                                 href={track.href}
+                                prefetch={true}
                                 className="group relative block p-8 md:p-10 transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu will-change-transform overflow-hidden rounded-[24px] shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:-translate-y-2"
                                 style={{
                                     background: 'rgba(20, 20, 20, 0.4)',

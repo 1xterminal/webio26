@@ -172,6 +172,7 @@ export function Navbar() {
                           <Link
                             key={comp.slug}
                             href={`/kompetisi/${comp.slug}`}
+                            prefetch={true}
                             onClick={() => setShowDropdown(false)}
                             className="flex items-center gap-5 px-6 py-5 hover:bg-white/[0.03] transition-colors group/item rounded-sm"
                           >
@@ -233,6 +234,7 @@ export function Navbar() {
                           <Link
                             key={comp.slug}
                             href={`/kompetisi/${comp.slug}`}
+                            prefetch={true}
                             onClick={() => setIsOpen(false)}
                             className="block text-center text-lg text-white/60 hover:text-neon-orange transition-colors"
                           >
