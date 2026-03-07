@@ -1,0 +1,14 @@
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Experiments (use with caution):
+  ┬À optimizePackageImports
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 1 errors:
+./next.config.ts
+Failed to resolve package babel-plugin-react-compiler while attempting to resolve React Compiler
+React compiler is enabled in next.config.ts. We attempted to resolve React Compiler relative to the next package. Is babel-plugin-react-compiler installed in your node_modules directory?
+
+
+    at ignore-listed frames

@@ -1,0 +1,29 @@
+
+> it-competition-web@0.1.0 build
+> next build
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 1 errors:
+./src/components/Hero.tsx:6:17
+Ecmascript file had an error
+  4 | import dynamic from 'next/dynamic';
+  5 |
+> 6 | const Scene3D = dynamic(() => import('@/components/Scene3D').then(mod => mod.Scene3D), { ssr: false });
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 |
+  8 | export function Hero() {
+  9 |   return (
+
+`ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+
+Import trace:
+  Server Component:
+    ./src/components/Hero.tsx
+    ./src/app/page.tsx
+
+
+    at <unknown> (./src/components/Hero.tsx:6:17)

@@ -1,0 +1,5 @@
+feat(ui): redesign topics grid, fix preloader and navbar visibility
+
+- **Competition Topics Redesign**: Replaced the morphing grid with a highly polished 3-column static premium card layout to prevent overflow clipping. Synchronized typography (lowered descriptions to `font-light`), and perfectly matched inset shadows, frosted glass (`backdrop-blur-xl`), and ambient background glows with the upper Kategori/Pricing cards for visual continuity.
+- **Navbar Logo Fix**: Resolved a bug where the brand logo would vanish during internal client-side navigation. Handled by syncing the preloader completion state to `sessionStorage` and referencing it on mount.
+- **Preloader Black Screen Fix**: Bullet-proofed the WebGL `Preloader.tsx` against mobile freezing, adblockers, and slow network hangs. Added an absolute 3.5s kill-switch timeout, `try/catch` wrapper around `WebGLRenderer` instantiation, and an error callback to `THREE.TextureLoader` to prevent indefinite loading lockups.
