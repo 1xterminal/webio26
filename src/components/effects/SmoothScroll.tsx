@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, Suspense } from 'react';
+import { useEffect, Suspense, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { ReactLenis, useLenis } from 'lenis/react';
 
@@ -22,12 +22,20 @@ function ScrollRestorer() {
 }
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     // Disable Lenis on touch devices — native iOS momentum scrolling is superior
     // and Lenis' JS-driven approach fights the browser's native behavior
     const isTouchDevice = typeof window !== 'undefined' && 'ontouchstart' in window;
 
-    if (isTouchDevice) {
-        // On touch devices: render children directly with no Lenis overhead
+    // During SSR and initial client render, we must return ReactLenis 
+    // to guarantee hydration matches the server HTML. 
+    // We only swap to direct children AFTER hydration if it's a touch device.
+    if (isMounted && isTouchDevice) {
         return <>{children}</>;
     }
 
@@ -48,4 +56,3 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         </ReactLenis>
     );
 }
-
