@@ -38,8 +38,25 @@ const faqs = [
 export function FAQ() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map(faq => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: faq.answer
+            }
+        }))
+    };
+
     return (
         <section id="faq" className="py-16 md:py-32 relative overflow-hidden bg-black">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
             <div className="max-w-3xl mx-auto px-4">
                 <h2 className="font-raela font-bold text-3xl md:text-5xl text-center mb-12 md:mb-16 text-white">
                     PERTANYAAN <span className="text-neon-blue">UMUM</span>

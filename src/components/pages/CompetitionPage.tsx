@@ -97,8 +97,76 @@ export function CompetitionPage({ slug }: { slug: string }) {
         { date: '4 - 5 Jun', label: 'Final & Awarding' },
     ];
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'BreadcrumbList',
+                'itemListElement': [
+                    {
+                        '@type': 'ListItem',
+                        'position': 1,
+                        'name': 'Home',
+                        'item': 'https://iofest.com/'
+                    },
+                    {
+                        '@type': 'ListItem',
+                        'position': 2,
+                        'name': 'Kompetisi',
+                        'item': 'https://iofest.com/kompetisi'
+                    },
+                    {
+                        '@type': 'ListItem',
+                        'position': 3,
+                        'name': data.title,
+                        'item': `https://iofest.com/kompetisi/${data.slug}`
+                    }
+                ]
+            },
+            {
+                '@type': 'Event',
+                'name': `${data.title} - I/O FESTIVAL 2026`,
+                'description': data.description,
+                'startDate': '2026-03-01T08:00:00+07:00',
+                'endDate': '2026-06-30T18:00:00+07:00',
+                'eventAttendanceMode': 'https://schema.org/MixedEventAttendanceMode',
+                'eventStatus': 'https://schema.org/EventScheduled',
+                'location': {
+                    '@type': 'Place',
+                    'name': 'Universitas Tarumanagara',
+                    'address': {
+                        '@type': 'PostalAddress',
+                        'streetAddress': 'Jl. Letjen S. Parman No.1',
+                        'addressLocality': 'Jakarta Barat',
+                        'postalCode': '11440',
+                        'addressRegion': 'DKI Jakarta',
+                        'addressCountry': 'ID'
+                    }
+                },
+                'image': ['https://iofest.com/og-image.jpg'],
+                'organizer': {
+                    '@type': 'Organization',
+                    'name': 'BEM FTI UNTAR',
+                    'url': 'https://bemftiuntar.com'
+                },
+                'offers': data.details.fee.map(fee => ({
+                    '@type': 'Offer',
+                    'name': fee.type,
+                    'price': fee.regular.replace(/[^0-9]/g, '') || '0',
+                    'priceCurrency': 'IDR',
+                    'availability': 'https://schema.org/InStock',
+                    'validFrom': '2026-03-01T08:00:00+07:00'
+                }))
+            }
+        ]
+    };
+
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <StarDust />
 
             {/* Floating 3D Background Elements - Migrated to Pure CSS for Zero-JS Teleport Bug Fix */}
