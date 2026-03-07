@@ -63,18 +63,12 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
     const [now, setNow] = useState(new Date());
 
     useEffect(() => {
-        const frame = requestAnimationFrame(() => {
-            setIsMounted(true);
-        });
-
+        setIsMounted(true);
+        setNow(new Date());
         const timer = setInterval(() => {
             setNow(new Date());
         }, 1000);
-
-        return () => {
-            cancelAnimationFrame(frame);
-            clearInterval(timer);
-        };
+        return () => clearInterval(timer);
     }, []);
 
     // Use a fixed reference date during SSR and initial hydration to prevent mismatch

@@ -12,10 +12,7 @@ export function useRegistrationStatus(): RegistrationStatus {
     const [status, setStatus] = useState<RegistrationStatus>('upcoming');
 
     useEffect(() => {
-        const frame = requestAnimationFrame(() => {
-            setStatus(getRegistrationStatus());
-        });
-        return () => cancelAnimationFrame(frame);
+        setStatus(getRegistrationStatus());
     }, []);
 
     return status;

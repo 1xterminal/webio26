@@ -17,26 +17,21 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
 
     // Auto-calculate relevant live timeline segment utilizing client-side hydration bypassing server mismatch
     useEffect(() => {
-        const calculateInitialPhase = () => {
-            const now = new Date();
-            const stages = [
-                new Date('2026-04-06T00:00:00'), // Regular
-                new Date('2026-04-30T00:00:00'), // Close Registration
-                new Date('2026-05-01T00:00:00'), // Preliminary
-                new Date('2026-05-13T00:00:00'), // Finalist Announce
-                new Date('2026-06-04T00:00:00'), // Final & Awarding
-            ];
-            let phase = 0;
-            for (let i = 0; i < stages.length; i++) {
-                if (now >= stages[i]) phase = i + 1;
-                else break;
-            }
-            if (phase >= 6) phase = 5;
-            setCurrentPhase(phase);
-        };
-        
-        const frame = requestAnimationFrame(calculateInitialPhase);
-        return () => cancelAnimationFrame(frame);
+        const now = new Date();
+        const stages = [
+            new Date('2026-04-06T00:00:00'), // Regular
+            new Date('2026-04-30T00:00:00'), // Close Registration
+            new Date('2026-05-01T00:00:00'), // Preliminary
+            new Date('2026-05-13T00:00:00'), // Finalist Announce
+            new Date('2026-06-04T00:00:00'), // Final & Awarding
+        ];
+        let phase = 0;
+        for (let i = 0; i < stages.length; i++) {
+            if (now >= stages[i]) phase = i + 1;
+            else break;
+        }
+        if (phase >= 6) phase = 5;
+        setCurrentPhase(phase);
     }, []);
 
     const timelineStages = [
