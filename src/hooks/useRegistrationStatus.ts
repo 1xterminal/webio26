@@ -17,18 +17,3 @@ export function useRegistrationStatus(): RegistrationStatus {
 
     return status;
 }
-        return () => cancelAnimationFrame(frame);
-=======
-        queueMicrotask(() => {
-            setStatus(getRegistrationStatus());
-        });
->>>>>>> parent of c3e9708 (revert everything)
-=======
-        queueMicrotask(() => {
-            setStatus(getRegistrationStatus());
-        });
->>>>>>> parent of c3e9708 (revert everything)
-    }, []);
-
-    return status;
-}

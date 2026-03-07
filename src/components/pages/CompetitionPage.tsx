@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap } from 'lucide-react';
 import type { CompetitionData } from '@/lib/competitions';
 import { StarDust } from '@/components/effects/StarDust';
 import Image from 'next/image';
@@ -17,28 +17,6 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
 
     // Auto-calculate relevant live timeline segment utilizing client-side hydration bypassing server mismatch
     useEffect(() => {
-<<<<<<< HEAD
-        const calculateInitialPhase = () => {
-            const now = new Date();
-            const stages = [
-                new Date('2026-04-06T00:00:00'), // Regular
-                new Date('2026-04-30T00:00:00'), // Close Registration
-                new Date('2026-05-01T00:00:00'), // Preliminary
-                new Date('2026-05-13T00:00:00'), // Finalist Announce
-                new Date('2026-06-04T00:00:00'), // Final & Awarding
-            ];
-            let phase = 0;
-            for (let i = 0; i < stages.length; i++) {
-                if (now >= stages[i]) phase = i + 1;
-                else break;
-            }
-            if (phase >= 6) phase = 5;
-            setCurrentPhase(phase);
-        };
-        
-        const frame = requestAnimationFrame(calculateInitialPhase);
-        return () => cancelAnimationFrame(frame);
-=======
         const now = new Date();
         const stages = [
             new Date('2026-04-06T00:00:00'), // Regular
@@ -53,11 +31,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
             else break;
         }
         if (phase >= 6) phase = 5;
-        // Use a microtask to avoid synchronous setState inside useEffect warning
-        queueMicrotask(() => {
-            setCurrentPhase(phase);
-        });
->>>>>>> parent of c3e9708 (revert everything)
+        setCurrentPhase(phase);
     }, []);
 
     const timelineStages = [
@@ -595,9 +569,6 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                     </motion.div>
                 </div>
             </div>
-        </>
-    );
-}
         </>
     );
 }

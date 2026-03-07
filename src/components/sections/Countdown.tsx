@@ -174,22 +174,3 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
         </div>
     );
 }
-                                    {labels[interval]}
-                                </span>
-
-                                {/* Subtle vertical dividers between numbers */}
-                                {index < 3 && (
-                                    <div className="absolute right-[-0.25rem] sm:right-[-0.5rem] top-1/2 -translate-y-1/2 h-1/2 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-                                )}
-                            </div>
-                        ))}
-                    </motion.div>
-                </div>
-            ) : (
-                <p className="relative z-10 text-white/70 text-xl md:text-2xl font-mono text-center py-8">
-                    Sampai jumpa tahun depan!
-                </p>
-            )}
-        </div>
-    );
-}
