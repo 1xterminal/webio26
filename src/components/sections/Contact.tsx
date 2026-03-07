@@ -1,15 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Mail, MapPin, Send, Handshake } from 'lucide-react';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { Map, MapMarker, MarkerContent, MarkerTooltip, MarkerPopup, MapControls } from '@/components/ui/map';
+
+// Lazy-load the entire map module — only fetches MapLibre GL when the section is visible
+const LazyMap = dynamic(() => import('@/components/ui/map').then(mod => mod.Map), { ssr: false });
+const LazyMapMarker = dynamic(() => import('@/components/ui/map').then(mod => mod.MapMarker), { ssr: false });
+const LazyMarkerContent = dynamic(() => import('@/components/ui/map').then(mod => mod.MarkerContent), { ssr: false });
+const LazyMarkerTooltip = dynamic(() => import('@/components/ui/map').then(mod => mod.MarkerTooltip), { ssr: false });
+const LazyMarkerPopup = dynamic(() => import('@/components/ui/map').then(mod => mod.MarkerPopup), { ssr: false });
+const LazyMapControls = dynamic(() => import('@/components/ui/map').then(mod => mod.MapControls), { ssr: false });
 
 export function Contact() {
     const [company, setCompany] = useState('');
     const [email, setEmail] = useState('');
     const [type, setType] = useState('');
     const [message, setMessage] = useState('');
+    const [mapVisible, setMapVisible] = useState(false);
+    const mapRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const el = mapRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => { if (entry.isIntersecting) { setMapVisible(true); observer.disconnect(); } },
+            { rootMargin: '400px' }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -81,30 +103,36 @@ export function Contact() {
                             </div>
                         </div>
 
-                        <div className="w-full h-48 border border-white/10 relative overflow-hidden">
+                        <div ref={mapRef} className="w-full h-48 border border-white/10 relative overflow-hidden">
                             <div className="absolute inset-0 bg-neon-blue/20 pointer-events-none z-10" />
-                            <Map center={[106.7888, -6.1678]} zoom={16} pitch={45}>
-                                <MapControls position="bottom-right" showZoom />
-                                <MapMarker longitude={106.7888} latitude={-6.1678}>
-                                    <MarkerContent className="group z-10">
-                                        <div className="size-8 rounded-full border-2 border-white shadow-[0_0_15px_rgba(255,139,83,0.8)] relative group shrink-0 cursor-pointer flex items-center justify-center bg-neon-orange text-black transition-transform group-hover:scale-110">
-                                            <span className="animate-ping absolute inset-0 -m-1 rounded-full bg-neon-orange opacity-40"></span>
-                                            <MapPin className="h-5 w-5 stroke-[2.5px] relative z-10" />
-                                        </div>
-                                    </MarkerContent>
-                                    <MarkerTooltip className="bg-black/90 border border-white/10 text-white text-xs px-2 py-1 pointer-events-none rounded shadow-md z-50">
-                                        Universitas Tarumanagara
-                                    </MarkerTooltip>
-                                    <MarkerPopup className="bg-black border border-neon-orange/20 backdrop-blur-md p-4 w-64 rounded-xl shadow-[0_0_20px_rgba(255,139,83,0.15)] text-left z-50">
-                                        <div className="space-y-2">
-                                            <p className="font-raela font-bold text-white text-lg leading-tight uppercase tracking-wide">Universitas Tarumanagara</p>
-                                            <p className="text-xs text-white/60 font-sans leading-relaxed">
-                                                Kampus 1, Jl. Letjen S. Parman No.1, Jakarta Barat
-                                            </p>
-                                        </div>
-                                    </MarkerPopup>
-                                </MapMarker>
-                            </Map>
+                            {mapVisible ? (
+                                <LazyMap center={[106.7888, -6.1678]} zoom={16} pitch={45}>
+                                    <LazyMapControls position="bottom-right" showZoom />
+                                    <LazyMapMarker longitude={106.7888} latitude={-6.1678}>
+                                        <LazyMarkerContent className="group z-10">
+                                            <div className="size-8 rounded-full border-2 border-white shadow-[0_0_15px_rgba(255,139,83,0.8)] relative group shrink-0 cursor-pointer flex items-center justify-center bg-neon-orange text-black transition-transform group-hover:scale-110">
+                                                <span className="animate-ping absolute inset-0 -m-1 rounded-full bg-neon-orange opacity-40"></span>
+                                                <MapPin className="h-5 w-5 stroke-[2.5px] relative z-10" />
+                                            </div>
+                                        </LazyMarkerContent>
+                                        <LazyMarkerTooltip className="bg-black/90 border border-white/10 text-white text-xs px-2 py-1 pointer-events-none rounded shadow-md z-50">
+                                            Universitas Tarumanagara
+                                        </LazyMarkerTooltip>
+                                        <LazyMarkerPopup className="bg-black border border-neon-orange/20 backdrop-blur-md p-4 w-64 rounded-xl shadow-[0_0_20px_rgba(255,139,83,0.15)] text-left z-50">
+                                            <div className="space-y-2">
+                                                <p className="font-raela font-bold text-white text-lg leading-tight uppercase tracking-wide">Universitas Tarumanagara</p>
+                                                <p className="text-xs text-white/60 font-sans leading-relaxed">
+                                                    Kampus 1, Jl. Letjen S. Parman No.1, Jakarta Barat
+                                                </p>
+                                            </div>
+                                        </LazyMarkerPopup>
+                                    </LazyMapMarker>
+                                </LazyMap>
+                            ) : (
+                                <div className="w-full h-full bg-neutral-900 flex items-center justify-center">
+                                    <MapPin className="w-6 h-6 text-white/20" />
+                                </div>
+                            )}
                         </div>
                     </motion.div>
 
