@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap } from 'lucide-react';
 import type { CompetitionData } from '@/lib/competitions';
 import { StarDust } from '@/components/effects/StarDust';
 import Image from 'next/image';
@@ -31,10 +31,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
             else break;
         }
         if (phase >= 6) phase = 5;
-        // Use a microtask to avoid synchronous setState inside useEffect warning
-        queueMicrotask(() => {
-            setCurrentPhase(phase);
-        });
+        setCurrentPhase(phase);
     }, []);
 
     const timelineStages = [

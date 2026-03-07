@@ -12,9 +12,7 @@ export function useRegistrationStatus(): RegistrationStatus {
     const [status, setStatus] = useState<RegistrationStatus>('upcoming');
 
     useEffect(() => {
-        queueMicrotask(() => {
-            setStatus(getRegistrationStatus());
-        });
+        setStatus(getRegistrationStatus());
     }, []);
 
     return status;

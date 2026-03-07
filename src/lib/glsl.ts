@@ -1,5 +1,4 @@
 export const vertexShader = `
-precision mediump float;
 varying vec2 vUv;
 
 attribute vec3 aInitialPosition;
@@ -10,43 +9,55 @@ attribute float aImageAspect;
 uniform float uTime;
 uniform vec2 uMaxXdisplacement;
 uniform vec2 uDrag;
+
+uniform float uSpeedY;
 uniform float uScrollY;
 
-varying float vAlpha;
+varying float vVisibility;
 varying vec4 vTextureCoords;
 varying float vImageAspect;
 
+//linear smoothstep
+float remap(float value, float originMin, float originMax)
+{
+    return clamp((value - originMin) / (originMax - originMin),0.,1.);
+}
+
 void main()
 {     
-    vec3 newPosition = position + aInitialPosition;
+    vec3 newPosition=position + aInitialPosition;
 
-    vec2 maxOffset = uMaxXdisplacement;
-    
-    // Vectorized displacements
-    vec2 displacement = mod(
-        maxOffset - vec2(uDrag.x - uTime * aMeshSpeed, uDrag.y), 
-        maxOffset * 2.0
-    ) - maxOffset;
+    float maxX = uMaxXdisplacement.x;
+    float maxY = uMaxXdisplacement.y;
 
-    float maxZ = 12.0;
-    float minZ = -30.0;
-    float zRange = maxZ - minZ;
+    float maxYoffset = distance(aInitialPosition.y,maxY);
+    float minYoffset = distance(aInitialPosition.y,-maxY);
+
+    float maxXoffset = distance(aInitialPosition.x,maxX);
+    float minXoffset = distance(aInitialPosition.x,-maxX);
     
-    float zDisplacement = mod(uScrollY - minZ, zRange) + minZ - aInitialPosition.z;
+    float xDisplacement = mod(minXoffset -uDrag.x + uTime * aMeshSpeed, maxXoffset+minXoffset) - minXoffset;
+    float yDisplacement = mod(minYoffset -uDrag.y, maxYoffset+minYoffset) - minYoffset;
+
+    float maxZ = 12.;
+    float minZ = -30.;
     
-    newPosition.xy += displacement;
+    float maxZoffset = distance(aInitialPosition.z,maxZ);    
+    float minZoffset = distance(aInitialPosition.z,minZ);    
+    
+    float zDisplacement = mod(uScrollY + minZoffset,maxZoffset + minZoffset ) - minZoffset;    
+    
+    newPosition.x += xDisplacement; 
+    newPosition.y += yDisplacement;
     newPosition.z += zDisplacement;
 
-    // Linear visibility gradient (Z-depth)
-    float visibility = clamp((newPosition.z - minZ) / 5.0, 0.0, 1.0);
-    
-    // Edge fading to prevent popping during wrap
-    float fadeX = smoothstep(maxOffset.x, maxOffset.x * 0.85, abs(displacement.x));
-    float fadeY = smoothstep(maxOffset.y, maxOffset.y * 0.85, abs(displacement.y));
-    vAlpha = visibility * fadeX * fadeY;
+    vVisibility = remap(newPosition.z, minZ, minZ+5.);
 
     vec4 modelPosition = modelMatrix * instanceMatrix * vec4(newPosition, 1.0);        
-    gl_Position = projectionMatrix * viewMatrix * modelPosition;    
+
+    vec4 viewPosition = viewMatrix * modelPosition;
+    vec4 projectedPosition = projectionMatrix * viewPosition;
+    gl_Position = projectedPosition;    
 
     vUv = uv;
     vTextureCoords = aTextureCoords;
@@ -55,50 +66,87 @@ void main()
 `;
 
 export const fragmentShader = `
-precision mediump float;
 varying vec2 vUv;
-varying float vAlpha;
+varying float vVisibility;
 varying vec4 vTextureCoords;
 varying float vImageAspect;
 
 uniform sampler2D uWrapperTexture;
 uniform sampler2D uAtlas;
+uniform sampler2D uBlurryAtlas;
 
 void main()
 {            
-    // Optimized frame UV mapping
-    vec2 frameUV = vUv * vec2(0.5414, 0.7665) + vec2(0.2289, 0.116);
+    // Crop the unused transparent padding from photo_frame.png
+    // Original image: 1280x698. Bounding box: X(293 to 986), Y(82 to 617)
+    // In loaded texture (Y-flipped), V bounds are 0.116 to 0.8825
+    float frameU = mix(0.2289, 0.7703, vUv.x);
+    float frameV = mix(0.116, 0.8825, vUv.y);
+    vec2 frameUV = vec2(frameU, frameV);
+
     vec4 texel = texture2D(uWrapperTexture, frameUV);
 
-    // Inner hole check (optimized bounds)
-    bool isInsideHole = all(greaterThanEqual(vUv, vec2(0.09, 0.11))) && all(lessThanEqual(vUv, vec2(0.91, 0.89)));
+    // Inner hole in vUv coordinates
+    bool isInsideHole = vUv.x >= 0.09 && vUv.x <= 0.91 && vUv.y >= 0.11 && vUv.y <= 0.89;
 
+    // Discard completely transparent pixels outside the frame (e.g. rounded corners)
     if (texel.a < 0.01 && !isInsideHole) {
         discard;
     }
 
-    // Remap vUv for hole (0.10-0.90 -> 0.0-1.0, 0.1265-0.8728 -> 0.0-1.0)
-    vec2 photoUV = clamp((vUv - vec2(0.10, 0.1265)) / vec2(0.80, 0.7463), 0.0, 1.0);
+    // Get UV coordinates for this image from the uniform array
+    float xStart = vTextureCoords.x;
+    float xEnd = vTextureCoords.y;
+    float yStart = vTextureCoords.z;
+    float yEnd = vTextureCoords.w;
 
+    // Remap vUv so the photo fits the hole area
+    // Hole bounds: X 0.10–0.90, Y 0.1265–0.8728
+    float photoU = clamp((vUv.x - 0.10) / 0.80, 0.0, 1.0);
+    float photoV = clamp((vUv.y - 0.1265) / 0.7463, 0.0, 1.0);
+
+    // --- Object-fit: cover ---
+    // Hole aspect ratio: geometry is 1.295:1, hole spans 80% of X and 74.63% of Y
+    // So hole aspect = 1.295 * (0.80 / 0.7463) ≈ 1.388
     float holeAspect = 1.388;
-    float aspectDiff = vImageAspect / holeAspect;
-    
-    vec2 coverUV = photoUV;
-    if (aspectDiff > 1.0) {
-        float scale = 1.0 / aspectDiff;
-        coverUV.x = (1.0 - scale) * 0.5 + photoUV.x * scale;
+    float imageAspect = vImageAspect;
+
+    // coverU/coverV: adjusted coordinates that center-crop the image
+    float coverU = photoU;
+    float coverV = photoV;
+
+    if (imageAspect > holeAspect) {
+        // Image is wider than hole: crop sides, full height
+        float scale = holeAspect / imageAspect;
+        float offset = (1.0 - scale) * 0.5;
+        coverU = offset + photoU * scale;
     } else {
-        coverUV.y = (1.0 - aspectDiff) * 0.5 + photoUV.y * aspectDiff;
+        // Image is taller than hole: crop top/bottom, full width
+        float scale = imageAspect / holeAspect;
+        float offset = (1.0 - scale) * 0.5;
+        coverV = offset + photoV * scale;
     }
 
-    // Atlas lookup
-    vec2 atlasUV = mix(vTextureCoords.xz, vTextureCoords.yw, vec2(coverUV.x, 1.0 - coverUV.y));
+    // Flip V for atlas (yStart > yEnd in atlas coords)
+    coverV = 1.0 - coverV;
+
+    vec2 atlasUV = vec2(
+        mix(xStart, xEnd, coverU),
+        mix(yStart, yEnd, coverV)
+    );     
+
     vec4 photoTexel = texture2D(uAtlas, atlasUV);
 
-    // Composite and apply visibility/clamping
+    // Draw the structural frame over the photo
+    // If the frame is transparent (hole), it shows the photo completely.
     vec4 color = mix(photoTexel, texel, texel.a);
-    color.a *= vAlpha;
-    
-    gl_FragColor = min(color, 1.0);
+
+    color.a *= vVisibility;
+
+    color.r = min(color.r, 1.);
+    color.g = min(color.g, 1.);
+    color.b = min(color.b, 1.);
+
+    gl_FragColor = color;
 }
 `;

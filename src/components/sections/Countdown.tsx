@@ -63,10 +63,8 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
     const [now, setNow] = useState(new Date());
 
     useEffect(() => {
-        queueMicrotask(() => {
-            setIsMounted(true);
-            setNow(new Date());
-        });
+        setIsMounted(true);
+        setNow(new Date());
         const timer = setInterval(() => {
             setNow(new Date());
         }, 1000);
