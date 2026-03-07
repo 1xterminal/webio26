@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Mail, MapPin, Send, Handshake } from 'lucide-react';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import { Map, MapMarker, MarkerContent, MarkerTooltip, MarkerPopup, MapControls } from '@/components/ui/map';
 
 // Lazy-load the entire map module — only fetches MapLibre GL when the section is visible
 const LazyMap = dynamic(() => import('@/components/ui/map').then(mod => mod.Map), { ssr: false });

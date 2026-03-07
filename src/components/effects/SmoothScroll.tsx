@@ -22,14 +22,9 @@ function ScrollRestorer() {
 }
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
-    // Disable Lenis on touch devices — native iOS momentum scrolling is superior
-    // and Lenis' JS-driven approach fights the browser's native behavior
-    const isTouchDevice = typeof window !== 'undefined' && 'ontouchstart' in window;
-
-    if (isTouchDevice) {
-        // On touch devices: render children directly with no Lenis overhead
-        return <>{children}</>;
-    }
+    // Lenis gracefully handles touch devices natively via syncTouch: false
+    // Never conditionally bypass the wrapper component, as React will destroy and remount 
+    // the entirely nested DOM tree (the whole page) when swapping tags post-hydration.
 
     return (
         <ReactLenis
@@ -48,4 +43,3 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         </ReactLenis>
     );
 }
-

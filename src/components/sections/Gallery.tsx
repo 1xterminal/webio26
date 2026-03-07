@@ -10,11 +10,41 @@ export function Gallery() {
     useEffect(() => {
         if (!containerRef.current || !canvasRef.current) return;
 
-        // Initialize WebGL Application
-        const galleryApp = new WebGLGallery(containerRef.current, canvasRef.current);
+        let galleryApp: WebGLGallery | null = null;
+        let isInitialized = false;
+
+        const initGallery = () => {
+            if (isInitialized || !containerRef.current || !canvasRef.current) return;
+            isInitialized = true;
+            galleryApp = new WebGLGallery(containerRef.current, canvasRef.current);
+        };
+
+        const executeInit = () => {
+            if ('requestIdleCallback' in window) {
+                // Type casting because TypeScript types for window.requestIdleCallback might not be fully accurate in some setups
+                (window as any).requestIdleCallback(initGallery);
+            } else {
+                setTimeout(initGallery, 1200);
+            }
+        };
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    executeInit();
+                    observer.disconnect(); // Only need to initialize it once
+                }
+            },
+            { rootMargin: '800px' } // Load slightly before it comes into view
+        );
+
+        observer.observe(containerRef.current);
 
         return () => {
-            galleryApp.destroy();
+            observer.disconnect();
+            if (galleryApp) {
+                galleryApp.destroy();
+            }
         };
     }, []);
 
@@ -46,8 +76,8 @@ export function Gallery() {
             </div>
 
             {/* Subtle Gradient Overlays for Depth, removed hard black background to allow seamless scroll */}
-            <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/50 via-transparent to-black/50 z-10" />
-            <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/80 via-transparent to-black/80 z-10" />
+            <div className="absolute inset-0 pointer-events-none bg-linear-to-b from-black/50 via-transparent to-black/50 z-10" />
+            <div className="absolute inset-0 pointer-events-none bg-linear-to-r from-black/80 via-transparent to-black/80 z-10" />
         </section>
     );
 }
