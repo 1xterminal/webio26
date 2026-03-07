@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import { siteConfig } from '@/lib/config';
+
 
 const raela = localFont({
   src: [
@@ -38,48 +40,41 @@ import { NoiseOverlay } from '@/components/effects/NoiseOverlay';
 import { SmoothScroll } from '@/components/effects/SmoothScroll';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://iofest.com'),
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: 'I/O FESTIVAL 2026 | Technology into Action',
-    template: '%s | I/O FESTIVAL 2026',
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
-  description: 'The ultimate futuristic tech competition bringing together visionaries, developers, and creators to redefine the boundaries of what is possible.',
-  keywords: ['hackathon', 'tech festival', 'coding competition', 'Indonesia', 'technology', 'innovation', 'Bauhaus', 'cyberpunk'],
+  description: siteConfig.description,
+  keywords: siteConfig.metadata.keywords,
   authors: [{ name: 'IO Festival Team' }],
   creator: 'IO Festival Team',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://iofest.com',
-    title: 'I/O FESTIVAL 2026 | Technology into Action',
-    description: 'Join the ultimate futuristic tech competition. Web Dev, Data Science, and UI/UX Design tracks.',
-    siteName: 'I/O FESTIVAL 2026',
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
     images: [
       {
-        url: '/og-image.jpg', // Ideally we'd have this file, but defining the slot is good practice
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: 'I/O FESTIVAL 2026 Preview',
+        alt: `${siteConfig.name} Preview`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'I/O FESTIVAL 2026',
-    description: 'The ultimate futuristic tech competition. Register now.',
-    creator: '@iofestival',
-    images: ['/twitter-image.jpg'],
+    title: siteConfig.name,
+    description: siteConfig.description,
+    creator: siteConfig.links.twitter.split('/').pop(),
+    images: [siteConfig.ogImage],
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
   },
 };
 
