@@ -32,14 +32,17 @@ export function Gallery() {
                 <h2 className="font-raela font-bold text-4xl text-white/80 uppercase tracking-widest drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                     Archived Memories
                 </h2>
-                <p className="text-white/40 mt-2 font-sans text-sm md:text-base tracking-wide uppercase">
+                <p className="text-white/40 mt-2 font-sans text-sm md:text-base tracking-wide uppercase hidden md:block">
                     Drag around to explore the history
+                </p>
+                <p className="text-white/40 mt-2 font-sans text-sm tracking-wide uppercase md:hidden">
+                    Swipe &amp; pinch to explore
                 </p>
             </div>
 
             {/* WebGL Canvas Container */}
             <div ref={containerRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing">
-                <canvas ref={canvasRef} className="w-full h-full outline-none touch-none" />
+                <canvas ref={canvasRef} className="w-full h-full outline-none touch-pan-y" />
             </div>
 
             {/* Subtle Gradient Overlays for Depth, removed hard black background to allow seamless scroll */}

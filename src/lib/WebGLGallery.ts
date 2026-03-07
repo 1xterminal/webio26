@@ -51,6 +51,10 @@ export default class WebGLGallery {
     };
     dragSensitivity: number = 1.5;
     dragDamping: number = 0.1;
+    dragDirection: 'undecided' | 'horizontal' | 'vertical' = 'undecided';
+    isTouchDevice: boolean = false;
+
+    pinch = { active: false, startDistance: 0 };
 
     scrollY = { target: 0, current: 0, direction: 0 };
 
@@ -64,6 +68,9 @@ export default class WebGLGallery {
     private boundOnWheel: (e: WheelEvent) => void;
     private boundOnPointerMove: (e: PointerEvent) => void;
     private boundOnPointerUp: (e: PointerEvent) => void;
+    private boundOnTouchStart: (e: TouchEvent) => void;
+    private boundOnTouchMove: (e: TouchEvent) => void;
+    private boundOnTouchEnd: (e: TouchEvent) => void;
 
     constructor(container: HTMLElement, canvas: HTMLCanvasElement) {
         this.container = container;
@@ -73,10 +80,16 @@ export default class WebGLGallery {
         // Responsive mesh count for mobile performance
         this.meshCount = window.innerWidth < 768 ? 80 : 200;
 
+        // Detect touch-capable device
+        this.isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
         this.boundOnResize = this.onResize.bind(this);
         this.boundOnWheel = this.onWheel.bind(this);
         this.boundOnPointerMove = this.onPointerMove.bind(this);
         this.boundOnPointerUp = this.onPointerUp.bind(this);
+        this.boundOnTouchStart = this.onTouchStart.bind(this);
+        this.boundOnTouchMove = this.onTouchMove.bind(this);
+        this.boundOnTouchEnd = this.onTouchEnd.bind(this);
 
         this.init();
     }
@@ -323,12 +336,22 @@ export default class WebGLGallery {
             this.drag.startY = e.clientY;
             this.drag.lastX = e.clientX;
             this.drag.lastY = e.clientY;
-            element.setPointerCapture(e.pointerId);
+            this.dragDirection = 'undecided';
+
+            // Don't capture pointer on touch devices — let vertical scroll pass through
+            if (e.pointerType !== 'touch') {
+                element.setPointerCapture(e.pointerId);
+            }
         };
 
         element.addEventListener("pointerdown", onPointerDown);
         window.addEventListener("pointermove", this.boundOnPointerMove);
         window.addEventListener("pointerup", this.boundOnPointerUp);
+
+        // Pinch-to-zoom listeners (native touch events for multi-finger support)
+        element.addEventListener("touchstart", this.boundOnTouchStart, { passive: true });
+        element.addEventListener("touchmove", this.boundOnTouchMove, { passive: false });
+        element.addEventListener("touchend", this.boundOnTouchEnd, { passive: true });
     }
 
     onPointerMove(e: PointerEvent) {
@@ -338,15 +361,96 @@ export default class WebGLGallery {
         this.drag.lastX = e.clientX;
         this.drag.lastY = e.clientY;
 
+        // On touch devices, decide direction after a 10px movement threshold
+        if (e.pointerType === 'touch' && this.dragDirection === 'undecided') {
+            const totalDx = Math.abs(e.clientX - this.drag.startX);
+            const totalDy = Math.abs(e.clientY - this.drag.startY);
+            const threshold = 8;
+
+            if (totalDx < threshold && totalDy < threshold) {
+                return; // Not enough movement to decide yet
+            }
+
+            if (totalDy > totalDx) {
+                // Vertical gesture — release drag, let browser handle scroll
+                this.dragDirection = 'vertical';
+                this.drag.isDown = false;
+                return;
+            } else {
+                // Horizontal gesture — lock to horizontal, prevent scroll
+                this.dragDirection = 'horizontal';
+            }
+        }
+
+        // If touch vertical, bail (shouldn't reach here but safety check)
+        if (e.pointerType === 'touch' && this.dragDirection === 'vertical') {
+            return;
+        }
+
+        // Prevent browser scroll during horizontal gallery drag on touch
+        if (e.pointerType === 'touch' && this.dragDirection === 'horizontal') {
+            e.preventDefault();
+        }
+
         const worldPerPixelX = (this.sizes.width / window.innerWidth) * this.dragSensitivity;
         const worldPerPixelY = (this.sizes.height / window.innerHeight) * this.dragSensitivity;
 
         this.drag.xTarget += -dx * worldPerPixelX;
-        this.drag.yTarget += dy * worldPerPixelY;
+
+        // Only apply vertical drag on non-touch (desktop mouse/pen)
+        if (e.pointerType !== 'touch') {
+            this.drag.yTarget += dy * worldPerPixelY;
+        }
     }
 
     onPointerUp() {
         this.drag.isDown = false;
+        this.dragDirection = 'undecided';
+    }
+
+    // --- Pinch-to-zoom (native touch events for multi-finger support) ---
+
+    private getTouchDistance(t1: Touch, t2: Touch): number {
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    onTouchStart(e: TouchEvent) {
+        if (e.touches.length >= 2) {
+            this.pinch.active = true;
+            this.pinch.startDistance = this.getTouchDistance(e.touches[0], e.touches[1]);
+            // Cancel any single-finger drag while pinching
+            this.drag.isDown = false;
+        }
+    }
+
+    onTouchMove(e: TouchEvent) {
+        if (!this.pinch.active || e.touches.length < 2) return;
+
+        e.preventDefault(); // Prevent native zoom/scroll during pinch
+
+        const currentDistance = this.getTouchDistance(e.touches[0], e.touches[1]);
+        const delta = currentDistance - this.pinch.startDistance;
+
+        // Map pinch delta to zoom (same axis as scroll wheel)
+        // Negative delta = pinch in = zoom out, positive = pinch out = zoom in
+        const zoomSensitivity = 0.05;
+        const zoomDelta = -delta * zoomSensitivity * (this.sizes.height / window.innerHeight);
+
+        this.scrollY.target += zoomDelta;
+        if (this.material) {
+            this.material.uniforms.uSpeedY.value += zoomDelta;
+        }
+
+        // Update start distance for continuous tracking
+        this.pinch.startDistance = currentDistance;
+    }
+
+    onTouchEnd(e: TouchEvent) {
+        if (e.touches.length < 2) {
+            this.pinch.active = false;
+        }
     }
 
     onResize() {
@@ -412,6 +516,9 @@ export default class WebGLGallery {
         window.removeEventListener("wheel", this.boundOnWheel);
         window.removeEventListener("pointermove", this.boundOnPointerMove);
         window.removeEventListener("pointerup", this.boundOnPointerUp);
+        this.canvas.removeEventListener("touchstart", this.boundOnTouchStart);
+        this.canvas.removeEventListener("touchmove", this.boundOnTouchMove);
+        this.canvas.removeEventListener("touchend", this.boundOnTouchEnd);
 
         if (this.geometry) this.geometry.dispose();
         if (this.material) this.material.dispose();
