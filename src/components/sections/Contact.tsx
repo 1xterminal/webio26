@@ -7,7 +7,7 @@ import { useContactForm } from '@/hooks/useContactForm';
 import { siteConfig } from '@/lib/config';
 
 export function Contact() {
-    const { formData, setters, status, handleSubmit, isValid } = useContactForm();
+    const { formData, setters, status, handleSubmit } = useContactForm();
 
     return (
         <section id="contact" className="py-24 relative bg-black overflow-hidden border-t border-white/5">
