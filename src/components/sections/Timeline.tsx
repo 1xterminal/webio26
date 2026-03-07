@@ -7,20 +7,20 @@ const events = [
     {
         date: "15 Mar - 5 Apr 2026",
         title: "Pendaftaran Gelombang Pertama",
-        description: "Periode pendaftaran awal dibuka terbuka bagi seluruh peserta.",
+        description: "Periode pendaftaran awal dengan harga early bird bagi seluruh peserta.",
         startDate: new Date('2026-03-15T00:00:00+07:00'),
     },
     {
-        date: "6 Apr - 30 Apr 2026",
-        title: "Pendaftaran Gelombang Kedua & Pengumpulan Karya",
-        description: "Periode pendaftaran reguler dan batas akhir pengiriman hasil karya peserta.",
+        date: "6 - 30 Apr 2026",
+        title: "Pendaftaran Gelombang Kedua",
+        description: "Periode pendaftaran reguler. Batas akhir pendaftaran dan pengumpulan karya awal pada 30 April.",
         startDate: new Date('2026-04-06T00:00:00+07:00'),
     },
     {
-        date: "30 Apr - 10 Mei 2026",
-        title: "Penilaian Karya Peserta",
-        description: "Dewan juri menyeleksi hasil karya seluruh tim.",
-        startDate: new Date('2026-04-30T00:00:00+07:00'),
+        date: "1 - 10 Mei 2026",
+        title: "Penilaian Tahap Pertama",
+        description: "Dewan juri menyeleksi semifinalis dari seluruh hasil karya yang masuk.",
+        startDate: new Date('2026-05-01T00:00:00+07:00'),
     },
     {
         date: "13 Mei 2026",
@@ -37,13 +37,13 @@ const events = [
     {
         date: "4 Juni 2026",
         title: "Acara Utama Hari Pertama",
-        description: "Para finalis menyampaikan presentasi secara luring di Auditorium UNTAR.",
+        description: "Presentasi final seluruh kategori lomba secara luring di Auditorium UNTAR.",
         startDate: new Date('2026-06-04T00:00:00+07:00'),
     },
     {
         date: "5 Juni 2026",
         title: "Acara Utama Hari Kedua",
-        description: "Acara meliputi gelar wicara dan pengumuman pemenang kompetisi.",
+        description: "Seminar, talkshow, guest star, dan pengumuman pemenang kompetisi.",
         startDate: new Date('2026-06-05T00:00:00+07:00'),
     }
 ];
@@ -70,7 +70,7 @@ export function Timeline() {
 
         // Delay execution slightly to bypass strict synchronous state update linter
         const timeoutId = setTimeout(calculateInitialPhase, 0);
-        
+
         // Recalculate periodically just in case the tab is kept open for a long time
         const interval = setInterval(calculateInitialPhase, 1000 * 60 * 60);
         return () => {
@@ -95,26 +95,26 @@ export function Timeline() {
                 <div className="relative">
                     {/* Center Line (Hidden on Mobile, Visible on MD) */}
                     <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-[2px] h-full bg-white/5 rounded-full" />
-                    
+
                     {/* Animated Progress Line (MD) */}
-                    <div 
-                        className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-[2px] bg-neon-orange transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-top z-0 rounded-full" 
-                        style={{ 
+                    <div
+                        className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-[2px] bg-neon-orange transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-top z-0 rounded-full"
+                        style={{
                             height: isMounted ? `calc(${(currentPhase / (events.length - 1)) * 100}%)` : '0%',
                             boxShadow: '0 0 20px rgba(255,139,83,0.5)'
-                        }} 
+                        }}
                     />
 
                     {/* Mobile Left Line */}
                     <div className="md:hidden absolute left-[20px] w-[2px] h-full bg-white/5 rounded-full" />
-                    
+
                     {/* Animated Progress Line (Mobile) */}
-                    <div 
-                        className="md:hidden absolute left-[20px] w-[2px] bg-neon-orange transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-top z-0 rounded-full" 
-                        style={{ 
+                    <div
+                        className="md:hidden absolute left-[20px] w-[2px] bg-neon-orange transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-top z-0 rounded-full"
+                        style={{
                             height: isMounted ? `calc(${(currentPhase / (events.length - 1)) * 100}%)` : '0%',
                             boxShadow: '0 0 15px rgba(255,139,83,0.5)'
-                        }} 
+                        }}
                     />
 
                     <div className="space-y-16 md:space-y-24 relative z-10 flex flex-col">
@@ -148,7 +148,7 @@ export function Timeline() {
                                         {isActive && (
                                             <div className="absolute inset-0 rounded-full animate-ping opacity-40 mix-blend-screen bg-neon-orange" />
                                         )}
-                                        <div 
+                                        <div
                                             className="w-4 h-4 rounded-full transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-10 border-[2px] transform-gpu"
                                             style={{
                                                 borderColor: (isPassed || isActive) ? '#FF8B53' : 'rgba(255,255,255,0.2)',
@@ -161,10 +161,10 @@ export function Timeline() {
 
                                     {/* Mobile Node (Absolute Left) */}
                                     <div className="md:hidden absolute left-[5px] top-[-2px] w-[32px] h-[32px] flex items-center justify-center">
-                                         {isActive && (
+                                        {isActive && (
                                             <div className="absolute inset-0 rounded-full animate-ping opacity-40 mix-blend-screen bg-neon-orange" />
                                         )}
-                                        <div 
+                                        <div
                                             className="w-3.5 h-3.5 rounded-full transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-10 border-[2px] transform-gpu"
                                             style={{
                                                 borderColor: (isPassed || isActive) ? '#FF8B53' : 'rgba(255,255,255,0.2)',
