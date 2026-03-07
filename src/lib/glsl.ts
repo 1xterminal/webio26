@@ -12,7 +12,7 @@ uniform vec2 uMaxXdisplacement;
 uniform vec2 uDrag;
 uniform float uScrollY;
 
-varying float vVisibility;
+varying float vAlpha;
 varying vec4 vTextureCoords;
 varying float vImageAspect;
 
@@ -37,8 +37,13 @@ void main()
     newPosition.xy += displacement;
     newPosition.z += zDisplacement;
 
-    // Linear visibility gradient
-    vVisibility = clamp((newPosition.z - minZ) / 5.0, 0.0, 1.0);
+    // Linear visibility gradient (Z-depth)
+    float visibility = clamp((newPosition.z - minZ) / 5.0, 0.0, 1.0);
+    
+    // Edge fading to prevent popping during wrap
+    float fadeX = smoothstep(maxOffset.x, maxOffset.x * 0.85, abs(displacement.x));
+    float fadeY = smoothstep(maxOffset.y, maxOffset.y * 0.85, abs(displacement.y));
+    vAlpha = visibility * fadeX * fadeY;
 
     vec4 modelPosition = modelMatrix * instanceMatrix * vec4(newPosition, 1.0);        
     gl_Position = projectionMatrix * viewMatrix * modelPosition;    
@@ -52,7 +57,7 @@ void main()
 export const fragmentShader = `
 precision mediump float;
 varying vec2 vUv;
-varying float vVisibility;
+varying float vAlpha;
 varying vec4 vTextureCoords;
 varying float vImageAspect;
 
@@ -92,7 +97,7 @@ void main()
 
     // Composite and apply visibility/clamping
     vec4 color = mix(photoTexel, texel, texel.a);
-    color.a *= vVisibility;
+    color.a *= vAlpha;
     
     gl_FragColor = min(color, 1.0);
 }

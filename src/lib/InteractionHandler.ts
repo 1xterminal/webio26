@@ -95,10 +95,10 @@ export class InteractionHandler {
             // e.preventDefault(); 
         }
 
-        // Sensitivity and scaling would be handled by the caller or passed in
-        this.drag.xTarget += dx; // Raw targets, scaled in render loop
+        // Flip deltas to match natural expectation (pull to scroll)
+        this.drag.xTarget += dx; 
         if (e.pointerType !== 'touch') {
-            this.drag.yTarget += dy;
+            this.drag.yTarget -= dy;
         }
     };
 
@@ -109,8 +109,9 @@ export class InteractionHandler {
 
     private onWheel = (e: WheelEvent) => {
         const normalized = normalizeWheel(e);
-        this.scrollY.target += normalized.pixelY;
-        this.onUpdate({ zoom: normalized.pixelY, speed: normalized.pixelY });
+        // Scroll down = move items away (zoom out)
+        this.scrollY.target -= normalized.pixelY;
+        this.onUpdate({ zoom: -normalized.pixelY, speed: -normalized.pixelY });
     };
 
     private onTouchStart = (e: TouchEvent) => {
@@ -128,7 +129,7 @@ export class InteractionHandler {
         const currentDistance = this.getTouchDistance(e.touches[0], e.touches[1]);
         const delta = currentDistance - this.pinch.startDistance;
         
-        const zoomDelta = -delta * 2.0; // scale pinch to scroll units
+        const zoomDelta = delta * 2.0; // Inverted pinch delta
         this.scrollY.target += zoomDelta;
         this.onUpdate({ zoom: zoomDelta, speed: zoomDelta });
         this.pinch.startDistance = currentDistance;

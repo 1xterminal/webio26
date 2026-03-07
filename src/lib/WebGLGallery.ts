@@ -135,7 +135,7 @@ export default class WebGLGallery {
             transparent: true,
             uniforms: {
                 uTime: { value: 0 },
-                uMaxXdisplacement: { value: new THREE.Vector2(this.sizes.width * 2, this.sizes.height * 2) },
+                uMaxXdisplacement: { value: new THREE.Vector2(this.sizes.width * 2.5, this.sizes.height * 2.5) },
                 uWrapperTexture: {
                     value: new THREE.TextureLoader().load("/photo_frame.webp", (tex) => {
                         tex.minFilter = THREE.NearestFilter;
@@ -164,8 +164,8 @@ export default class WebGLGallery {
         const aImageAspect = new Float32Array(count);
 
         const imageInfos = this.textureManager.imageInfos;
-        const maxX = this.sizes.width * 2;
-        const maxY = this.sizes.height * 2;
+        const maxX = this.sizes.width * 2.5;
+        const maxY = this.sizes.height * 2.5;
 
         for (let i = 0; i < count; i++) {
             initialPosition[i * 3 + 0] = (Math.random() - 0.5) * maxX * 2;
