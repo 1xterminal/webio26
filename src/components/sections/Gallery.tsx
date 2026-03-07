@@ -21,8 +21,7 @@ export function Gallery() {
 
         const executeInit = () => {
             if ('requestIdleCallback' in window) {
-                // Type casting because TypeScript types for window.requestIdleCallback might not be fully accurate in some setups
-                (window as any).requestIdleCallback(initGallery);
+                window.requestIdleCallback(initGallery);
             } else {
                 setTimeout(initGallery, 1200);
             }
