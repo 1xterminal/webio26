@@ -153,7 +153,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                         {Object.entries(timeLeft).map(([interval, value], index) => (
                             <div key={interval} className="flex flex-col items-center justify-center relative w-full">
                                 <span 
-                                    className="font-raela font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tabular-nums tracking-tighter leading-none"
+                                    className="font-raela font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-tighter leading-none inline-block text-center w-[1.5em]"
                                     style={{ filter: 'drop-shadow(0 4px 15px rgba(255,255,255,0.25))' }}
                                 >
                                     {value.toString().padStart(2, '0')}
