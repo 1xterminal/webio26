@@ -1,0 +1,22 @@
+
+> it-competition-web@0.1.0 build
+> next build
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Experiments (use with caution):
+  ┬À optimizePackageImports
+
+  Creating an optimized production build ...
+Ô£ô Compiled successfully in 5.1s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/11) ...
+Error occurred prerendering page "/kompetisi/business-case". Read more: https://nextjs.org/docs/messages/prerender-error
+Error: Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server". Or maybe you meant to call this function rather than return it.
+  {slug: ..., title: ..., shortTitle: ..., icon: function icon, color: ..., accentHex: ..., badge: ..., tagline: ..., description: ..., details: ..., contacts: ..., rulebookUrl: ...}
+                                                 ^^^^^^^^^^^^^
+    at stringify (<anonymous>) {
+  digest: '182952334'
+}
+Export encountered an error on /kompetisi/business-case/page: /kompetisi/business-case, exiting the build.
+Ô¿» Next.js build worker exited with code: 1 and signal: null

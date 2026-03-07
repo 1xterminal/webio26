@@ -40,39 +40,49 @@ import { SmoothScroll } from '@/components/effects/SmoothScroll';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://iofest.com'),
   title: {
-    default: 'I/O FESTIVAL 2026 | Technology into Action',
+    default: 'I/O FESTIVAL 2026 | Kompetisi IT Mahasiswa & Siswa Nasional',
     template: '%s | I/O FESTIVAL 2026',
   },
-  description: 'The ultimate futuristic tech competition bringing together visionaries, developers, and creators to redefine the boundaries of what is possible.',
-  keywords: ['hackathon', 'tech festival', 'coding competition', 'Indonesia', 'technology', 'innovation', 'Bauhaus', 'cyberpunk'],
-  authors: [{ name: 'IO Festival Team' }],
-  creator: 'IO Festival Team',
+  description: 'I/O Festival 2026 adalah kompetisi IT tingkat nasional bergengsi untuk mahasiswa dan siswa SMA/SMK. Ikuti cabang lomba UI/UX Design, Web Development, dan Business Case. Daftar sekarang!',
+  keywords: [
+    'I/O Festival 2026', 'lomba IT tingkat nasional', 'kompetisi IT', 'lomba mahasiswa', 'lomba SMA SMK', 
+    'kompetisi UI/UX', 'lomba Web Development', 'lomba Business Case', 'IT competition Indonesia', 
+    'teknologi', 'inovasi', 'event IT 2026', 'Tarumanagara'
+  ],
+  authors: [{ name: 'BEM FTI UNTAR', url: 'https://bemftiuntar.com' }],
+  creator: 'I/O Festival Team',
+  applicationName: 'I/O Festival 2026',
+  category: 'technology',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'id_ID',
     url: 'https://iofest.com',
-    title: 'I/O FESTIVAL 2026 | Technology into Action',
-    description: 'Join the ultimate futuristic tech competition. Web Dev, Data Science, and UI/UX Design tracks.',
+    title: 'I/O FESTIVAL 2026 | Kompetisi IT Nasional',
+    description: 'Daftarkan tim Anda di kompetisi IT nasional bergengsi: UI/UX Design, Web Development, dan Business Case. Buktikan inovasi teknologimu di I/O Festival 2026!',
     siteName: 'I/O FESTIVAL 2026',
     images: [
       {
-        url: '/og-image.jpg', // Ideally we'd have this file, but defining the slot is good practice
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'I/O FESTIVAL 2026 Preview',
+        alt: 'I/O FESTIVAL 2026 Preview - Kompetisi IT Nasional',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'I/O FESTIVAL 2026',
-    description: 'The ultimate futuristic tech competition. Register now.',
+    title: 'I/O FESTIVAL 2026 | Buktikan Skill IT Kamu',
+    description: 'Ajang kompetisi teknologi terbesar tahun ini. Bergabunglah dalam Web Dev, UI/UX, dan Business Case. Registrasi sekarang!',
     creator: '@iofestival',
     images: ['/twitter-image.jpg'],
   },
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,

@@ -1,24 +1,23 @@
 import { MetadataRoute } from 'next';
+import { competitions } from '@/lib/competitions';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://iofest.com';
+
+  const competitionPages: MetadataRoute.Sitemap = competitions.map((comp) => ({
+    url: `${baseUrl}/kompetisi/${comp.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
   return [
     {
-      url: 'https://iofest.com',
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'daily',
       priority: 1,
     },
-    {
-      url: 'https://iofest.com/about',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://iofest.com/tracks',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
+    ...competitionPages,
   ];
 }

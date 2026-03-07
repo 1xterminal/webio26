@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle } from 'lucide-react';
-import type { CompetitionData } from '@/lib/competitions';
+import { getCompetition } from '@/lib/competitions';
 import { StarDust } from '@/components/effects/StarDust';
 import Image from 'next/image';
 import { Countdown } from '@/components/sections/Countdown';
@@ -47,7 +47,10 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
     );
 };
 
-export function CompetitionPage({ data }: { data: CompetitionData }) {
+export function CompetitionPage({ slug }: { slug: string }) {
+    const data = getCompetition(slug);
+    if (!data) return null;
+
     const Icon = data.icon;
     const [currentPhase, setCurrentPhase] = useState(0);
     const regStatus = useRegistrationStatus();
