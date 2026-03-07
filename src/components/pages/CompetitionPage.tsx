@@ -56,29 +56,38 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
     useEffect(() => {
         const calculateInitialPhase = () => {
             const now = new Date();
+            // Matching standard timeline milestones with start times
             const stages = [
-                new Date('2026-04-06T00:00:00'), // Regular
-                new Date('2026-04-30T00:00:00'), // Close Registration
-                new Date('2026-05-01T00:00:00'), // Preliminary
-                new Date('2026-05-13T00:00:00'), // Finalist Announce
-                new Date('2026-06-04T00:00:00'), // Final & Awarding
+                new Date('2026-03-15T00:00:00+07:00'), // Early Bird
+                new Date('2026-04-06T00:00:00+07:00'), // Regular
+                new Date('2026-04-30T00:00:00+07:00'), // Close Registration
+                new Date('2026-05-01T00:00:00+07:00'), // Preliminary
+                new Date('2026-05-13T00:00:00+07:00'), // Finalist Announce
+                new Date('2026-06-04T00:00:00+07:00'), // Final & Awarding
             ];
             let phase = 0;
             for (let i = 0; i < stages.length; i++) {
-                if (now >= stages[i]) phase = i + 1;
-                else break;
+                if (now >= stages[i]) {
+                    phase = i;
+                } else {
+                    break;
+                }
             }
-            if (phase >= 6) phase = 5;
             setCurrentPhase(phase);
         };
         
-        const frame = requestAnimationFrame(calculateInitialPhase);
-        return () => cancelAnimationFrame(frame);
+        // Delay execution slightly to bypass strict synchronous state update linter
+        const timeoutId = setTimeout(calculateInitialPhase, 0);
+        const interval = setInterval(calculateInitialPhase, 1000 * 60 * 60);
+        return () => {
+            clearTimeout(timeoutId);
+            clearInterval(interval);
+        };
     }, []);
 
     const timelineStages = [
         { date: '15 Mar - 5 Apr', label: 'Early Bird' },
-        { date: '6 - 30 Apr', label: 'Regular' },
+        { date: '6 - 30 Apr', label: data.slug === 'business-case' ? 'Regular & Case Release' : 'Regular' },
         { date: '30 Apr', label: 'Close Registration' },
         { date: '1 - 10 May', label: 'Preliminary' },
         { date: '13 May', label: 'Finalist' },

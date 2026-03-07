@@ -132,10 +132,15 @@ export function Timeline() {
                                     className={`flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-16 group transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu will-change-transform ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} ${isActive ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
                                 >
                                     {/* Content Side */}
-                                    <div className={`flex-1 pl-14 md:pl-0 w-full ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'} transition-opacity duration-500 ${isPassed ? 'opacity-40' : 'opacity-100'}`}>
-                                        <h3 className={`font-raela text-xs tracking-[0.15em] uppercase mb-3 font-black transition-colors duration-500 ${isActive ? 'text-neon-orange drop-shadow-[0_0_10px_rgba(255,139,83,0.6)]' : isPassed ? 'text-white/40' : 'text-neon-blue/80'}`}>{event.date}</h3>
-                                        <h4 className={`text-2xl font-bold font-raela transition-colors duration-500 mb-3 ${isActive ? 'text-white' : 'text-white/80'}`}>{event.title}</h4>
-                                        <p className="text-white/60 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}">{event.description}</p>
+                                    <div className={`flex-1 pl-14 md:pl-0 w-full ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'} transition-opacity duration-500 ${isPassed ? 'opacity-60' : isActive ? 'opacity-100' : 'opacity-80'}`}>
+                                        <div className={`flex items-center gap-3 mb-3 ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
+                                            <h3 className={`font-raela text-xs tracking-[0.15em] uppercase font-black transition-colors duration-500 ${isActive ? 'text-neon-orange drop-shadow-[0_0_10px_rgba(255,139,83,0.6)]' : isPassed ? 'text-white/50' : 'text-neon-blue/90'}`}>{event.date}</h3>
+                                            {isActive && (
+                                                <span className="px-2 py-0.5 rounded text-[9px] bg-neon-orange/20 border border-neon-orange/50 text-neon-orange animate-pulse font-bold tracking-wider">SEDANG BERLANGSUNG</span>
+                                            )}
+                                        </div>
+                                        <h4 className={`text-2xl font-bold font-raela transition-colors duration-500 mb-3 ${isActive ? 'text-white' : 'text-white/90'}`}>{event.title}</h4>
+                                        <p className="text-white/70 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}">{event.description}</p>
                                     </div>
 
                                     {/* Center Node (Desktop) */}
