@@ -597,47 +597,65 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                         )}
                     </motion.div>
 
-                    {/* Contact Person */}
+                    {/* Contact Person - Premium Redesign */}
                     {data.contacts && data.contacts.length > 0 && (
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
-                            className="text-center pt-16 pb-8"
+                            className="pt-20 pb-12"
                         >
-                            <h2 className="text-xs font-raela uppercase tracking-[0.2em] text-white/30 mb-8 font-black">Contact Person</h2>
-                            <div className="flex flex-col sm:flex-row justify-center gap-6 max-w-2xl mx-auto">
+                            <div className="flex flex-col items-center text-center mb-10">
+                                <div className="inline-flex items-center justify-center p-3 rounded-2xl mb-4 bg-white/[0.02] border border-white/10" style={{ boxShadow: `0 0 30px ${data.accentHex}15` }}>
+                                    <MessageCircle className="w-6 h-6 text-white/80" style={{ filter: `drop-shadow(0 0 10px ${data.accentHex})` }} />
+                                </div>
+                                <h2 className="text-3xl font-raela font-bold text-white tracking-tight">Butuh Bantuan?</h2>
+                                <p className="text-white/50 text-sm mt-3 max-w-md mx-auto">
+                                    Hubungi contact person cabang kompetisi ini untuk pertanyaan lebih lanjut.
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
                                 {data.contacts.map((cp, idx) => (
                                     <div 
                                         key={idx}
-                                        className="flex-1 p-6 rounded-3xl backdrop-blur-md bg-white/[0.02] border border-white/5 flex flex-col items-center transition-colors hover:bg-white/[0.04] relative overflow-hidden group/cp"
+                                        className="group/cp relative p-6 md:p-8 rounded-3xl backdrop-blur-xl border border-white/5 flex flex-col transition-transform duration-500 overflow-hidden hover:-translate-y-1"
+                                        style={{ 
+                                            background: 'rgba(20,20,20,0.6)',
+                                            boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)' 
+                                        }}
                                     >
-                                        <div className="absolute inset-0 bg-gradient-to-br transition-opacity duration-500 opacity-0 group-hover/cp:opacity-10 pointer-events-none" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
+                                        <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-3xl" />
                                         
-                                        <div className="w-12 h-12 rounded-full mb-4 flex items-center justify-center bg-white/5 border border-white/10 relative z-10 transition-transform duration-500 group-hover/cp:scale-110">
-                                            <MessageCircle className="w-5 h-5 text-white/50 group-hover/cp:text-white transition-colors" />
+                                        <div className="relative z-10 flex items-center justify-between mb-8 pb-6 border-b border-white/10">
+                                            <div>
+                                                <h3 className="font-raela font-black text-xl text-white tracking-wide">{cp.name}</h3>
+                                                <p className="text-white/40 text-xs uppercase tracking-[0.2em] font-bold mt-1">Official CP</p>
+                                            </div>
+                                            <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/cp:scale-110 shadow-xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent">
+                                                <Users className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
+                                            </div>
                                         </div>
-                                        <h3 className="font-raela font-bold text-lg text-white mb-6 relative z-10">{cp.name}</h3>
                                         
-                                        <div className="flex justify-center gap-3 w-full relative z-10">
-                                            {/* WhatsApp Button */}
+                                        <div className="relative z-10 flex gap-3 mt-auto">
                                             <a 
                                                 href={`https://wa.me/${cp.whatsapp}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex-1 px-4 py-2.5 rounded-full bg-[#25D366]/10 text-[#25D366] text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:bg-[#25D366]/20 transition-colors border border-[#25D366]/20 flex items-center justify-center gap-2"
+                                                className="relative flex-1 px-4 py-3 rounded-2xl bg-white/[0.03] hover:bg-[#25D366]/10 text-white/70 hover:text-[#25D366] text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5 hover:border-[#25D366]/50 flex items-center justify-center group/btn shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden"
                                             >
-                                                WA
+                                                <span className="relative z-10 drop-shadow-md">WhatsApp</span>
+                                                <div className="absolute inset-0 bg-[#25D366] opacity-0 group-hover/btn:opacity-10 transition-opacity duration-300" />
                                             </a>
 
-                                            {/* LINE Button */}
                                             <a 
                                                 href={`https://line.me/ti/p/~${cp.line}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex-1 px-4 py-2.5 rounded-full bg-[#06C755]/10 text-[#06C755] text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:bg-[#06C755]/20 transition-colors border border-[#06C755]/20 flex items-center justify-center gap-2"
+                                                className="relative flex-1 px-4 py-3 rounded-2xl bg-white/[0.03] hover:bg-[#06C755]/10 text-white/70 hover:text-[#06C755] text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5 hover:border-[#06C755]/50 flex items-center justify-center group/btn shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden"
                                             >
-                                                LINE
+                                                <span className="relative z-10 drop-shadow-md">LINE</span>
+                                                <div className="absolute inset-0 bg-[#06C755] opacity-0 group-hover/btn:opacity-10 transition-opacity duration-300" />
                                             </a>
                                         </div>
                                     </div>
