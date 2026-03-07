@@ -10,6 +10,12 @@ export interface CompetitionFee {
     regular: string;
 }
 
+export interface CompetitionContact {
+    name: string;
+    whatsapp: string;
+    line: string;
+}
+
 export interface CompetitionDetails {
     categories: string;
     fee: CompetitionFee[];
@@ -27,6 +33,7 @@ export interface CompetitionData {
     tagline: string;
     description: string;
     details: CompetitionDetails;
+    contacts: CompetitionContact[];
     rulebookUrl?: string;
 }
 
@@ -50,6 +57,10 @@ export const competitions: CompetitionData[] = [
             ],
             prizes: 'Uang Tunai & E-Sertifikat',
         },
+        contacts: [
+            { name: 'NAMA CP 1', whatsapp: '6281234567890', line: 'linecp1' },
+            { name: 'NAMA CP 2', whatsapp: '6281234567891', line: 'linecp2' }
+        ],
         rulebookUrl: '#',
     },
     {
@@ -70,6 +81,10 @@ export const competitions: CompetitionData[] = [
             ],
             prizes: 'Uang Tunai & E-Sertifikat',
         },
+        contacts: [
+            { name: 'NAMA CP 3', whatsapp: '6281234567892', line: 'linecp3' },
+            { name: 'NAMA CP 4', whatsapp: '6281234567893', line: 'linecp4' }
+        ],
         rulebookUrl: '#',
     },
     {
@@ -90,6 +105,10 @@ export const competitions: CompetitionData[] = [
             ],
             prizes: 'Uang Tunai & E-Sertifikat',
         },
+        contacts: [
+            { name: 'NAMA CP 5', whatsapp: '6281234567894', line: 'linecp5' },
+            { name: 'NAMA CP 6', whatsapp: '6281234567895', line: 'linecp6' }
+        ],
         rulebookUrl: '#',
     },
 ];

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle } from 'lucide-react';
 import type { CompetitionData } from '@/lib/competitions';
 import { StarDust } from '@/components/effects/StarDust';
 import Image from 'next/image';
@@ -596,6 +596,55 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                             </span>
                         )}
                     </motion.div>
+
+                    {/* Contact Person */}
+                    {data.contacts && data.contacts.length > 0 && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4 }}
+                            className="text-center pt-16 pb-8"
+                        >
+                            <h2 className="text-xs font-raela uppercase tracking-[0.2em] text-white/30 mb-8 font-black">Contact Person</h2>
+                            <div className="flex flex-col sm:flex-row justify-center gap-6 max-w-2xl mx-auto">
+                                {data.contacts.map((cp, idx) => (
+                                    <div 
+                                        key={idx}
+                                        className="flex-1 p-6 rounded-3xl backdrop-blur-md bg-white/[0.02] border border-white/5 flex flex-col items-center transition-colors hover:bg-white/[0.04] relative overflow-hidden group/cp"
+                                    >
+                                        <div className="absolute inset-0 bg-gradient-to-br transition-opacity duration-500 opacity-0 group-hover/cp:opacity-10 pointer-events-none" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
+                                        
+                                        <div className="w-12 h-12 rounded-full mb-4 flex items-center justify-center bg-white/5 border border-white/10 relative z-10 transition-transform duration-500 group-hover/cp:scale-110">
+                                            <MessageCircle className="w-5 h-5 text-white/50 group-hover/cp:text-white transition-colors" />
+                                        </div>
+                                        <h3 className="font-raela font-bold text-lg text-white mb-6 relative z-10">{cp.name}</h3>
+                                        
+                                        <div className="flex justify-center gap-3 w-full relative z-10">
+                                            {/* WhatsApp Button */}
+                                            <a 
+                                                href={`https://wa.me/${cp.whatsapp}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-1 px-4 py-2.5 rounded-full bg-[#25D366]/10 text-[#25D366] text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:bg-[#25D366]/20 transition-colors border border-[#25D366]/20 flex items-center justify-center gap-2"
+                                            >
+                                                WA
+                                            </a>
+
+                                            {/* LINE Button */}
+                                            <a 
+                                                href={`https://line.me/ti/p/~${cp.line}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-1 px-4 py-2.5 rounded-full bg-[#06C755]/10 text-[#06C755] text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:bg-[#06C755]/20 transition-colors border border-[#06C755]/20 flex items-center justify-center gap-2"
+                                            >
+                                                LINE
+                                            </a>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </motion.div>
+                    )}
                 </div>
             </div>
         </>
