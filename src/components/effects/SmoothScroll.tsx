@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { ReactLenis, useLenis } from 'lenis/react';
 
@@ -32,7 +32,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
                 syncTouch: false,
             }}
         >
-            <ScrollRestorer />
+            <Suspense fallback={null}>
+                <ScrollRestorer />
+            </Suspense>
             {children}
         </ReactLenis>
     );

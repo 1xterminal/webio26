@@ -7,6 +7,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { StarDust } from '@/components/effects/StarDust';
 import { motion } from 'framer-motion';
+import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 
 const links = [
     {
@@ -16,6 +17,7 @@ const links = [
         href: '#',
         color: 'text-neon-blue',
         borderColor: 'border-neon-blue/20 hover:border-neon-blue/40',
+        requiresOpen: true,
     },
     {
         icon: FileText,
@@ -24,6 +26,7 @@ const links = [
         href: '#',
         color: 'text-neon-orange',
         borderColor: 'border-neon-orange/20 hover:border-neon-orange/40',
+        requiresOpen: true,
     },
     {
         icon: FileText,
@@ -32,6 +35,7 @@ const links = [
         href: '#',
         color: 'text-neon-purple',
         borderColor: 'border-neon-purple/20 hover:border-neon-purple/40',
+        requiresOpen: true,
     },
     {
         icon: Shield,
@@ -40,6 +44,7 @@ const links = [
         href: '#',
         color: 'text-white/70',
         borderColor: 'border-white/10 hover:border-white/20',
+        requiresOpen: true,
     },
     {
         icon: Download,
@@ -56,6 +61,7 @@ const links = [
         href: '#',
         color: 'text-white/70',
         borderColor: 'border-white/10 hover:border-white/20',
+        requiresOpen: true,
     },
 ];
 
@@ -65,6 +71,8 @@ const contacts = [
 ];
 
 export default function KelengkapanPage() {
+    const regStatus = useRegistrationStatus();
+
     return (
         <main className="min-h-screen bg-black selection:bg-neon-orange/30 overflow-x-hidden w-full relative">
             <StarDust />
@@ -134,21 +142,41 @@ export default function KelengkapanPage() {
 
                     {/* Links */}
                     <div className="space-y-4">
-                        {links.map((link, i) => (
-                            <Link
-                                key={i}
-                                href={link.href}
-                                target="_blank"
-                                className={`flex items-center gap-4 p-5 rounded-lg border ${link.borderColor} backdrop-blur-xl bg-white/[0.02] hover:bg-white/6 shadow-[0_0_15px_rgba(255,255,255,0.01)] hover:shadow-[0_0_25px_rgba(255,255,255,0.05)] transition-all duration-300 group`}
-                            >
-                                <link.icon className={`w-5 h-5 ${link.color} shrink-0 group-hover:scale-110 transition-transform duration-300`} />
-                                <div className="flex-1 min-w-0">
-                                    <h3 className="font-raela font-bold text-white text-sm">{link.title}</h3>
-                                    <p className="text-white/40 text-xs mt-0.5">{link.description}</p>
+                        {links.map((link, i) => {
+                            const isLocked = link.requiresOpen && regStatus === 'upcoming';
+
+                            return isLocked ? (
+                                <div
+                                    key={i}
+                                    className="flex items-center gap-4 p-5 rounded-lg border border-white/5 backdrop-blur-xl bg-white/[0.01] opacity-50 cursor-not-allowed transition-all duration-300"
+                                >
+                                    <link.icon className="w-5 h-5 text-white/30 shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-3">
+                                            <h3 className="font-raela font-bold text-white/50 text-sm">{link.title}</h3>
+                                            <span className="text-[9px] font-raela font-black tracking-widest uppercase bg-white/10 text-white/50 px-2 py-0.5 rounded-full">
+                                                Coming Soon
+                                            </span>
+                                        </div>
+                                        <p className="text-white/30 text-xs mt-0.5 font-jakarta">{link.description}</p>
+                                    </div>
                                 </div>
-                                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-white/60 group-hover:translate-x-1 transition-all shrink-0" />
-                            </Link>
-                        ))}
+                            ) : (
+                                <Link
+                                    key={i}
+                                    href={link.href}
+                                    target="_blank"
+                                    className={`flex items-center gap-4 p-5 rounded-lg border ${link.borderColor} backdrop-blur-xl bg-white/[0.02] hover:bg-white/6 shadow-[0_0_15px_rgba(255,255,255,0.01)] hover:shadow-[0_0_25px_rgba(255,255,255,0.05)] transition-all duration-300 group`}
+                                >
+                                    <link.icon className={`w-5 h-5 ${link.color} shrink-0 group-hover:scale-110 transition-transform duration-300`} />
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="font-raela font-bold text-white text-sm">{link.title}</h3>
+                                        <p className="text-white/40 text-xs mt-0.5 font-jakarta">{link.description}</p>
+                                    </div>
+                                    <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-white/60 group-hover:translate-x-1 transition-all shrink-0" />
+                                </Link>
+                            );
+                        })}
                     </div>
 
                     {/* Contact */}
