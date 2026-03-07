@@ -219,11 +219,11 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                     <p className="text-white/50 text-xs font-raela uppercase tracking-wider font-bold">Per Tim</p>
                                 </div>
 
-                                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-8">
+                                <div className={`flex-1 ${Array.isArray(data.details.fee) && data.details.fee.length === 1 ? 'flex justify-center md:justify-end w-full' : 'grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-8'}`}>
                                     {(Array.isArray(data.details.fee) ? data.details.fee : []).map((tier, idx) => (
                                         <div
                                             key={idx}
-                                            className="group/tier flex flex-col rounded-3xl relative overflow-hidden border transition-all duration-700 bg-white/[0.01] hover:bg-white/[0.03]"
+                                            className={`group/tier flex flex-col rounded-3xl relative overflow-hidden border transition-all duration-700 bg-white/[0.01] hover:bg-white/[0.03] ${Array.isArray(data.details.fee) && data.details.fee.length === 1 ? 'w-full max-w-sm' : ''}`}
                                             style={{ borderColor: `${data.accentHex}15` }}
                                         >
                                             {/* Tier Header */}
