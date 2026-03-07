@@ -10,6 +10,43 @@ import { Countdown } from '@/components/sections/Countdown';
 import { useState, useEffect } from 'react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 
+// Top-Level Unified Premium Gradient Glow
+const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHex: string, roundedClass?: string }) => {
+    return (
+        <>
+            {/* Layer 1: Immersive Ambient Glow Background */}
+            <div
+                className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 pointer-events-none ${roundedClass}`}
+                style={{ background: `radial-gradient(circle at 100% 0%, ${accentHex} 0%, transparent 80%)` }}
+            />
+
+            {/* Layer 2: Intense Top-Right Flare */}
+            <div
+                className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-10 group-hover:opacity-60 transition-opacity duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 mix-blend-screen max-md:blur-[40px] md:blur-[80px] pointer-events-none"
+                style={{ background: accentHex }}
+            />
+
+            {/* Layer 3: Glowing Gradient Border Mask */}
+            <div
+                className={`absolute inset-0 ${roundedClass} pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0`}
+                style={{
+                    padding: '1px',
+                    background: `linear-gradient(135deg, ${accentHex}90 0%, rgba(255,255,255,0.05) 100%)`,
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude',
+                }}
+            />
+            
+            {/* Layer 4: Inner Glow & Shadow Enhancement */}
+            <div
+                className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 pointer-events-none`}
+                style={{ boxShadow: `inset 0 0 40px ${accentHex}15, 0 10px 40px 0 ${accentHex}25` }}
+            />
+        </>
+    );
+};
+
 export function CompetitionPage({ data }: { data: CompetitionData }) {
     const Icon = data.icon;
     const [currentPhase, setCurrentPhase] = useState(0);
@@ -162,9 +199,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                 boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
                             }}
                         >
-                            <div className="absolute inset-0 opacity-5 group-hover:opacity-15 transition-opacity duration-700 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                            <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10 group-hover:opacity-30 blur-[80px] transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" style={{ background: data.accentHex }} />
-                            <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ border: `1px solid ${data.accentHex}40`, boxShadow: `inset 0 0 20px ${data.accentHex}10` }} />
+                            <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-3xl" />
 
                             <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-8">
                                 <div className="flex-shrink-0">
@@ -235,8 +270,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                     boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
                                 }}
                             >
-                                <div className="absolute inset-0 opacity-5 group-hover:opacity-15 transition-opacity duration-700 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 group-hover:opacity-30 blur-[40px] transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" style={{ background: data.accentHex }} />
+                                <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
                                 
                                 <div className="w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 border border-white/5 bg-white/[0.03] relative z-10">
                                     <Users className="w-7 h-7 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
@@ -255,8 +289,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                     boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
                                 }}
                             >
-                                <div className="absolute inset-0 opacity-5 group-hover:opacity-15 transition-opacity duration-700 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 group-hover:opacity-30 blur-[40px] transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" style={{ background: data.accentHex }} />
+                                <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
 
                                 <div className="w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 border border-white/5 bg-white/[0.03] relative z-10">
                                     <Trophy className="w-7 h-7 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
@@ -295,10 +328,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                     border: '1px solid rgba(255,255,255,0.05)'
                                 }}
                             >
-                                {/* Matched Gradient Underlayers */}
-                                <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 group-hover:opacity-30 blur-[60px] transition-opacity duration-500 -translate-y-1/2 translate-x-1/4 pointer-events-none" style={{ background: data.accentHex }} />
-                                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: `inset 0 0 15px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
+                                <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
 
                                 {/* Large Decorative Watermark Icon */}
                                 <div className="absolute -bottom-8 -right-8 opacity-5 group-hover:opacity-10 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-1000 ease-out pointer-events-none z-0">
@@ -333,9 +363,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                     border: '1px solid rgba(255,255,255,0.05)'
                                 }}
                             >
-                                <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 group-hover:opacity-30 blur-[60px] transition-opacity duration-500 -translate-y-1/2 translate-x-1/4 pointer-events-none" style={{ background: data.accentHex }} />
-                                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: `inset 0 0 15px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
+                                <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
 
                                 <div className="absolute -bottom-8 -right-8 opacity-5 group-hover:opacity-10 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-1000 ease-out pointer-events-none z-0">
                                     <Recycle className="w-64 h-64" style={{ color: data.accentHex }} />
@@ -367,9 +395,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                     border: '1px solid rgba(255,255,255,0.05)'
                                 }}
                             >
-                                <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 group-hover:opacity-30 blur-[60px] transition-opacity duration-500 -translate-y-1/2 translate-x-1/4 pointer-events-none" style={{ background: data.accentHex }} />
-                                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: `inset 0 0 15px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
+                                <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
 
                                 <div className="absolute -bottom-8 -right-8 opacity-5 group-hover:opacity-10 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-1000 ease-out pointer-events-none z-0">
                                     <GraduationCap className="w-64 h-64" style={{ color: data.accentHex }} />
@@ -515,9 +541,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                             border: '1px solid rgba(255,255,255,0.05)'
                                         }}
                                     >
-                                        <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)` }} />
-                                        <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20 group-hover:opacity-50 blur-[30px] transition-opacity duration-500 -translate-y-1/4 translate-x-1/4" style={{ background: data.accentHex }} />
-                                        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: `inset 0 0 10px ${data.accentHex}15`, border: `1px solid ${data.accentHex}80` }} />
+                                        <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
 
                                         <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
                                             <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />

@@ -67,28 +67,41 @@ export function Tracks() {
                         >
                             <Link
                                 href={track.href}
-                                className="group relative block p-8 md:p-10 transition-transform duration-500 overflow-hidden rounded-[24px] shadow-[0_8px_32px_0_rgba(0,0,0,0.2),inset_0_1px_0_0_rgba(255,255,255,0.2)]"
+                                className="group relative block p-8 md:p-10 transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu will-change-transform overflow-hidden rounded-[24px] shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:-translate-y-2"
                                 style={{
-                                    background: 'rgba(255, 255, 255, 0)',
+                                    background: 'rgba(20, 20, 20, 0.4)',
                                     backdropFilter: 'blur(16px)',
                                     WebkitBackdropFilter: 'blur(16px)',
                                 }}
                             >
-                                {/* Gradient Border Mask */}
+                                {/* Layer 1: Immersive Ambient Glow Background */}
                                 <div
-                                    className="absolute inset-0 rounded-[24px] pointer-events-none group-hover:opacity-100 transition-opacity duration-500 opacity-60"
+                                    className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 pointer-events-none rounded-[24px]"
+                                    style={{ background: `radial-gradient(circle at 100% 0%, ${track.accentHex} 0%, transparent 80%)` }}
+                                />
+
+                                {/* Layer 2: Intense Top-Right Flare */}
+                                <div
+                                    className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-10 group-hover:opacity-60 transition-opacity duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 mix-blend-screen max-md:blur-[40px] md:blur-[80px] pointer-events-none"
+                                    style={{ background: track.accentHex }}
+                                />
+
+                                {/* Layer 3: Glowing Gradient Border Mask */}
+                                <div
+                                    className="absolute inset-0 rounded-[24px] pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0"
                                     style={{
                                         padding: '1px',
-                                        background: `linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%)`,
+                                        background: `linear-gradient(135deg, ${track.accentHex}90 0%, rgba(255,255,255,0.05) 100%)`,
                                         WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
                                         WebkitMaskComposite: 'xor',
                                         maskComposite: 'exclude',
                                     }}
                                 />
-                                {/* Accent glow on hover */}
+                                
+                                {/* Layer 4: Inner Glow & Shadow Enhancement */}
                                 <div
-                                    className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-700 max-md:blur-xl md:blur-[60px]"
-                                    style={{ background: track.accentHex }}
+                                    className="absolute inset-0 rounded-[24px] opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 pointer-events-none"
+                                    style={{ boxShadow: `inset 0 0 40px ${track.accentHex}15, 0 10px 40px 0 ${track.accentHex}25` }}
                                 />
 
                                 {/* Icon */}
@@ -104,16 +117,16 @@ export function Tracks() {
 
                                 {/* High-Contrast CTA Button */}
                                 <div className="mt-auto pt-6">
-                                    <div className={`relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm tracking-wide text-white overflow-hidden group/btn shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_${track.accentHex}40]`}>
+                                    <div className={`relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm tracking-wide text-white overflow-hidden group/btn shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 hover:shadow-[0_0_30px_${track.accentHex}40] transform-gpu will-change-transform`}>
                                         {/* Button Background Gradient */}
-                                        <div className={`absolute inset-0 bg-gradient-to-r ${track.color} opacity-90 group-hover/btn:opacity-100 transition-opacity`} />
+                                        <div className={`absolute inset-0 bg-gradient-to-r ${track.color} opacity-90 group-hover/btn:opacity-100 transition-opacity duration-[400ms] ease-out will-change-[opacity] translate-z-0`} />
                                         
                                         {/* Button Inner Shine */}
-                                        <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite]" />
+                                        <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] will-change-[opacity] translate-z-0" />
                                         
                                         <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
                                             Daftar Sekarang
-                                            <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                                            <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu will-change-transform" />
                                         </span>
                                     </div>
                                 </div>
