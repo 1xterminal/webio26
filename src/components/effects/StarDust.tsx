@@ -39,11 +39,31 @@ export function StarDust() {
         const ctx = cvs.getContext('2d');
         if (!ctx) return;
 
+        // Cache the glow gradient — recreated only on resize, not every frame
+        let cachedGlow: CanvasGradient | null = null;
+
+        function buildGlow() {
+            if (!ctx || !cvs) return;
+            const cx = cvs.width * 0.5;
+            const cy = cvs.height * 0.45;
+            const radius = Math.min(cvs.width, cvs.height) * 0.8;
+            const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+            glow.addColorStop(0, 'rgba(160, 165, 180, 0.025)');
+            glow.addColorStop(0.4, 'rgba(155, 160, 175, 0.025)');
+            glow.addColorStop(0.7, 'rgba(140, 145, 165, 0.02)');
+            glow.addColorStop(0.9, 'rgba(100, 110, 140, 0.008)');
+            glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            cachedGlow = glow;
+        }
+
         function resize() {
             if (!cvs) return;
             cvs.width = window.innerWidth;
             cvs.height = window.innerHeight;
+            // Rebuild gradient on every resize since canvas dimensions changed
+            buildGlow();
         }
+
         resize();
 
         motes.current = Array.from({ length: MOTE_COUNT }, () =>
@@ -61,29 +81,24 @@ export function StarDust() {
             phase: 0,
         });
 
+        // Pre-cache fillStyle strings per mote — alpha never changes so this is safe
+        const moteColors = motes.current.map(m => `rgba(220,220,230,${m.alpha})`);
+
         function render() {
             if (!ctx || !cvs) return;
             
-            // Bypass extremely expensive particle math and canvas draws entirely on mobile viewports
+            // Skip all canvas work on mobile to eliminate CPU overhead entirely
             if (window.innerWidth >= 768) {
                 ctx.clearRect(0, 0, cvs.width, cvs.height);
 
-                const cx = cvs.width * 0.5;
-                const cy = cvs.height * 0.45;
-                const radius = Math.min(cvs.width, cvs.height) * 0.8;
-                
-                // PERFORMANCE: Draw glow only if it's the first frame or needed (Actually better to use CSS for this)
-                // For now, let's keep it but ideally this should be a static layer.
-                const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-                glow.addColorStop(0, 'rgba(160, 165, 180, 0.025)');
-                glow.addColorStop(0.4, 'rgba(155, 160, 175, 0.025)');
-                glow.addColorStop(0.7, 'rgba(140, 145, 165, 0.02)');
-                glow.addColorStop(0.9, 'rgba(100, 110, 140, 0.008)');
-                glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-                ctx.fillStyle = glow;
-                ctx.fillRect(0, 0, cvs.width, cvs.height);
+                // Use the cached glow gradient — zero allocations per frame
+                if (cachedGlow) {
+                    ctx.fillStyle = cachedGlow;
+                    ctx.fillRect(0, 0, cvs.width, cvs.height);
+                }
 
-                for (const m of motes.current) {
+                for (let i = 0; i < motes.current.length; i++) {
+                    const m = motes.current[i];
                     m.x += m.vx;
                     m.y += m.vy;
                     if (m.x < -5) m.x = cvs.width + 5;
@@ -93,9 +108,8 @@ export function StarDust() {
 
                     ctx.beginPath();
                     ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
-                    // Use a cached string for color if possible, but particles have different alphas?
-                    // No, they have fixed alphas in this implementation.
-                    ctx.fillStyle = `rgba(220,220,230,${m.alpha})`;
+                    // Use pre-cached color string — no string allocation per frame
+                    ctx.fillStyle = moteColors[i];
                     ctx.fill();
                 }
             }
@@ -104,7 +118,7 @@ export function StarDust() {
         }
 
         render();
-        window.addEventListener('resize', resize);
+        window.addEventListener('resize', resize, { passive: true });
         return () => {
             cancelAnimationFrame(raf.current);
             window.removeEventListener('resize', resize);

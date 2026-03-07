@@ -171,42 +171,28 @@ export function CompetitionPage({ slug }: { slug: string }) {
             />
             <StarDust />
 
-            {/* Floating 3D Background Elements - Migrated to Pure CSS for Zero-JS Teleport Bug Fix */}
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                @keyframes native-float-1 {
-                    0%, 100% { transform: translateY(0px) rotate(0deg); }
-                    50% { transform: translateY(-30px) rotate(5deg); }
-                }
-                @keyframes native-float-2 {
-                    0%, 100% { transform: translateY(0px) rotate(0deg); }
-                    50% { transform: translateY(40px) rotate(-10deg); }
-                }
-                @keyframes native-flare {
-                    0%, 100% { opacity: 0.15; }
-                    50% { opacity: 0.3; }
-                }
-            `}} />
+            {/* Floating 3D Background Elements — keyframes now in globals.css */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
                 <div
                     className="absolute -top-20 -right-20 w-100 h-100 opacity-40 max-md:blur-none blur-[2px] max-md:hidden transform-gpu"
                     style={{ animation: 'native-float-1 10s ease-in-out infinite', willChange: 'transform' }}
                 >
-                    <Image src="/assets/element/ELEMEN 3.png" alt="" width={400} height={400} className="object-contain" priority />
+                    <Image src="/assets/element/ELEMEN 3.png" alt="" width={400} height={400} className="object-contain" />
                 </div>
                 <div
                     className="absolute top-1/2 -left-32 w-87.5 h-87.5 opacity-30 max-md:blur-none blur-xs transform-gpu"
                     style={{ animation: 'native-float-2 15s ease-in-out infinite 2s', willChange: 'transform' }}
                 >
-                    <Image src="/assets/element/ELEMEN 2.png" alt="" width={350} height={350} className="object-contain" priority />
+                    <Image src="/assets/element/ELEMEN 2.png" alt="" width={350} height={350} className="object-contain" />
                 </div>
                 <div
                     className="absolute bottom-[-10%] right-[10%] w-125 h-125 transform-gpu"
                     style={{ animation: 'native-flare 8s ease-in-out infinite', willChange: 'opacity' }}
                 >
-                    <Image src="/assets/element/ELEMEN FLARE 1.png" alt="" width={500} height={500} className="object-contain" priority />
+                    <Image src="/assets/element/ELEMEN FLARE 1.png" alt="" width={500} height={500} className="object-contain" />
                 </div>
             </div>
+
 
             <div className="pt-28 pb-20 px-4 relative z-10">
                 <div className="max-w-3xl mx-auto">

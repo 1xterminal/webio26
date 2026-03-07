@@ -9,22 +9,7 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center">
 
-      {/* Light leaks & 3D Elements - Migrated to Pure CSS for Zero-JS Render Teleport Bug Fix */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes hero-glow-1 {
-            0%, 100% { transform: translate(0px, 0px); opacity: 0.35; }
-            50% { transform: translate(30px, -20px); opacity: 0.5; }
-        }
-        @keyframes hero-glow-2 {
-            0%, 100% { transform: translate(0px, 0px); opacity: 0.15; }
-            50% { transform: translate(-25px, 20px); opacity: 0.25; }
-        }
-        @keyframes hero-glow-3 {
-            0%, 100% { transform: translate(0px, 0px); opacity: 0.2; }
-            50% { transform: translate(15px, -15px); opacity: 0.35; }
-        }
-      `}} />
+      {/* Light leaks & 3D Elements */}
       <div className="absolute inset-0 z-0 pointer-events-none" style={{ isolation: 'isolate' }}>
         <div
           className="absolute -top-50 -right-37.5 w-125 h-125 rounded-full transform-gpu max-md:hidden blur-[150px] pointer-events-none"
@@ -39,24 +24,25 @@ export function Hero() {
           style={{ background: '#55D5E7', animation: 'hero-glow-3 14s ease-in-out infinite', willChange: 'transform, opacity' }}
         />
 
+
         {/* Static 3D Elements */}
-        {/* Top left cluster */}
+        {/* Top left cluster — only the main above-fold image is priority */}
         <Image src="/assets/element/ELEMEN%202.png" alt="" width={400} height={400} className="absolute top-[2%] left-[2%] w-[25vw] md:w-64 lg:w-80 opacity-40 md:opacity-60 object-contain rotate-12" priority />
-        <Image src="/assets/element/ELEMEN%209.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[35%] left-[5%] w-[15vw] md:w-32 lg:w-40 opacity-20 md:opacity-40 object-contain -rotate-12" priority />
+        <Image src="/assets/element/ELEMEN%209.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[35%] left-[5%] w-[15vw] md:w-32 lg:w-40 opacity-20 md:opacity-40 object-contain -rotate-12" />
 
-        {/* Top right cluster */}
+        {/* Top right cluster — only the main above-fold image is priority */}
         <Image src="/assets/element/ELEMEN%205.png" alt="" width={400} height={400} className="absolute top-[5%] right-[2%] w-[20vw] md:w-48 lg:w-72 opacity-40 md:opacity-60 object-contain -rotate-6" priority />
-        <Image src="/assets/element/ELEMEN%206.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[38%] right-[4%] w-[12vw] md:w-40 opacity-30 md:opacity-50 object-contain rotate-12" priority />
+        <Image src="/assets/element/ELEMEN%206.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[38%] right-[4%] w-[12vw] md:w-40 opacity-30 md:opacity-50 object-contain rotate-12" />
 
-        {/* Bottom left cluster */}
-        <Image src="/assets/element/ELEMEN%207.png" alt="" width={400} height={400} className="absolute bottom-[2%] left-[3%] w-[20vw] md:w-56 lg:w-64 opacity-30 md:opacity-50 object-contain rotate-30" priority />
-        <Image src="/assets/element/ELEMEN%2010.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[28%] left-[12%] w-[10vw] md:w-32 opacity-20 md:opacity-40 object-contain -rotate-12" priority />
+        {/* Bottom left cluster — lazy load; below the fold on initial view */}
+        <Image src="/assets/element/ELEMEN%207.png" alt="" width={400} height={400} className="absolute bottom-[2%] left-[3%] w-[20vw] md:w-56 lg:w-64 opacity-30 md:opacity-50 object-contain rotate-30" />
+        <Image src="/assets/element/ELEMEN%2010.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[28%] left-[12%] w-[10vw] md:w-32 opacity-20 md:opacity-40 object-contain -rotate-12" />
 
-        {/* Bottom right cluster */}
-        <Image src="/assets/element/ELEMEN%20%208.png" alt="" width={400} height={400} className="absolute bottom-[5%] right-[2%] w-[30vw] md:w-72 lg:w-80 opacity-40 md:opacity-60 object-contain -rotate-12" priority />
-        <Image src="/assets/element/ELEMEN%2010.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[40%] right-[10%] w-[12vw] md:w-40 opacity-20 md:opacity-40 object-contain rotate-45" priority />
+        {/* Bottom right cluster — lazy load; below the fold */}
+        <Image src="/assets/element/ELEMEN%20%208.png" alt="" width={400} height={400} className="absolute bottom-[5%] right-[2%] w-[30vw] md:w-72 lg:w-80 opacity-40 md:opacity-60 object-contain -rotate-12" />
+        <Image src="/assets/element/ELEMEN%2010.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[40%] right-[10%] w-[12vw] md:w-40 opacity-20 md:opacity-40 object-contain rotate-45" />
 
-        {/* Center/Midground cluster (Deep behind glass) */}
+        {/* Center/Midground cluster — lazy, behind glass */}
         <Image src="/assets/element/ELEMEN%203.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[18%] left-[40%] w-64 opacity-40 object-contain -z-10 -rotate-6" priority />
         <Image src="/assets/element/ELEMEN%202.png" alt="" width={400} height={400} className="max-md:hidden absolute bottom-[18%] right-[40%] w-48 opacity-30 object-contain -z-10 rotate-12" priority />
         <Image src="/assets/element/ELEMEN%209.png" alt="" width={400} height={400} className="max-md:hidden absolute top-[45%] left-[25%] w-56 opacity-35 object-contain -z-10 rotate-45" priority />
