@@ -619,7 +619,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                 {data.contacts.map((cp, idx) => (
                                     <div 
                                         key={idx}
-                                        className="group/cp relative p-6 md:p-8 rounded-3xl backdrop-blur-xl border border-white/5 flex flex-col transition-transform duration-500 overflow-hidden hover:-translate-y-1"
+                                        className="group relative p-6 md:p-8 rounded-3xl backdrop-blur-xl border border-white/5 flex flex-col transition-transform duration-500 overflow-hidden hover:-translate-y-1"
                                         style={{ 
                                             background: 'rgba(20,20,20,0.6)',
                                             boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)' 
@@ -632,7 +632,7 @@ export function CompetitionPage({ data }: { data: CompetitionData }) {
                                                 <h3 className="font-raela font-black text-xl text-white tracking-wide">{cp.name}</h3>
                                                 <p className="text-white/40 text-xs uppercase tracking-[0.2em] font-bold mt-1">Official CP</p>
                                             </div>
-                                            <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/cp:scale-110 shadow-xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent">
+                                            <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-500 group-hover:scale-110 shadow-xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent">
                                                 <Users className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
                                             </div>
                                         </div>
