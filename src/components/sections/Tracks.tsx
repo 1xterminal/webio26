@@ -15,6 +15,7 @@ const tracks = [
         color: 'from-neon-purple to-purple-600',
         accentHex: '#A856EE',
         href: '/kompetisi/ui-ux',
+        tags: ['SMA/SMK', 'Mahasiswa'],
     },
     {
         icon: WebDevIcon,
@@ -23,6 +24,7 @@ const tracks = [
         color: 'from-neon-blue to-blue-600',
         accentHex: '#1DBCD3',
         href: '/kompetisi/web-dev',
+        tags: ['SMA/SMK', 'Mahasiswa'],
     },
     {
         icon: BusinessCaseIcon,
@@ -31,6 +33,7 @@ const tracks = [
         color: 'from-neon-orange to-orange-600',
         accentHex: '#FF8B53',
         href: '/kompetisi/business-case',
+        tags: ['Mahasiswa'],
     }
 ];
 
@@ -104,14 +107,27 @@ export function Tracks() {
                                     style={{ boxShadow: `inset 0 0 40px ${track.accentHex}15, 0 10px 40px 0 ${track.accentHex}25` }}
                                 />
 
-                                {/* Icon */}
-                                <div className="mb-6 group-hover:scale-110 transition-transform duration-300 origin-left">
-                                    <track.icon className="w-20 h-20 md:w-24 md:h-24 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
+                                {/* Icon and Tags Header */}
+                                <div className="flex justify-between items-start mb-6">
+                                    <div className="group-hover:scale-110 transition-transform duration-300 origin-left">
+                                        <track.icon className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
+                                    </div>
+                                    <div className="flex flex-col gap-2 items-end">
+                                        {track.tags.map((tag, idx) => (
+                                            <span 
+                                                key={idx} 
+                                                className="px-2.5 py-1 rounded-full text-[10px] md:text-xs font-raela font-bold uppercase tracking-wider backdrop-blur-md bg-white/5 border border-white/10"
+                                                style={{ color: track.accentHex }}
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
 
                                 {/* Content */}
-                                <h3 className="font-raela font-bold text-2xl text-white mb-3">{track.title}</h3>
-                                <p className="text-white/50 text-sm leading-relaxed mb-8">
+                                <h3 className="font-raela font-bold text-2xl lg:text-3xl text-white mb-3 leading-tight">{track.title}</h3>
+                                <p className="text-white/50 text-sm leading-relaxed mb-6">
                                     {track.description}
                                 </p>
 
