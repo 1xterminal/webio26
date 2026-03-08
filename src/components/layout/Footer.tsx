@@ -8,7 +8,6 @@ import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 const quickLinks = [
   { name: 'Schedule', href: '/#timeline' },
   { name: 'FAQ', href: '/#faq' },
-  { name: 'Resources', href: '/kelengkapan' },
 ];
 
 const competitionLinks = [

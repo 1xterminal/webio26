@@ -7,31 +7,31 @@ import { Plus, Minus } from 'lucide-react';
 const faqs = [
     {
         question: "Siapa pihak yang dapat mendaftar?",
-        answer: "I/O Festival 2026 menyambut pelajar SMA sederajat, mahasiswa aktif, dan masyarakat umum. Semua pihak berhak bergabung."
+        answer: "I/O Festival 2026 menyambut pelajar SMA/SMK/sederajat, mahasiswa aktif, dan masyarakat umum."
     },
     {
         question: "Apa saja kategori kompetisi yang tersedia?",
-        answer: "Terdapat lima kategori perlombaan. Kategori tersebut meliputi Business Case Tingkat Umum, UI/UX Design Tingkat Umum, Web Development Tingkat Umum, UI/UX Design Tingkat Siswa, dan Web Development Tingkat Siswa."
+        answer: "Terdapat lima kategori perlombaan, yaitu: Business Case Tingkat Umum/Mahasiswa, UI/UX Design Tingkat Umum/Mahasiswa, Web Development Tingkat Umum/Mahasiswa, UI/UX Design Tingkat Siswa, dan Web Development Tingkat Siswa."
     },
     {
         question: "Bagaimana tahapan kompetisi ini?",
-        answer: "Kompetisi berlangsung dalam dua tahap. Babak Penyisihan berlangsung secara daring. Babak Grand Final berlangsung secara luring di kampus UNTAR. Pada babak penyisihan, peserta mengirim proposal dan tautan karya. Lima tim terbaik pada setiap cabang berhak melaju ke Grand Final."
+        answer: "Kompetisi berlangsung dalam dua tahap. Babak Penyisihan berlangsung secara daring dengan mengumpulkan proposal dan progres karya. Lima tim terbaik (Top 5) pada setiap cabang berhak melaju ke babak Grand Final yang diselenggarakan secara luring (offline) di kampus Universitas Tarumanagara."
     },
     {
         question: "Apa fungsi dari Impact Projection?",
-        answer: "Impact Projection mengevaluasi seberapa besar kegunaan suatu karya bagi masyarakat. Elemen ini menjadi penentu utama kemenangan peserta."
+        answer: "Impact Projection mengevaluasi seberapa terukur, realistis, dan aplikatif solusi yang ditawarkan bagi masyarakat. Elemen ini memiliki bobot penilaian tertinggi dan menjadi penentu utama kemenangan peserta."
     },
     {
         question: "Berapa batas jumlah anggota tim?",
-        answer: "Satu tim berisi tiga hingga lima orang. Satu orang bertindak sebagai ketua tim. Seluruh anggota tim wajib menempuh pendidikan pada institusi yang sama."
+        answer: "Satu tim terdiri dari minimal 1 orang dan maksimal 3 orang. Seluruh anggota tim wajib menempuh pendidikan pada institusi yang sama."
     },
     {
-        question: "Apakah peserta berhak mendaftar pada dua cabang kompetisi?",
-        answer: "Peserta berhak mendaftar pada beberapa cabang kompetisi. Peserta harus menggunakan susunan tim yang berbeda. Satu orang hanya dapat bergabung dalam satu tim per cabang kompetisi."
+        question: "Apakah peserta berhak mendaftar pada dua cabang kompetisi yang berbeda?",
+        answer: "Tidak. Apabila peserta sudah mendaftar pada satu cabang lomba, peserta tersebut tidak diperbolehkan untuk mendaftarkan diri pada cabang lomba lainnya."
     },
     {
         question: "Apa hadiah bagi para pemenang?",
-        answer: "Para pemenang menerima uang tunai, piala, dan sertifikat resmi. Pemenang juga berkesempatan melaksanakan program magang di perusahaan mitra I/O FESTIVAL 2026."
+        answer: "Para pemenang akan mendapatkan uang pembinaan (Total Prize Pool jutaan rupiah) dan E-Sertifikat penghargaan resmi."
     }
 ];
 

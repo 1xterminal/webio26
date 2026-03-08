@@ -35,6 +35,7 @@ export interface CompetitionData {
     details: CompetitionDetails;
     contacts: CompetitionContact[];
     rulebookUrl?: string;
+    submissionUrl?: string;
 }
 
 export const competitions: CompetitionData[] = [
@@ -62,6 +63,7 @@ export const competitions: CompetitionData[] = [
             { name: 'NAMA CP 2', whatsapp: '6281234567891', line: 'linecp2' }
         ],
         rulebookUrl: '#',
+        submissionUrl: '#',
     },
     {
         slug: 'web-dev',
@@ -86,6 +88,7 @@ export const competitions: CompetitionData[] = [
             { name: 'NAMA CP 4', whatsapp: '6281234567893', line: 'linecp4' }
         ],
         rulebookUrl: '#',
+        submissionUrl: '#',
     },
     {
         slug: 'business-case',
@@ -110,6 +113,7 @@ export const competitions: CompetitionData[] = [
             { name: 'NAMA CP 6', whatsapp: '6281234567895', line: 'linecp6' }
         ],
         rulebookUrl: '#',
+        submissionUrl: '#',
     },
 ];
 

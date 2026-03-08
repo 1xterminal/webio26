@@ -12,7 +12,6 @@ const navItems = [
   { name: 'Competition', href: '/#tracks', hasDropdown: true },
   { name: 'Schedule', href: '/#timeline' },
   { name: 'FAQ', href: '/#faq' },
-  { name: 'Resources', href: '/kelengkapan' },
 ];
 
 export function Navbar() {
@@ -100,7 +99,7 @@ export function Navbar() {
 
           <div className="flex items-center gap-4">
             {regStatus === 'open' ? (
-              <Link href="/kelengkapan" className={`hidden md:block bg-white text-black rounded-full font-raela font-black tracking-tight hover:bg-neon-orange hover:text-white hover:shadow-[0_0_20px_rgba(255,139,83,0.4)] ${transitionClass} transform hover:-translate-y-0.5 ${isScrolled ? 'px-5 py-2 text-sm' : 'px-6 py-2.5 text-base'}`}>
+              <Link href="#" className={`hidden md:block bg-white text-black rounded-full font-raela font-black tracking-tight hover:bg-neon-orange hover:text-white hover:shadow-[0_0_20px_rgba(255,139,83,0.4)] ${transitionClass} transform hover:-translate-y-0.5 ${isScrolled ? 'px-5 py-2 text-sm' : 'px-6 py-2.5 text-base'}`}>
                 Register
               </Link>
             ) : (
@@ -150,7 +149,7 @@ export function Navbar() {
                     </div>
                     {regStatus === 'open' ? (
                       <Link
-                        href="/kelengkapan"
+                        href="#"
                         onClick={() => setShowDropdown(false)}
                         className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors mt-6 group"
                       >
@@ -257,7 +256,7 @@ export function Navbar() {
               )
             )}
             {regStatus === 'open' ? (
-              <Link href="/kelengkapan" onClick={() => setIsOpen(false)} className="mt-8 bg-neon-orange text-white px-8 py-3 rounded-full font-bold text-lg tracking-wider shadow-[0_0_20px_rgba(255,139,83,0.4)]">
+              <Link href="#" onClick={() => setIsOpen(false)} className="mt-8 bg-neon-orange text-white px-8 py-3 rounded-full font-bold text-lg tracking-wider shadow-[0_0_20px_rgba(255,139,83,0.4)]">
                 Register
               </Link>
             ) : (

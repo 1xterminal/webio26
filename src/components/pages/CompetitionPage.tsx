@@ -37,7 +37,7 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
                     maskComposite: 'exclude',
                 }}
             />
-            
+
             {/* Layer 4: Inner Glow & Shadow Enhancement */}
             <div
                 className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 pointer-events-none`}
@@ -76,7 +76,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
             }
             setCurrentPhase(phase);
         };
-        
+
         // Delay execution slightly to bypass strict synchronous state update linter
         const timeoutId = setTimeout(calculateInitialPhase, 0);
         const interval = setInterval(calculateInitialPhase, 1000 * 60 * 60);
@@ -197,9 +197,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
             <div className="pt-28 pb-20 px-4 relative z-10">
                 <div className="max-w-3xl mx-auto">
                     {/* Visible Breadcrumbs for SEO & UX */}
-                    <motion.nav 
-                        initial={{ opacity: 0, y: -10 }} 
-                        animate={{ opacity: 1, y: 0 }} 
+                    <motion.nav
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                         className="mb-8 flex items-center gap-2 text-[10px] font-raela font-bold uppercase tracking-[0.2em] text-white/30"
                         aria-label="Breadcrumb navigation"
@@ -335,7 +335,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                                             {/* Corner Visual Accent */}
                                             <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/5 to-transparent pointer-events-none -translate-y-1/2 translate-x-1/2 rounded-full" />
-                                            
+
                                             {/* Hover Glow Sweep */}
                                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover/tier:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                                         </div>
@@ -354,7 +354,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 }}
                             >
                                 <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
-                                
+
                                 <div className="w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 border border-white/5 bg-white/[0.03] relative z-10">
                                     <Users className="w-7 h-7 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
                                 </div>
@@ -569,7 +569,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         </div>
                     </motion.div>
 
-                    {/* Downloads Section */}
+                    {/* Downloads Section - Redesigned */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -577,18 +577,16 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         className="mb-16 block"
                     >
                         <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-6 font-black">Kelengkapan Lomba</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {[
-                                { title: 'Rulebook', desc: 'Panduan lengkap', href: data.rulebookUrl || '#' },
-                                { title: 'Orisinalitas', desc: 'Format surat resmi', href: '/assets/documents/Surat_Pernyataan_Orisinalitas.pdf' },
-                                { title: 'Twibbon', desc: 'Aset sosial media', href: '/assets/documents/Twibbon.zip' },
-                            ].map((doc, idx) => {
+
+                        <div className="flex flex-col gap-4">
+                            {/* Big Rulebook Card (Full Width) */}
+                            {(() => {
                                 const isLocked = regStatus === 'upcoming';
-                                
+                                const rb = { title: 'Rulebook', desc: 'Panduan lengkap dan aturan kompetisi', href: data.rulebookUrl || '#' };
+
                                 return isLocked ? (
                                     <div
-                                        key={idx}
-                                        className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
+                                        className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
                                         style={{
                                             background: 'rgba(20, 20, 20, 0.6)',
                                             boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
@@ -596,50 +594,138 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                         }}
                                     >
                                         <div className="absolute inset-0 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)`, opacity: 0.05 }} />
-                                        
-                                        <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
-                                            <ExternalLink className="w-5 h-5 text-white/30" />
+
+                                        <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
+                                            <ExternalLink className="w-8 h-8 text-white/30" />
                                         </div>
 
-                                        <div className="relative z-10 flex-1 w-full flex flex-col h-full">
-                                            <div className="flex items-center gap-3 mb-1">
-                                                <span className="text-white/50 font-bold text-base font-raela">{doc.title}</span>
+                                        <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                            <div>
+                                                <div className="flex items-center gap-3 mb-1">
+                                                    <span className="text-white/50 font-bold text-xl md:text-2xl font-raela">{rb.title}</span>
+                                                    <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-white/5 text-white/30 font-raela">PDF</span>
+                                                </div>
+                                                <span className="text-white/30 text-sm">{rb.desc}</span>
                                             </div>
-                                            <span className="text-white/30 text-xs block mb-4">{doc.desc}</span>
-                                            <div className="mt-auto flex items-center gap-2 text-[10px] font-raela font-black uppercase tracking-widest text-white/50 bg-white/10 w-fit px-3 py-1.5 rounded-full border border-white/5">
+                                            <div className="flex items-center gap-2 text-xs font-raela font-black uppercase tracking-widest text-white/50 bg-white/10 w-fit px-4 py-2 rounded-full border border-white/5">
                                                 Coming Soon
                                             </div>
                                         </div>
                                     </div>
                                 ) : (
                                     <a
-                                        key={idx}
-                                        href={doc.href}
+                                        href={rb.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
+                                        className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
                                         style={{
                                             background: 'rgba(20, 20, 20, 0.6)',
                                             boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
                                             border: '1px solid rgba(255,255,255,0.05)'
                                         }}
                                     >
-                                        <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
+                                        <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-3xl" />
 
-                                        <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
-                                            <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
+                                        <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                            <ExternalLink className="w-8 h-8 text-white" style={{ filter: `drop-shadow(0 0 12px ${data.accentHex})` }} />
                                         </div>
 
-                                        <div className="relative z-10 flex-1 w-full flex flex-col h-full">
-                                            <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">{doc.title}</span>
-                                            <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">{doc.desc}</span>
-                                            <div className="mt-auto flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-3 py-1.5 rounded-full group-hover:bg-white/20 transition-colors">
-                                                Buka Tautan <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
+                                        <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                            <div>
+                                                <div className="flex items-center gap-3 mb-1">
+                                                    <span className="text-white font-bold text-xl md:text-2xl font-raela group-hover:text-white transition-colors">{rb.title}</span>
+                                                    <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela">PDF</span>
+                                                </div>
+                                                <span className="text-white/50 text-sm group-hover:text-white/80 transition-colors">{rb.desc}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-4 py-2 rounded-full group-hover:bg-white/20 transition-colors">
+                                                Buka Tautan <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" />
                                             </div>
                                         </div>
                                     </a>
                                 );
-                            })}
+                            })()}
+
+                            {/* 3 Smaller Cards */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                {[
+                                    { title: 'Orisinalitas', desc: 'Pernyataan keaslian', href: '/downloads/LEMBAR PERNYATAAN ORISINALITAS KARYA.docx', type: 'DOCX', comingSoon: false },
+                                    { title: 'Logo I/O Fest', desc: 'Aset resmi tim', href: '/downloads/logo-iofest-2026.png', type: 'PNG', comingSoon: false },
+                                    { title: 'Twibbon', desc: 'Frame foto resmi', href: '#', type: 'PNG', comingSoon: true },
+                                ].map((doc, idx) => {
+                                    const isLocked = doc.comingSoon && regStatus === 'upcoming';
+
+                                    const badgeColor = doc.type === 'DOCX' ? 'bg-blue-500/10 text-blue-400'
+                                        : doc.type === 'PNG' ? 'bg-emerald-500/10 text-emerald-400'
+                                            : 'bg-white/5 text-white/30';
+
+                                    return isLocked ? (
+                                        <div
+                                            key={idx}
+                                            className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
+                                            style={{
+                                                background: 'rgba(20, 20, 20, 0.6)',
+                                                boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+                                                border: '1px solid rgba(255,255,255,0.05)'
+                                            }}
+                                        >
+                                            <div className="absolute inset-0 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)`, opacity: 0.05 }} />
+
+                                            <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
+                                                <ExternalLink className="w-5 h-5 text-white/30" />
+                                            </div>
+
+                                            <div className="relative z-10 flex-1 w-full flex flex-col h-full">
+                                                <div className="flex items-center gap-2 flex-wrap mb-1">
+                                                    <span className="text-white/50 font-bold text-base font-raela">{doc.title}</span>
+                                                </div>
+                                                <span className="text-white/30 text-xs block mb-4">{doc.desc}</span>
+                                                <div className="mt-auto flex items-center justify-between w-full">
+                                                    <span className={`text-[9px] font-bold tracking-wider px-2 py-1 rounded-md bg-white/5 text-white/30 font-raela`}>
+                                                        {doc.type}
+                                                    </span>
+                                                    <span className="text-[9px] font-raela font-black uppercase tracking-widest text-white/50 bg-white/10 px-2 py-1 rounded-md border border-white/5">
+                                                        Wait
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <a
+                                            key={idx}
+                                            href={doc.href}
+                                            download={doc.type !== 'LINK'}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
+                                            style={{
+                                                background: 'rgba(20, 20, 20, 0.6)',
+                                                boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+                                                border: '1px solid rgba(255,255,255,0.05)'
+                                            }}
+                                        >
+                                            <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
+
+                                            <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                                <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
+                                            </div>
+
+                                            <div className="relative z-10 flex-1 w-full flex flex-col h-full">
+                                                <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">{doc.title}</span>
+                                                <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">{doc.desc}</span>
+                                                <div className="mt-auto flex items-center justify-between w-full">
+                                                    <span className={`text-[9px] font-bold tracking-wider px-2 py-1 rounded-md ${badgeColor} font-raela`}>
+                                                        {doc.type}
+                                                    </span>
+                                                    <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-white bg-white/10 px-2 py-1 rounded-md group-hover:bg-white/20 transition-colors">
+                                                        <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </motion.div>
 
@@ -652,23 +738,38 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     >
                         <h3 className="font-raela font-bold text-2xl text-white mb-4">Siap Berkompetisi?</h3>
                         <p className="text-white/50 mb-8">Daftarkan tim Anda hari ini. Tunjukkan kemampuan Anda pada tingkat nasional.</p>
-                        {regStatus === 'open' ? (
-                            <Link
-                                href="/kelengkapan"
-                                className="inline-flex items-center gap-3 bg-white text-black font-bold text-lg px-10 py-4 hover:bg-white/90 transition-colors uppercase tracking-widest"
-                            >
-                                DAFTAR <ArrowRight className="w-5 h-5" />
-                            </Link>
-                        ) : (
-                            <span
-                                className={`inline-flex items-center gap-3 font-bold text-lg px-10 py-4 uppercase tracking-widest cursor-not-allowed ${regStatus === 'upcoming'
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            {regStatus === 'open' ? (
+                                <Link
+                                    href="#"
+                                    className="inline-flex items-center justify-center gap-3 bg-white text-black font-bold text-base px-8 py-4 hover:bg-white/90 transition-colors uppercase tracking-widest min-w-[200px]"
+                                >
+                                    DAFTAR <ArrowRight className="w-5 h-5" />
+                                </Link>
+                            ) : (
+                                <span
+                                    className={`inline-flex items-center justify-center gap-3 font-bold text-base px-8 py-4 uppercase tracking-widest cursor-not-allowed min-w-[200px] ${regStatus === 'upcoming'
                                         ? 'bg-white/20 text-white/50'
                                         : 'bg-white/10 text-white/30'
+                                        }`}
+                                >
+                                    {regStatus === 'upcoming' ? 'SEGERA DIBUKA' : 'PENDAFTARAN DITUTUP'}
+                                </span>
+                            )}
+
+                            {/* Kumpulin Karya Button */}
+                            <a
+                                href={data.submissionUrl || '#'}
+                                target={data.submissionUrl === '#' ? '_self' : '_blank'}
+                                rel="noopener noreferrer"
+                                className={`inline-flex items-center justify-center gap-3 font-bold text-base px-8 py-4 uppercase tracking-widest min-w-[200px] border transition-colors ${data.submissionUrl === '#' || regStatus === 'upcoming'
+                                    ? 'border-white/10 text-white/30 cursor-not-allowed bg-black/50'
+                                    : 'border-white/30 text-white hover:bg-white/10 hover:border-white/50 bg-black'
                                     }`}
                             >
-                                {regStatus === 'upcoming' ? 'SEGERA DIBUKA' : 'PENDAFTARAN DITUTUP'}
-                            </span>
-                        )}
+                                KUMPULIN KARYA <ArrowRight className="w-5 h-5" />
+                            </a>
+                        </div>
                     </motion.div>
 
                     {/* Contact Person - Premium Redesign */}
@@ -691,16 +792,16 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
                                 {data.contacts.map((cp, idx) => (
-                                    <div 
+                                    <div
                                         key={idx}
                                         className="group relative p-6 md:p-8 rounded-3xl backdrop-blur-xl border border-white/5 flex flex-col transition-transform duration-500 overflow-hidden hover:-translate-y-1"
-                                        style={{ 
+                                        style={{
                                             background: 'rgba(20,20,20,0.6)',
-                                            boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)' 
+                                            boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)'
                                         }}
                                     >
                                         <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-3xl" />
-                                        
+
                                         <div className="relative z-10 flex items-center justify-between mb-8 pb-6 border-b border-white/10">
                                             <div>
                                                 <h3 className="font-raela font-black text-xl text-white tracking-wide">{cp.name}</h3>
@@ -710,9 +811,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 <Users className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
                                             </div>
                                         </div>
-                                        
+
                                         <div className="relative z-10 flex gap-3 mt-auto">
-                                            <a 
+                                            <a
                                                 href={`https://wa.me/${cp.whatsapp}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
@@ -720,17 +821,17 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 style={{ '--btn-hover-color': data.accentHex } as React.CSSProperties}
                                             >
                                                 <span className="relative z-10 drop-shadow-md">WhatsApp</span>
-                                                <div 
+                                                <div
                                                     className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-300"
                                                     style={{ backgroundColor: data.accentHex }}
                                                 />
-                                                <div 
+                                                <div
                                                     className="absolute inset-0 border-2 rounded-2xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none"
                                                     style={{ borderColor: data.accentHex }}
                                                 />
                                             </a>
 
-                                            <a 
+                                            <a
                                                 href={`https://line.me/ti/p/~${cp.line}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
@@ -738,11 +839,11 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 style={{ '--btn-hover-color': data.accentHex } as React.CSSProperties}
                                             >
                                                 <span className="relative z-10 drop-shadow-md">LINE</span>
-                                                <div 
+                                                <div
                                                     className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-300"
                                                     style={{ backgroundColor: data.accentHex }}
                                                 />
-                                                <div 
+                                                <div
                                                     className="absolute inset-0 border-2 rounded-2xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none"
                                                     style={{ borderColor: data.accentHex }}
                                                 />
