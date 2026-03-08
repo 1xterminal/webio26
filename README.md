@@ -6,6 +6,7 @@ built with:
 - next.js
 - typescript
 - a questionable amount of caffeine
+- an ungodly amount of performance issues and other fuckery that make me question my sanity and my life
 
 live:
 https://iofest.com
