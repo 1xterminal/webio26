@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { competitions } from '@/lib/competitions';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 
@@ -27,12 +27,11 @@ export function Navbar() {
     ? 'transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]'
     : 'transition-all duration-300 ease-[cubic-bezier(0.7,0,0.84,0)]';
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsScrolled(latest > 50);
+  });
 
   const handleMouseEnter = () => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
@@ -52,7 +51,7 @@ export function Navbar() {
         className={`fixed top-0 left-0 w-full z-[60] flex justify-center pointer-events-none ${transitionClass} ${isScrolled ? 'pt-4 px-4' : 'pt-0 px-0'
           }`}
       >
-        <div className={`flex items-center justify-between pointer-events-auto w-full gap-8 backdrop-blur-md ${transitionClass} ${isScrolled
+        <div className={`flex items-center justify-between pointer-events-auto w-full gap-8 backdrop-blur-sm md:backdrop-blur-md ${transitionClass} ${isScrolled
           ? 'rounded-2xl px-6 py-3 bg-black/30 max-w-4xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
           : 'rounded-none px-12 py-5 bg-black/40 max-w-500 border-b border-white/5'
           }`}>
@@ -224,10 +223,11 @@ export function Navbar() {
                   <AnimatePresence>
                     {mobileCompOpen && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden mt-4 space-y-3"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.2 }}
+                        className="mt-4 space-y-3"
                       >
                         {competitions.map((comp) => (
                           <Link

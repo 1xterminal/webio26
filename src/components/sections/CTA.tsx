@@ -11,12 +11,7 @@ export function CTA() {
         <section className="relative py-24 bg-black overflow-hidden border-t border-white/5">
             <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
                 <div
-                    className="p-8 md:p-16 relative overflow-hidden group rounded-[32px] shadow-[0_8px_32px_0_rgba(0,0,0,0.3),inset_0_2px_0_0_rgba(255,255,255,0.2)]"
-                    style={{
-                        background: 'rgba(255, 255, 255, 0)',
-                        backdropFilter: 'blur(24px)',
-                        WebkitBackdropFilter: 'blur(24px)',
-                    }}
+                    className="p-8 md:p-16 relative overflow-hidden group rounded-[32px] shadow-[0_8px_32px_0_rgba(0,0,0,0.3),inset_0_2px_0_0_rgba(255,255,255,0.2)] bg-white/5 md:bg-transparent md:[backdrop-filter:blur(24px)] md:[-webkit-backdrop-filter:blur(24px)]"
                 >
                     {/* Gradient Border Mask */}
                     <div

@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, PerspectiveCamera, MeshDistortMaterial, Environment } from '@react-three/drei';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useInView } from 'framer-motion';
 
 function Geometry() {
@@ -64,6 +64,19 @@ function Geometry() {
 export function Scene3D() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { margin: "200px" });
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    // passive listener — no layout read on each call
+    const mq = window.matchMedia('(max-width: 767px)');
+    mq.addEventListener('change', check);
+    return () => mq.removeEventListener('change', check);
+  }, []);
+
+  // Don't render WebGL at all on mobile — it's a massive GPU drain
+  if (isMobile) return null;
 
   return (
     <div ref={containerRef} className="absolute inset-0 pointer-events-none opacity-40 z-0">

@@ -16,19 +16,19 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
         <>
             {/* Layer 1: Immersive Ambient Glow Background */}
             <div
-                className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 pointer-events-none ${roundedClass}`}
+                className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 pointer-events-none ${roundedClass}`}
                 style={{ background: `radial-gradient(circle at 100% 0%, ${accentHex} 0%, transparent 80%)` }}
             />
 
             {/* Layer 2: Intense Top-Right Flare */}
             <div
-                className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-10 group-hover:opacity-60 transition-opacity duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 mix-blend-screen max-md:blur-[40px] md:blur-[80px] pointer-events-none"
+                className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-10 group-hover:opacity-60 transition-opacity duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 mix-blend-screen max-md:blur-[40px] md:blur-[80px] pointer-events-none"
                 style={{ background: accentHex }}
             />
 
             {/* Layer 3: Glowing Gradient Border Mask */}
             <div
-                className={`absolute inset-0 ${roundedClass} pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0`}
+                className={`absolute inset-0 ${roundedClass} pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0`}
                 style={{
                     padding: '1px',
                     background: `linear-gradient(135deg, ${accentHex}90 0%, rgba(255,255,255,0.05) 100%)`,
@@ -40,7 +40,7 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
 
             {/* Layer 4: Inner Glow & Shadow Enhancement */}
             <div
-                className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0 pointer-events-none`}
+                className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 pointer-events-none`}
                 style={{ boxShadow: `inset 0 0 40px ${accentHex}15, 0 10px 40px 0 ${accentHex}25` }}
             />
         </>
@@ -174,20 +174,20 @@ export function CompetitionPage({ slug }: { slug: string }) {
             {/* Floating 3D Background Elements — keyframes now in globals.css */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
                 <div
-                    className="absolute -top-20 -right-20 w-100 h-100 opacity-40 max-md:blur-none blur-[2px] max-md:hidden transform-gpu"
-                    style={{ animation: 'native-float-1 10s ease-in-out infinite', willChange: 'transform' }}
+                    className="absolute -top-20 -right-20 w-100 h-100 opacity-40 max-md:hidden transform-gpu"
+                    style={{ animation: 'native-float-1 10s ease-in-out infinite' }}
                 >
                     <Image src="/assets/element/ELEMEN 3.png" alt="" width={400} height={400} className="object-contain" />
                 </div>
                 <div
-                    className="absolute top-1/2 -left-32 w-87.5 h-87.5 opacity-30 max-md:blur-none blur-xs transform-gpu"
-                    style={{ animation: 'native-float-2 15s ease-in-out infinite 2s', willChange: 'transform' }}
+                    className="absolute top-1/2 -left-32 w-87.5 h-87.5 opacity-30 max-md:hidden transform-gpu"
+                    style={{ animation: 'native-float-2 15s ease-in-out infinite 2s' }}
                 >
                     <Image src="/assets/element/ELEMEN 2.png" alt="" width={350} height={350} className="object-contain" />
                 </div>
                 <div
-                    className="absolute bottom-[-10%] right-[10%] w-125 h-125 transform-gpu"
-                    style={{ animation: 'native-flare 8s ease-in-out infinite', willChange: 'opacity' }}
+                    className="absolute bottom-[-10%] right-[10%] w-125 h-125 max-md:hidden transform-gpu"
+                    style={{ animation: 'native-flare 8s ease-in-out infinite' }}
                 >
                     <Image src="/assets/element/ELEMEN FLARE 1.png" alt="" width={500} height={500} className="object-contain" />
                 </div>
@@ -218,12 +218,12 @@ export function CompetitionPage({ slug }: { slug: string }) {
                             className="group relative inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/[0.03] border border-white/10 text-white/50 hover:text-white hover:bg-white/[0.08] hover:border-white/20 text-xs font-raela font-bold tracking-[0.1em] uppercase transition-colors duration-300 ease-out mb-12 w-fit overflow-hidden transform-gpu"
                             style={{ boxShadow: '0 8px 32px -10px rgba(0,0,0,0.5)' }}
                         >
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1.5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative z-10 will-change-transform" />
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1.5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative z-10" />
                             <span className="relative z-10 font-raela">Back</span>
 
                             {/* Glowing Theme Accent - Animated entirely via Opacity to bypass Layout Recalculation on Mobile CPU */}
                             <div
-                                className="absolute bottom-0 left-0 w-full h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[opacity] translate-z-0"
+                                className="absolute bottom-0 left-0 w-full h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0"
                                 style={{ background: `linear-gradient(90deg, transparent, ${data.accentHex || '#fff'}, transparent)` }}
                             />
                         </Link>
@@ -276,7 +276,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     >
                         {/* Top Tier: Pendaftaran (Full Width) */}
                         <div
-                            className="group relative p-6 md:p-8 rounded-3xl backdrop-blur-md md:backdrop-blur-xl transition-all duration-500 overflow-hidden z-10 w-full border border-white/5"
+                            className="group relative p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-all duration-500 overflow-hidden z-10 w-full border border-white/5"
                             style={{
                                 background: 'rgba(20, 20, 20, 0.6)',
                                 boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
@@ -347,7 +347,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Anggota Tim Card */}
                             <div
-                                className="group relative p-6 rounded-2xl backdrop-blur-md transition-all duration-500 overflow-hidden hover:-translate-y-1 border border-white/5 flex items-center gap-6"
+                                className="group relative p-6 rounded-2xl md:backdrop-blur-md transition-all duration-500 overflow-hidden hover:-translate-y-1 border border-white/5 flex items-center gap-6"
                                 style={{
                                     background: 'rgba(20, 20, 20, 0.6)',
                                     boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
@@ -366,7 +366,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                             {/* Hadiah Card */}
                             <div
-                                className="group relative p-6 rounded-2xl backdrop-blur-md transition-all duration-500 overflow-hidden hover:-translate-y-1 border border-white/5 flex items-center gap-6"
+                                className="group relative p-6 rounded-2xl md:backdrop-blur-md transition-all duration-500 overflow-hidden hover:-translate-y-1 border border-white/5 flex items-center gap-6"
                                 style={{
                                     background: 'rgba(20, 20, 20, 0.6)',
                                     boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)',
@@ -404,7 +404,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                             {/* Topic 1 */}
                             <div
-                                className="group relative p-8 rounded-2xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col cursor-pointer w-full h-full"
+                                className="group relative p-8 rounded-2xl md:backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col cursor-pointer w-full h-full"
                                 style={{
                                     background: 'rgba(20, 20, 20, 0.6)',
                                     boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
@@ -439,7 +439,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                             {/* Topic 2 */}
                             <div
-                                className="group relative p-8 rounded-2xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col cursor-pointer w-full h-full"
+                                className="group relative p-8 rounded-2xl md:backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col cursor-pointer w-full h-full"
                                 style={{
                                     background: 'rgba(20, 20, 20, 0.6)',
                                     boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
@@ -471,7 +471,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                             {/* Topic 3 */}
                             <div
-                                className="group relative p-8 rounded-2xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col cursor-pointer w-full h-full"
+                                className="group relative p-8 rounded-2xl md:backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col cursor-pointer w-full h-full"
                                 style={{
                                     background: 'rgba(20, 20, 20, 0.6)',
                                     boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
@@ -586,7 +586,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                                 return isLocked ? (
                                     <div
-                                        className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
+                                        className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
                                         style={{
                                             background: 'rgba(20, 20, 20, 0.6)',
                                             boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
@@ -617,7 +617,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                         href={rb.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
+                                        className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
                                         style={{
                                             background: 'rgba(20, 20, 20, 0.6)',
                                             boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
@@ -662,7 +662,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                     return isLocked ? (
                                         <div
                                             key={idx}
-                                            className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
+                                            className="relative flex flex-col items-start gap-4 p-5 rounded-2xl md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
                                             style={{
                                                 background: 'rgba(20, 20, 20, 0.6)',
                                                 boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
@@ -697,7 +697,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                             download={doc.type !== 'LINK'}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="relative flex flex-col items-start gap-4 p-5 rounded-2xl backdrop-blur-md md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
+                                            className="relative flex flex-col items-start gap-4 p-5 rounded-2xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
                                             style={{
                                                 background: 'rgba(20, 20, 20, 0.6)',
                                                 boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
@@ -794,7 +794,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 {data.contacts.map((cp, idx) => (
                                     <div
                                         key={idx}
-                                        className="group relative p-6 md:p-8 rounded-3xl backdrop-blur-xl border border-white/5 flex flex-col transition-transform duration-500 overflow-hidden hover:-translate-y-1"
+                                        className="group relative p-6 md:p-8 rounded-3xl md:backdrop-blur-xl border border-white/5 flex flex-col transition-transform duration-500 overflow-hidden hover:-translate-y-1"
                                         style={{
                                             background: 'rgba(20,20,20,0.6)',
                                             boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)'

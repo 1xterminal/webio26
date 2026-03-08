@@ -129,7 +129,7 @@ export function Timeline() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, amount: 0, margin: "0px 0px 800px 0px" }}
                                     transition={{ duration: 0.6, delay: 0.1 }}
-                                    className={`flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-16 group transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu will-change-transform ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} ${isActive ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
+                                    className={`flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-16 group transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} ${isActive ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
                                 >
                                     {/* Content Side */}
                                     <div className={`flex-1 pl-14 md:pl-0 w-full ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'} transition-opacity duration-500 ${isPassed ? 'opacity-60' : isActive ? 'opacity-100' : 'opacity-80'}`}>

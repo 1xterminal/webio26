@@ -64,7 +64,7 @@ export function FAQ() {
 
                 <div className="space-y-4">
                     {faqs.map((faq, index) => (
-                        <div key={index} className="rounded-2xl overflow-hidden border border-white/10 bg-black/50 backdrop-blur-sm">
+                        <div key={index} className="rounded-2xl overflow-hidden border border-white/10 bg-black/50 md:backdrop-blur-sm">
                             <button
                                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                                 className="w-full px-6 py-5 flex items-center justify-between text-left transition-colors"

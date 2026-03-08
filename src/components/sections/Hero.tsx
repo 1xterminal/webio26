@@ -8,46 +8,19 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center">
 
-      {/* Light leaks & 3D Elements - Pure CSS animations */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes hero-glow-1 {
-            0%, 100% { transform: translate(0px, 0px); opacity: 0.35; }
-            50% { transform: translate(30px, -20px); opacity: 0.5; }
-        }
-        @keyframes hero-glow-2 {
-            0%, 100% { transform: translate(0px, 0px); opacity: 0.15; }
-            50% { transform: translate(-25px, 20px); opacity: 0.25; }
-        }
-        @keyframes hero-glow-3 {
-            0%, 100% { transform: translate(0px, 0px); opacity: 0.2; }
-            50% { transform: translate(15px, -15px); opacity: 0.35; }
-        }
-        @keyframes hero-fade-up {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes hero-fade-right {
-            from { opacity: 0; transform: translateX(40px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes hero-fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-      `}} />
+
       <div className="absolute inset-0 z-0 pointer-events-none" style={{ isolation: 'isolate' }}>
         <div
           className="absolute -top-50 -right-37.5 w-125 h-125 rounded-full transform-gpu max-md:hidden blur-[150px] pointer-events-none"
-          style={{ background: '#a64dff', animation: 'hero-glow-1 10s ease-in-out infinite', willChange: 'transform, opacity' }}
+          style={{ background: '#a64dff', animation: 'hero-glow-1 10s ease-in-out infinite' }}
         />
         <div
-          className="absolute bottom-[5%] -left-25 w-112.5 h-112.5 rounded-full transform-gpu blur-2xl md:blur-[150px] pointer-events-none"
-          style={{ background: '#ff8c42', animation: 'hero-glow-2 12s ease-in-out infinite', willChange: 'transform, opacity' }}
+          className="absolute bottom-[5%] -left-25 w-112.5 h-112.5 rounded-full transform-gpu blur-none md:blur-[150px] pointer-events-none max-md:bg-[radial-gradient(circle,rgba(255,140,66,0.25)_0%,transparent_70%)] md:bg-[#ff8c42]"
+          style={{ animation: 'hero-glow-2 12s ease-in-out infinite' }}
         />
         <div
           className="absolute top-[30%] -right-12.5 w-87.5 h-87.5 rounded-full transform-gpu max-md:hidden blur-[150px] pointer-events-none"
-          style={{ background: '#55D5E7', animation: 'hero-glow-3 14s ease-in-out infinite', willChange: 'transform, opacity' }}
+          style={{ background: '#55D5E7', animation: 'hero-glow-3 14s ease-in-out infinite' }}
         />
 
 
@@ -83,20 +56,20 @@ export function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-32 pb-20">
         {/* Glassmorphism Wrapper around Hero */}
         <div
-          className="rounded-[24px] p-8 md:p-12 lg:p-16 overflow-hidden relative backdrop-blur-md md:backdrop-blur-2xl transform-gpu"
+          className="rounded-[24px] p-8 md:p-12 lg:p-16 overflow-hidden relative backdrop-blur-none md:backdrop-blur-2xl max-md:bg-white/5 transform-gpu"
           style={{
-            background: 'rgba(255, 255, 255, 0)',
             boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.1), inset 0 2px 2px 0 rgba(255, 255, 255, 0.4)',
           }}
         >
           {/* Crispy gradient border overlay */}
-          <div className="absolute inset-0 rounded-[24px] pointer-events-none" style={{
+          <div className="absolute inset-0 rounded-[24px] pointer-events-none max-md:hidden" style={{
             padding: '1.5px',
             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0) 100%)',
             WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
             WebkitMaskComposite: 'xor',
             maskComposite: 'exclude',
           }}></div>
+          <div className="absolute inset-0 rounded-[24px] pointer-events-none md:hidden border border-white/10"></div>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
 
             {/* Left - Title & CTA */}

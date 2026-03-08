@@ -112,9 +112,14 @@ export function StarDust() {
                     ctx.fillStyle = moteColors[i];
                     ctx.fill();
                 }
+                
+                raf.current = requestAnimationFrame(render);
+            } else {
+                // Check occasionally if screen is resized back to desktop
+                setTimeout(() => {
+                    raf.current = requestAnimationFrame(render);
+                }, 1000);
             }
-
-            raf.current = requestAnimationFrame(render);
         }
 
         render();

@@ -78,18 +78,12 @@
     transform: translate3d(0, 0, 0);
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-perspective: 1000px;
-    perspective: 1000px;
     /* Additional iOS fixes */
     -webkit-overflow-scrolling: touch;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
+    user-select: none;
     -webkit-tap-highlight-color: transparent;
-    /* Force hardware acceleration on iOS */
-    will-change: transform, backdrop-filter;
-    -webkit-will-change:
-      transform,
-      -webkit-backdrop-filter;
   }
 
   .glass-card-before {
@@ -110,9 +104,11 @@
 
   /* iOS Safari Fixes */
   @supports (-webkit-backdrop-filter: none) {
-    .glass-card {
-      -webkit-backdrop-filter: brightness(1.1) blur(2px);
-      backdrop-filter: brightness(1.1) blur(2px);
+    @media (min-width: 768px) {
+      .glass-card {
+        -webkit-backdrop-filter: brightness(1.1) blur(2px);
+        backdrop-filter: brightness(1.1) blur(2px);
+      }
     }
   }
 
@@ -122,16 +118,6 @@
       /* Improve touch targets on iOS */
       min-height: 44px;
       -webkit-tap-highlight-color: transparent;
-      /* Force hardware acceleration */
-      will-change: transform;
-      -webkit-will-change: transform;
-    }
-
-    /* iOS Safari specific backdrop-filter fallback */
-    @supports not (-webkit-backdrop-filter: none) {
-      .glass-card {
-        background: rgba(255, 255, 255, 0.15);
-      }
     }
   }
 
@@ -169,7 +155,7 @@
     50% { transform: translateZ(0) translate(15px, -15px); opacity: 0.35; }
   }
 
-  /* ─── Competition Page Keyframes ──────────────────────────── */
+  /* ─── Competition Page Keyframes ─────────────────────────── */
   @keyframes native-float-1 {
     0%, 100% { transform: translateZ(0) translateY(0px) rotate(0deg); }
     50% { transform: translateZ(0) translateY(-30px) rotate(5deg); }
@@ -181,6 +167,20 @@
   @keyframes native-flare {
     0%, 100% { opacity: 0.15; }
     50% { opacity: 0.3; }
+  }
+
+  /* ─── Hero Section Entry Animations ────────────────────────── */
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateZ(0) translateY(30px); }
+    to { opacity: 1; transform: translateZ(0) translateY(0); }
+  }
+  @keyframes hero-fade-right {
+    from { opacity: 0; transform: translateZ(0) translateX(40px); }
+    to { opacity: 1; transform: translateZ(0) translateX(0); }
+  }
+  @keyframes hero-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   /* ─── No-scrollbar utility ─────────────────────────────────── */

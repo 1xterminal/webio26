@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+
 
 const OPEN_REG_DATE = new Date("2026-03-15T00:00:00+07:00");
 const CLOSE_REG_DATE = new Date("2026-04-30T23:59:59+07:00");
@@ -98,7 +98,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
 
     return (
         <div 
-            className="group relative rounded-3xl md:rounded-[2.5rem] p-8 md:p-12 overflow-hidden bg-white/[0.03] backdrop-blur-md md:backdrop-blur-xl border border-white/10"
+            className="group relative rounded-3xl md:rounded-[2.5rem] p-8 md:p-12 overflow-hidden bg-white/[0.06] md:bg-white/[0.03] md:backdrop-blur-xl border border-white/10"
             style={{
                 boxShadow: `0 0 40px -10px ${glow1}`
             }}
@@ -141,8 +141,8 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                         style={{ background: `linear-gradient(135deg, ${glow1}, ${glow2})` }}
                     />
                     
-                    <motion.div 
-                        className="relative grid grid-cols-4 gap-2 sm:gap-4 items-center bg-black/80 backdrop-blur-md md:backdrop-blur-2xl rounded-2xl md:rounded-[1.75rem] py-6 sm:py-8 lg:py-10 px-2 sm:px-4 md:px-8 border border-white/10 w-full"
+                    <div 
+                        className="relative grid grid-cols-4 gap-2 sm:gap-4 items-center bg-black/80 md:backdrop-blur-2xl rounded-2xl md:rounded-[1.75rem] py-6 sm:py-8 lg:py-10 px-2 sm:px-4 md:px-8 border border-white/10 w-full"
                         style={{ 
                             boxShadow: '0 20px 40px -10px rgba(0,0,0,0.8), inset 0 2px 20px rgba(255,255,255,0.03)',
                         }}
@@ -171,7 +171,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                                 )}
                             </div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
             ) : (
                 <p className="relative z-10 text-white/70 text-xl md:text-2xl font-raela font-black text-center py-8">

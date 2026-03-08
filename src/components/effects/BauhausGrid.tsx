@@ -75,7 +75,7 @@ export function BauhausGrid() {
         {/* Solid Red Block - Interactivity */}
         <motion.div
           whileHover={{ scale: 1.1, rotate: 5 }}
-          className="hidden md:block col-span-1 row-span-1 bg-neon-orange border-2 border-white shadow-[0_0_20px_rgba(255,139,83,0.6)] md:shadow-[0_0_40px_rgba(255,139,83,0.6)] transform-gpu hover:will-change-transform"
+          className="hidden md:block col-span-1 row-span-1 bg-neon-orange border-2 border-white shadow-[0_0_20px_rgba(255,139,83,0.6)] md:shadow-[0_0_40px_rgba(255,139,83,0.6)] transform-gpu"
         />
 
       </div>

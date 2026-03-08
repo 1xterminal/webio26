@@ -15,15 +15,12 @@ const raela = localFont({
 
 const jakarta = localFont({
   src: [
-    { path: './fonts/plusjakartasans/static/PlusJakartaSans-ExtraLight.ttf', weight: '200', style: 'normal' },
     { path: './fonts/plusjakartasans/static/PlusJakartaSans-Light.ttf', weight: '300', style: 'normal' },
     { path: './fonts/plusjakartasans/static/PlusJakartaSans-Regular.ttf', weight: '400', style: 'normal' },
-    { path: './fonts/plusjakartasans/static/PlusJakartaSans-Medium.ttf', weight: '500', style: 'normal' },
     { path: './fonts/plusjakartasans/static/PlusJakartaSans-SemiBold.ttf', weight: '600', style: 'normal' },
     { path: './fonts/plusjakartasans/static/PlusJakartaSans-Bold.ttf', weight: '700', style: 'normal' },
-    { path: './fonts/plusjakartasans/static/PlusJakartaSans-ExtraBold.ttf', weight: '800', style: 'normal' },
   ],
-  variable: '--font-jakarta', // Mapping to existing variable for seamless replacement
+  variable: '--font-jakarta',
   display: 'swap',
 });
 
