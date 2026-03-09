@@ -57,22 +57,23 @@ const tiers: Tier[] = [
 ];
 
 const benefits: Benefit[] = [
-  { name: 'Penempatan Logo Pada Semua Media I/O Festival 2026',    values: ['Main Branding', 'Extra Large', 'Large',    'Medium',    'Small']    },
-  { name: 'Open Booth Di Area Event',                              values: ['Exclusive Area', '4×4m',       '3×3m',     '2×2m',      '-']         },
-  { name: 'Lokasi Booth',                                          values: ['Prime Center',  'VIP',         'Premium',  'Strategis', 'Reguler']   },
-  { name: 'Izin Direct Selling',   note: '*Hanya Non-Tunai',      values: [true,             true,          true,       true,        false]       },
-  { name: 'Izin Sampling Keliling', note: '*Roaming Tester',      values: [true,             true,          true,       false,       false]       },
-  { name: 'Content Creation',      note: '*Oleh Panitia',         values: ['Full Campaign',  '3 Posts',     '1 Post',   '-',         '-']         },
-  { name: 'Product Placement di After Movie',                      values: [true,             true,          true,       false,       false]       },
-  { name: 'Industry Exclusivity',  note: '*(Brand Per Sektor)',   values: ['Exclusive',      'Limited',     '-',        '-',         '-']         },
-  { name: 'Adlibs MC Saat Acara',                                  values: ['Unlimited',      '5×',          '3×',       '1×',        '-']         },
-  { name: 'Pemutaran Company Profile Video',                       values: ['90s + Priority', '60s',         '30s',      false,       false]       },
-  { name: 'Story Instagram BEM FTI & I/O Festival 2026',          values: ['Exhibition',     '5×',          '3×',       '2×',        '1×']        },
+  { name: 'Logo pada Media Promosi (Cetak & Digital)',           values: ['Ukuran XL',             'Ukuran L',    'Ukuran M',    'Ukuran S',    'Ukuran S'] },
+  { name: 'Penempatan Logo Khusus',       note: '*"Festival Partner"', values: [true,                    false,         false,         false,         false]      },
+  { name: 'Open Booth Di Area Event',                              values: ['3×3m (Adjustable)',     '3×3m',        '2×2m',        '2×2m',        '-']         },
+  { name: 'Lokasi Booth',                                          values: ['Zone A (Strategic)',    'Zone B',      'Zone C',      'Zone C',      '-']         },
+  { name: 'Izin Direct Selling',          note: '*Hanya Non-Tunai',      values: [true,                    true,          true,          true,          false]       },
+  { name: 'Izin Sampling Keliling',       note: '*Roaming Tester',       values: ['Yes (All Areas)',       'Yes (Non-A)', false,         false,         false]       },
+  { name: 'Postingan IG Story',                                    values: ['4×',                    '3×',          '2×',          '1×',          false]       },
+  { name: 'Pemutaran Company Profile Video', note: '*Durasi 1 Menit',    values: ['4×',                    '2×',          false,         false,         false]       },
+  { name: 'Adlibs MC Saat Acara',                                  values: ['4×',                    false,         false,         false,         false]       },
+  { name: 'Industry Exclusivity',         note: '*Max 1 Brand/Sektor',   values: [true,                    false,         false,         false,         false]       },
+  { name: 'Content Creation',             note: '*Oleh Panitia',         values: [true,                    false,         false,         false,         false]       },
+  { name: 'Product Placement di After Movie',                      values: [true,                    false,         false,         false,         false]       },
 ];
 
 const metrics: Metric[] = [
-  { icon: Users, value: '5,000+',  label: 'Attendees',    delay: 0.1 },
-  { icon: Eye,   value: '150k+',   label: 'Impressions',  delay: 0.2 },
+  { icon: Users, value: '500+',  label: 'Attendees',    delay: 0.1 },
+  { icon: Eye,   value: '10k+',   label: 'Impressions',  delay: 0.2 },
   { icon: Globe, value: '25+',     label: 'Partnerships', delay: 0.3 },
   { icon: Zap,   value: 'Rp 46M', label: 'Prize Pool',   delay: 0.4 },
 ];
@@ -585,7 +586,7 @@ export function SponsorshipPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8 relative z-10 mb-8 md:mb-12">
                 <a
-                  href="mailto:partnership@iofestival.com"
+                  href="mailto:iobemftiuntar@gmail.com"
                   className="group/link flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
                   style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
@@ -613,7 +614,7 @@ export function SponsorshipPage() {
 
               <div className="relative z-10 pt-8 md:pt-12 border-t border-white/5 flex flex-wrap justify-center gap-6 md:gap-12 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
                 <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">BEM FTI UNTAR</span>
-                <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">IMTI UNTAR</span>
+                {/* <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">IMTI UNTAR</span> */}
                 <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">PROUDLY PRESENTED</span>
               </div>
             </div>
