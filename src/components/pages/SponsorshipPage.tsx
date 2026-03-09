@@ -1,0 +1,627 @@
+'use client';
+
+/**
+ * SponsorshipPage.tsx
+ *
+ * Performance philosophy for mobile:
+ * 1. ZERO backdrop-filter/blur on mobile — these are the #1 GPU killer on phones
+ * 2. ZERO mix-blend-screen on mobile — forces offscreen compositing layers
+ * 3. CSS transitions only for touch interactions (no Framer Motion on mobile cards)
+ * 4. height accordion uses CSS max-height trick — never triggers layout thrash
+ * 5. Chevron rotation is pure CSS (transition:transform) — no JS thread involvement
+ * 6. whileInView only on section headers, NOT on individual cards
+ * 7. will-change only set during active animation, removed when idle
+ */
+
+import { motion } from 'framer-motion';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
+import dynamic from 'next/dynamic';
+const StarDust = dynamic(
+  () => import('@/components/effects/StarDust').then((m: { StarDust: React.ComponentType }) => m.StarDust),
+  { ssr: false }
+);
+import { Users, Eye, Globe, Zap, Mail, Target, Check, Minus, ChevronDown, ExternalLink, ArrowRight } from 'lucide-react';
+import { useState, useCallback, memo } from 'react';
+import React from 'react';
+
+// ─── Types ─────────────────────────────────────────────────────────────────────
+
+interface Tier {
+  name: string;
+  color: string;           // Tailwind gradient classes (desktop only)
+  accentHex: string;
+}
+
+interface Benefit {
+  name: string;
+  note?: string;
+  values: (string | boolean)[];
+}
+
+interface Metric {
+  icon: React.ComponentType<{ className?: string }>;
+  value: string;
+  label: string;
+  delay: number;
+}
+
+// ─── Static Module-Level Data (never re-created on re-render) ──────────────────
+
+const tiers: Tier[] = [
+  { name: 'Diamond',  color: 'from-cyan-400 to-blue-300',    accentHex: '#22d3ee' },
+  { name: 'Platinum', color: 'from-purple-500 to-purple-300', accentHex: '#A856EE' },
+  { name: 'Gold',     color: 'from-amber-400 to-amber-200',  accentHex: '#fbbf24' },
+  { name: 'Silver',   color: 'from-slate-400 to-slate-200',  accentHex: '#94a3b8' },
+  { name: 'Bronze',   color: 'from-amber-800 to-amber-600',  accentHex: '#b45309' },
+];
+
+const benefits: Benefit[] = [
+  { name: 'Penempatan Logo Pada Semua Media I/O Festival 2026',    values: ['Main Branding', 'Extra Large', 'Large',    'Medium',    'Small']    },
+  { name: 'Open Booth Di Area Event',                              values: ['Exclusive Area', '4×4m',       '3×3m',     '2×2m',      '-']         },
+  { name: 'Lokasi Booth',                                          values: ['Prime Center',  'VIP',         'Premium',  'Strategis', 'Reguler']   },
+  { name: 'Izin Direct Selling',   note: '*Hanya Non-Tunai',      values: [true,             true,          true,       true,        false]       },
+  { name: 'Izin Sampling Keliling', note: '*Roaming Tester',      values: [true,             true,          true,       false,       false]       },
+  { name: 'Content Creation',      note: '*Oleh Panitia',         values: ['Full Campaign',  '3 Posts',     '1 Post',   '-',         '-']         },
+  { name: 'Product Placement di After Movie',                      values: [true,             true,          true,       false,       false]       },
+  { name: 'Industry Exclusivity',  note: '*(Brand Per Sektor)',   values: ['Exclusive',      'Limited',     '-',        '-',         '-']         },
+  { name: 'Adlibs MC Saat Acara',                                  values: ['Unlimited',      '5×',          '3×',       '1×',        '-']         },
+  { name: 'Pemutaran Company Profile Video',                       values: ['90s + Priority', '60s',         '30s',      false,       false]       },
+  { name: 'Story Instagram BEM FTI & I/O Festival 2026',          values: ['Exhibition',     '5×',          '3×',       '2×',        '1×']        },
+];
+
+const metrics: Metric[] = [
+  { icon: Users, value: '5,000+',  label: 'Attendees',    delay: 0.1 },
+  { icon: Eye,   value: '150k+',   label: 'Impressions',  delay: 0.2 },
+  { icon: Globe, value: '25+',     label: 'Partnerships', delay: 0.3 },
+  { icon: Zap,   value: 'Rp 46M', label: 'Prize Pool',   delay: 0.4 },
+];
+
+// ─── PremiumCardGlow — desktop only (blur + blend are GPU-expensive on mobile) ──
+
+const PremiumCardGlow = memo(({ accentHex, roundedClass = 'rounded-3xl' }: {
+  accentHex: string;
+  roundedClass?: string;
+}) => (
+  <>
+    {/* Layer 1: Ambient radial glow */}
+    <div
+      className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-[600ms] pointer-events-none ${roundedClass}`}
+      style={{ background: `radial-gradient(circle at 100% 0%, ${accentHex} 0%, transparent 80%)` }}
+    />
+    {/* Layer 2: Flare — desktop only to avoid GPU overdraw on mobile */}
+    <div
+      className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-0 group-hover:opacity-40 transition-opacity duration-[800ms] pointer-events-none max-md:hidden blur-[80px] mix-blend-screen"
+      style={{ background: accentHex }}
+    />
+    {/* Layer 3: Gradient border via mask */}
+    <div
+      className={`absolute inset-0 ${roundedClass} pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms]`}
+      style={{
+        padding: '1px',
+        background: `linear-gradient(135deg, ${accentHex}90 0%, rgba(255,255,255,0.05) 100%)`,
+        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+        WebkitMaskComposite: 'xor',
+        maskComposite: 'exclude',
+      }}
+    />
+    {/* Layer 4: Inner glow on hover */}
+    <div
+      className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] pointer-events-none`}
+      style={{ boxShadow: `inset 0 0 40px ${accentHex}15, 0 10px 40px 0 ${accentHex}25` }}
+    />
+  </>
+));
+PremiumCardGlow.displayName = 'PremiumCardGlow';
+
+// ─── MetricCard — simplified on mobile for compositor-only rendering ───────────
+
+const MetricCard = memo(({ icon: Icon, value, label, delay }: Metric) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+    transition={{ duration: 0.6, delay }}
+    className="group relative p-6 md:p-8 rounded-3xl overflow-hidden bg-[rgba(20,20,20,0.5)] md:[backdrop-filter:blur(16px)] transition-transform duration-[500ms] ease-out hover:-translate-y-2"
+  >
+    <PremiumCardGlow accentHex="#1DBCD3" />
+    <div className="relative z-10 flex flex-col items-center text-center">
+      <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-neon-blue/10 flex items-center justify-center mb-4 md:mb-6 border border-neon-blue/20 transition-transform duration-300 group-hover:scale-110">
+        <Icon className="w-7 h-7 md:w-8 md:h-8 text-neon-blue" />
+      </div>
+      <div className="font-raela font-black text-3xl md:text-5xl text-white mb-1 md:mb-2 tracking-tighter">{value}</div>
+      <div className="text-white/40 font-raela uppercase tracking-[0.2em] text-[10px] md:text-xs">{label}</div>
+    </div>
+  </motion.div>
+));
+MetricCard.displayName = 'MetricCard';
+
+// ─── renderCell — pure function, no state, no refs ────────────────────────────
+
+function renderCell(val: string | boolean, accentHex: string) {
+  if (typeof val === 'boolean') {
+    return val ? (
+      <div
+        className="w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center border mx-auto"
+        style={{ borderColor: `${accentHex}50`, background: `${accentHex}15` }}
+      >
+        <Check className="w-3.5 h-3.5 md:w-4 md:h-4" style={{ color: accentHex }} />
+      </div>
+    ) : (
+      <Minus className="w-4 h-4 md:w-5 md:h-5 text-white/15 mx-auto" />
+    );
+  }
+  if (val === '-') return <span className="text-white/15 font-raela font-bold text-sm">—</span>;
+  return <span className="text-white font-raela font-bold text-sm leading-snug">{val}</span>;
+}
+
+// ─── MobileAccordion — ZERO Framer Motion, pure CSS transitions ───────────────
+// Using max-height trick: fast open, opacity fade — no layout thrash at all.
+
+interface TierCardProps {
+  tier: Tier;
+  tierIndex: number;
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+// Pre-compute approximate max-height per tier to avoid over-animating
+// 11 benefits × ~72px per row ≈ 800px, use 900px as safe ceiling
+const BODY_MAX_H = '900px';
+
+const TierCard = memo(({ tier, tierIndex, isOpen, onToggle }: TierCardProps) => {
+  return (
+    <div
+      className="group relative rounded-[20px] overflow-hidden bg-[rgba(16,16,16,0.85)]"
+      style={{
+        boxShadow: `0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07), inset 0 0 0 1px ${tier.accentHex}20`,
+        contain: 'layout style paint', // CSS containment — reduces repaint area
+      }}
+    >
+      {/* Ambient accent glow — static (no transition on mobile, no blur) */}
+      <div
+        className="absolute inset-0 pointer-events-none rounded-[20px]"
+        style={{
+          background: `radial-gradient(ellipse 80% 60% at 100% 0%, ${tier.accentHex}12 0%, transparent 70%)`,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* ── Header button ─────────────────────────────────────────────────── */}
+      <button
+        onClick={onToggle}
+        className="relative z-10 w-full flex items-center gap-4 px-5 py-5 text-left touch-manipulation"
+        aria-expanded={isOpen}
+        aria-controls={`tier-body-${tierIndex}`}
+        style={{ WebkitTapHighlightColor: 'transparent' }}
+      >
+        {/* Vertical accent bar */}
+        <div
+          className="w-1 self-stretch rounded-full shrink-0"
+          style={{ background: `linear-gradient(to bottom, ${tier.accentHex}, ${tier.accentHex}40)` }}
+        />
+
+        <div className="flex-1 min-w-0">
+          <div
+            className="h-px w-8 rounded-full mb-2"
+            style={{ background: `linear-gradient(to right, ${tier.accentHex}, transparent)` }}
+          />
+          <h3 className="font-raela font-black text-xl text-white uppercase tracking-tighter leading-none">
+            {tier.name}
+          </h3>
+          <span className="text-[10px] font-mono text-white/30 tracking-[0.35em] uppercase mt-1 block">
+            Partner Tier
+          </span>
+        </div>
+
+        {/* Pure CSS chevron — zero JS thread cost */}
+        <div
+          className="shrink-0 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center"
+          style={{
+            transition: 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1)',
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+          aria-hidden="true"
+        >
+          <ChevronDown className="w-3.5 h-3.5 text-white/50" />
+        </div>
+      </button>
+
+      {/* ── Accordion body — CSS max-height transition only ──────────────── */}
+      {/* max-height transition is compositor-optimised on modern browsers   */}
+      <div
+        id={`tier-body-${tierIndex}`}
+        style={{
+          maxHeight: isOpen ? BODY_MAX_H : '0px',
+          opacity: isOpen ? 1 : 0,
+          overflow: 'hidden',
+          transition: isOpen
+            ? 'max-height 420ms cubic-bezier(0.16, 1, 0.3, 1), opacity 280ms ease'
+            : 'max-height 300ms cubic-bezier(0.7, 0, 0.84, 0), opacity 180ms ease',
+        }}
+      >
+        <div className="px-5 pt-1 pb-5">
+          {/* Divider */}
+          <div
+            className="h-px mb-3"
+            style={{ background: `linear-gradient(to right, ${tier.accentHex}30, transparent)` }}
+          />
+          {/* Benefit rows */}
+          <div className="divide-y divide-white/[0.06]">
+            {benefits.map((benefit, bIdx) => (
+              <div key={bIdx} className="flex items-center justify-between gap-3 py-3 min-h-[48px]">
+                <div className="flex-1 min-w-0">
+                  <span className="text-[12px] leading-snug text-white/75 font-medium block">
+                    {benefit.name}
+                  </span>
+                  {benefit.note && (
+                    <span className="text-[9px] text-white/25 font-mono uppercase tracking-wider block mt-0.5">
+                      {benefit.note}
+                    </span>
+                  )}
+                </div>
+                <div className="shrink-0 min-w-[64px] flex justify-end">
+                  {renderCell(benefit.values[tierIndex], tier.accentHex)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+TierCard.displayName = 'TierCard';
+
+// ─── MatrixTable — desktop only ───────────────────────────────────────────────
+
+interface MatrixTableProps {
+  hoveredTier: number | null;
+  onHoverTier: (idx: number | null) => void;
+}
+
+const MatrixTable = memo(({ hoveredTier, onHoverTier }: MatrixTableProps) => (
+  <div className="relative p-[1px] rounded-[32px] overflow-hidden bg-white/10 [backdrop-filter:blur(24px)]">
+    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+    <div className="relative overflow-x-auto rounded-[31px] bg-black/60 shadow-2xl">
+      <table
+        className="w-full border-collapse min-w-[900px]"
+        role="grid"
+        aria-label="Sponsorship Tiers Comparison Matrix"
+      >
+        <thead>
+          <tr className="border-b border-white/10">
+            <th className="p-6 text-left sticky left-0 bg-[#0a0a0a]/95 [backdrop-filter:blur(24px)] z-30 min-w-[260px]">
+              <span className="text-xs font-mono uppercase tracking-[0.4em] text-neon-blue font-bold">Benefit</span>
+            </th>
+            {tiers.map((tier, idx) => (
+              <th
+                key={tier.name}
+                className={`p-6 text-center relative transition-colors duration-300 ${hoveredTier === idx ? 'bg-white/[0.04]' : 'bg-transparent'}`}
+                onMouseEnter={() => onHoverTier(idx)}
+                onMouseLeave={() => onHoverTier(null)}
+              >
+                <div className="flex flex-col items-center gap-2 relative z-10">
+                  <div className={`h-0.5 w-10 bg-gradient-to-r ${tier.color} rounded-full`} />
+                  <h3
+                    className="text-xl font-raela font-black uppercase tracking-tighter text-white"
+                    style={{
+                      transition: 'transform 300ms ease',
+                      transform: hoveredTier === idx ? 'scale(1.08)' : 'scale(1)',
+                    }}
+                  >
+                    {tier.name}
+                  </h3>
+                  <span className="text-[9px] font-mono text-white/25 tracking-[0.5em] uppercase">Partner</span>
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-white/[0.05]">
+          {benefits.map((benefit, bIdx) => (
+            <tr key={bIdx} className="group/row hover:bg-white/[0.02] transition-colors">
+              <td className="p-5 text-left sticky left-0 bg-[#0a0a0a]/95 [backdrop-filter:blur(24px)] z-20 border-r border-white/[0.06]">
+                <span className="text-[13px] font-semibold text-white/80 group-hover/row:text-white transition-colors leading-snug block">
+                  {benefit.name}
+                </span>
+                {benefit.note && (
+                  <span className="text-[10px] text-white/25 font-mono uppercase tracking-wider mt-1 block">
+                    {benefit.note}
+                  </span>
+                )}
+              </td>
+              {benefit.values.map((val, vIdx) => (
+                <td
+                  key={vIdx}
+                  className={`p-5 text-center transition-colors duration-200 ${hoveredTier === vIdx ? 'bg-white/[0.03]' : ''}`}
+                  onMouseEnter={() => onHoverTier(vIdx)}
+                  onMouseLeave={() => onHoverTier(null)}
+                >
+                  <div className="flex items-center justify-center min-h-[36px]">
+                    {renderCell(val, tiers[vIdx].accentHex)}
+                  </div>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+));
+MatrixTable.displayName = 'MatrixTable';
+
+// ─── Page ──────────────────────────────────────────────────────────────────────
+
+export function SponsorshipPage() {
+  const [hoveredTier, setHoveredTier] = useState<number | null>(null);
+  const [openTier, setOpenTier] = useState<number | null>(0);
+
+  // Stable callbacks — prevent child re-renders
+  const handleHoverTier = useCallback((idx: number | null) => setHoveredTier(idx), []);
+  const handleToggleTier = useCallback(
+    (idx: number) => setOpenTier(prev => (prev === idx ? null : idx)),
+    []
+  );
+
+  return (
+    <main className="bg-black min-h-screen text-white overflow-hidden">
+      <Navbar />
+      <StarDust />
+
+      {/* ── Background mesh — simple static gradient, no scroll tie ─────── */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: [
+              'radial-gradient(ellipse 70% 45% at 0% 0%, rgba(29,188,211,0.10) 0%, transparent 65%)',
+              'radial-gradient(ellipse 60% 50% at 100% 100%, rgba(168,86,238,0.07) 0%, transparent 60%)',
+            ].join(','),
+          }}
+        />
+      </div>
+
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <section className="relative pt-40 pb-24 px-4 min-h-[80vh] flex items-center justify-center">
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-xs mb-6 block">
+              PARTNERSHIP OPPORTUNITY 2026
+            </span>
+            <h1 className="text-5xl md:text-9xl font-raela font-black tracking-tighter mb-6 leading-[1.1]">
+              <span className="text-white">EVOLVE</span>{' '}
+              <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange">
+                BEYOND
+              </span>
+            </h1>
+            <p className="max-w-2xl mx-auto text-white/50 text-base md:text-xl font-light leading-relaxed mb-10">
+              Jadilah katalisator inovasi teknologi. Hubungkan visi brand Anda dengan ribuan talenta digital terbaik di I/O Festival 2026.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="#tiers"
+                className="group relative w-full sm:w-auto px-8 py-4 bg-white text-black font-raela font-bold uppercase tracking-widest overflow-hidden transition-transform duration-200 active:scale-95"
+              >
+                <span className="relative z-10 group-hover:text-white transition-colors duration-200">View Packages</span>
+                <div className="absolute inset-0 bg-neon-orange -translate-x-full group-hover:translate-x-0 transition-transform duration-250" />
+              </a>
+              <a
+                href="#contact"
+                className="w-full sm:w-auto px-8 py-4 border border-white/20 text-white font-raela font-bold uppercase tracking-widest hover:bg-white/10 transition-colors duration-200"
+              >
+                Contact Us
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Metrics ──────────────────────────────────────────────────────── */}
+      <section className="py-20 md:py-24 px-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '0px 0px -80px 0px' }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <h2 className="font-raela font-bold text-3xl md:text-5xl mb-4">OUR IMPACT</h2>
+            <div className="h-1 w-20 bg-gradient-to-r from-neon-blue to-neon-orange mx-auto rounded-full" />
+          </motion.div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+            {metrics.map((m) => (
+              <MetricCard key={m.label} {...m} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Sponsorship Tiers ─────────────────────────────────────────────── */}
+      <section id="tiers" className="py-20 md:py-32 px-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
+
+          {/* Section header */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '0px 0px -80px 0px' }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-12 md:mb-20"
+          >
+            <h2 className="text-4xl md:text-7xl font-raela font-black text-white mb-4 md:mb-6 tracking-tight">
+              SPONSORSHIP{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">
+                MATRIX
+              </span>
+            </h2>
+            <p className="text-white/40 max-w-xl mx-auto text-base md:text-lg italic">
+              The Blueprint of Collaboration
+            </p>
+          </motion.div>
+
+          {/* DESKTOP: matrix table */}
+          <div className="hidden md:block">
+            <MatrixTable hoveredTier={hoveredTier} onHoverTier={handleHoverTier} />
+          </div>
+
+          {/* MOBILE: accordion cards — pure CSS, zero Framer Motion overhead */}
+          <div className="md:hidden flex flex-col gap-3">
+            <p className="text-center text-[10px] font-mono text-white/25 uppercase tracking-[0.3em] mb-1">
+              Tap a tier to explore benefits
+            </p>
+            {tiers.map((tier, idx) => (
+              <TierCard
+                key={tier.name}
+                tier={tier}
+                tierIndex={idx}
+                isOpen={openTier === idx}
+                onToggle={() => handleToggleTier(idx)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Proposal Download ─────────────────────────────────────────────── */}
+      <section className="pb-8 md:pb-12 px-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.a
+            href="/downloads/Proposal Sponsorship IO Festival.pdf"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+            transition={{ duration: 0.5 }}
+            className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
+            style={{
+              background: 'rgba(20, 20, 20, 0.6)',
+              boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.05)',
+              WebkitTapHighlightColor: 'transparent',
+            }}
+            aria-label="Download Proposal Sponsorship I/O Festival 2026"
+          >
+            <PremiumCardGlow accentHex="#22d3ee" roundedClass="rounded-3xl" />
+
+            {/* Icon */}
+            <div
+              className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5"
+              style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))' }}
+            >
+              <ExternalLink className="w-8 h-8 text-white" style={{ filter: 'drop-shadow(0 0 12px #22d3ee)' }} />
+            </div>
+
+            {/* Info */}
+            <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-3 mb-1">
+                  <span className="text-white font-bold text-xl md:text-2xl font-raela group-hover:text-white transition-colors">
+                    Proposal Sponsorship
+                  </span>
+                  <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela">PDF</span>
+                </div>
+                <span className="text-white/50 text-sm group-hover:text-white/80 transition-colors">
+                  I/O Festival 2026 — Dokumen resmi kemitraan
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-4 py-2 rounded-full group-hover:bg-white/20 transition-colors">
+                Unduh <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" />
+              </div>
+            </div>
+          </motion.a>
+        </div>
+      </section>
+
+      {/* ── Quote ─────────────────────────────────────────────────────────── */}
+      <section className="py-20 md:py-24 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.blockquote
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: '0px 0px -80px 0px' }}
+            transition={{ duration: 0.8 }}
+            className="text-xl md:text-4xl font-raela font-light italic text-white/60 leading-relaxed"
+          >
+            "Innovation dies in isolation. Great leaps are made through{' '}
+            <span className="text-white font-bold not-italic">Meaningful Partnerships</span>."
+          </motion.blockquote>
+        </div>
+      </section>
+
+      {/* ── CTA ───────────────────────────────────────────────────────────── */}
+      <section id="contact" className="py-24 md:py-32 px-4 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="group relative p-[1px] rounded-[36px] md:rounded-[48px] overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="relative bg-black rounded-[35px] md:rounded-[47px] p-8 md:p-24 text-center overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/8 via-transparent to-neon-orange/8 pointer-events-none" />
+
+              <h2 className="text-4xl md:text-7xl font-raela font-black text-white mb-6 md:mb-8 relative z-10 tracking-tighter">
+                READY TO <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-orange">
+                  DOMINATE?
+                </span>
+              </h2>
+
+              <p className="text-white/50 text-base md:text-xl font-light mb-10 md:mb-16 relative z-10 max-w-2xl mx-auto">
+                Hubungi tim kemitraan kami untuk mendapatkan penawaran khusus dan kolaborasi eksklusif.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8 relative z-10 mb-8 md:mb-12">
+                <a
+                  href="mailto:partnership@iofestival.com"
+                  className="group/link flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
+                >
+                  <div className="flex flex-col text-left">
+                    <span className="text-[9px] md:text-[10px] font-mono text-neon-blue font-bold uppercase tracking-widest mb-1">Email Inquiry</span>
+                    <span className="text-sm md:text-lg font-raela font-bold text-white break-all">partnership@iofestival.com</span>
+                  </div>
+                  <Mail className="w-6 h-6 md:w-8 md:h-8 text-neon-blue shrink-0 ml-3" />
+                </a>
+
+                <a
+                  href="https://wa.me/6281234567890"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/link flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
+                >
+                  <div className="flex flex-col text-left">
+                    <span className="text-[9px] md:text-[10px] font-mono text-neon-orange font-bold uppercase tracking-widest mb-1">WhatsApp Direct</span>
+                    <span className="text-sm md:text-lg font-raela font-bold text-white">+62 812 3456 7890</span>
+                  </div>
+                  <Target className="w-6 h-6 md:w-8 md:h-8 text-neon-orange shrink-0 ml-3" />
+                </a>
+              </div>
+
+              <div className="relative z-10 pt-8 md:pt-12 border-t border-white/5 flex flex-wrap justify-center gap-6 md:gap-12 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
+                <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">BEM FTI UNTAR</span>
+                <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">IMTI UNTAR</span>
+                <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">PROUDLY PRESENTED</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  );
+}

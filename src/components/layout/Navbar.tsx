@@ -11,6 +11,7 @@ import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 const navItems = [
   { name: 'Competition', href: '/#tracks', hasDropdown: true },
   { name: 'Schedule', href: '/#timeline' },
+  { name: 'Sponsorship', href: '/sponsorship' },
   { name: 'FAQ', href: '/#faq' },
 ];
 
@@ -22,10 +23,9 @@ export function Navbar() {
   const regStatus = useRegistrationStatus();
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // The exact mathematical reverse of cubic-bezier(0.16, 1, 0.3, 1) is cubic-bezier(0.7, 0, 0.84, 0)
   const transitionClass = isScrolled
-    ? 'transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]'
-    : 'transition-all duration-300 ease-[cubic-bezier(0.7,0,0.84,0)]';
+    ? 'transition-all duration-700 ease-[0.16,1,0.3,1]'
+    : 'transition-all duration-300 ease-[0.7,0,0.84,0]';
 
   const { scrollY } = useScroll();
 
@@ -137,7 +137,8 @@ export function Navbar() {
                   {/* Featured */}
                   <div className="col-span-4 p-8 border-r border-white/5 flex flex-col justify-between bg-gradient-to-br from-neon-purple/10 via-transparent to-neon-orange/5">
                     <div>
-                      <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-4 block">I/O Festival 2026</span>
+                      <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6 block">
+I/O Festival 2026</span>
                       <span className="block font-raela font-bold text-2xl text-white leading-tight mb-3">
                         3 Cabang Kompetisi Nasional
                       </span>
