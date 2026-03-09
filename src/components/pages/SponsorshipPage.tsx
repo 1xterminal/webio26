@@ -576,8 +576,8 @@ export function SponsorshipPage() {
             transition={{ duration: 0.8 }}
             className="text-xl md:text-4xl font-raela font-light italic text-white/60 leading-relaxed"
           >
-            "Innovation dies in isolation. Great leaps are made through{' '}
-            <span className="text-white font-bold not-italic">Meaningful Partnerships</span>."
+            &quot;Innovation dies in isolation. Great leaps are made through{' '}
+            <span className="text-white font-bold not-italic">Meaningful Partnerships</span>.&quot;
           </motion.blockquote>
         </div>
       </section>

@@ -170,6 +170,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <StarDust />
             {/* Page background — Hyper-vibrant 15-layer "Festive" system (Pure CSS) */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
                 <div
