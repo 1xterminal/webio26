@@ -10,9 +10,6 @@ export function Gallery() {
     useEffect(() => {
         if (!containerRef.current || !canvasRef.current) return;
 
-        // Skip WebGL entirely on mobile — 80 instanced meshes + RAF is too costly
-        if (window.innerWidth < 768) return;
-
         let galleryApp: WebGLGallery | null = null;
         let isInitialized = false;
 
@@ -61,7 +58,7 @@ export function Gallery() {
         >
             {/* Overlay Text */}
             <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center pt-24 select-none">
-                <h2 className="font-raela font-bold text-4xl text-white/80 uppercase tracking-widest drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                <h2 className="font-raela font-bold text-4xl text-white uppercase tracking-widest drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] text-center">
                     Archived Memories
                 </h2>
                 <p className="text-white/40 mt-2 font-sans text-sm md:text-base tracking-wide uppercase hidden md:block">
@@ -72,11 +69,9 @@ export function Gallery() {
                 </p>
             </div>
 
-            {/* WebGL Canvas Container — desktop only */}
+            {/* WebGL Canvas Container */}
             <div ref={containerRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing">
-                <canvas ref={canvasRef} className="w-full h-full outline-none touch-pan-y hidden md:block" />
-                {/* Mobile static placeholder — no WebGL overhead */}
-                <div className="md:hidden absolute inset-0 bg-gradient-to-b from-neutral-900/50 via-neutral-950 to-neutral-900/50" />
+                <canvas ref={canvasRef} className="w-full h-full outline-none touch-pan-y" />
             </div>
 
             {/* Subtle Gradient Overlays for Depth, removed hard black background to allow seamless scroll */}
