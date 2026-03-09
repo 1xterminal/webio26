@@ -21,8 +21,8 @@ const StarDust = dynamic(
   () => import('@/components/effects/StarDust').then((m: { StarDust: React.ComponentType }) => m.StarDust),
   { ssr: false }
 );
-import { Users, Eye, Globe, Zap, Mail, Target, Check, X, ChevronDown, ExternalLink, ArrowRight } from 'lucide-react';
-import { useState, useCallback, memo } from 'react';
+import { Users, Eye, Globe, Mail, Check, X, ChevronDown, ExternalLink, ArrowRight, Megaphone, Sparkles, Crown, MessageCircle, LucideProps } from 'lucide-react';
+import { useState, useCallback, memo, useMemo, useSyncExternalStore } from 'react';
 import React from 'react';
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
@@ -44,6 +44,28 @@ interface Metric {
   value: string;
   label: string;
   delay: number;
+}
+
+interface BenefitItem {
+  title: string;
+  description: string;
+  icon: React.ComponentType<LucideProps>;
+  accentColor: string;
+  delay: number;
+}
+
+// ─── Hooks ───────────────────────────────────────────────────────────────────
+
+function useIsMobile() {
+  return useSyncExternalStore(
+    useCallback((callback: () => void) => {
+      const mq = window.matchMedia('(max-width: 768px)');
+      mq.addEventListener('change', callback);
+      return () => mq.removeEventListener('change', callback);
+    }, []),
+    () => window.matchMedia('(max-width: 768px)').matches,
+    () => false // server snapshot
+  );
 }
 
 // ─── Static Module-Level Data (never re-created on re-render) ──────────────────
@@ -72,10 +94,33 @@ const benefits: Benefit[] = [
 ];
 
 const metrics: Metric[] = [
-  { icon: Users, value: '500+',  label: 'Attendees',    delay: 0.1 },
-  { icon: Eye,   value: '10k+',   label: 'Impressions',  delay: 0.2 },
-  { icon: Globe, value: '25+',     label: 'Partnerships', delay: 0.3 },
-  { icon: Zap,   value: 'Rp 46M', label: 'Prize Pool',   delay: 0.4 },
+  { icon: Users, value: '1000+',  label: 'Expected Attendees Across 2 Days',    delay: 0.1 },
+  { icon: Eye,   value: '60k+',   label: 'Total Impressions',  delay: 0.2 },
+  { icon: Globe, value: '30+',     label: 'Expected Brands', delay: 0.3 },
+];
+
+const benefitItems: BenefitItem[] = [
+  {
+    title: 'Brand Exposure',
+    description: 'Logo brand kamu memiliki kesempatan tampil di berbagai media acara mulai dari baju panitia, spanduk, sampai video, dan dilihat ribuan pengunjung sepanjang acara. Dijamin makin dikenal dan gampang diingat!',
+    icon: Megaphone,
+    accentColor: '#1DBCD3', // Cyan
+    delay: 0.1,
+  },
+  {
+    title: 'Industry Exclusivity',
+    description: 'Brand-mu berpotensi menjadi satu-satunya brand di kategori industrimu! Tanpa kompetitor, perhatian pengunjung di area paling rame bakal fokus penuh ke booth kamu!',
+    icon: Crown,
+    accentColor: '#FF6B00', // Orange
+    delay: 0.2,
+  },
+  {
+    title: 'Direct Sales',
+    description: 'Kamu bisa jualan langsung di area acara untuk dapetin pemasukan nyata. Brand kamu juga bebas bagi-bagi tester ke pengunjung biar mereka tertarik dan langsung beli di tempat.',
+    icon: Sparkles,
+    accentColor: '#A856EE', // Purple
+    delay: 0.3,
+  },
 ];
 
 // ─── PremiumCardGlow — desktop only (blur + blend are GPU-expensive on mobile) ──
@@ -83,36 +128,51 @@ const metrics: Metric[] = [
 const PremiumCardGlow = memo(({ accentHex, roundedClass = 'rounded-3xl' }: {
   accentHex: string;
   roundedClass?: string;
-}) => (
-  <>
-    {/* Layer 1: Ambient radial glow */}
-    <div
-      className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-[600ms] pointer-events-none ${roundedClass}`}
-      style={{ background: `radial-gradient(circle at 100% 0%, ${accentHex} 0%, transparent 80%)` }}
-    />
-    {/* Layer 2: Flare — desktop only to avoid GPU overdraw on mobile */}
-    <div
-      className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-0 group-hover:opacity-40 transition-opacity duration-[800ms] pointer-events-none max-md:hidden blur-[80px] mix-blend-screen"
-      style={{ background: accentHex }}
-    />
-    {/* Layer 3: Gradient border via mask */}
-    <div
-      className={`absolute inset-0 ${roundedClass} pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms]`}
-      style={{
-        padding: '1px',
-        background: `linear-gradient(135deg, ${accentHex}90 0%, rgba(255,255,255,0.05) 100%)`,
-        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-        WebkitMaskComposite: 'xor',
-        maskComposite: 'exclude',
-      }}
-    />
-    {/* Layer 4: Inner glow on hover */}
-    <div
-      className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] pointer-events-none`}
-      style={{ boxShadow: `inset 0 0 40px ${accentHex}15, 0 10px 40px 0 ${accentHex}25` }}
-    />
-  </>
-));
+}) => {
+  // Pruning expensive effects for mobile users
+  const isMobile = useIsMobile();
+  
+  if (isMobile) {
+    // Simple glow for mobile - zero mix-blend, zero mask
+    return (
+      <div 
+        className={`absolute inset-0 border border-white/10 ${roundedClass} pointer-events-none group-hover:border-[${accentHex}50] transition-colors duration-500`} 
+        style={{ background: `linear-gradient(135deg, ${accentHex}05, transparent)` }}
+      />
+    );
+  }
+
+  return (
+    <>
+      {/* Layer 1: Ambient radial glow */}
+      <div
+        className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-[600ms] pointer-events-none ${roundedClass}`}
+        style={{ background: `radial-gradient(circle at 100% 0%, ${accentHex} 0%, transparent 80%)` }}
+      />
+      {/* Layer 2: Flare — desktop only to avoid GPU overdraw on mobile */}
+      <div
+        className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-0 group-hover:opacity-40 transition-opacity duration-[800ms] pointer-events-none blur-[80px] mix-blend-screen"
+        style={{ background: accentHex }}
+      />
+      {/* Layer 3: Gradient border via mask */}
+      <div
+        className={`absolute inset-0 ${roundedClass} pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms]`}
+        style={{
+          padding: '1px',
+          background: `linear-gradient(135deg, ${accentHex}90 0%, rgba(255,255,255,0.05) 100%)`,
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+        }}
+      />
+      {/* Layer 4: Inner glow on hover */}
+      <div
+        className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] pointer-events-none`}
+        style={{ boxShadow: `inset 0 0 40px ${accentHex}15, 0 10px 40px 0 ${accentHex}25` }}
+      />
+    </>
+  );
+});
 PremiumCardGlow.displayName = 'PremiumCardGlow';
 
 // ─── MetricCard — simplified on mobile for compositor-only rendering ───────────
@@ -123,7 +183,8 @@ const MetricCard = memo(({ icon: Icon, value, label, delay }: Metric) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '0px 0px -60px 0px' }}
     transition={{ duration: 0.6, delay }}
-    className="group relative p-6 md:p-8 rounded-3xl overflow-hidden bg-[rgba(20,20,20,0.5)] md:[backdrop-filter:blur(16px)] transition-transform duration-[500ms] ease-out hover:-translate-y-2"
+    className="group relative p-6 md:p-8 rounded-3xl overflow-hidden bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.5)] md:[backdrop-filter:blur(16px)] transition-transform duration-[500ms] ease-out hover:-translate-y-2 border border-white/5"
+    style={{ willChange: 'transform' }}
   >
     <PremiumCardGlow accentHex="#1DBCD3" />
     <div className="relative z-10 flex flex-col items-center text-center">
@@ -136,6 +197,64 @@ const MetricCard = memo(({ icon: Icon, value, label, delay }: Metric) => (
   </motion.div>
 ));
 MetricCard.displayName = 'MetricCard';
+
+const BenefitCard = memo(({ title, description, icon: Icon, accentColor, delay, isHighlighted }: BenefitItem & { isHighlighted?: boolean }) => {
+  const isMobile = useIsMobile();
+
+  return (
+    <motion.div
+      initial={isMobile ? { opacity: 0, y: 20 } : { opacity: 0, scale: 0.9, y: 30 }}
+      whileInView={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1, y: 0 }}
+    viewport={{ once: true, margin: '0px 0px -100px 0px' }}
+    transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={`group relative p-8 md:p-10 rounded-[40px] overflow-hidden ${isHighlighted ? 'bg-[rgba(20,20,20,0.9)] md:bg-[rgba(20,20,20,0.8)] border-white/20' : 'bg-[rgba(15,15,15,0.8)] md:bg-[rgba(15,15,15,0.6)] border-white/5'} border md:backdrop-blur-xl hover:-translate-y-3 transition-all duration-500 ease-out h-full`}
+    style={{ willChange: 'transform' }}
+  >
+    {/* Inner Premium Glow - More intense if highlighted */}
+    <div 
+      className={`absolute inset-0 ${isHighlighted ? 'opacity-20' : 'opacity-0'} group-hover:opacity-30 transition-opacity duration-700 pointer-events-none`}
+      style={{ background: `radial-gradient(circle at 50% 0%, ${accentColor} 0%, transparent 70%)` }}
+    />
+
+    {/* Border Highlight for Featured Card */}
+    {isHighlighted && (
+      <div className="absolute inset-0 rounded-[40px] border border-white/20 pointer-events-none" />
+    )}
+    
+    <div className="relative z-10 flex flex-col h-full">
+      <div 
+        className="w-16 h-16 md:w-20 md:h-20 rounded-3xl flex items-center justify-center mb-8 relative transition-transform duration-500 group-hover:scale-110"
+        style={{ 
+          background: isHighlighted ? `${accentColor}25` : `${accentColor}15`, 
+          border: `1px solid ${isHighlighted ? accentColor : accentColor + '30'}` 
+        }}
+      >
+        <Icon className="w-8 h-8 md:w-10 md:h-10 transition-colors duration-500" color={accentColor} />
+        {/* Halo Effect */}
+        <div className="absolute inset-0 rounded-3xl blur-2xl opacity-40" style={{ background: accentColor }} />
+      </div>
+
+      <h3 className="font-raela font-black text-2xl md:text-4xl text-white mb-4 tracking-tighter uppercase">
+        {title.split(' ').map((word, i) => (
+          <span key={i} className={i === 1 ? 'block text-transparent bg-clip-text' : ''} style={i === 1 ? { backgroundImage: `linear-gradient(to right, white, ${accentColor}80)` } : {}}>
+            {word}{' '}
+          </span>
+        ))}
+      </h3>
+
+      <p className="text-white/50 text-base md:text-lg leading-relaxed font-light">
+        {description.split('satu-satunya brand').map((part, i, arr) => (
+          <React.Fragment key={i}>
+            {part}
+            {i < arr.length - 1 && <span className="text-white font-bold">satu-satunya brand</span>}
+          </React.Fragment>
+        ))}
+      </p>
+    </div>
+    </motion.div>
+  );
+});
+BenefitCard.displayName = 'BenefitCard';
 
 // ─── renderCell — pure function, no state, no refs ────────────────────────────
 
@@ -367,6 +486,40 @@ export function SponsorshipPage() {
     []
   );
 
+  const isMobile = useIsMobile();
+
+  const backgroundGradients = useMemo(() => {
+    const layers = [
+      // Large Base Fields
+      'radial-gradient(ellipse 70% 60% at 0% 0%, rgba(29,188,211,0.35) 0%, transparent 80%)',
+      'radial-gradient(ellipse 70% 60% at 100% 0%, rgba(168,86,238,0.30) 0%, transparent 80%)',
+      'radial-gradient(ellipse 70% 60% at 0% 100%, rgba(255,107,0,0.25) 0%, transparent 80%)',
+      'radial-gradient(ellipse 70% 60% at 100% 100%, rgba(29,188,211,0.25) 0%, transparent 80%)',
+    ];
+
+    if (!isMobile) {
+      layers.push(
+        // Secondary Mid-fields
+        'radial-gradient(ellipse 50% 50% at 50% -10%, rgba(168,86,238,0.25) 0%, transparent 75%)',
+        'radial-gradient(ellipse 50% 50% at 50% 110%, rgba(255,107,0,0.20) 0%, transparent 75%)',
+        'radial-gradient(ellipse 45% 45% at -10% 50%, rgba(29,188,211,0.22) 0%, transparent 70%)',
+        'radial-gradient(ellipse 45% 45% at 110% 50%, rgba(168,86,238,0.22) 0%, transparent 70%)',
+        
+        // High-Intensity "Laser" Accents
+        'radial-gradient(circle at 10% 20%, rgba(29,188,211,0.40) 0%, transparent 25%)',
+        'radial-gradient(circle at 90% 10%, rgba(168,86,238,0.35) 0%, transparent 30%)',
+        'radial-gradient(circle at 85% 90%, rgba(255,107,0,0.30) 0%, transparent 25%)',
+        'radial-gradient(circle at 15% 85%, rgba(29,188,211,0.30) 0%, transparent 30%)',
+        
+        // Internal Pop/Glow
+        'radial-gradient(ellipse 40% 40% at 30% 45%, rgba(29,188,211,0.15) 0%, transparent 60%)',
+        'radial-gradient(ellipse 40% 40% at 75% 55%, rgba(168,86,238,0.15) 0%, transparent 60%)',
+        'radial-gradient(ellipse 35% 35% at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)'
+      );
+    }
+    return layers.join(',');
+  }, [isMobile]);
+
   return (
     <main className="bg-black min-h-screen text-white overflow-hidden">
       <Navbar />
@@ -376,32 +529,7 @@ export function SponsorshipPage() {
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         <div
           className="absolute inset-0 opacity-[0.55] md:opacity-[0.85]"
-          style={{
-            background: [
-              // Large Base Fields
-              'radial-gradient(ellipse 70% 60% at 0% 0%, rgba(29,188,211,0.35) 0%, transparent 80%)',
-              'radial-gradient(ellipse 70% 60% at 100% 0%, rgba(168,86,238,0.30) 0%, transparent 80%)',
-              'radial-gradient(ellipse 70% 60% at 0% 100%, rgba(255,107,0,0.25) 0%, transparent 80%)',
-              'radial-gradient(ellipse 70% 60% at 100% 100%, rgba(29,188,211,0.25) 0%, transparent 80%)',
-              
-              // Secondary Mid-fields
-              'radial-gradient(ellipse 50% 50% at 50% -10%, rgba(168,86,238,0.25) 0%, transparent 75%)',
-              'radial-gradient(ellipse 50% 50% at 50% 110%, rgba(255,107,0,0.20) 0%, transparent 75%)',
-              'radial-gradient(ellipse 45% 45% at -10% 50%, rgba(29,188,211,0.22) 0%, transparent 70%)',
-              'radial-gradient(ellipse 45% 45% at 110% 50%, rgba(168,86,238,0.22) 0%, transparent 70%)',
-              
-              // High-Intensity "Laser" Accents
-              'radial-gradient(circle at 10% 20%, rgba(29,188,211,0.40) 0%, transparent 25%)',
-              'radial-gradient(circle at 90% 10%, rgba(168,86,238,0.35) 0%, transparent 30%)',
-              'radial-gradient(circle at 85% 90%, rgba(255,107,0,0.30) 0%, transparent 25%)',
-              'radial-gradient(circle at 15% 85%, rgba(29,188,211,0.30) 0%, transparent 30%)',
-              
-              // Internal Pop/Glow
-              'radial-gradient(ellipse 40% 40% at 30% 45%, rgba(29,188,211,0.15) 0%, transparent 60%)',
-              'radial-gradient(ellipse 40% 40% at 75% 55%, rgba(168,86,238,0.15) 0%, transparent 60%)',
-              'radial-gradient(ellipse 35% 35% at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)',
-            ].join(','),
-          }}
+          style={{ background: backgroundGradients }}
         />
         {/* Subtle texture grain for premium feel (No GPU cost) */}
         <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
@@ -415,25 +543,19 @@ export function SponsorshipPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-xs mb-6 block">
-              PARTNERSHIP OPPORTUNITY 2026
-            </span>
             <h1 className="text-5xl md:text-9xl font-raela font-black tracking-tighter mb-6 leading-[1.1]">
-              <span className="text-white">EVOLVE</span>{' '}
+              <span className="text-white">PARTNER</span>{' '}
               <br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange">
-                BEYOND
+                WITH US!
               </span>
             </h1>
-            <p className="max-w-2xl mx-auto text-white/50 text-base md:text-xl font-light leading-relaxed mb-10">
-              Jadilah katalisator inovasi teknologi. Hubungkan visi brand Anda dengan ribuan talenta digital terbaik di I/O Festival 2026.
-            </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href="#tiers"
                 className="group relative w-full sm:w-auto px-8 py-4 bg-white text-black font-raela font-bold uppercase tracking-widest overflow-hidden transition-transform duration-200 active:scale-95"
               >
-                <span className="relative z-10 group-hover:text-white transition-colors duration-200">View Packages</span>
+                <span className="relative z-10 group-hover:text-white transition-colors duration-200">Learn More</span>
                 <div className="absolute inset-0 bg-neon-orange -translate-x-full group-hover:translate-x-0 transition-transform duration-250" />
               </a>
               <a
@@ -448,7 +570,10 @@ export function SponsorshipPage() {
       </section>
 
       {/* ── Metrics ──────────────────────────────────────────────────────── */}
-      <section className="py-20 md:py-24 px-4 relative z-10">
+      <section 
+        className="py-20 md:py-24 px-4 relative z-10"
+        aria-labelledby="metrics-title"
+      >
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -457,19 +582,67 @@ export function SponsorshipPage() {
             transition={{ duration: 0.7 }}
             className="text-center mb-12 md:mb-16"
           >
-            <h2 className="font-raela font-bold text-3xl md:text-5xl mb-4">OUR IMPACT</h2>
+            <h2 id="metrics-title" className="font-raela font-bold text-3xl md:text-5xl mb-4">WHY SPONSOR US?</h2>
             <div className="h-1 w-20 bg-gradient-to-r from-neon-blue to-neon-orange mx-auto rounded-full" />
           </motion.div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
             {metrics.map((m) => (
-              <MetricCard key={m.label} {...m} />
+              <div key={m.label} className="w-[calc(50%-1rem)] lg:w-72">
+                <MetricCard {...m} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── What You'll Get ────────────────────────────────────────────────── */}
+      <section 
+        className="py-20 md:py-32 px-4 relative z-10 overflow-visible"
+        aria-labelledby="benefits-title"
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16 md:mb-24"
+          >
+            <span className="text-neon-purple font-mono uppercase tracking-[0.4em] text-xs mb-4 block">
+              PARTNERSHIP BENEFITS
+            </span>
+            <h2 id="benefits-title" className="text-4xl md:text-7xl font-raela font-black text-white mb-6 tracking-tight uppercase">
+              WHAT YOU&apos;LL <br className="md:hidden" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">
+                GET
+              </span>
+            </h2>
+            <div className="h-1 w-24 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto rounded-full" />
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12 relative">
+            {/* Desktop Overlapping Layout Lines (Pure CSS SVG) */}
+            <div className="absolute inset-0 pointer-events-none hidden lg:block overflow-visible -z-10">
+              <svg className="w-full h-full opacity-10" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M400 100C500 200 700 400 800 500" stroke="white" strokeWidth="1" strokeDasharray="10 10" />
+                <path d="M800 100C700 200 500 400 400 500" stroke="white" strokeWidth="1" strokeDasharray="10 10" />
+              </svg>
+            </div>
+
+            {benefitItems.map((benefit, idx) => (
+              <div 
+                key={benefit.title} 
+                className={`flex flex-col ${idx === 1 ? 'lg:translate-y-12' : ''}`}
+              >
+                <BenefitCard {...benefit} isHighlighted={idx === 1} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ── Sponsorship Tiers ─────────────────────────────────────────────── */}
-      <section id="tiers" className="py-20 md:py-32 px-4 relative z-10">
+      <section id="tiers" className="py-20 md:py-32 px-4 relative z-10" aria-labelledby="tiers-title">
         <div className="max-w-7xl mx-auto">
 
           {/* Section header */}
@@ -480,15 +653,12 @@ export function SponsorshipPage() {
             transition={{ duration: 0.7 }}
             className="text-center mb-12 md:mb-20"
           >
-            <h2 className="text-4xl md:text-7xl font-raela font-black text-white mb-4 md:mb-6 tracking-tight">
+            <h2 id="tiers-title" className="text-4xl md:text-7xl font-raela font-black text-white mb-4 md:mb-6 tracking-tight">
               SPONSORSHIP{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">
-                MATRIX
+                TIERS
               </span>
             </h2>
-            <p className="text-white/40 max-w-xl mx-auto text-base md:text-lg italic">
-              The Blueprint of Collaboration
-            </p>
           </motion.div>
 
           {/* DESKTOP: matrix table */}
@@ -528,7 +698,7 @@ export function SponsorshipPage() {
             transition={{ duration: 0.5 }}
             className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10"
             style={{
-              background: 'rgba(20, 20, 20, 0.6)',
+              background: 'rgba(20, 20, 20, 0.8)',
               boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
               border: '1px solid rgba(255,255,255,0.05)',
               WebkitTapHighlightColor: 'transparent',
@@ -582,66 +752,117 @@ export function SponsorshipPage() {
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      <section id="contact" className="py-24 md:py-32 px-4 relative z-10">
-        <div className="max-w-5xl mx-auto">
+      {/* ── Contact Section ───────────────────────────────────────────────── */}
+      <section id="contact" className="py-24 md:py-32 px-4 relative z-10 overflow-hidden" aria-labelledby="contact-title">
+        <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="group relative p-[1px] rounded-[36px] md:rounded-[48px] overflow-hidden"
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16 md:mb-20"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="relative bg-black rounded-[35px] md:rounded-[47px] p-8 md:p-24 text-center overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/8 via-transparent to-neon-orange/8 pointer-events-none" />
-
-              <h2 className="text-4xl md:text-7xl font-raela font-black text-white mb-6 md:mb-8 relative z-10 tracking-tighter">
-                READY TO <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-orange">
-                  DOMINATE?
-                </span>
-              </h2>
-
-              <p className="text-white/50 text-base md:text-xl font-light mb-10 md:mb-16 relative z-10 max-w-2xl mx-auto">
-                Hubungi tim kemitraan kami untuk mendapatkan penawaran khusus dan kolaborasi eksklusif.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8 relative z-10 mb-8 md:mb-12">
-                <a
-                  href="mailto:iobemftiuntar@gmail.com"
-                  className="group/link flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
-                  style={{ WebkitTapHighlightColor: 'transparent' }}
-                >
-                  <div className="flex flex-col text-left">
-                    <span className="text-[9px] md:text-[10px] font-mono text-neon-blue font-bold uppercase tracking-widest mb-1">Email Inquiry</span>
-                    <span className="text-sm md:text-lg font-raela font-bold text-white break-all">partnership@iofestival.com</span>
-                  </div>
-                  <Mail className="w-6 h-6 md:w-8 md:h-8 text-neon-blue shrink-0 ml-3" />
-                </a>
-
-                <a
-                  href="https://wa.me/6281234567890"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group/link flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
-                  style={{ WebkitTapHighlightColor: 'transparent' }}
-                >
-                  <div className="flex flex-col text-left">
-                    <span className="text-[9px] md:text-[10px] font-mono text-neon-orange font-bold uppercase tracking-widest mb-1">WhatsApp Direct</span>
-                    <span className="text-sm md:text-lg font-raela font-bold text-white">+62 812 3456 7890</span>
-                  </div>
-                  <Target className="w-6 h-6 md:w-8 md:h-8 text-neon-orange shrink-0 ml-3" />
-                </a>
-              </div>
-
-              <div className="relative z-10 pt-8 md:pt-12 border-t border-white/5 flex flex-wrap justify-center gap-6 md:gap-12 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
-                <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">BEM FTI UNTAR</span>
-                {/* <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">IMTI UNTAR</span> */}
-                <span className="font-raela font-bold tracking-[0.2em] text-xs md:text-sm">PROUDLY PRESENTED</span>
-              </div>
-            </div>
+            <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-xs mb-4 block">
+              READY TO PARTNER?
+            </span>
+            <h2 id="contact-title" className="text-5xl md:text-8xl font-raela font-black text-white mb-6 tracking-tight uppercase">
+              CONTACT <br className="md:hidden" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange">
+                US!
+              </span>
+            </h2>
+            <p className="text-white/50 text-base md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+              Hubungi tim kemitraan kami untuk mendapatkan penawaran khusus dan kolaborasi eksklusif yang dirancang untuk visi brand Anda.
+            </p>
           </motion.div>
+          <div className="grid grid-cols-2 gap-4 md:gap-8 relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="group relative p-8 md:p-12 rounded-[32px] overflow-hidden bg-[rgba(20,20,20,0.85)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-2"
+              style={{ willChange: 'transform' }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-neon-blue/10 flex items-center justify-center mb-6 border border-neon-blue/20 transition-transform duration-500 group-hover:scale-110">
+                <Mail className="w-8 h-8 md:w-10 md:h-10 text-neon-blue" />
+              </div>
+              <span className="text-[10px] md:text-xs font-mono text-neon-blue font-bold uppercase tracking-widest mb-2">EMAIL INQUIRY</span>
+              <h3 className="text-white font-raela font-bold text-xl md:text-2xl mb-6">iobemftiuntar@gmail.com</h3>
+              <motion.a 
+                href="mailto:iobemftiuntar@gmail.com"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="mt-auto px-10 py-4 rounded-full bg-white/5 text-white/60 text-xs font-bold uppercase tracking-[0.2em] hover:bg-neon-blue/20 hover:text-white hover:shadow-[0_0_20px_rgba(0,163,255,0.3)] border border-white/10 hover:border-neon-blue/50 transition-all duration-300 z-20 relative overflow-hidden group/btn"
+              >
+                <span className="relative z-10">Contact Us!</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
+              </motion.a>
+            </motion.div>
+
+            {/* Chelsea WhatsApp Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="group relative p-8 rounded-[32px] overflow-hidden bg-[rgba(20,20,20,0.85)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-1"
+              style={{ willChange: 'transform' }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="w-16 h-16 rounded-2xl bg-neon-purple/10 flex items-center justify-center mb-6 border border-neon-purple/20 transition-transform duration-500 group-hover:scale-110">
+                <MessageCircle className="w-8 h-8 text-neon-purple" />
+              </div>
+              <span className="text-[9px] md:text-[10px] font-mono text-neon-purple font-bold uppercase tracking-wider mb-2 leading-tight">
+                Coordinator of Partnership and Management Committee
+              </span>
+              <h3 className="text-white font-raela font-bold text-lg mb-4">Chelsea Keshya</h3>
+              <motion.a 
+                href={`https://wa.me/6285883226013?text=${encodeURIComponent("Halo kak, aku tertarik untuk menjadi sponsor di I/O Festival 2026!")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="mt-auto px-8 py-3 rounded-full bg-white/5 text-white/60 text-xs font-bold uppercase tracking-[0.2em] hover:bg-neon-purple/20 hover:text-white hover:shadow-[0_0_20px_rgba(191,0,255,0.3)] border border-white/10 hover:border-neon-purple/50 transition-all duration-300 z-20 relative overflow-hidden group/btn"
+              >
+                <span className="relative z-10">Contact</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
+              </motion.a>
+            </motion.div>
+
+            {/* Juan WhatsApp Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="group relative p-8 rounded-[32px] overflow-hidden bg-[rgba(20,20,20,0.85)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-1"
+              style={{ willChange: 'transform' }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="w-16 h-16 rounded-2xl bg-neon-orange/10 flex items-center justify-center mb-6 border border-neon-orange/20 transition-transform duration-500 group-hover:scale-110">
+                <MessageCircle className="w-8 h-8 text-neon-orange" />
+              </div>
+              <span className="text-[9px] md:text-[10px] font-mono text-neon-orange font-bold uppercase tracking-wider mb-2 leading-tight">
+                Vice Coordinator of Partnership and Management Committee
+              </span>
+              <h3 className="text-white font-raela font-bold text-lg mb-4">Juan Jefferson</h3>
+              <motion.a 
+                href={`https://wa.me/6281297575567?text=${encodeURIComponent("Halo kak, aku tertarik untuk menjadi sponsor di I/O Festival 2026!")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="mt-auto px-8 py-3 rounded-full bg-white/5 text-white/60 text-xs font-bold uppercase tracking-[0.2em] hover:bg-neon-orange/20 hover:text-white hover:shadow-[0_0_20px_rgba(255,163,0,0.3)] border border-white/10 hover:border-neon-orange/50 transition-all duration-300 z-20 relative overflow-hidden group/btn"
+              >
+                <span className="relative z-10">Contact</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
+              </motion.a>
+            </motion.div>
+          </div>
+
+          <div className="mt-20 md:mt-32 border-t border-white/5 pt-12" />
         </div>
       </section>
 
