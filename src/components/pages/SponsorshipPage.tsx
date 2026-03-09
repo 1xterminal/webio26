@@ -21,7 +21,7 @@ const StarDust = dynamic(
   () => import('@/components/effects/StarDust').then((m: { StarDust: React.ComponentType }) => m.StarDust),
   { ssr: false }
 );
-import { Users, Eye, Globe, Zap, Mail, Target, Check, Minus, ChevronDown, ExternalLink, ArrowRight } from 'lucide-react';
+import { Users, Eye, Globe, Zap, Mail, Target, Check, X, ChevronDown, ExternalLink, ArrowRight } from 'lucide-react';
 import { useState, useCallback, memo } from 'react';
 import React from 'react';
 
@@ -58,13 +58,13 @@ const tiers: Tier[] = [
 
 const benefits: Benefit[] = [
   { name: 'Logo pada Media Promosi (Cetak & Digital)',           values: ['Ukuran XL',             'Ukuran L',    'Ukuran M',    'Ukuran S',    'Ukuran S'] },
-  { name: 'Penempatan Logo Khusus',       note: '*"Festival Partner"', values: [true,                    false,         false,         false,         false]      },
   { name: 'Open Booth Di Area Event',                              values: ['3×3m (Adjustable)',     '3×3m',        '2×2m',        '2×2m',        '-']         },
   { name: 'Lokasi Booth',                                          values: ['Zone A (Strategic)',    'Zone B',      'Zone C',      'Zone C',      '-']         },
   { name: 'Izin Direct Selling',          note: '*Hanya Non-Tunai',      values: [true,                    true,          true,          true,          false]       },
-  { name: 'Izin Sampling Keliling',       note: '*Roaming Tester',       values: ['Yes (All Areas)',       'Yes (Non-A)', false,         false,         false]       },
   { name: 'Postingan IG Story',                                    values: ['4×',                    '3×',          '2×',          '1×',          false]       },
+  { name: 'Izin Sampling Keliling',       note: '*Roaming Tester',       values: ['Yes (All Areas)',       'Yes (Non-A)', false,         false,         false]       },
   { name: 'Pemutaran Company Profile Video', note: '*Durasi 1 Menit',    values: ['4×',                    '2×',          false,         false,         false]       },
+  { name: 'Penempatan Logo Khusus',       note: '*"Festival Partner"', values: [true,                    false,         false,         false,         false]      },
   { name: 'Adlibs MC Saat Acara',                                  values: ['4×',                    false,         false,         false,         false]       },
   { name: 'Industry Exclusivity',         note: '*Max 1 Brand/Sektor',   values: [true,                    false,         false,         false,         false]       },
   { name: 'Content Creation',             note: '*Oleh Panitia',         values: [true,                    false,         false,         false,         false]       },
@@ -140,19 +140,20 @@ MetricCard.displayName = 'MetricCard';
 // ─── renderCell — pure function, no state, no refs ────────────────────────────
 
 function renderCell(val: string | boolean, accentHex: string) {
-  if (typeof val === 'boolean') {
-    return val ? (
+  if (val === false || val === '-') {
+    return <X className="w-4 h-4 text-white/20 mx-auto" />;
+  }
+
+  if (typeof val === 'boolean' && val === true) {
+    return (
       <div
         className="w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center border mx-auto"
         style={{ borderColor: `${accentHex}50`, background: `${accentHex}15` }}
       >
         <Check className="w-3.5 h-3.5 md:w-4 md:h-4" style={{ color: accentHex }} />
       </div>
-    ) : (
-      <Minus className="w-4 h-4 md:w-5 md:h-5 text-white/15 mx-auto" />
     );
   }
-  if (val === '-') return <span className="text-white/15 font-raela font-bold text-sm">—</span>;
   return <span className="text-white font-raela font-bold text-sm leading-snug">{val}</span>;
 }
 
