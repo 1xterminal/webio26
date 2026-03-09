@@ -5,9 +5,27 @@ import { ArrowLeft } from 'lucide-react';
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-neon-orange/15 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-neon-purple/10 rounded-full blur-[150px] pointer-events-none" />
+      {/* Hyper-vibrant 15-layer "Festive" system (Pure CSS) */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div
+          className="absolute inset-0 opacity-[0.5] md:opacity-[0.75]"
+          style={{
+            background: [
+              'radial-gradient(ellipse 70% 60% at 0% 0%, rgba(29,188,211,0.30) 0%, transparent 80%)',
+              'radial-gradient(ellipse 70% 60% at 100% 100%, rgba(168,86,238,0.25) 0%, transparent 80%)',
+              'radial-gradient(ellipse 70% 60% at 100% 0%, rgba(255,107,0,0.20) 0%, transparent 80%)',
+              'radial-gradient(ellipse 70% 60% at 0% 100%, rgba(29,188,211,0.20) 0%, transparent 80%)',
+              'radial-gradient(ellipse 50% 50% at 50% 50%, rgba(168,86,238,0.15) 0%, transparent 70%)',
+              'radial-gradient(circle at 10% 20%, rgba(29,188,211,0.35) 0%, transparent 25%)',
+              'radial-gradient(circle at 90% 10%, rgba(168,86,238,0.30) 0%, transparent 30%)',
+              'radial-gradient(circle at 85% 90%, rgba(255,107,0,0.25) 0%, transparent 25%)',
+              'radial-gradient(circle at 15% 85%, rgba(29,188,211,0.25) 0%, transparent 30%)',
+            ].join(','),
+          }}
+        />
+        {/* Subtle texture grain */}
+        <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+      </div>
 
       <div className="z-10 text-center max-w-lg">
         <Image

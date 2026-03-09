@@ -372,17 +372,39 @@ export function SponsorshipPage() {
       <Navbar />
       <StarDust />
 
-      {/* ── Background mesh — simple static gradient, no scroll tie ─────── */}
-      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+      {/* ── Background mesh — Hyper-vibrant 15-layer "Festive" system ────── */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 opacity-[0.55] md:opacity-[0.85]"
           style={{
             background: [
-              'radial-gradient(ellipse 70% 45% at 0% 0%, rgba(29,188,211,0.10) 0%, transparent 65%)',
-              'radial-gradient(ellipse 60% 50% at 100% 100%, rgba(168,86,238,0.07) 0%, transparent 60%)',
+              // Large Base Fields
+              'radial-gradient(ellipse 70% 60% at 0% 0%, rgba(29,188,211,0.35) 0%, transparent 80%)',
+              'radial-gradient(ellipse 70% 60% at 100% 0%, rgba(168,86,238,0.30) 0%, transparent 80%)',
+              'radial-gradient(ellipse 70% 60% at 0% 100%, rgba(255,107,0,0.25) 0%, transparent 80%)',
+              'radial-gradient(ellipse 70% 60% at 100% 100%, rgba(29,188,211,0.25) 0%, transparent 80%)',
+              
+              // Secondary Mid-fields
+              'radial-gradient(ellipse 50% 50% at 50% -10%, rgba(168,86,238,0.25) 0%, transparent 75%)',
+              'radial-gradient(ellipse 50% 50% at 50% 110%, rgba(255,107,0,0.20) 0%, transparent 75%)',
+              'radial-gradient(ellipse 45% 45% at -10% 50%, rgba(29,188,211,0.22) 0%, transparent 70%)',
+              'radial-gradient(ellipse 45% 45% at 110% 50%, rgba(168,86,238,0.22) 0%, transparent 70%)',
+              
+              // High-Intensity "Laser" Accents
+              'radial-gradient(circle at 10% 20%, rgba(29,188,211,0.40) 0%, transparent 25%)',
+              'radial-gradient(circle at 90% 10%, rgba(168,86,238,0.35) 0%, transparent 30%)',
+              'radial-gradient(circle at 85% 90%, rgba(255,107,0,0.30) 0%, transparent 25%)',
+              'radial-gradient(circle at 15% 85%, rgba(29,188,211,0.30) 0%, transparent 30%)',
+              
+              // Internal Pop/Glow
+              'radial-gradient(ellipse 40% 40% at 30% 45%, rgba(29,188,211,0.15) 0%, transparent 60%)',
+              'radial-gradient(ellipse 40% 40% at 75% 55%, rgba(168,86,238,0.15) 0%, transparent 60%)',
+              'radial-gradient(ellipse 35% 35% at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)',
             ].join(','),
           }}
         />
+        {/* Subtle texture grain for premium feel (No GPU cost) */}
+        <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
       </div>
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
