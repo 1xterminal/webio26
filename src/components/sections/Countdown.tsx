@@ -111,7 +111,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                 } : {}}
             />
             <div 
-                className={`absolute top-0 right-0 w-64 h-64 rounded-full max-md:blur-2xl blur-[60px] opacity-40 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none -translate-y-1/2 translate-x-1/2 ${!accentColor && 'bg-neon-orange/20'}`} 
+                className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-[60px] opacity-40 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none -translate-y-1/2 translate-x-1/2 ${!accentColor && 'bg-neon-orange/20'} max-md:hidden`} 
                 style={accentColor ? { backgroundColor: glow2 } : {}}
             />
             

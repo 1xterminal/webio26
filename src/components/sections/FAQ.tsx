@@ -80,10 +80,10 @@ export function FAQ() {
                             <AnimatePresence>
                                 {openIndex === index && (
                                     <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3 }}
+                                        initial={{ opacity: 0, y: -6 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -6 }}
+                                        transition={{ duration: 0.2, ease: 'easeOut' }}
                                     >
                                         <div className="px-6 pb-6 text-white/70 text-[15px] leading-relaxed">
                                             {faq.answer}

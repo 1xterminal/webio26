@@ -41,17 +41,15 @@ export function Prizes() {
                </h2>
 
                {/* Clean, Premium Glassmorphic Plaque */}
-                <motion.div 
-                    className="relative inline-block px-6 py-8 md:px-16 md:py-12 rounded-[2rem] md:rounded-[3rem] md:backdrop-blur-[24px] bg-white/[0.03] md:bg-white/[0.03] border border-white/10 shadow-2xl"
-                    whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.2)' }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                <div
+                    className="relative inline-block px-6 py-8 md:px-16 md:py-12 rounded-[2rem] md:rounded-[3rem] md:backdrop-blur-[24px] bg-white/[0.03] border border-white/10 shadow-2xl hover:bg-white/[0.05] hover:border-white/20 hover:scale-[1.02] transition-all duration-300 transform-gpu"
                 >
-                   <motion.h1 
+                   <motion.h1
                       className="text-[12vw] md:text-[8rem] xl:text-[10rem] font-black font-raela text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange leading-none tracking-tighter"
                    >
                       {roundedDisplay}
                    </motion.h1>
-               </motion.div>
+               </div>
             </motion.div>
          </div>
       </section>
