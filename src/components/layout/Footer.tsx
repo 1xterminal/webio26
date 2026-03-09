@@ -108,11 +108,6 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" aria-label="Contact us on LINE Official Account" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
-                  <MessageCircle className="w-4 h-4 shrink-0" /> LINE Official
-                </a>
-              </li>
-              <li>
                 <a href="mailto:iobemftiuntar@gmail.com" aria-label="Send us an email" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
                   <Mail className="w-4 h-4 shrink-0" /> iobemftiuntar@gmail.com
                 </a>

@@ -1,0 +1,55 @@
+
+D:\WEBSITE IO\webio26\src\components\pages\SponsorshipPage.tsx
+   24:35  warning  'Target' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   52:29  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+  123:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\WEBSITE IO\webio26\src\components\pages\SponsorshipPage.tsx:123:5
+  121 |   useEffect(() => {
+  122 |     const mq = window.matchMedia('(max-width: 768px)');
+> 123 |     setIsMobile(mq.matches);
+      |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  124 |     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+  125 |     mq.addEventListener('change', handler);
+  126 |     return () => mq.removeEventListener('change', handler);  react-hooks/set-state-in-effect
+  199:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\WEBSITE IO\webio26\src\components\pages\SponsorshipPage.tsx:199:5
+  197 |   useEffect(() => {
+  198 |     const mq = window.matchMedia('(max-width: 768px)');
+> 199 |     setIsMobile(mq.matches);
+      |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  200 |     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+  201 |     mq.addEventListener('change', handler);
+  202 |     return () => mq.removeEventListener('change', handler);  react-hooks/set-state-in-effect
+  493:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\WEBSITE IO\webio26\src\components\pages\SponsorshipPage.tsx:493:5
+  491 |   useEffect(() => {
+  492 |     const mq = window.matchMedia('(max-width: 768px)');
+> 493 |     setIsMobile(mq.matches);
+      |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  494 |     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+  495 |     mq.addEventListener('change', handler);
+  496 |     return () => mq.removeEventListener('change', handler);  react-hooks/set-state-in-effect
+
+Ô£û 5 problems (4 errors, 1 warning)
+

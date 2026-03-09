@@ -51,8 +51,8 @@ export function Navbar() {
         className={`fixed top-0 left-0 w-full z-[60] flex justify-center pointer-events-none ${transitionClass} ${isScrolled ? 'pt-4 px-4' : 'pt-0 px-0'
           }`}
       >
-        <div className={`flex items-center justify-between pointer-events-auto w-full gap-8 backdrop-blur-sm md:backdrop-blur-md ${transitionClass} ${isScrolled
-          ? 'rounded-2xl px-6 py-3 bg-black/30 max-w-4xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
+        <div className={`flex items-center justify-between pointer-events-auto w-full gap-8 md:backdrop-blur-md ${transitionClass} ${isScrolled
+          ? 'rounded-2xl px-6 py-3 bg-black/80 md:bg-black/30 max-w-4xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
           : 'rounded-none px-12 py-5 bg-black/40 max-w-500 border-b border-white/5'
           }`}>
           <Link href="/" aria-label="I/O Festival Home" className="flex items-center gap-2 font-raela font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
@@ -131,7 +131,7 @@ export function Navbar() {
             onMouseLeave={handleMouseLeave}
           >
             <div className="mx-auto max-w-5xl px-6">
-              <div className="bg-[#0a0a0a] border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.6)] backdrop-blur-md md:backdrop-blur-2xl">
+              <div className="bg-[#0a0a0a] border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.6)] md:backdrop-blur-2xl">
                 <div className="grid grid-cols-12 min-h-[280px]">
 
                   {/* Featured */}
@@ -209,7 +209,7 @@ I/O Festival 2026</span>
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[55] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center space-y-6 md:hidden"
+            className="fixed inset-0 z-[55] bg-black/95 md:backdrop-blur-md flex flex-col items-center justify-center space-y-6 md:hidden"
           >
             {navItems.map((item) =>
               item.hasDropdown ? (

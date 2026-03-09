@@ -22,18 +22,14 @@ function ScrollRestorer() {
 }
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
-    // Lenis gracefully handles touch devices natively via syncTouch: false
-    // Never conditionally bypass the wrapper component, as React will destroy and remount 
-    // the entirely nested DOM tree (the whole page) when swapping tags post-hydration.
-
     return (
         <ReactLenis
             root
             options={{
-                lerp: 0.08,        // Slightly snappier feel on desktop
-                duration: 1.2,
+                lerp: 0.1,         // Standard lerp for smooth but responsive feel
+                duration: 1.5,
                 smoothWheel: true,
-                syncTouch: false,  // Never hijack touch events
+                syncTouch: false,  // Do not intercept touch events to maintain native mobile scroll
             }}
         >
             <Suspense fallback={null}>

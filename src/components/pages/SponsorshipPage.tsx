@@ -133,11 +133,10 @@ const PremiumCardGlow = memo(({ accentHex, roundedClass = 'rounded-3xl' }: {
   const isMobile = useIsMobile();
   
   if (isMobile) {
-    // Simple glow for mobile - zero mix-blend, zero mask
+    // Simple glow for mobile - zero mix-blend, zero mask, zero blur
     return (
       <div 
-        className={`absolute inset-0 border border-white/10 ${roundedClass} pointer-events-none group-hover:border-[${accentHex}50] transition-colors duration-500`} 
-        style={{ background: `linear-gradient(135deg, ${accentHex}05, transparent)` }}
+        className={`absolute inset-0 border border-white/5 ${roundedClass} pointer-events-none transition-colors duration-500`} 
       />
     );
   }
@@ -183,7 +182,7 @@ const MetricCard = memo(({ icon: Icon, value, label, delay }: Metric) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '0px 0px -60px 0px' }}
     transition={{ duration: 0.6, delay }}
-    className="group relative p-6 md:p-8 rounded-3xl overflow-hidden bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.5)] md:[backdrop-filter:blur(16px)] transition-transform duration-[500ms] ease-out hover:-translate-y-2 border border-white/5"
+    className="group relative p-6 md:p-8 rounded-3xl overflow-hidden bg-[rgba(25,25,25,0.9)] md:bg-[rgba(20,20,20,0.5)] md:[backdrop-filter:blur(16px)] transition-transform duration-[500ms] ease-out hover:-translate-y-2 border border-white/5"
     style={{ willChange: 'transform' }}
   >
     <PremiumCardGlow accentHex="#1DBCD3" />
@@ -207,7 +206,7 @@ const BenefitCard = memo(({ title, description, icon: Icon, accentColor, delay, 
       whileInView={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1, y: 0 }}
     viewport={{ once: true, margin: '0px 0px -100px 0px' }}
     transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-    className={`group relative p-8 md:p-10 rounded-[40px] overflow-hidden ${isHighlighted ? 'bg-[rgba(20,20,20,0.9)] md:bg-[rgba(20,20,20,0.8)] border-white/20' : 'bg-[rgba(15,15,15,0.8)] md:bg-[rgba(15,15,15,0.6)] border-white/5'} border md:backdrop-blur-xl hover:-translate-y-3 transition-all duration-500 ease-out h-full`}
+    className={`group relative p-8 md:p-10 rounded-[40px] overflow-hidden ${isHighlighted ? 'bg-[rgba(25,25,25,0.95)] md:bg-[rgba(20,20,20,0.8)] border-white/20' : 'bg-[rgba(20,20,20,0.9)] md:bg-[rgba(15,15,15,0.6)] border-white/5'} border md:backdrop-blur-xl hover:-translate-y-3 transition-all duration-500 ease-out h-full`}
     style={{ willChange: 'transform' }}
   >
     {/* Inner Premium Glow - More intense if highlighted */}
@@ -402,9 +401,9 @@ interface MatrixTableProps {
 }
 
 const MatrixTable = memo(({ hoveredTier, onHoverTier }: MatrixTableProps) => (
-  <div className="relative p-[1px] rounded-[32px] overflow-hidden bg-white/10 [backdrop-filter:blur(24px)]">
-    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
-    <div className="relative overflow-x-auto rounded-[31px] bg-black/60 shadow-2xl">
+  <div className="relative p-[1px] rounded-[32px] overflow-hidden bg-white/10 md:[backdrop-filter:blur(24px)]">
+    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none md:block hidden" />
+    <div className="relative overflow-x-auto rounded-[31px] bg-black md:bg-black/60 shadow-2xl">
       <table
         className="w-full border-collapse min-w-[900px]"
         role="grid"
@@ -412,7 +411,7 @@ const MatrixTable = memo(({ hoveredTier, onHoverTier }: MatrixTableProps) => (
       >
         <thead>
           <tr className="border-b border-white/10">
-            <th className="p-6 text-left sticky left-0 bg-[#0a0a0a]/95 [backdrop-filter:blur(24px)] z-30 min-w-[260px]">
+            <th className="p-6 text-left sticky left-0 bg-black md:bg-[#0a0a0a]/95 md:[backdrop-filter:blur(24px)] z-30 min-w-[260px]">
               <span className="text-xs font-mono uppercase tracking-[0.4em] text-neon-blue font-bold">Benefit</span>
             </th>
             {tiers.map((tier, idx) => (
@@ -442,7 +441,7 @@ const MatrixTable = memo(({ hoveredTier, onHoverTier }: MatrixTableProps) => (
         <tbody className="divide-y divide-white/[0.05]">
           {benefits.map((benefit, bIdx) => (
             <tr key={bIdx} className="group/row hover:bg-white/[0.02] transition-colors">
-              <td className="p-5 text-left sticky left-0 bg-[#0a0a0a]/95 [backdrop-filter:blur(24px)] z-20 border-r border-white/[0.06]">
+              <td className="p-5 text-left sticky left-0 bg-black md:bg-[#0a0a0a]/95 md:[backdrop-filter:blur(24px)] z-20 border-r border-white/[0.06]">
                 <span className="text-[13px] font-semibold text-white/80 group-hover/row:text-white transition-colors leading-snug block">
                   {benefit.name}
                 </span>
@@ -497,26 +496,28 @@ export function SponsorshipPage() {
       'radial-gradient(ellipse 70% 60% at 100% 100%, rgba(29,188,211,0.25) 0%, transparent 80%)',
     ];
 
-    if (!isMobile) {
-      layers.push(
-        // Secondary Mid-fields
-        'radial-gradient(ellipse 50% 50% at 50% -10%, rgba(168,86,238,0.25) 0%, transparent 75%)',
-        'radial-gradient(ellipse 50% 50% at 50% 110%, rgba(255,107,0,0.20) 0%, transparent 75%)',
-        'radial-gradient(ellipse 45% 45% at -10% 50%, rgba(29,188,211,0.22) 0%, transparent 70%)',
-        'radial-gradient(ellipse 45% 45% at 110% 50%, rgba(168,86,238,0.22) 0%, transparent 70%)',
-        
-        // High-Intensity "Laser" Accents
-        'radial-gradient(circle at 10% 20%, rgba(29,188,211,0.40) 0%, transparent 25%)',
-        'radial-gradient(circle at 90% 10%, rgba(168,86,238,0.35) 0%, transparent 30%)',
-        'radial-gradient(circle at 85% 90%, rgba(255,107,0,0.30) 0%, transparent 25%)',
-        'radial-gradient(circle at 15% 85%, rgba(29,188,211,0.30) 0%, transparent 30%)',
-        
-        // Internal Pop/Glow
-        'radial-gradient(ellipse 40% 40% at 30% 45%, rgba(29,188,211,0.15) 0%, transparent 60%)',
-        'radial-gradient(ellipse 40% 40% at 75% 55%, rgba(168,86,238,0.15) 0%, transparent 60%)',
-        'radial-gradient(ellipse 35% 35% at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)'
-      );
+    if (isMobile) {
+      return layers.join(','); // Only 4 layers on mobile
     }
+
+    layers.push(
+      // Secondary Mid-fields
+      'radial-gradient(ellipse 50% 50% at 50% -10%, rgba(168,86,238,0.25) 0%, transparent 75%)',
+      'radial-gradient(ellipse 50% 50% at 50% 110%, rgba(255,107,0,0.20) 0%, transparent 75%)',
+      'radial-gradient(ellipse 45% 45% at -10% 50%, rgba(29,188,211,0.22) 0%, transparent 70%)',
+      'radial-gradient(ellipse 45% 45% at 110% 50%, rgba(168,86,238,0.22) 0%, transparent 70%)',
+      
+      // High-Intensity "Laser" Accents
+      'radial-gradient(circle at 10% 20%, rgba(29,188,211,0.40) 0%, transparent 25%)',
+      'radial-gradient(circle at 90% 10%, rgba(168,86,238,0.35) 0%, transparent 30%)',
+      'radial-gradient(circle at 85% 90%, rgba(255,107,0,0.30) 0%, transparent 25%)',
+      'radial-gradient(circle at 15% 85%, rgba(29,188,211,0.30) 0%, transparent 30%)',
+      
+      // Internal Pop/Glow
+      'radial-gradient(ellipse 40% 40% at 30% 45%, rgba(29,188,211,0.15) 0%, transparent 60%)',
+      'radial-gradient(ellipse 40% 40% at 75% 55%, rgba(168,86,238,0.15) 0%, transparent 60%)',
+      'radial-gradient(ellipse 35% 35% at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)'
+    );
     return layers.join(',');
   }, [isMobile]);
 
@@ -781,7 +782,7 @@ export function SponsorshipPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="group relative p-8 md:p-12 rounded-[32px] overflow-hidden bg-[rgba(20,20,20,0.85)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-2"
+              className="group relative p-8 md:p-12 rounded-[32px] overflow-hidden bg-[rgba(20,20,20,0.95)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-2"
               style={{ willChange: 'transform' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -807,7 +808,7 @@ export function SponsorshipPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="group relative p-8 rounded-[32px] overflow-hidden bg-[rgba(20,20,20,0.85)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-1"
+              className="group relative p-8 rounded-[32px] overflow-hidden bg-[rgba(25,25,25,0.95)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-1"
               style={{ willChange: 'transform' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -837,7 +838,7 @@ export function SponsorshipPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="group relative p-8 rounded-[32px] overflow-hidden bg-[rgba(20,20,20,0.85)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-1"
+              className="group relative p-8 rounded-[32px] overflow-hidden bg-[rgba(25,25,25,0.95)] md:bg-[rgba(20,20,20,0.6)] border border-white/5 md:backdrop-blur-xl hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center col-span-1"
               style={{ willChange: 'transform' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
