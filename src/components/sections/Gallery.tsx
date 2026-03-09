@@ -10,6 +10,9 @@ export function Gallery() {
     useEffect(() => {
         if (!containerRef.current || !canvasRef.current) return;
 
+        // Skip WebGL entirely on mobile — 80 instanced meshes + RAF is too costly
+        if (window.innerWidth < 768) return;
+
         let galleryApp: WebGLGallery | null = null;
         let isInitialized = false;
 
@@ -69,9 +72,11 @@ export function Gallery() {
                 </p>
             </div>
 
-            {/* WebGL Canvas Container */}
+            {/* WebGL Canvas Container — desktop only */}
             <div ref={containerRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing">
-                <canvas ref={canvasRef} className="w-full h-full outline-none touch-pan-y" />
+                <canvas ref={canvasRef} className="w-full h-full outline-none touch-pan-y hidden md:block" />
+                {/* Mobile static placeholder — no WebGL overhead */}
+                <div className="md:hidden absolute inset-0 bg-gradient-to-b from-neutral-900/50 via-neutral-950 to-neutral-900/50" />
             </div>
 
             {/* Subtle Gradient Overlays for Depth, removed hard black background to allow seamless scroll */}

@@ -84,48 +84,56 @@ export function StarDust() {
         // Pre-cache fillStyle strings per mote — alpha never changes so this is safe
         const moteColors = motes.current.map(m => `rgba(220,220,230,${m.alpha})`);
 
+        // matchMedia guard — render loop only runs on desktop (>=768px)
+        // Zero RAF iterations on mobile — replaces the old setTimeout polling loop
+        const mq = window.matchMedia('(min-width: 768px)');
+
         function render() {
             if (!ctx || !cvs) return;
-            
-            // Skip all canvas work on mobile to eliminate CPU overhead entirely
-            if (window.innerWidth >= 768) {
-                ctx.clearRect(0, 0, cvs.width, cvs.height);
 
-                // Use the cached glow gradient — zero allocations per frame
-                if (cachedGlow) {
-                    ctx.fillStyle = cachedGlow;
-                    ctx.fillRect(0, 0, cvs.width, cvs.height);
-                }
+            ctx.clearRect(0, 0, cvs.width, cvs.height);
 
-                for (let i = 0; i < motes.current.length; i++) {
-                    const m = motes.current[i];
-                    m.x += m.vx;
-                    m.y += m.vy;
-                    if (m.x < -5) m.x = cvs.width + 5;
-                    if (m.x > cvs.width + 5) m.x = -5;
-                    if (m.y < -5) m.y = cvs.height + 5;
-                    if (m.y > cvs.height + 5) m.y = -5;
+            // Use the cached glow gradient — zero allocations per frame
+            if (cachedGlow) {
+                ctx.fillStyle = cachedGlow;
+                ctx.fillRect(0, 0, cvs.width, cvs.height);
+            }
 
-                    ctx.beginPath();
-                    ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
-                    // Use pre-cached color string — no string allocation per frame
-                    ctx.fillStyle = moteColors[i];
-                    ctx.fill();
-                }
-                
-                raf.current = requestAnimationFrame(render);
+            for (let i = 0; i < motes.current.length; i++) {
+                const m = motes.current[i];
+                m.x += m.vx;
+                m.y += m.vy;
+                if (m.x < -5) m.x = cvs.width + 5;
+                if (m.x > cvs.width + 5) m.x = -5;
+                if (m.y < -5) m.y = cvs.height + 5;
+                if (m.y > cvs.height + 5) m.y = -5;
+
+                ctx.beginPath();
+                ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
+                // Use pre-cached color string — no string allocation per frame
+                ctx.fillStyle = moteColors[i];
+                ctx.fill();
+            }
+
+            raf.current = requestAnimationFrame(render);
+        }
+
+        function handleMqChange(e: MediaQueryListEvent) {
+            if (e.matches) {
+                render();
             } else {
-                // Check occasionally if screen is resized back to desktop
-                setTimeout(() => {
-                    raf.current = requestAnimationFrame(render);
-                }, 1000);
+                cancelAnimationFrame(raf.current);
             }
         }
 
-        render();
+        // Only start on desktop
+        if (mq.matches) render();
+        mq.addEventListener('change', handleMqChange);
         window.addEventListener('resize', resize, { passive: true });
+
         return () => {
             cancelAnimationFrame(raf.current);
+            mq.removeEventListener('change', handleMqChange);
             window.removeEventListener('resize', resize);
         };
     }, []);

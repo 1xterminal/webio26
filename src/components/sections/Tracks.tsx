@@ -81,7 +81,7 @@ export function Tracks() {
 
                                 {/* Layer 2: Intense Top-Right Flare */}
                                 <div
-                                    className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-10 group-hover:opacity-60 transition-opacity duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 mix-blend-screen max-md:blur-[40px] md:blur-[80px] pointer-events-none"
+                                    className="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-10 group-hover:opacity-60 transition-opacity duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 mix-blend-screen blur-[60px] md:blur-[80px] pointer-events-none"
                                     style={{ background: track.accentHex }}
                                 />
 

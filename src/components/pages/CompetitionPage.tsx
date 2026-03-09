@@ -172,8 +172,22 @@ export function CompetitionPage({ slug }: { slug: string }) {
             />
             <StarDust />
 
-            {/* Floating 3D Background Elements — keyframes now in globals.css */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            {/* Page background — subtle mesh gradient using competition accent color */}
+            <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+                {/* Mesh gradient: pure CSS radial gradients, zero blur, zero animation cost on mobile */}
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background: `
+                            radial-gradient(ellipse 70% 45% at 0% 0%,    ${data.accentHex}40 0%, transparent 65%),
+                            radial-gradient(ellipse 60% 50% at 100% 100%, ${data.accentHex}35 0%, transparent 60%),
+                            radial-gradient(ellipse 45% 35% at 100% 5%,  ${data.accentHex}25 0%, transparent 55%),
+                            radial-gradient(ellipse 40% 35% at 0% 90%,   ${data.accentHex}20 0%, transparent 55%),
+                            radial-gradient(ellipse 55% 50% at 50% 50%,  ${data.accentHex}15 0%, transparent 70%)
+                        `
+                    }}
+                />
+                {/* Desktop-only floating PNG elements */}
                 <div
                     className="absolute -top-20 -right-20 w-100 h-100 opacity-40 max-md:hidden transform-gpu"
                     style={{ animation: 'native-float-1 10s ease-in-out infinite' }}
@@ -193,7 +207,6 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     <Image src="/assets/element/ELEMEN FLARE 1.png" alt="" width={500} height={500} className="object-contain" />
                 </div>
             </div>
-
 
             <div className="pt-28 pb-20 px-4 relative z-10">
                 <div className="max-w-3xl mx-auto">
