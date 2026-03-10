@@ -1,8 +1,8 @@
 'use client';
 
 /**
- * SponsorshipPage.tsx
- * Refactored version using shared components from src/components/shared
+ * CaseCollabPage.tsx
+ * Page for Case Collaborators, following the same premium design as SponsorshipPage
  */
 
 import { motion } from 'framer-motion';
@@ -43,7 +43,7 @@ const benefits: Benefit[] = [
   { name: 'Postingan IG Story',                                    values: ['4×',                    '3×',          '2×',          '1×',          false]       },
   { name: 'Izin Sampling Keliling',       note: '*Roaming Tester',       values: ['Yes (All Areas)',       'Yes (Non-A)', false,         false,         false]       },
   { name: 'Pemutaran Company Profile Video', note: '*Durasi 1 Menit',    values: ['4×',                    '2×',          false,         false,         false]       },
-  { name: 'Penempatan Logo Khusus',       note: '*"Festival Partner"', values: [true,                    false,         false,         false,         false]      },
+  { name: 'Penempatan Logo Khusus',       note: '*"Case Partner"',     values: [true,                    false,         false,         false,         false]      },
   { name: 'Adlibs MC Saat Acara',                                  values: ['4×',                    false,         false,         false,         false]       },
   { name: 'Industry Exclusivity',         note: '*Max 1 Brand/Sektor',   values: [true,                    false,         false,         false,         false]       },
   { name: 'Content Creation',             note: '*Oleh Panitia',         values: [true,                    false,         false,         false,         false]       },
@@ -51,36 +51,36 @@ const benefits: Benefit[] = [
 ];
 
 const metrics = [
-  { icon: Users, value: '1000+',  label: 'Expected Attendees Across 2 Days',    delay: 0.1 },
-  { icon: Eye,   value: '60k+',   label: 'Total Impressions',  delay: 0.2 },
-  { icon: Globe, value: '30+',     label: 'Expected Brands', delay: 0.3 },
+  { icon: Users, value: '1000+',  label: 'Potential Innovators Impacted',    delay: 0.1 },
+  { icon: Eye,   value: '60k+',   label: 'Brand Awareness Reach',  delay: 0.2 },
+  { icon: Globe, value: '2k+',    label: 'Registration Traffic', delay: 0.3 },
 ];
 
-const sponsorshipBenefits = [
+const caseCollabBenefits = [
   {
-    title: 'Brand Exposure',
-    description: 'Logo brand kamu memiliki kesempatan tampil di berbagai media acara mulai dari baju panitia, spanduk, sampai video, dan dilihat ribuan pengunjung sepanjang acara. Dijamin makin dikenal dan gampang diingat!',
-    icon: dynamic(() => import('lucide-react').then(mod => mod.Megaphone)),
+    title: 'Collaborative Innovation',
+    description: 'Jadilah bagian dari solusi nyata dengan berkolaborasi dalam studi kasus yang dikompetisikan. Brand Anda akan dikenal sebagai pionir inovasi di kalangan mahasiswa teknologi.',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.Lightbulb)),
     accentColor: '#1DBCD3',
     delay: 0.1,
   },
   {
-    title: 'Industry Exclusivity',
-    description: 'Brand-mu berpotensi menjadi satu-satunya brand di kategori industrimu! Tanpa kompetitor, perhatian pengunjung di area paling rame bakal fokus penuh ke booth kamu!',
-    icon: dynamic(() => import('lucide-react').then(mod => mod.Crown)),
+    title: 'Talent Discovery',
+    description: 'Temukan talenta-talenta terbaik yang mampu memecahkan masalah kompleks. Kesempatan eksklusif untuk merekrut atau menjalin kerjasama dengan pemenang kompetisi!',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.Search)),
     accentColor: '#FF6B00',
     delay: 0.2,
   },
   {
-    title: 'Direct Sales',
-    description: 'Kamu bisa jualan langsung di area acara untuk dapetin pemasukan nyata. Brand kamu juga bebas bagi-bagi tester ke pengunjung biar mereka tertarik dan langsung beli di tempat.',
-    icon: dynamic(() => import('lucide-react').then(mod => mod.Sparkles)),
+    title: 'Brand Integration',
+    description: 'Integrasikan produk atau layanan Anda ke dalam materi kompetisi. Pengguna akan langsung mencoba dan merasakan nilai dari solusi yang Anda tawarkan.',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.Zap)),
     accentColor: '#A856EE',
     delay: 0.3,
   },
 ];
 
-export function SponsorshipPage() {
+export function CaseCollabPage() {
   const lenis = useLenis();
   const [hoveredTier, setHoveredTier] = useState<number | null>(null);
   const [openTier, setOpenTier] = useState<number | null>(0);
@@ -123,8 +123,8 @@ export function SponsorshipPage() {
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
             <h1 className="text-5xl md:text-9xl font-raela font-black tracking-tighter mb-6 leading-[1.1]">
-              <span className="text-white">PARTNER</span> <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange">WITH US!</span>
+              <span className="text-white">CASE</span> <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange">COLLABORATOR</span>
             </h1>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button onClick={() => lenis?.scrollTo('#tiers')} className="group relative w-full sm:w-auto px-8 py-4 bg-white text-black font-raela font-bold uppercase tracking-widest overflow-hidden transition-transform duration-200 active:scale-95 cursor-pointer">
@@ -140,7 +140,7 @@ export function SponsorshipPage() {
       <section className="py-20 md:py-24 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '0px 0px -80px 0px' }} transition={{ duration: 0.7 }} className="text-center mb-12 md:mb-16">
-            <h2 className="font-raela font-bold text-3xl md:text-5xl mb-4 uppercase">Why Sponsor Us?</h2>
+            <h2 className="font-raela font-bold text-3xl md:text-5xl mb-4 uppercase">Why Collaborate?</h2>
             <div className="h-1 w-20 bg-gradient-to-r from-neon-blue to-neon-orange mx-auto rounded-full" />
           </motion.div>
           <div className="flex flex-wrap justify-center gap-4 md:gap-8">
@@ -156,15 +156,15 @@ export function SponsorshipPage() {
       <section className="py-20 md:py-32 px-4 relative z-10 overflow-visible">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16 md:mb-24">
-            <span className="text-neon-purple font-mono uppercase tracking-[0.4em] text-xs mb-4 block">PARTNERSHIP BENEFITS</span>
+            <span className="text-neon-purple font-mono uppercase tracking-[0.4em] text-xs mb-4 block">COLLABORATION BENEFITS</span>
             <h2 className="text-4xl md:text-7xl font-raela font-black text-white mb-6 tracking-tight uppercase">
               WHAT YOU&apos;LL <br className="md:hidden" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">GET</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">EARN</span>
             </h2>
             <div className="h-1 w-24 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto rounded-full" />
           </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12 relative">
-            {sponsorshipBenefits.map((benefit, idx) => (
+            {caseCollabBenefits.map((benefit, idx) => (
               <div key={benefit.title} className={`flex flex-col ${idx === 1 ? 'lg:translate-y-12' : ''}`}>
                 <BenefitCard {...benefit} icon={benefit.icon as React.ComponentType<LucideProps>} isHighlighted={idx === 1} />
               </div>
@@ -177,7 +177,7 @@ export function SponsorshipPage() {
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '0px 0px -80px 0px' }} transition={{ duration: 0.7 }} className="text-center mb-12 md:mb-20">
             <h2 className="text-4xl md:text-7xl font-raela font-black text-white mb-4 md:mb-6 tracking-tight">
-              SPONSORSHIP <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">TIERS</span>
+              COLLABORATION <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">TIERS</span>
             </h2>
           </motion.div>
           <div className="hidden md:block">
@@ -197,10 +197,10 @@ export function SponsorshipPage() {
             <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-1">
-                  <span className="text-white font-bold text-xl md:text-2xl font-raela">Proposal Sponsorship</span>
+                  <span className="text-white font-bold text-xl md:text-2xl font-raela">Proposal Case Collaborator</span>
                   <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela">PDF</span>
                 </div>
-                <span className="text-white/50 text-sm">I/O Festival 2026 — Dokumen resmi kemitraan</span>
+                <span className="text-white/50 text-sm">I/O Festival 2026 — Dokumen resmi kemitraan kasus</span>
               </div>
               <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-4 py-2 rounded-full group-hover:bg-white/20 transition-colors">
                 Unduh <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" />
@@ -213,7 +213,7 @@ export function SponsorshipPage() {
       <section className="py-20 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.blockquote initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, margin: '0px 0px -80px 0px' }} transition={{ duration: 0.8 }} className="text-xl md:text-4xl font-raela font-light italic text-white/60 leading-relaxed">
-            &quot;Innovation dies in isolation. Great leaps are made through <span className="text-white font-bold not-italic">Meaningful Partnerships</span>.&quot;
+            &quot;Innovation thrives when we build together. Transform your business challenges into student opportunities.&quot;
           </motion.blockquote>
         </div>
       </section>
@@ -221,19 +221,19 @@ export function SponsorshipPage() {
       <section id="contact" className="py-20 md:py-32 px-4 relative z-10 bg-black/20">
         <div className="max-w-6xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16 md:mb-20">
-            <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-xs mb-4 block">READY TO PARTNER?</span>
+            <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-xs mb-4 block">READY TO COLLABORATE?</span>
             <h2 className="text-5xl md:text-8xl font-raela font-black text-white mb-6 tracking-tight uppercase">
               CONTACT <br className="md:hidden" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange">US!</span>
             </h2>
             <p className="text-white/50 text-base md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-              Hubungi tim kemitraan kami untuk mendapatkan penawaran khusus dan kolaborasi eksklusif yang dirancang untuk visi brand Anda.
+              Hubungi tim kemitraan kami untuk mendiskusikan bagaimana studi kasus Anda dapat diintegrasikan ke dalam kompetisi kami.
             </p>
           </motion.div>
           <div className="grid grid-cols-2 gap-4 md:gap-8 relative">
             <EmailContactCard email="iobemftiuntar@gmail.com" role="EMAIL INQUIRY" delay={0.1} accentColor="neon-blue" accentHex="#1DBCD3" />
-            <WhatsAppContactCard name="Chelsea Keshya" role="Coordinator of Partnership" phoneNumber="6285883226013" message="Halo kak, aku tertarik untuk menjadi sponsor di I/O Festival 2026!" accentColor="neon-purple" accentHex="#A856EE" delay={0.2} />
-            <WhatsAppContactCard name="Juan Jefferson" role="Vice Coordinator of Partnership" phoneNumber="6281297575567" message="Halo kak, aku tertarik untuk menjadi sponsor di I/O Festival 2026!" accentColor="neon-orange" accentHex="#FF6B00" delay={0.3} />
+            <WhatsAppContactCard name="Chelsea Keshya" role="Coordinator of Partnership" phoneNumber="6285883226013" message="Halo kak, aku tertarik untuk menjadi case collaborator di I/O Festival 2026!" accentColor="neon-purple" accentHex="#A856EE" delay={0.2} />
+            <WhatsAppContactCard name="Juan Jefferson" role="Vice Coordinator of Partnership" phoneNumber="6281297575567" message="Halo kak, aku tertarik untuk menjadi case collaborator di I/O Festival 2026!" accentColor="neon-orange" accentHex="#FF6B00" delay={0.3} />
           </div>
           <div className="mt-20 md:mt-32 border-t border-white/5 pt-12" />
         </div>
