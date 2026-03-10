@@ -14,13 +14,11 @@
  */
 
 import { motion } from 'framer-motion';
+import { useLenis } from 'lenis/react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
-const StarDust = dynamic(
-  () => import('@/components/effects/StarDust').then((m: { StarDust: React.ComponentType }) => m.StarDust),
-  { ssr: false }
-);
+const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
 import { Users, Eye, Globe, Mail, Check, X, ChevronDown, ExternalLink, ArrowRight, Megaphone, Sparkles, Crown, MessageCircle, LucideProps } from 'lucide-react';
 import { useState, useCallback, memo, useMemo, useSyncExternalStore } from 'react';
 import React from 'react';
@@ -475,6 +473,7 @@ MatrixTable.displayName = 'MatrixTable';
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export function SponsorshipPage() {
+  const lenis = useLenis();
   const [hoveredTier, setHoveredTier] = useState<number | null>(null);
   const [openTier, setOpenTier] = useState<number | null>(0);
 
@@ -552,19 +551,19 @@ export function SponsorshipPage() {
               </span>
             </h1>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="#tiers"
-                className="group relative w-full sm:w-auto px-8 py-4 bg-white text-black font-raela font-bold uppercase tracking-widest overflow-hidden transition-transform duration-200 active:scale-95"
+              <button
+                onClick={() => lenis?.scrollTo('#tiers')}
+                className="group relative w-full sm:w-auto px-8 py-4 bg-white text-black font-raela font-bold uppercase tracking-widest overflow-hidden transition-transform duration-200 active:scale-95 cursor-pointer"
               >
                 <span className="relative z-10 group-hover:text-white transition-colors duration-200">Learn More</span>
                 <div className="absolute inset-0 bg-neon-orange -translate-x-full group-hover:translate-x-0 transition-transform duration-250" />
-              </a>
-              <a
-                href="#contact"
-                className="w-full sm:w-auto px-8 py-4 border border-white/20 text-white font-raela font-bold uppercase tracking-widest hover:bg-white/10 transition-colors duration-200"
+              </button>
+              <button
+                onClick={() => lenis?.scrollTo('#contact')}
+                className="w-full sm:w-auto px-8 py-4 border border-white/20 text-white font-raela font-bold uppercase tracking-widest hover:bg-white/10 transition-colors duration-200 cursor-pointer"
               >
                 Contact Us
-              </a>
+              </button>
             </div>
           </motion.div>
         </div>
@@ -754,7 +753,7 @@ export function SponsorshipPage() {
       </section>
 
       {/* ── Contact Section ───────────────────────────────────────────────── */}
-      <section id="contact" className="py-24 md:py-32 px-4 relative z-10 overflow-hidden" aria-labelledby="contact-title">
+      <section id="contact" className="py-20 md:py-32 px-4 relative z-10 bg-black/20" aria-labelledby="contact-title">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

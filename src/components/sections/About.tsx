@@ -53,9 +53,12 @@ export function About() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0, margin: "0px 0px 800px 0px" }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="glass-card p-8 rounded-2xl hover:bg-white/5 transition-colors group"
+                                className="relative p-8 rounded-2xl bg-[rgba(25,25,25,0.9)] md:bg-white/5 md:backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 group overflow-hidden"
                             >
-                                <div className="flex items-start gap-5">
+                                {/* Static accent for mobile (no blur) */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/5 to-transparent pointer-events-none md:hidden" />
+                                
+                                <div className="flex items-start gap-5 relative z-10">
                                     <pillar.icon className="w-10 h-10 text-neon-blue shrink-0 group-hover:scale-110 transition-transform duration-300" />
                                     <div>
                                         <h3 className="font-raela font-bold text-xl text-white mb-2">{pillar.title}</h3>

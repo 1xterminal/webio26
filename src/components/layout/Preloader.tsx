@@ -80,10 +80,10 @@ export function Preloader() {
                             priority
                         />
                         <motion.div
-                            initial={{ width: 0, opacity: 0 }}
-                            animate={{ width: "100%", opacity: 1 }}
+                            initial={{ scaleX: 0, opacity: 0 }}
+                            animate={{ scaleX: 1, opacity: 1 }}
                             transition={{ duration: 1, delay: 0.3, ease: "circOut" }}
-                            className="h-[1px] bg-white/30"
+                            className="h-[1px] bg-white/30 w-full origin-left"
                         />
                         <motion.span
                             initial={{ y: 10, opacity: 0 }}

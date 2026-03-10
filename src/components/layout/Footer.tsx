@@ -2,8 +2,18 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Instagram, MessageCircle, Mail } from 'lucide-react';
+import { Instagram, Mail, MapPin } from 'lucide-react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
+import dynamic from 'next/dynamic';
+import { useState, useEffect, useRef } from 'react';
+
+// Lazy-load the map module
+const LazyMap = dynamic(() => import('@/components/ui/map').then(mod => mod.Map), { ssr: false });
+const LazyMapMarker = dynamic(() => import('@/components/ui/map').then(mod => mod.MapMarker), { ssr: false });
+const LazyMarkerContent = dynamic(() => import('@/components/ui/map').then(mod => mod.MarkerContent), { ssr: false });
+const LazyMarkerTooltip = dynamic(() => import('@/components/ui/map').then(mod => mod.MarkerTooltip), { ssr: false });
+const LazyMarkerPopup = dynamic(() => import('@/components/ui/map').then(mod => mod.MarkerPopup), { ssr: false });
+const LazyMapControls = dynamic(() => import('@/components/ui/map').then(mod => mod.MapControls), { ssr: false });
 
 const quickLinks = [
   { name: 'Schedule', href: '/#timeline' },
@@ -18,6 +28,24 @@ const competitionLinks = [
 
 export function Footer() {
   const regStatus = useRegistrationStatus();
+  const [mapVisible, setMapVisible] = useState(false);
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = mapRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMapVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '400px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <footer className="border-t border-white/10 bg-black relative overflow-hidden">
@@ -98,21 +126,52 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact & Location */}
           <div className="md:col-span-3 md:col-start-10">
-            <h3 className="text-[10px] font-raela font-black uppercase tracking-[0.2em] text-white/30 mb-4">Contact</h3>
-            <ul className="space-y-3">
+            <h3 className="text-[10px] font-raela font-black uppercase tracking-[0.2em] text-white/30 mb-4">Contact & Location</h3>
+            <ul className="space-y-4 mb-6">
               <li>
-                <a href="https://instagram.com/iofest.untar" target="_blank" rel="noopener noreferrer" aria-label="Follow I/O Festival on Instagram" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
-                  <Instagram className="w-4 h-4 shrink-0" /> @iofest.untar
+                <a href="https://instagram.com/iofest.untar" target="_blank" rel="noopener noreferrer" aria-label="Follow I/O Festival on Instagram" className="flex items-start gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
+                  <Instagram className="w-4 h-4 shrink-0 mt-0.5" /> @iofest.untar
                 </a>
               </li>
               <li>
-                <a href="mailto:iobemftiuntar@gmail.com" aria-label="Send us an email" className="flex items-center gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
-                  <Mail className="w-4 h-4 shrink-0" /> iobemftiuntar@gmail.com
+                <a href="mailto:iobemftiuntar@gmail.com" aria-label="Send us an email" className="flex items-start gap-2.5 text-white/50 text-sm hover:text-white transition-colors">
+                  <Mail className="w-4 h-4 shrink-0 mt-0.5" /> iobemftiuntar@gmail.com
                 </a>
+              </li>
+              <li className="flex items-start gap-2.5 text-white/50 text-sm">
+                <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-neon-orange" />
+                <span>Universitas Tarumanagara<br /><span className="text-[10px] opacity-60">Jl. Letjen S. Parman No.1, Jakarta Barat</span></span>
               </li>
             </ul>
+
+            <div ref={mapRef} className="w-full h-32 border border-white/10 relative overflow-hidden grayscale contrast-[1.2] hover:grayscale-0 transition-all duration-700">
+              <div className="absolute inset-0 bg-neon-blue/5 pointer-events-none z-10" />
+              {mapVisible ? (
+                <LazyMap center={[106.7888, -6.1678]} zoom={15} pitch={45}>
+                  <LazyMapControls position="bottom-right" showZoom={false} />
+                  <LazyMapMarker longitude={106.7888} latitude={-6.1678}>
+                    <LazyMarkerContent>
+                      <div className="size-4 rounded-full border border-white shadow-[0_0_10px_rgba(255,139,83,0.8)] bg-neon-orange relative">
+                        <span className="animate-ping absolute inset-0 rounded-full bg-neon-orange opacity-40"></span>
+                      </div>
+                    </LazyMarkerContent>
+                    <LazyMarkerTooltip className="bg-black/90 border border-white/10 text-white text-[10px] px-2 py-1 pointer-events-none rounded shadow-md z-50">
+                      UNTAR
+                    </LazyMarkerTooltip>
+                    <LazyMarkerPopup className="bg-black border border-neon-orange/20 backdrop-blur-md p-3 w-48 rounded-lg shadow-xl text-left z-50">
+                      <p className="font-raela font-bold text-white text-sm uppercase">UNTAR</p>
+                      <p className="text-[9px] text-white/60 font-sans leading-relaxed">Kampus 1, Jakarta Barat</p>
+                    </LazyMarkerPopup>
+                  </LazyMapMarker>
+                </LazyMap>
+              ) : (
+                <div className="w-full h-full bg-neutral-900 flex items-center justify-center">
+                  <MapPin className="w-4 h-4 text-white/20" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

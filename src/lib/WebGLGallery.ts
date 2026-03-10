@@ -225,7 +225,11 @@ export default class WebGLGallery {
     async loadTextureAtlas(urls: string[]) {
         const imagePromises = urls.map(async (path) => {
             return await new Promise<CanvasImageSource>((resolve) => {
-                const img = new Image();
+                const img = typeof window !== 'undefined' ? new window.Image() : {} as any;
+                if (typeof window === 'undefined') {
+                    resolve({} as CanvasImageSource);
+                    return;
+                }
                 img.crossOrigin = "anonymous";
                 img.onload = () => resolve(img);
                 img.onerror = () => {

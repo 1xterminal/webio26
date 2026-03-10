@@ -1,19 +1,19 @@
+'use client';
 import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/sections/Hero';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
 
-const Gallery = dynamic(() => import('@/components/sections/Gallery').then(mod => mod.Gallery));
-const About = dynamic(() => import('@/components/sections/About').then(mod => mod.About));
-const Tracks = dynamic(() => import('@/components/sections/Tracks').then(mod => mod.Tracks));
-const Timeline = dynamic(() => import('@/components/sections/Timeline').then(mod => mod.Timeline));
-const Prizes = dynamic(() => import('@/components/sections/Prizes').then(mod => mod.Prizes));
-const Sponsors = dynamic(() => import('@/components/sections/Sponsors').then(mod => mod.Sponsors));
-const FAQ = dynamic(() => import('@/components/sections/FAQ').then(mod => mod.FAQ));
-const Contact = dynamic(() => import('@/components/sections/Contact').then(mod => mod.Contact));
-const CTA = dynamic(() => import('@/components/sections/CTA').then(mod => mod.CTA));
-const MediaPartners = dynamic(() => import('@/components/sections/MediaPartners').then(mod => mod.MediaPartners));
-const StarDust = dynamic(() => import('@/components/effects/StarDust').then(mod => mod.StarDust));
+const Gallery = dynamic(() => import('@/components/sections/Gallery'), { ssr: false });
+const About = dynamic(() => import('@/components/sections/About').then(mod => mod.About), { ssr: false });
+const Tracks = dynamic(() => import('@/components/sections/Tracks').then(mod => mod.Tracks), { ssr: false });
+const Timeline = dynamic(() => import('@/components/sections/Timeline').then(mod => mod.Timeline), { ssr: false });
+const Prizes = dynamic(() => import('@/components/sections/Prizes').then(mod => mod.Prizes), { ssr: false });
+const Sponsors = dynamic(() => import('@/components/sections/Sponsors').then(mod => mod.Sponsors), { ssr: false });
+const FAQ = dynamic(() => import('@/components/sections/FAQ').then(mod => mod.FAQ), { ssr: false });
+const CTA = dynamic(() => import('@/components/sections/CTA').then(mod => mod.CTA), { ssr: false });
+const SponsorshipCTA = dynamic(() => import('@/components/sections/SponsorshipCTA'), { ssr: false });
+const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
 
 export default function Home() {
   const jsonLd = {
@@ -61,7 +61,8 @@ export default function Home() {
   };
 
   return (
-    <main id="main-content" className="min-h-screen bg-black selection:bg-neon-orange/30 overflow-x-hidden w-full">
+    <main className="min-h-screen bg-black relative">
+      {/* Background system now handled inside Hero for better hydration performance */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -78,11 +79,12 @@ export default function Home() {
       <Tracks />
       <Prizes />
       <Timeline />
-      <Sponsors />
+      <div className="hidden">
+        <Sponsors />
+      </div>
       <FAQ />
-      <Contact />
+      <SponsorshipCTA />
       <CTA />
-      <MediaPartners />
       <Footer />
     </main>
   );

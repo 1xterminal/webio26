@@ -62,7 +62,7 @@ export function Navbar() {
               alt="I/O Festival Logo"
               width={200}
               height={60}
-              className={`w-auto object-contain ${transitionClass} ${isScrolled ? 'h-10' : 'h-14'}`}
+              className={`w-auto object-contain transform-gpu will-change-[height] ${transitionClass} ${isScrolled ? 'h-8 md:h-10' : 'h-10 md:h-14'}`}
               priority
             />
           </Link>

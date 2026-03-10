@@ -28,7 +28,7 @@ function spawnMote(w: number, h: number): Mote {
     };
 }
 
-export function StarDust() {
+export default function StarDust() {
     const ref = useRef<HTMLCanvasElement>(null);
     const raf = useRef(0);
     const motes = useRef<Mote[]>([]);

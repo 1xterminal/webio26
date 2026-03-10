@@ -4,8 +4,11 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle } from 'lucide-react';
 import { getCompetition } from '@/lib/competitions';
+import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
+import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
+import { BusinessCaseIcon } from '@/components/ui/icons/BusinessCaseIcon';
 import dynamic from 'next/dynamic';
-const StarDust = dynamic(() => import('@/components/effects/StarDust').then(m => m.StarDust), { ssr: false });
+const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
 import Image from 'next/image';
 import { Countdown } from '@/components/sections/Countdown';
 import { useState, useEffect } from 'react';
@@ -88,8 +91,11 @@ export function CompetitionPage({ slug }: { slug: string }) {
     }, [data]);
 
     if (!data) return null;
-
-    const Icon = data.icon;
+    
+    // Select icon based on slug to avoid serialization issues with functions passed from server data
+    const Icon = data.slug === 'ui-ux' ? UIUXIcon : 
+                 data.slug === 'web-dev' ? WebDevIcon : 
+                 BusinessCaseIcon;
 
     const timelineStages = [
         { date: '15 Mar - 5 Apr', label: 'Early Bird' },

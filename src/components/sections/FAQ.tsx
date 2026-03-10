@@ -52,7 +52,7 @@ export function FAQ() {
     };
 
     return (
-        <section id="faq" className="py-16 md:py-32 relative overflow-hidden bg-black">
+        <section id="faq" className="py-16 md:py-32 relative overflow-hidden">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

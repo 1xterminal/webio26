@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import WebGLGallery from '@/lib/WebGLGallery';
 
-export function Gallery() {
+export default function Gallery() {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 

@@ -1,12 +1,12 @@
 'use client';
 
-import { BauhausGrid } from '@/components/effects/BauhausGrid';
+import FestiveBackground from '@/components/effects/FestiveBackground';
 
 export function HeroBackground() {
     return (
         <>
-            {/* Modern Bauhaus Pattern */}
-            <BauhausGrid />
+            {/* Festive Background System */}
+            <FestiveBackground />
 
             {/* Background Gradients */}
             <div className="absolute inset-0 bg-black -z-10">
