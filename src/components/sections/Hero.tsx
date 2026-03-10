@@ -2,7 +2,6 @@
 
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Countdown } from '@/components/sections/Countdown';
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 const FestiveBackground = dynamic(() => import('@/components/effects/FestiveBackground'), { ssr: false });
 

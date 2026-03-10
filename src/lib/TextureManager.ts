@@ -27,22 +27,24 @@ export class TextureManager {
         try {
             const imagePromises = urls.map(async (path) => {
                 return await new Promise<CanvasImageSource>((resolve) => {
-                    const img = typeof window !== 'undefined' ? new window.Image() : {} as any;
+                    const img = typeof window !== 'undefined' ? new window.Image() : null;
                     if (typeof window === 'undefined') {
                         resolve({} as CanvasImageSource);
                         return;
                     }
-                    img.crossOrigin = "anonymous";
-                    img.onload = () => resolve(img);
-                    img.onerror = () => {
-                        logger.warn(`Failed to load image: ${path}, using fallback`);
-                        const canvas = document.createElement("canvas");
-                        canvas.width = 500; canvas.height = 500;
-                        const ctx = canvas.getContext("2d")!;
-                        ctx.fillStyle = "#222"; ctx.fillRect(0, 0, 500, 500);
-                        resolve(canvas);
-                    };
-                    img.src = path;
+                    if (img) {
+                        img.crossOrigin = "anonymous";
+                        img.onload = () => resolve(img);
+                        img.onerror = () => {
+                            logger.warn(`Failed to load image: ${path}, using fallback`);
+                            const canvas = document.createElement("canvas");
+                            canvas.width = 500; canvas.height = 500;
+                            const ctx = canvas.getContext("2d")!;
+                            ctx.fillStyle = "#222"; ctx.fillRect(0, 0, 500, 500);
+                            resolve(canvas);
+                        };
+                        img.src = path;
+                    }
                 });
             });
 
