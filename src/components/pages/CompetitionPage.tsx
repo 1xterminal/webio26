@@ -897,7 +897,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                         <div className="relative z-10 flex items-center justify-between mb-8 pb-6 border-b border-white/10">
                                             <div>
                                                 <h3 className="font-raela font-black text-xl text-white tracking-wide">{cp.name}</h3>
-                                                <p className="text-white/40 text-xs uppercase tracking-[0.2em] font-bold mt-1">Official CP</p>
+                                                <p className="text-white/40 text-xs uppercase tracking-[0.2em] font-bold mt-1">{cp.role || 'Official CP'}</p>
                                             </div>
                                             <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-500 group-hover:scale-110 shadow-xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent">
                                                 <Users className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
