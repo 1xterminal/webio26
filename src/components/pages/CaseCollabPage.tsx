@@ -11,8 +11,9 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
 const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
-import { Users, Eye, Globe, ExternalLink, ArrowRight, LucideProps } from 'lucide-react';
+import { Users, Eye, Globe, ExternalLink, ArrowRight, LucideProps, Loader2, CheckCircle2 } from 'lucide-react';
 import { useMemo } from 'react';
+import { useDownloadInteraction } from '@/hooks/useDownloadInteraction';
 import React from 'react';
 
 // Shared Components
@@ -79,6 +80,7 @@ const caseCollabBenefits = [
 export function CaseCollabPage() {
   const lenis = useLenis();
   const isMobile = useIsMobile();
+  const { status: downloadStatus, handleDownload } = useDownloadInteraction();
 
 
   const backgroundGradients = useMemo(() => {
@@ -174,15 +176,22 @@ export function CaseCollabPage() {
             download 
             target="_blank" 
             rel="noopener noreferrer" 
+            onClick={handleDownload}
             initial={{ opacity: 0, y: 20 }} 
             whileInView={{ opacity: 1, y: 0 }} 
             viewport={{ once: true, margin: '0px 0px -60px 0px' }} 
             transition={{ duration: 0.5 }} 
-            className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10 border border-white/5 bg-[rgba(20,20,20,0.8)] shadow-2xl"
+            className={`relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden group w-full z-10 border border-white/5 bg-[rgba(20,20,20,0.8)] shadow-2xl ${downloadStatus === 'idle' ? 'hover:-translate-y-2' : ''}`}
           >
             <PremiumCardGlow accentHex="#A856EE" />
-            <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))' }}>
-              <ExternalLink className="w-8 h-8 text-white" style={{ filter: 'drop-shadow(0 0 12px #A856EE)' }} />
+            <div className={`relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg border border-white/5 ${downloadStatus === 'idle' ? 'group-hover:scale-110' : ''}`} style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))' }}>
+              {downloadStatus === 'success' ? (
+                <CheckCircle2 className="w-8 h-8 text-emerald-400" style={{ filter: 'drop-shadow(0 0 12px #34d399)' }} />
+              ) : downloadStatus === 'loading' ? (
+                <Loader2 className="w-8 h-8 text-white/50 animate-spin" />
+              ) : (
+                <ExternalLink className="w-8 h-8 text-white" style={{ filter: 'drop-shadow(0 0 12px #A856EE)' }} />
+              )}
             </div>
             <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
@@ -192,8 +201,20 @@ export function CaseCollabPage() {
                 </div>
                 <span className="text-white/50 text-sm">I/O Festival 2026 — Dokumen resmi kemitraan</span>
               </div>
-              <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-4 py-2 rounded-full group-hover:bg-white/20 transition-colors">
-                Unduh <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" />
+              <div 
+                className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white w-fit px-4 py-2 rounded-full transition-colors ${
+                  downloadStatus === 'success' 
+                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50' 
+                    : downloadStatus === 'loading'
+                    ? 'bg-white/5 text-white/50 cursor-wait'
+                    : 'bg-white/10 group-hover:bg-white/20'
+                }`}
+              >
+                {downloadStatus === 'idle' && (
+                  <>Unduh <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" /></>
+                )}
+                {downloadStatus === 'loading' && <span className="animate-pulse">Loading...</span>}
+                {downloadStatus === 'success' && 'Berhasil!'}
               </div>
             </div>
           </motion.a>
