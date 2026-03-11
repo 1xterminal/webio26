@@ -189,6 +189,39 @@ export function CaseCollabPage() {
         </div>
       </section>
 
+      <section className="pb-8 md:pb-12 px-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.a 
+            href="/downloads/Proposal Case Collaborator IO Festival 2026.pdf" 
+            download 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true, margin: '0px 0px -60px 0px' }} 
+            transition={{ duration: 0.5 }} 
+            className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden hover:-translate-y-2 group w-full z-10 border border-white/5 bg-[rgba(20,20,20,0.8)] shadow-2xl"
+          >
+            <PremiumCardGlow accentHex="#1DBCD3" />
+            <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-lg border border-white/5" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))' }}>
+              <ExternalLink className="w-8 h-8 text-white" style={{ filter: 'drop-shadow(0 0 12px #1DBCD3)' }} />
+            </div>
+            <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-3 mb-1">
+                  <span className="text-white font-bold text-xl md:text-2xl font-raela">Proposal Case Collaborator</span>
+                  <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela">PDF</span>
+                </div>
+                <span className="text-white/50 text-sm">I/O Festival 2026 — Dokumen resmi kemitraan</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white bg-white/10 w-fit px-4 py-2 rounded-full group-hover:bg-white/20 transition-colors">
+                Unduh <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" />
+              </div>
+            </div>
+          </motion.a>
+        </div>
+      </section>
+
       <section className="py-20 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.blockquote initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, margin: '0px 0px -80px 0px' }} transition={{ duration: 0.8 }} className="text-xl md:text-4xl font-raela font-light italic text-white/60 leading-relaxed">
