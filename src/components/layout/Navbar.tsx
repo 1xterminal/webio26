@@ -3,23 +3,43 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight, Handshake, Briefcase } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { competitions } from '@/lib/competitions';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 
 const navItems = [
-  { name: 'Competition', href: '/#tracks', hasDropdown: true },
+  { name: 'Competition', href: '/#tracks', hasDropdown: true, dropdownType: 'competition' },
   { name: 'Schedule', href: '/#timeline' },
-  { name: 'Sponsorship', href: '/sponsorship' },
+  { name: 'Partnership', href: '/sponsorship', hasDropdown: true, dropdownType: 'partnership' },
   { name: 'FAQ', href: '/#faq' },
+];
+
+const partnershipLinks = [
+  {
+    slug: 'sponsorship',
+    title: 'Sponsorship',
+    tagline: 'Brand exposure & on-ground activation.',
+    href: '/sponsorship',
+    icon: Handshake,
+    accentHex: '#A856EE',
+  },
+  {
+    slug: 'casecollab',
+    title: 'Case Collaborator',
+    tagline: 'Transform challenges into opportunities.',
+    href: '/casecollab',
+    icon: Briefcase,
+    accentHex: '#1DBCD3',
+  }
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileCompOpen, setMobileCompOpen] = useState(false);
+  const [mobilePartOpen, setMobilePartOpen] = useState(false);
   const regStatus = useRegistrationStatus();
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -33,13 +53,13 @@ export function Navbar() {
     setIsScrolled(latest > 50);
   });
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (type: string) => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
-    setShowDropdown(true);
+    setActiveDropdown(type);
   };
 
   const handleMouseLeave = () => {
-    dropdownTimeout.current = setTimeout(() => setShowDropdown(false), 200);
+    dropdownTimeout.current = setTimeout(() => setActiveDropdown(null), 300);
   };
 
   return (
@@ -53,7 +73,7 @@ export function Navbar() {
       >
         <div className={`flex items-center justify-between pointer-events-auto w-full gap-8 md:backdrop-blur-md ${transitionClass} ${isScrolled
           ? 'rounded-2xl px-6 py-3 bg-black/80 md:bg-black/30 max-w-4xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
-          : 'rounded-none px-12 py-5 bg-black/40 max-w-500 border-b border-white/5'
+          : 'rounded-none px-12 py-5 bg-black/40 max-w-5xl border-b border-white/5'
           }`}>
           <Link href="/" aria-label="I/O Festival Home" className="flex items-center gap-2 font-raela font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
             <Image
@@ -73,14 +93,16 @@ export function Navbar() {
                 <div
                   key={item.name}
                   className="relative"
-                  onMouseEnter={handleMouseEnter}
+                  onMouseEnter={() => handleMouseEnter(item.dropdownType!)}
                   onMouseLeave={handleMouseLeave}
                 >
                   <button
-                    className={`font-raela font-bold transition-all duration-300 relative group flex items-center gap-1 rounded-full ${isScrolled ? 'text-sm' : 'text-base'} ${showDropdown ? 'text-white bg-white/10 px-3.5 py-1.5 -mx-3.5 -my-1.5' : 'text-white/70 hover:text-white'}`}
+                    className={`font-raela font-bold transition-all duration-300 relative group flex items-center gap-1 rounded-full ${isScrolled ? 'text-sm' : 'text-base'} ${activeDropdown === item.dropdownType ? 'text-white bg-white/10 px-3.5 py-1.5 -mx-3.5 -my-1.5' : 'text-white/70 hover:text-white'}`}
+                    onMouseEnter={() => handleMouseEnter(item.dropdownType!)}
+                    onMouseLeave={handleMouseLeave}
                   >
                     {item.name}
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === item.dropdownType ? 'rotate-180' : ''}`} />
                   </button>
                 </div>
               ) : (
@@ -120,14 +142,14 @@ export function Navbar() {
 
       {/* Mega dropdown */}
       <AnimatePresence>
-        {showDropdown && (
+        {activeDropdown && (
           <motion.div
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed top-20 left-0 w-full z-61 pointer-events-auto"
-            onMouseEnter={handleMouseEnter}
+            className="fixed top-[64px] md:top-[72px] left-0 w-full z-61 pointer-events-auto pt-4"
+            onMouseEnter={() => handleMouseEnter(activeDropdown)}
             onMouseLeave={handleMouseLeave}
           >
             <div className="mx-auto max-w-5xl px-6">
@@ -138,56 +160,75 @@ export function Navbar() {
                   <div className="col-span-4 p-8 border-r border-white/5 flex flex-col justify-between bg-gradient-to-br from-neon-purple/10 via-transparent to-neon-orange/5">
                     <div>
                       <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6 block">
-I/O Festival 2026</span>
+                        {activeDropdown === 'competition' ? 'I/O Festival 2026' : 'Join the Force'}
+                      </span>
                       <span className="block font-raela font-bold text-2xl text-white leading-tight mb-3">
-                        3 Cabang Kompetisi Nasional
+                        {activeDropdown === 'competition' ? '3 Cabang Kompetisi Nasional' : 'Strategic Partnership'}
                       </span>
                       <p className="text-white/40 text-sm leading-relaxed">
-                        Terbuka untuk mahasiswa, siswa, dan umum.
-                        Pilih cabang yang sesuai dan buktikan skill kamu.
+                        {activeDropdown === 'competition' 
+                          ? 'Terbuka untuk mahasiswa, siswa, dan umum. Pilih cabang yang sesuai dan buktikan skill kamu.'
+                          : 'Pilih tipe kemitraan yang paling sesuai dengan profil dan tujuan strategis perusahaan Anda.'}
                       </p>
                     </div>
-                    {regStatus === 'open' ? (
+                    {activeDropdown === 'competition' ? (
+                      regStatus === 'open' ? (
+                        <Link
+                          href="#"
+                          onClick={() => setActiveDropdown(null)}
+                          className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors mt-6 group"
+                        >
+                          Register now <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                      ) : (
+                        <span className="inline-flex items-center gap-2 text-sm font-medium text-white/30 mt-6 cursor-not-allowed">
+                          {regStatus === 'upcoming' ? 'Registration opens 15 March' : 'Registration closed'}
+                        </span>
+                      )
+                    ) : (
                       <Link
-                        href="#"
-                        onClick={() => setShowDropdown(false)}
+                        href="/downloads/Proposal Sponsorship IO Festival.pdf"
+                        download
                         className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors mt-6 group"
                       >
-                        Register now <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                        Download Proposal <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </Link>
-                    ) : (
-                      <span className="inline-flex items-center gap-2 text-sm font-medium text-white/30 mt-6 cursor-not-allowed">
-                        {regStatus === 'upcoming' ? 'Registration opens 15 March' : 'Registration closed'}
-                      </span>
                     )}
                   </div>
 
                   {/* Links */}
                   <div className="col-span-8 p-2">
                     <div className="grid grid-cols-1 h-full">
-                      {competitions.map((comp) => {
-                        const CompIcon = comp.icon;
+                      {(activeDropdown === 'competition' ? competitions : partnershipLinks).map((item) => {
+                        const ItemIcon = (item as any).icon;
+                        const isComp = activeDropdown === 'competition';
                         return (
                           <Link
-                            key={comp.slug}
-                            href={`/kompetisi/${comp.slug}`}
+                            key={item.slug}
+                            href={isComp ? `/kompetisi/${item.slug}` : (item as any).href}
                             prefetch={true}
-                            onClick={() => setShowDropdown(false)}
+                            onClick={() => setActiveDropdown(null)}
                             className="flex items-center gap-5 px-6 py-5 hover:bg-white/[0.03] transition-colors group/item rounded-sm"
                           >
                             <div className="w-14 h-14 shrink-0 group-hover/item:scale-110 transition-transform duration-300 flex items-center justify-center">
-                              <CompIcon className="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" />
+                              {isComp ? (
+                                <ItemIcon className="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" />
+                              ) : (
+                                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover/item:border-white/20 transition-colors">
+                                  <ItemIcon className="w-6 h-6 text-white" style={{ filter: `drop-shadow(0 0 8px ${(item as any).accentHex})` }} />
+                                </div>
+                              )}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <span className="text-white font-bold text-[15px]">{comp.title}</span>
-                                {comp.badge && (
+                                <span className="text-white font-bold text-[15px]">{item.title}</span>
+                                {isComp && (item as any).badge && (
                                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-neon-orange/20 text-neon-orange">
-                                    {comp.badge}
+                                    {(item as any).badge}
                                   </span>
                                 )}
                               </div>
-                              <span className="text-white/30 text-xs mt-0.5 block">{comp.tagline}</span>
+                              <span className="text-white/30 text-xs mt-0.5 block">{item.tagline}</span>
                             </div>
                             <ArrowRight className="w-4 h-4 text-white/0 group-hover/item:text-white/40 transition-all shrink-0 -translate-x-2 group-hover/item:translate-x-0" />
                           </Link>
@@ -215,14 +256,17 @@ I/O Festival 2026</span>
               item.hasDropdown ? (
                 <div key={item.name} className="flex flex-col items-center">
                   <button
-                    onClick={() => setMobileCompOpen(!mobileCompOpen)}
+                    onClick={() => {
+                      if (item.dropdownType === 'competition') setMobileCompOpen(!mobileCompOpen);
+                      else setMobilePartOpen(!mobilePartOpen);
+                    }}
                     className="text-3xl font-raela font-bold text-white hover:text-neon-orange transition-colors flex items-center gap-2"
                   >
                     {item.name}
-                    <ChevronDown className={`w-6 h-6 transition-transform ${mobileCompOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-6 h-6 transition-transform ${(item.dropdownType === 'competition' ? mobileCompOpen : mobilePartOpen) ? 'rotate-180' : ''}`} />
                   </button>
                   <AnimatePresence>
-                    {mobileCompOpen && (
+                    {(item.dropdownType === 'competition' ? mobileCompOpen : mobilePartOpen) && (
                       <motion.div
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -230,15 +274,15 @@ I/O Festival 2026</span>
                         transition={{ duration: 0.2 }}
                         className="mt-4 space-y-3"
                       >
-                        {competitions.map((comp) => (
+                        {(item.dropdownType === 'competition' ? competitions : partnershipLinks).map((subItem) => (
                           <Link
-                            key={comp.slug}
-                            href={`/kompetisi/${comp.slug}`}
+                            key={subItem.slug}
+                            href={item.dropdownType === 'competition' ? `/kompetisi/${subItem.slug}` : (subItem as any).href}
                             prefetch={true}
                             onClick={() => setIsOpen(false)}
                             className="block text-center text-lg text-white/60 hover:text-neon-orange transition-colors"
                           >
-                            {comp.title}
+                            {subItem.title}
                           </Link>
                         ))}
                       </motion.div>
