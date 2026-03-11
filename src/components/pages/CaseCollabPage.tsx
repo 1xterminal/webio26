@@ -12,7 +12,7 @@ import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
 const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
 import { Users, Eye, Globe, ExternalLink, ArrowRight, LucideProps } from 'lucide-react';
-import { useState, useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import React from 'react';
 
 // Shared Components
@@ -20,74 +20,66 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { PremiumCardGlow } from '@/components/shared/PremiumCardGlow';
 import { MetricCard } from '@/components/shared/MetricCard';
 import { BenefitCard } from '@/components/shared/BenefitCard';
-import { ComparisonMatrix, type Tier, type Benefit } from '@/components/shared/ComparisonMatrix';
-import { MobileAccordion } from '@/components/shared/MobileAccordion';
 import { WhatsAppContactCard } from '@/components/shared/WhatsAppContactCard';
 import { EmailContactCard } from '@/components/shared/EmailContactCard';
 
 // ─── Static Module-Level Data ──────────────────────────────────────────────────
 
-const tiers: Tier[] = [
-  { name: 'Diamond',  color: 'from-cyan-400 to-blue-300',    accentHex: '#22d3ee' },
-  { name: 'Platinum', color: 'from-purple-500 to-purple-300', accentHex: '#A856EE' },
-  { name: 'Gold',     color: 'from-amber-400 to-amber-200',  accentHex: '#fbbf24' },
-  { name: 'Silver',   color: 'from-slate-400 to-slate-200',  accentHex: '#94a3b8' },
-  { name: 'Bronze',   color: 'from-amber-800 to-amber-600',  accentHex: '#b45309' },
-];
-
-const benefits: Benefit[] = [
-  { name: 'Logo pada Media Promosi (Cetak & Digital)',           values: ['Ukuran XL',             'Ukuran L',    'Ukuran M',    'Ukuran S',    'Ukuran S'] },
-  { name: 'Open Booth Di Area Event',                              values: ['3×3m (Adjustable)',     '3×3m',        '2×2m',        '2×2m',        '-']         },
-  { name: 'Lokasi Booth',                                          values: ['Zone A (Strategic)',    'Zone B',      'Zone C',      'Zone C',      '-']         },
-  { name: 'Izin Direct Selling',          note: '*Hanya Non-Tunai',      values: [true,                    true,          true,          true,          false]       },
-  { name: 'Postingan IG Story',                                    values: ['4×',                    '3×',          '2×',          '1×',          false]       },
-  { name: 'Izin Sampling Keliling',       note: '*Roaming Tester',       values: ['Yes (All Areas)',       'Yes (Non-A)', false,         false,         false]       },
-  { name: 'Pemutaran Company Profile Video', note: '*Durasi 1 Menit',    values: ['4×',                    '2×',          false,         false,         false]       },
-  { name: 'Penempatan Logo Khusus',       note: '*"Case Partner"',     values: [true,                    false,         false,         false,         false]      },
-  { name: 'Adlibs MC Saat Acara',                                  values: ['4×',                    false,         false,         false,         false]       },
-  { name: 'Industry Exclusivity',         note: '*Max 1 Brand/Sektor',   values: [true,                    false,         false,         false,         false]       },
-  { name: 'Content Creation',             note: '*Oleh Panitia',         values: [true,                    false,         false,         false,         false]       },
-  { name: 'Product Placement di After Movie',                      values: [true,                    false,         false,         false,         false]       },
-];
-
 const metrics = [
-  { icon: Users, value: '1000+',  label: 'Potential Innovators Impacted',    delay: 0.1 },
-  { icon: Eye,   value: '60k+',   label: 'Brand Awareness Reach',  delay: 0.2 },
-  { icon: Globe, value: '2k+',    label: 'Registration Traffic', delay: 0.3 },
+  { icon: Users, value: '1000+',  label: 'Expected Attendees Across 2 Days',    delay: 0.1 },
+  { icon: Eye,   value: '60k+',   label: 'Total Impressions',  delay: 0.2 },
+  { icon: Globe, value: '30+',     label: 'Expected Brands', delay: 0.3 },
 ];
 
 const caseCollabBenefits = [
   {
-    title: 'Collaborative Innovation',
-    description: 'Jadilah bagian dari solusi nyata dengan berkolaborasi dalam studi kasus yang dikompetisikan. Brand Anda akan dikenal sebagai pionir inovasi di kalangan mahasiswa teknologi.',
-    icon: dynamic(() => import('lucide-react').then(mod => mod.Lightbulb)),
+    title: 'Ultimate Exclusivity',
+    description: 'Pihak Panitia menjamin bahwa Pihak Sponsor adalah satu-satunya mitra korporat dalam cabang lomba Business Case Competition ini. Tidak ada logo perusahaan lain atau kompetitor yang akan berbagi panggung dengan Pihak Sponsor dalam materi lomba Business Case Competition.',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.ShieldCheck)),
     accentColor: '#1DBCD3',
     delay: 0.1,
   },
   {
-    title: 'Talent Discovery',
-    description: 'Temukan talenta-talenta terbaik yang mampu memecahkan masalah kompleks. Kesempatan eksklusif untuk merekrut atau menjalin kerjasama dengan pemenang kompetisi!',
-    icon: dynamic(() => import('lucide-react').then(mod => mod.Search)),
+    title: 'On-Ground Activation',
+    description: 'Pihak Sponsor mendapatkan hak istimewa untuk membuka booth eksklusif (3x3 meter) di Selasar Gedung M (area dengan lalu lintas mahasiswa tertinggi). Manfaat ini memberikan akses langsung untuk melakukan pameran produk, direct selling, atau on-site recruitment kepada ratusan pengunjung.',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.Store)),
     accentColor: '#FF6B00',
     delay: 0.2,
   },
   {
-    title: 'Brand Integration',
-    description: 'Integrasikan produk atau layanan Anda ke dalam materi kompetisi. Pengguna akan langsung mencoba dan merasakan nilai dari solusi yang Anda tawarkan.',
-    icon: dynamic(() => import('lucide-react').then(mod => mod.Zap)),
+    title: 'Exclusive Talent Pool Access',
+    description: 'Pihak Sponsor mendapatkan hak akses penuh terhadap database Curriculum Vitae (CV) seluruh peserta kompetisi. Ini merupakan jalur pintas (shortcut) bagitim HRD Pihak Sponsor untuk melakukan pencarian bibit-bibit talenta terbaik (high achievers) dari berbagai universitas di seluruh Indonesia.',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.FileUser)),
     accentColor: '#A856EE',
     delay: 0.3,
+  },
+  {
+    title: 'Grand Final Keynote Session',
+    description: 'Pihak Sponsor diberikan sesi khusus (speech/presentation) di panggung Grand Final. Sesi ini dapat dimanfaatkan secara bebas untuk Company Profile Branding, promosi produk, atau presentasi karir langsung di hadapan finalis dan audiens.',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.Presentation)),
+    accentColor: '#1DBCD3',
+    delay: 0.4,
+  },
+  {
+    title: 'Crowdsourcing Innovation',
+    description: 'Pihak Sponsor mendapatkan ratusan perspektif segar dan solusi inovatif dari mahasiswa (Gen-Z) terhadap permasalahan bisnis nyata yang dihadapi perusahaan.',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.Lightbulb)),
+    accentColor: '#FF6B00',
+    delay: 0.5,
+  },
+  {
+    title: 'Employer Branding',
+    description: 'Memperkuat citra Pihak Sponsor sebagai perusahaan yang mendukung inovasi dan pengembangan edukasi di mata ribuan mahasiswa dan akademisi.',
+    icon: dynamic(() => import('lucide-react').then(mod => mod.Award)),
+    accentColor: '#A856EE',
+    delay: 0.6,
   },
 ];
 
 export function CaseCollabPage() {
   const lenis = useLenis();
-  const [hoveredTier, setHoveredTier] = useState<number | null>(null);
-  const [openTier, setOpenTier] = useState<number | null>(0);
   const isMobile = useIsMobile();
 
-  const handleHoverTier = useCallback((idx: number | null) => setHoveredTier(idx), []);
-  const handleToggleTier = useCallback((idx: number) => setOpenTier(prev => (prev === idx ? null : idx)), []);
 
   const backgroundGradients = useMemo(() => {
     const layers = [
@@ -127,7 +119,7 @@ export function CaseCollabPage() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange">COLLABORATOR</span>
             </h1>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button onClick={() => lenis?.scrollTo('#tiers')} className="group relative w-full sm:w-auto px-8 py-4 bg-white text-black font-raela font-bold uppercase tracking-widest overflow-hidden transition-transform duration-200 active:scale-95 cursor-pointer">
+              <button onClick={() => lenis?.scrollTo('#benefits')} className="group relative w-full sm:w-auto px-8 py-4 bg-white text-black font-raela font-bold uppercase tracking-widest overflow-hidden transition-transform duration-200 active:scale-95 cursor-pointer">
                 <span className="relative z-10 group-hover:text-white transition-colors duration-200">Learn More</span>
                 <div className="absolute inset-0 bg-neon-orange -translate-x-full group-hover:translate-x-0 transition-transform duration-250" />
               </button>
@@ -140,7 +132,7 @@ export function CaseCollabPage() {
       <section className="py-20 md:py-24 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '0px 0px -80px 0px' }} transition={{ duration: 0.7 }} className="text-center mb-12 md:mb-16">
-            <h2 className="font-raela font-bold text-3xl md:text-5xl mb-4 uppercase">Why Collaborate?</h2>
+            <h2 className="font-raela font-bold text-3xl md:text-5xl mb-4 uppercase">Why Collaborate with us?</h2>
             <div className="h-1 w-20 bg-gradient-to-r from-neon-blue to-neon-orange mx-auto rounded-full" />
           </motion.div>
           <div className="flex flex-wrap justify-center gap-4 md:gap-8">
@@ -153,39 +145,26 @@ export function CaseCollabPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-32 px-4 relative z-10 overflow-visible">
+      <section id="benefits" className="py-20 md:py-32 px-4 relative z-10 overflow-visible">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16 md:mb-24">
             <span className="text-neon-purple font-mono uppercase tracking-[0.4em] text-xs mb-4 block">COLLABORATION BENEFITS</span>
             <h2 className="text-4xl md:text-7xl font-raela font-black text-white mb-6 tracking-tight uppercase">
               WHAT YOU&apos;LL <br className="md:hidden" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">EARN</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">GET</span>
             </h2>
             <div className="h-1 w-24 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto rounded-full" />
           </motion.div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12 relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12 relative">
             {caseCollabBenefits.map((benefit, idx) => (
-              <div key={benefit.title} className={`flex flex-col ${idx === 1 ? 'lg:translate-y-12' : ''}`}>
-                <BenefitCard {...benefit} icon={benefit.icon as React.ComponentType<LucideProps>} isHighlighted={idx === 1} />
+              <div key={benefit.title} className={`flex flex-col ${!isMobile && (idx === 1 || idx === 4) ? 'lg:translate-y-12' : ''}`}>
+                <BenefitCard {...benefit} icon={benefit.icon as React.ComponentType<LucideProps>} isHighlighted={idx === 1 || idx === 3 || idx === 5} />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="tiers" className="py-20 md:py-32 px-4 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '0px 0px -80px 0px' }} transition={{ duration: 0.7 }} className="text-center mb-12 md:mb-20">
-            <h2 className="text-4xl md:text-7xl font-raela font-black text-white mb-4 md:mb-6 tracking-tight">
-              COLLABORATION <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">TIERS</span>
-            </h2>
-          </motion.div>
-          <div className="hidden md:block">
-            <ComparisonMatrix tiers={tiers} benefits={benefits} hoveredTier={hoveredTier} onHoverTier={handleHoverTier} />
-          </div>
-          <MobileAccordion tiers={tiers} benefits={benefits} openTier={openTier} onToggle={handleToggleTier} />
-        </div>
-      </section>
 
       <section className="pb-8 md:pb-12 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
