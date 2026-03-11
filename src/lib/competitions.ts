@@ -59,8 +59,8 @@ export const competitions: CompetitionData[] = [
             prizes: 'Uang Tunai & E-Sertifikat',
         },
         contacts: [
-            { name: 'NAMA CP 1', whatsapp: '6281234567890', line: 'linecp1' },
-            { name: 'NAMA CP 2', whatsapp: '6281234567891', line: 'linecp2' }
+            { name: 'Felicia Rivera', whatsapp: '6281383763005', line: 'riverraa' },
+            { name: 'Sheireen Sadeli', whatsapp: '6285890581118', line: 'sheireensadel' }
         ],
         rulebookUrl: '#',
         submissionUrl: '#',
@@ -84,8 +84,8 @@ export const competitions: CompetitionData[] = [
             prizes: 'Uang Tunai & E-Sertifikat',
         },
         contacts: [
-            { name: 'NAMA CP 3', whatsapp: '6281234567892', line: 'linecp3' },
-            { name: 'NAMA CP 4', whatsapp: '6281234567893', line: 'linecp4' }
+            { name: 'Rein Mark Manopo', whatsapp: '628989364118', line: 'markreeen' },
+            { name: 'Christian Benizi Susilo', whatsapp: '6281354629105', line: 'bennzzy' }
         ],
         rulebookUrl: '#',
         submissionUrl: '#',
@@ -109,8 +109,7 @@ export const competitions: CompetitionData[] = [
             prizes: 'Uang Tunai & E-Sertifikat',
         },
         contacts: [
-            { name: 'NAMA CP 5', whatsapp: '6281234567894', line: 'linecp5' },
-            { name: 'NAMA CP 6', whatsapp: '6281234567895', line: 'linecp6' }
+            { name: 'Clive Ang', whatsapp: '6285370587170', line: 'cliveang2008' }
         ],
         rulebookUrl: '#',
         submissionUrl: '#',
