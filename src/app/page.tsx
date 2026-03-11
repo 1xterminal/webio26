@@ -24,16 +24,25 @@ export default function Home() {
         '@id': 'https://iofest.com/#website',
         url: 'https://iofest.com/',
         name: 'I/O FESTIVAL 2026',
-        description: 'Kompetisi IT Nasional Mahasiswa & SMA/SMK',
+        description: 'Buktikan Inovasi Teknologimu! Ajang kompetisi IT bergengsi skala nasional untuk Mahasiswa & SMA/SMK.',
         publisher: {
-          '@type': 'Organization',
-          name: 'BEM FTI UNTAR',
+          '@id': 'https://iofest.com/#organization'
         }
+      },
+      {
+        '@type': 'Organization',
+        '@id': 'https://iofest.com/#organization',
+        name: 'BEM FTI UNTAR',
+        url: 'https://bemftiuntar.com',
+        logo: 'https://iofest.com/icon.png',
+        sameAs: [
+          'https://instagram.com/iofestival'
+        ]
       },
       {
         '@type': 'Event',
         name: 'I/O FESTIVAL 2026',
-        description: 'I/O Festival 2026 adalah kompetisi IT tingkat nasional bergengsi untuk mahasiswa dan siswa SMA/SMK. Ikuti cabang lomba UI/UX Design, Web Development, dan Business Case.',
+        description: 'I/O Festival 2026 adalah kompetisi IT tingkat nasional bergengsi untuk mahasiswa dan siswa SMA/SMK. Ikuti cabang lomba UI/UX Design, Web Development, dan Business Case dengan total hadiah puluhan juta rupiah.',
         startDate: '2026-03-01T08:00:00+07:00',
         endDate: '2026-06-30T18:00:00+07:00',
         eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
@@ -52,9 +61,15 @@ export default function Home() {
         },
         image: ['https://iofest.com/og-image.jpg'],
         organizer: {
-          '@type': 'Organization',
-          name: 'BEM FTI UNTAR',
-          url: 'https://bemftiuntar.com'
+          '@id': 'https://iofest.com/#organization'
+        },
+        offers: {
+          '@type': 'Offer',
+          url: 'https://iofest.com/kompetisi',
+          priceCurrency: 'IDR',
+          price: '0',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2026-03-01T08:00:00+07:00'
         }
       }
     ]

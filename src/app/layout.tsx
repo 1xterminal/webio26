@@ -31,10 +31,10 @@ import { SmoothScroll } from '@/components/effects/SmoothScroll';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://iofest.com'),
   title: {
-    default: 'I/O FESTIVAL 2026 | Kompetisi IT Mahasiswa & Siswa Nasional',
+    default: 'I/O FESTIVAL 2026 | Technology into Action, Ideas into Impact',
     template: '%s | I/O FESTIVAL 2026',
   },
-  description: 'I/O Festival 2026 adalah kompetisi IT tingkat nasional bergengsi untuk mahasiswa dan siswa SMA/SMK. Ikuti cabang lomba UI/UX Design, Web Development, dan Business Case. Daftar sekarang!',
+  description: 'Ajang kompetisi IT bergengsi skala nasional untuk Mahasiswa & SMA/SMK. Asah kemampuanmu di UI/UX, Web Dev & Business Case. Daftar sekarang & raih total hadiah puluhan juta rupiah! 🚀',
   keywords: [
     'I/O Festival 2026', 'lomba IT tingkat nasional', 'kompetisi IT', 'lomba mahasiswa', 'lomba SMA SMK',
     'kompetisi UI/UX', 'lomba Web Development', 'lomba Business Case', 'IT competition Indonesia',
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'id_ID',
     url: 'https://iofest.com',
-    title: 'I/O FESTIVAL 2026 | Kompetisi IT Nasional',
-    description: 'Daftarkan tim Anda di kompetisi IT nasional bergengsi: UI/UX Design, Web Development, dan Business Case. Buktikan inovasi teknologimu di I/O Festival 2026!',
+    title: 'I/O FESTIVAL 2026 | Buktikan Inovasi Teknologimu! 🔥',
+    description: 'Ajang kompetisi IT bergengsi skala nasional untuk Mahasiswa & SMA/SMK. Asah kemampuanmu di UI/UX, Web Dev & Business Case. Daftar sekarang & raih hadiahnya! 🏆',
     siteName: 'I/O FESTIVAL 2026',
     images: [
       {
@@ -65,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'I/O FESTIVAL 2026 | Buktikan Skill IT Kamu',
-    description: 'Ajang kompetisi teknologi terbesar tahun ini. Bergabunglah dalam Web Dev, UI/UX, dan Business Case. Registrasi sekarang!',
+    title: 'I/O FESTIVAL 2026 | Buktikan Skill IT Kamu! 🚀',
+    description: 'Ajang kompetisi teknologi terbesar tahun ini. Bergabunglah dalam Web Dev, UI/UX, dan Business Case. Registrasi & amankan slot timmu sekarang! ✨',
     creator: '@iofestival',
     images: ['/twitter-image.jpg'],
   },
