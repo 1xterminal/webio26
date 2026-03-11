@@ -171,9 +171,11 @@ export function Navbar() {
                   {/* Featured */}
                   <div className="col-span-4 p-8 border-r border-white/5 flex flex-col justify-between bg-gradient-to-br from-neon-purple/10 via-transparent to-neon-orange/5">
                     <div>
-                      <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6 block">
-                        {activeDropdown === 'competition' ? 'I/O Festival 2026' : 'Join the Force'}
-                      </span>
+                      {activeDropdown === 'competition' && (
+                        <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6 block">
+                          I/O Festival 2026
+                        </span>
+                      )}
                       <span className="block font-raela font-bold text-2xl text-white leading-tight mb-3">
                         {activeDropdown === 'competition' ? '3 Cabang Kompetisi Nasional' : 'Strategic Partnership'}
                       </span>
@@ -183,7 +185,7 @@ export function Navbar() {
                           : 'Pilih tipe kemitraan yang paling sesuai dengan profil dan tujuan strategis perusahaan Anda.'}
                       </p>
                     </div>
-                    {activeDropdown === 'competition' ? (
+                    {activeDropdown === 'competition' && (
                       regStatus === 'open' ? (
                         <Link
                           href="#"
@@ -197,14 +199,6 @@ export function Navbar() {
                           {regStatus === 'upcoming' ? 'Registration opens 15 March' : 'Registration closed'}
                         </span>
                       )
-                    ) : (
-                      <Link
-                        href="/downloads/Proposal Sponsorship IO Festival.pdf"
-                        download
-                        className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors mt-6 group"
-                      >
-                        Download Proposal <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </Link>
                     )}
                   </div>
 
