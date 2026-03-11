@@ -15,7 +15,16 @@ const navItems = [
   { name: 'FAQ', href: '/#faq' },
 ];
 
-const partnershipLinks = [
+interface PartnershipLink {
+  slug: string;
+  title: string;
+  tagline: string;
+  href: string;
+  icon: React.ComponentType<any>;
+  accentHex: string;
+}
+
+const partnershipLinks: PartnershipLink[] = [
   {
     slug: 'sponsorship',
     title: 'Sponsorship',
@@ -59,6 +68,7 @@ export function Navbar() {
   };
 
   const handleMouseLeave = () => {
+    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
     dropdownTimeout.current = setTimeout(() => setActiveDropdown(null), 300);
   };
 
@@ -73,7 +83,7 @@ export function Navbar() {
       >
         <div className={`flex items-center justify-between pointer-events-auto w-full gap-8 md:backdrop-blur-md ${transitionClass} ${isScrolled
           ? 'rounded-2xl px-6 py-3 bg-black/80 md:bg-black/30 max-w-4xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
-          : 'rounded-none px-12 py-5 bg-black/40 max-w-5xl border-b border-white/5'
+          : 'rounded-none px-12 py-5 bg-black/40 max-w-500 border-b border-white/5'
           }`}>
           <Link href="/" aria-label="I/O Festival Home" className="flex items-center gap-2 font-raela font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
             <Image
@@ -92,18 +102,20 @@ export function Navbar() {
               item.hasDropdown ? (
                 <div
                   key={item.name}
-                  className="relative"
+                  className="relative h-full flex items-center"
                   onMouseEnter={() => handleMouseEnter(item.dropdownType!)}
                   onMouseLeave={handleMouseLeave}
                 >
                   <button
                     className={`font-raela font-bold transition-all duration-300 relative group flex items-center gap-1 rounded-full ${isScrolled ? 'text-sm' : 'text-base'} ${activeDropdown === item.dropdownType ? 'text-white bg-white/10 px-3.5 py-1.5 -mx-3.5 -my-1.5' : 'text-white/70 hover:text-white'}`}
-                    onMouseEnter={() => handleMouseEnter(item.dropdownType!)}
-                    onMouseLeave={handleMouseLeave}
                   >
                     {item.name}
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === item.dropdownType ? 'rotate-180' : ''}`} />
                   </button>
+                  {/* Invisible bridge to mega menu */}
+                  {activeDropdown === item.dropdownType && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-48 h-[60px] bg-transparent z-50 pointer-events-auto" />
+                  )}
                 </div>
               ) : (
                 <Link
@@ -148,7 +160,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed top-[64px] md:top-[72px] left-0 w-full z-61 pointer-events-auto pt-4"
+            className="fixed top-20 left-0 w-full z-[61] pointer-events-auto"
             onMouseEnter={() => handleMouseEnter(activeDropdown)}
             onMouseLeave={handleMouseLeave}
           >
@@ -200,12 +212,15 @@ export function Navbar() {
                   <div className="col-span-8 p-2">
                     <div className="grid grid-cols-1 h-full">
                       {(activeDropdown === 'competition' ? competitions : partnershipLinks).map((item) => {
-                        const ItemIcon = (item as any).icon;
                         const isComp = activeDropdown === 'competition';
+                        const compItem = isComp ? item as import('@/lib/competitions').CompetitionData : null;
+                        const partItem = !isComp ? item as PartnershipLink : null;
+                        const ItemIcon = isComp ? compItem!.icon : partItem!.icon;
+
                         return (
                           <Link
-                            key={item.slug}
-                            href={isComp ? `/kompetisi/${item.slug}` : (item as any).href}
+                            key={isComp ? compItem!.slug : partItem!.slug}
+                            href={isComp ? `/kompetisi/${compItem!.slug}` : partItem!.href}
                             prefetch={true}
                             onClick={() => setActiveDropdown(null)}
                             className="flex items-center gap-5 px-6 py-5 hover:bg-white/[0.03] transition-colors group/item rounded-sm"
@@ -215,20 +230,20 @@ export function Navbar() {
                                 <ItemIcon className="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" />
                               ) : (
                                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover/item:border-white/20 transition-colors">
-                                  <ItemIcon className="w-6 h-6 text-white" style={{ filter: `drop-shadow(0 0 8px ${(item as any).accentHex})` }} />
+                                  <ItemIcon className="w-6 h-6 text-white" style={{ filter: `drop-shadow(0 0 8px ${partItem!.accentHex})` }} />
                                 </div>
                               )}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <span className="text-white font-bold text-[15px]">{item.title}</span>
-                                {isComp && (item as any).badge && (
+                                <span className="text-white font-bold text-[15px]">{isComp ? compItem!.title : partItem!.title}</span>
+                                {isComp && compItem!.badge && (
                                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-neon-orange/20 text-neon-orange">
-                                    {(item as any).badge}
+                                    {compItem!.badge}
                                   </span>
                                 )}
                               </div>
-                              <span className="text-white/30 text-xs mt-0.5 block">{item.tagline}</span>
+                              <span className="text-white/30 text-xs mt-0.5 block line-clamp-2 md:line-clamp-1">{isComp ? compItem!.tagline : partItem!.tagline}</span>
                             </div>
                             <ArrowRight className="w-4 h-4 text-white/0 group-hover/item:text-white/40 transition-all shrink-0 -translate-x-2 group-hover/item:translate-x-0" />
                           </Link>
@@ -274,17 +289,22 @@ export function Navbar() {
                         transition={{ duration: 0.2 }}
                         className="mt-4 space-y-3"
                       >
-                        {(item.dropdownType === 'competition' ? competitions : partnershipLinks).map((subItem) => (
-                          <Link
-                            key={subItem.slug}
-                            href={item.dropdownType === 'competition' ? `/kompetisi/${subItem.slug}` : (subItem as any).href}
-                            prefetch={true}
-                            onClick={() => setIsOpen(false)}
-                            className="block text-center text-lg text-white/60 hover:text-neon-orange transition-colors"
-                          >
-                            {subItem.title}
-                          </Link>
-                        ))}
+                        {(item.dropdownType === 'competition' ? competitions : partnershipLinks).map((subItem) => {
+                          const isComp = item.dropdownType === 'competition';
+                          const href = isComp ? `/kompetisi/${subItem.slug}` : (subItem as PartnershipLink).href;
+                          
+                          return (
+                            <Link
+                              key={subItem.slug}
+                              href={href}
+                              prefetch={true}
+                              onClick={() => setIsOpen(false)}
+                              className="block text-center text-lg text-white/60 hover:text-neon-orange transition-colors"
+                            >
+                              {subItem.title}
+                            </Link>
+                          );
+                        })}
                       </motion.div>
                     )}
                   </AnimatePresence>
