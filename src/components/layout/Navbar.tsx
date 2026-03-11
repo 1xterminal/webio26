@@ -20,7 +20,7 @@ interface PartnershipLink {
   title: string;
   tagline: string;
   href: string;
-  icon: React.ComponentType<any>;
+  icon: React.ElementType<{ className?: string; style?: React.CSSProperties }>;
   accentHex: string;
 }
 
@@ -209,7 +209,8 @@ export function Navbar() {
                         const isComp = activeDropdown === 'competition';
                         const compItem = isComp ? item as import('@/lib/competitions').CompetitionData : null;
                         const partItem = !isComp ? item as PartnershipLink : null;
-                        const ItemIcon = isComp ? compItem!.icon : partItem!.icon;
+                        const CompIcon = compItem?.icon as React.ElementType<{ className?: string; style?: React.CSSProperties }> | undefined;
+                        const PartIcon = partItem?.icon;
 
                         return (
                           <Link
@@ -220,13 +221,13 @@ export function Navbar() {
                             className="flex items-center gap-5 px-6 py-5 hover:bg-white/[0.03] transition-colors group/item rounded-sm"
                           >
                             <div className="w-14 h-14 shrink-0 group-hover/item:scale-110 transition-transform duration-300 flex items-center justify-center">
-                              {isComp ? (
-                                <ItemIcon className="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" />
-                              ) : (
+                              {isComp && CompIcon ? (
+                                <CompIcon className="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" />
+                              ) : !isComp && PartIcon && partItem ? (
                                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover/item:border-white/20 transition-colors">
-                                  <ItemIcon className="w-6 h-6 text-white" style={{ filter: `drop-shadow(0 0 8px ${partItem!.accentHex})` }} />
+                                  <PartIcon className="w-6 h-6 text-white" style={{ filter: `drop-shadow(0 0 8px ${partItem.accentHex})` }} />
                                 </div>
-                              )}
+                              ) : null}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
