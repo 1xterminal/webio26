@@ -904,47 +904,39 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                             </div>
                                         </div>
 
-                                        <div className="relative z-10 flex flex-col gap-3 mt-auto">
+                                        <div className="relative z-10 flex flex-col gap-3 mt-auto w-full">
                                             <a
                                                 href={`https://wa.me/${cp.whatsapp}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="relative w-full px-4 py-3 rounded-2xl bg-white/[0.03] text-white/70 hover:text-white text-xs font-bold tracking-wider transition-all duration-300 border border-white/5 flex items-center justify-center gap-2 group/btn shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden hover:shadow-lg"
-                                                style={{ '--btn-hover-color': data.accentHex } as React.CSSProperties}
+                                                className="flex items-center gap-4 p-3 rounded-2xl bg-white/[0.02] hover:bg-[#25D366]/10 border border-white/5 hover:border-[#25D366]/30 transition-all duration-300 group/wa w-full"
                                             >
-                                                <svg className="w-4 h-4 text-[#25D366] shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.124.551 4.154 1.599 5.96L.18 23.4l5.589-1.465a12.015 12.015 0 0 0 6.262 1.761h.005c6.645 0 12.03-5.385 12.03-12.03S18.677 0 12.031 0zm.005 21.688a9.982 9.982 0 0 1-5.093-1.385l-.365-.216-3.785.992.997-3.69-.237-.377a9.988 9.988 0 0 1-1.528-5.32c0-5.508 4.484-9.992 9.992-9.992 2.668 0 5.176 1.04 7.062 2.926A9.954 9.954 0 0 1 21.99 12.03c0 5.508-4.484 9.992-9.992 9.992v.005zm5.483-7.495c-.301-.151-1.78-.88-2.056-.98-.276-.1-.478-.15-.679.15s-.779.98-.955 1.18c-.176.2-.352.226-.653.076-.301-.151-1.272-.469-2.42-1.49-.893-.794-1.497-1.776-1.673-2.077-.176-.301-.019-.464.131-.614.136-.135.301-.351.452-.527.15-.176.201-.301.301-.502.1-.2.05-.376-.025-.526-.075-.15-.679-1.643-.93-2.251-.243-.591-.49-.51-.679-.52-.176-.01-.377-.01-.578-.01s-.527.075-.803.376c-.276.301-1.054 1.03-1.054 2.511s1.08 2.91 1.231 3.111c.15.201 2.122 3.238 5.141 4.538.718.31 1.278.496 1.714.635.72.228 1.376.196 1.892.119.58-.087 1.78-.728 2.03-1.432.251-.703.251-1.306.176-1.432-.075-.125-.276-.2-.577-.35z"/>
-                                                </svg>
-                                                <span className="relative z-10 drop-shadow-md text-[13px]">{cp.whatsapp.replace(/^62/, '0')}</span>
-                                                <div
-                                                    className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-300"
-                                                    style={{ backgroundColor: data.accentHex }}
-                                                />
-                                                <div
-                                                    className="absolute inset-0 border-2 rounded-2xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none"
-                                                    style={{ borderColor: data.accentHex }}
-                                                />
+                                                <div className="w-10 h-10 rounded-xl bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover/wa:scale-110 shadow-lg transition-transform duration-300 shrink-0">
+                                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.124.551 4.154 1.599 5.96L.18 23.4l5.589-1.465a12.015 12.015 0 0 0 6.262 1.761h.005c6.645 0 12.03-5.385 12.03-12.03S18.677 0 12.031 0zm.005 21.688a9.982 9.982 0 0 1-5.093-1.385l-.365-.216-3.785.992.997-3.69-.237-.377a9.988 9.988 0 0 1-1.528-5.32c0-5.508 4.484-9.992 9.992-9.992 2.668 0 5.176 1.04 7.062 2.926A9.954 9.954 0 0 1 21.99 12.03c0 5.508-4.484 9.992-9.992 9.992v.005zm5.483-7.495c-.301-.151-1.78-.88-2.056-.98-.276-.1-.478-.15-.679.15s-.779.98-.955 1.18c-.176.2-.352.226-.653.076-.301-.151-1.272-.469-2.42-1.49-.893-.794-1.497-1.776-1.673-2.077-.176-.301-.019-.464.131-.614.136-.135.301-.351.452-.527.15-.176.201-.301.301-.502.1-.2.05-.376-.025-.526-.075-.15-.679-1.643-.93-2.251-.243-.591-.49-.51-.679-.52-.176-.01-.377-.01-.578-.01s-.527.075-.803.376c-.276.301-1.054 1.03-1.054 2.511s1.08 2.91 1.231 3.111c.15.201 2.122 3.238 5.141 4.538.718.31 1.278.496 1.714.635.72.228 1.376.196 1.892.119.58-.087 1.78-.728 2.03-1.432.251-.703.251-1.306.176-1.432-.075-.125-.276-.2-.577-.35z"/>
+                                                    </svg>
+                                                </div>
+                                                <div className="flex flex-col flex-1 truncate">
+                                                    <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold mb-0.5 font-raela">WhatsApp</span>
+                                                    <span className="text-sm font-bold text-white/90 group-hover/wa:text-white transition-colors">{cp.whatsapp.replace(/^62/, '0')}</span>
+                                                </div>
                                             </a>
 
                                             <a
                                                 href={`https://line.me/ti/p/~${cp.line}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="relative w-full px-4 py-3 rounded-2xl bg-white/[0.03] text-white/70 hover:text-white text-xs font-bold tracking-wider transition-all duration-300 border border-white/5 flex items-center justify-center gap-2 group/btn shadow-[0_4px_20px_rgba(0,0,0,0.2)] overflow-hidden hover:shadow-lg"
-                                                style={{ '--btn-hover-color': data.accentHex } as React.CSSProperties}
+                                                className="flex items-center gap-4 p-3 rounded-2xl bg-white/[0.02] hover:bg-[#00C300]/10 border border-white/5 hover:border-[#00C300]/30 transition-all duration-300 group/line w-full"
                                             >
-                                                <svg className="w-4 h-4 text-[#00C300] shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.12.298.077.765.037 1.083l-.337 2.023c-.1.597-.478 2.373 2.083 1.295s13.433-7.906 13.433-14.601zM7.443 12.871H5.432c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v3.647h1.304c.39 0 .707.317.707.707 0 .39-.317.707-.707.707zm4.686-.707c0 .39-.317.707-.707.707H9.72c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v4.354zm3.626 0c0 .39-.317.707-.707.707h-1.637c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v4.354zm4.493-3.858l-1.621 3.51a.703.703 0 0 1-.639.404.708.708 0 0 1-.413-.131.706.706 0 0 1-.295-.576v-3.207c0-.39.317-.707.707-.707.389 0 .707.317.707.707v1.897l1.32-2.846a.715.715 0 0 1 .42-.376.711.711 0 0 1 .843.197c.189.215.247.513.153.784z"/>
-                                                </svg>
-                                                <span className="relative z-10 drop-shadow-md text-[13px]">{cp.line}</span>
-                                                <div
-                                                    className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-300"
-                                                    style={{ backgroundColor: data.accentHex }}
-                                                />
-                                                <div
-                                                    className="absolute inset-0 border-2 rounded-2xl opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none"
-                                                    style={{ borderColor: data.accentHex }}
-                                                />
+                                                <div className="w-10 h-10 rounded-xl bg-[#00C300]/10 flex items-center justify-center text-[#00C300] group-hover/line:scale-110 shadow-lg transition-transform duration-300 shrink-0">
+                                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.12.298.077.765.037 1.083l-.337 2.023c-.1.597-.478 2.373 2.083 1.295s13.433-7.906 13.433-14.601zM7.443 12.871H5.432c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v3.647h1.304c.39 0 .707.317.707.707 0 .39-.317.707-.707.707zm4.686-.707c0 .39-.317.707-.707.707H9.72c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v4.354zm3.626 0c0 .39-.317.707-.707.707h-1.637c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v4.354zm4.493-3.858l-1.621 3.51a.703.703 0 0 1-.639.404.708.708 0 0 1-.413-.131.706.706 0 0 1-.295-.576v-3.207c0-.39.317-.707.707-.707.389 0 .707.317.707.707v1.897l1.32-2.846a.715.715 0 0 1 .42-.376.711.711 0 0 1 .843.197c.189.215.247.513.153.784z"/>
+                                                    </svg>
+                                                </div>
+                                                <div className="flex flex-col flex-1 truncate">
+                                                    <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold mb-0.5 font-raela">LINE ID</span>
+                                                    <span className="text-sm font-bold text-white/90 group-hover/line:text-white transition-colors">{cp.line}</span>
+                                                </div>
                                             </a>
                                         </div>
                                     </div>
