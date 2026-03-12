@@ -52,7 +52,7 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
     );
 };
 
-function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: any, regStatus: string, accentHex: string, badgeColor: string }) {
+function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: { title: string, desc: string, href: string, type: string, comingSoon: boolean }, regStatus: string, accentHex: string, badgeColor: string }) {
     const { status, handleDownload } = useDownloadInteraction();
     const isLocked = doc.comingSoon && regStatus === 'upcoming';
 
@@ -810,9 +810,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                     { title: 'Logo I/O Fest', desc: 'Aset resmi tim', href: '/downloads/logo-iofest-2026.png', type: 'PNG', comingSoon: false },
                                     { title: 'Twibbon', desc: 'Frame foto resmi', href: '#', type: 'PNG', comingSoon: true },
                                 ].map((doc, idx) => {
-                                    const isLocked = doc.comingSoon && regStatus === 'upcoming';
-
-                                    const badgeColor = doc.type === 'DOCX' ? 'bg-blue-500/10 text-blue-400'
+    const badgeColor = doc.type === 'DOCX' ? 'bg-blue-500/10 text-blue-400'
                                         : doc.type === 'PNG' ? 'bg-emerald-500/10 text-emerald-400'
                                             : 'bg-white/5 text-white/30';
 
