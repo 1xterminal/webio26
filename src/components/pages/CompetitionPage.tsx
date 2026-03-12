@@ -335,7 +335,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     {/* Premium Performant Back Button */}
                     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, ease: 'easeOut' }}>
                         <Link
-                            href="/"
+                            href="/#tracks"
                             className="group relative inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/[0.03] border border-white/10 text-white/50 hover:text-white hover:bg-white/[0.08] hover:border-white/20 text-xs font-raela font-bold tracking-[0.1em] uppercase transition-colors duration-300 ease-out mb-12 w-fit overflow-hidden transform-gpu"
                             style={{ boxShadow: '0 8px 32px -10px rgba(0,0,0,0.5)' }}
                         >
