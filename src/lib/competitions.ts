@@ -63,7 +63,7 @@ export const competitions: CompetitionData[] = [
         },
         contacts: [
             { name: 'Felicia Rivera', whatsapp: '6281383763005', line: 'riverraa', role: ['Mahasiswa', 'Umum'] },
-            { name: 'Sheireen Sadeli', whatsapp: '6285890581118', line: 'sheireensadel', role: ['SMA/SMK'] }
+            { name: 'Sheireen Sadeli', whatsapp: '6285890581118', line: 'sheireensadeli', role: ['SMA/SMK'] }
         ],
         rulebookUrl: '#',
         submissionUrl: '#',
