@@ -14,7 +14,7 @@ export interface CompetitionContact {
     name: string;
     whatsapp: string;
     line: string;
-    role?: string;
+    role?: string[];
 }
 
 export interface CompetitionDetails {
@@ -62,8 +62,8 @@ export const competitions: CompetitionData[] = [
             prizes: 'Uang Tunai & E-Sertifikat',
         },
         contacts: [
-            { name: 'Felicia Rivera', whatsapp: '6281383763005', line: 'riverraa', role: 'CP Mahasiswa' },
-            { name: 'Sheireen Sadeli', whatsapp: '6285890581118', line: 'sheireensadel', role: 'CP SMA/K' }
+            { name: 'Felicia Rivera', whatsapp: '6281383763005', line: 'riverraa', role: ['Mahasiswa', 'Umum'] },
+            { name: 'Sheireen Sadeli', whatsapp: '6285890581118', line: 'sheireensadel', role: ['SMA/SMK'] }
         ],
         rulebookUrl: '#',
         submissionUrl: '#',
@@ -88,8 +88,8 @@ export const competitions: CompetitionData[] = [
             prizes: 'Uang Tunai & E-Sertifikat',
         },
         contacts: [
-            { name: 'Rein Mark Manopo', whatsapp: '628989364118', line: 'markreeen', role: 'CP Mahasiswa' },
-            { name: 'Christian Benizi Susilo', whatsapp: '6281354629105', line: 'bennzzy', role: 'CP SMA/K' }
+            { name: 'Rein Mark Manopo', whatsapp: '628989364118', line: 'markreeen', role: ['Mahasiswa', 'Umum'] },
+            { name: 'Christian Benizi Susilo', whatsapp: '6281354629105', line: 'bennzzy', role: ['SMA/SMK'] }
         ],
         rulebookUrl: '#',
         submissionUrl: '#',
@@ -114,7 +114,7 @@ export const competitions: CompetitionData[] = [
             prizes: 'Uang Tunai & E-Sertifikat',
         },
         contacts: [
-            { name: 'Clive Ang', whatsapp: '6285370587170', line: 'cliveang2008', role: 'Official CP' }
+            { name: 'Clive Ang', whatsapp: '6285370587170', line: 'cliveang2008', role: ['Mahasiswa', 'Umum'] }
         ],
         rulebookUrl: '#',
         submissionUrl: '#',
