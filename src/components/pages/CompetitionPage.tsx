@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Users, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle, Loader2, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Users, User, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle, Loader2, CheckCircle2 } from 'lucide-react';
 import { getCompetition } from '@/lib/competitions';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
@@ -917,7 +917,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 </div>
                                             </div>
                                             <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-500 group-hover:scale-110 shadow-xl border border-white/10 bg-gradient-to-br from-white/10 to-transparent">
-                                                <Users className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
+                                                <User className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex})` }} />
                                             </div>
                                         </div>
 
