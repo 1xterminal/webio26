@@ -54,10 +54,10 @@ export const competitions: CompetitionData[] = [
         description:
             'Peserta UI/UX Design akan merancang antarmuka dan pengalaman pengguna. Desain harus estetis dan bermanfaat bagi masyarakat. Peserta wajib memilih satu sub-tema dan membuat solusi digital.',
         details: {
-            categories: 'Mahasiswa / Siswa SMA/K (Tim Maks. 3 Orang)',
+            categories: 'Mahasiswa & Umum / Siswa SMA/K (Tim Maks. 3 Orang)',
             fee: [
                 { type: 'SMA/SMK', early: 'Rp 55.000', regular: 'Rp 70.000' },
-                { type: 'Mahasiswa', early: 'Rp 60.000', regular: 'Rp 80.000' }
+                { type: 'Mahasiswa & Umum', early: 'Rp 60.000', regular: 'Rp 80.000' }
             ],
             prizes: 'Uang Tunai & E-Sertifikat',
         },
@@ -80,10 +80,10 @@ export const competitions: CompetitionData[] = [
         description:
             'Peserta Web Development akan membangun aplikasi web yang fungsional. Kompetisi ini menguji kemampuan pemrograman dan pemecahan masalah. Aplikasi harus mampu mengatasi kendala di dunia nyata.',
         details: {
-            categories: 'Mahasiswa / Siswa SMA/K (Tim Maks. 3 Orang)',
+            categories: 'Mahasiswa & Umum / Siswa SMA/K (Tim Maks. 3 Orang)',
             fee: [
                 { type: 'SMA/SMK', early: 'Rp 55.000', regular: 'Rp 70.000' },
-                { type: 'Mahasiswa', early: 'Rp 60.000', regular: 'Rp 80.000' }
+                { type: 'Mahasiswa & Umum', early: 'Rp 60.000', regular: 'Rp 80.000' }
             ],
             prizes: 'Uang Tunai & E-Sertifikat',
         },
@@ -107,9 +107,9 @@ export const competitions: CompetitionData[] = [
         description:
             'Peserta Business Case akan menyusun rencana bisnis berbasis teknologi. Solusi peserta harus memiliki dampak sosial. Peserta wajib membuktikan kelayakan finansial dari desain bisnis tersebut.',
         details: {
-            categories: 'Mahasiswa (Tim Maks. 3 Orang)',
+            categories: 'Mahasiswa & Umum (Tim Maks. 3 Orang)',
             fee: [
-                { type: 'Mahasiswa', early: 'Rp 60.000', regular: 'Rp 80.000' }
+                { type: 'Mahasiswa & Umum', early: 'Rp 60.000', regular: 'Rp 80.000' }
             ],
             prizes: 'Uang Tunai & E-Sertifikat',
         },

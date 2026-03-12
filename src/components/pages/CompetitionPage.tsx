@@ -439,8 +439,8 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                             style={{ borderColor: `${data.accentHex}15` }}
                                         >
                                             {/* Tier Header */}
-                                            <div className="px-6 py-5 border-b border-white/5 flex justify-center items-center bg-white/[0.02]">
-                                                <span className="text-white font-raela font-black uppercase tracking-[0.15em] text-lg lg:text-xl">{tier.type}</span>
+                                            <div className="px-4 py-5 border-b border-white/5 flex justify-center items-center bg-white/[0.02] text-center">
+                                                <span className="text-white font-raela font-black uppercase tracking-[0.1em] text-sm md:text-base lg:text-lg whitespace-nowrap">{tier.type}</span>
                                             </div>
 
                                             <div className="p-6 flex flex-col items-center text-center relative">
