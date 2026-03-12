@@ -85,11 +85,12 @@ export default function Home() {
       <StarDust />
       <Navbar />
       <Hero />
-      <div className="relative -mt-20 z-0">
-        <Gallery />
-      </div>
       <div className="relative -mt-20 z-10">
+        <FAQ />
         <About />
+      </div>
+      <div className="relative z-0 mt-8 md:mt-16">
+        <Gallery />
       </div>
       <Tracks />
       <Prizes />
@@ -97,7 +98,6 @@ export default function Home() {
       <div className="hidden">
         <Sponsors />
       </div>
-      <FAQ />
       <SponsorshipCTA />
       <CTA />
       <Footer />
