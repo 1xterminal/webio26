@@ -249,7 +249,7 @@ export function SponsorshipPage() {
         </div>
       </section>
 
-      <section id="contact" className="py-20 md:py-32 px-4 relative z-10 bg-black/20">
+      <section id="contact" className="py-20 md:py-32 px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16 md:mb-20">
             <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-xs mb-4 block">READY TO PARTNER?</span>
