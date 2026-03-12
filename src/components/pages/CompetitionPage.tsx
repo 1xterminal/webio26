@@ -983,9 +983,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                     className="relative z-10 w-10 h-10 rounded-xl flex items-center justify-center group-hover/line:scale-110 shadow-lg transition-transform duration-300 shrink-0"
                                                     style={{ backgroundColor: `${data.accentHex}20`, color: data.accentHex }}
                                                 >
-                                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                        <path d="M19.365 9.863c0-3.955-4.043-7.163-9.011-7.163C5.385 2.7 1.341 5.908 1.341 9.863c0 3.551 3.262 6.516 7.635 7.085.295.063.696.194.8.445.093.226.06.577.028.815l-.254 1.526c-.075.451-.36 1.789 1.571.976s9.967-5.861 9.967-10.847h-1.723zM5.518 11.231H3.992c-.287 0-.52-.234-.52-.52V7.425c0-.286.233-.52.52-.52.287 0 .52.234.52.52v2.766h1.006c.287 0 .52.234.52.52 0 .285-.233.52-.52.52zm3.328-.52c0 .285-.234.52-.52.52H6.992c-.286 0-.52-.234-.52-.52V7.425c0-.286.234-.52.52-.52.286 0 .52.234.52.52v3.286zm2.732 0c0 .285-.233.52-.52.52h-1.334c-.286 0-.52-.234-.52-.52V7.425c0-.286.234-.52.52-.52.286 0 .52.234.52.52v3.286h1.334zm3.319-2.766l-1.309 2.502a.521.521 0 0 1-.418.257.518.518 0 0 1-.366-.14.518.518 0 0 1-.168-.379v-2.24c0-.286.234-.52.52-.52.287 0 .52.234.52.52v1.23l1.116-2.138a.528.528 0 0 1 .324-.268.51.51 0 0 1 .593.181c.119.16.148.375.08.563l-1.412 2.432v-.002z"/>
-                                                    </svg>
+                                                    <MessageCircle className="w-5 h-5" />
                                                 </div>
                                                 <div className="relative z-10 flex flex-col flex-1 truncate">
                                                     <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold mb-0.5 font-raela">LINE ID</span>
