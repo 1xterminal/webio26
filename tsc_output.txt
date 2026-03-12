@@ -1,0 +1,2 @@
+src/components/pages/CompetitionPage.tsx(95,31): error TS2554: Expected 1 arguments, but got 2.
+src/components/pages/CompetitionPage.tsx(758,87): error TS2554: Expected 1 arguments, but got 2.

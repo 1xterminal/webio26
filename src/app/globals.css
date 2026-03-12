@@ -190,6 +190,29 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* ─── Navbar Highlight Keyframes ─────────────────────────────
+     All animations use ONLY compositor-promoted properties:
+     transform & opacity — zero layout/paint cost.               */
+  @keyframes nav-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+  @keyframes nav-pulse {
+    0%, 100% { transform: scale(1);   opacity: 1;    }
+    50%       { transform: scale(1.5); opacity: 0.4;  }
+  }
+  @keyframes nav-glow-breathe {
+    0%, 100% { opacity: 0.55; }
+    50%       { opacity: 0.9;  }
+  }
+
+  /* Reduced-motion overrides — disable all nav cosmetic animations */
+  @media (prefers-reduced-motion: reduce) {
+    .nav-shimmer-bar,
+    .nav-pulse-dot,
+    .nav-glow-line { animation: none !important; }
+  }
 }
 
 @theme inline {
