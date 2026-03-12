@@ -117,7 +117,7 @@ export function Contact() {
                                         <LazyMarkerTooltip className="bg-black/90 border border-white/10 text-white text-xs px-2 py-1 pointer-events-none rounded shadow-md z-50">
                                             Universitas Tarumanagara
                                         </LazyMarkerTooltip>
-                                        <LazyMarkerPopup className="bg-black border border-neon-orange/20 backdrop-blur-md p-4 w-64 rounded-xl shadow-[0_0_20px_rgba(255,139,83,0.15)] text-left z-50">
+                                        <LazyMarkerPopup className="bg-black/90 md:bg-black/80 border border-neon-orange/20 md:backdrop-blur-md p-4 w-64 rounded-xl shadow-[0_0_20px_rgba(255,139,83,0.15)] text-left z-50">
                                             <div className="space-y-2">
                                                 <p className="font-raela font-bold text-white text-lg leading-tight uppercase tracking-wide">Universitas Tarumanagara</p>
                                                 <p className="text-xs text-white/60 font-sans leading-relaxed">

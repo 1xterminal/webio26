@@ -160,7 +160,7 @@ export function Footer() {
                     <LazyMarkerTooltip className="bg-black/90 border border-white/10 text-white text-[10px] px-2 py-1 pointer-events-none rounded shadow-md z-50">
                       UNTAR
                     </LazyMarkerTooltip>
-                    <LazyMarkerPopup className="bg-black border border-neon-orange/20 backdrop-blur-md p-3 w-48 rounded-lg shadow-xl text-left z-50">
+                    <LazyMarkerPopup className="bg-black/90 md:bg-black/80 border border-neon-orange/20 md:backdrop-blur-md p-3 w-48 rounded-lg shadow-xl text-left z-50">
                       <p className="font-raela font-bold text-white text-sm uppercase">UNTAR</p>
                       <p className="text-[9px] text-white/60 font-sans leading-relaxed">Kampus 1, Jakarta Barat</p>
                     </LazyMarkerPopup>

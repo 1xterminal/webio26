@@ -5,7 +5,7 @@ type DownloadStatus = 'idle' | 'loading' | 'success';
 export function useDownloadInteraction() {
   const [status, setStatus] = useState<DownloadStatus>('idle');
 
-  const handleDownload = useCallback((e: React.MouseEvent<HTMLAnchorElement>, _url?: string) => {
+  const handleDownload = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     // If the button is already processing, prevent re-clicks
     if (status !== 'idle') {
       e.preventDefault();

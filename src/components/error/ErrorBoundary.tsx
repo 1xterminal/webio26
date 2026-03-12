@@ -35,7 +35,7 @@ class ErrorBoundary extends Component<Props, State> {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="bg-white/5 border border-white/10 rounded-3xl p-10 backdrop-blur-xl"
+              className="bg-black/80 md:bg-white/5 border border-white/10 rounded-3xl p-10 md:backdrop-blur-xl"
             >
               <div className="w-20 h-20 bg-neon-orange/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-neon-orange/30">
                 <span className="text-3xl">⚠️</span>

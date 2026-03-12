@@ -92,7 +92,7 @@ function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: { title:
 
     const downloadAction = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (doc.type !== 'LINK') {
-            handleDownload(e, doc.href);
+            handleDownload(e);
         }
     };
 
@@ -755,7 +755,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                         href={rb.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        onClick={(e) => handleMainRulebookDownload(e, rb.href)}
+                                        onClick={(e) => handleMainRulebookDownload(e)}
                                         className={`relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden group w-full z-10 ${mainRulebookStatus === 'idle' ? 'hover:-translate-y-2' : ''}`}
                                         style={{
                                             background: 'rgba(20, 20, 20, 0.6)',
