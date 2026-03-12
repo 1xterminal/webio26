@@ -6,6 +6,10 @@ import { Plus, Minus } from 'lucide-react';
 
 const faqs = [
     {
+        question: "Apa fungsi dari Impact Projection?",
+        answer: "Impact Projection mengevaluasi seberapa terukur, realistis, dan aplikatif solusi yang ditawarkan bagi masyarakat. Elemen ini memiliki bobot penilaian tertinggi dan menjadi penentu utama kemenangan peserta."
+    },
+    {
         question: "Siapa pihak yang dapat mendaftar?",
         answer: "I/O Festival 2026 menyambut pelajar SMA/SMK/sederajat, mahasiswa aktif, dan masyarakat umum."
     },
@@ -16,10 +20,6 @@ const faqs = [
     {
         question: "Bagaimana tahapan kompetisi ini?",
         answer: "Kompetisi berlangsung dalam dua tahap. Babak Penyisihan berlangsung secara daring dengan mengumpulkan proposal dan progres karya. Lima tim terbaik (Top 5) pada setiap cabang berhak melaju ke babak Grand Final yang diselenggarakan secara luring (offline) di kampus Universitas Tarumanagara."
-    },
-    {
-        question: "Apa fungsi dari Impact Projection?",
-        answer: "Impact Projection mengevaluasi seberapa terukur, realistis, dan aplikatif solusi yang ditawarkan bagi masyarakat. Elemen ini memiliki bobot penilaian tertinggi dan menjadi penentu utama kemenangan peserta."
     },
     {
         question: "Berapa batas jumlah anggota tim?",

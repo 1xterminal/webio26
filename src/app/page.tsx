@@ -86,7 +86,6 @@ export default function Home() {
       <Navbar />
       <Hero />
       <div className="relative -mt-20 z-10">
-        <FAQ />
         <About />
       </div>
       <div className="relative z-0 mt-8 md:mt-16">
@@ -95,6 +94,7 @@ export default function Home() {
       <Tracks />
       <Prizes />
       <Timeline />
+      <FAQ />
       <div className="hidden">
         <Sponsors />
       </div>
