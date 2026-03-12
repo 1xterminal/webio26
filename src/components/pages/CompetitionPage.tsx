@@ -642,6 +642,67 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         </div>
                     </motion.div>
 
+                    {/* ── Impact Projection CTA ─────────────────────────── */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 24 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.18, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="mb-16 w-full"
+                    >
+                        <div className="relative group flex flex-col items-center justify-center gap-7 px-8 py-12 md:py-14 rounded-[24px] overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)] bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)]">
+
+                            {/* Gradient border mask */}
+                            <div
+                                className="absolute inset-0 rounded-[24px] pointer-events-none opacity-50"
+                                style={{
+                                    padding: '1px',
+                                    background: 'linear-gradient(135deg, #ff8b5380 0%, #b664fb60 50%, rgba(255,255,255,0.04) 100%)',
+                                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                                    WebkitMaskComposite: 'xor',
+                                    maskComposite: 'exclude',
+                                }}
+                            />
+
+                            {/* Ambient glow — compositor-only opacity transition */}
+                            <div
+                                className="absolute inset-0 rounded-[24px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                                style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,139,83,0.08) 0%, transparent 70%)' }}
+                            />
+
+                            {/* Text */}
+                            <div className="relative z-10">
+                                <p className="font-raela font-normal text-lg md:text-xl text-white/70 leading-tight mb-1">
+                                    Setiap karya lomba harus memiliki
+                                </p>
+                                <p
+                                    className="font-raela font-bold text-4xl md:text-6xl text-transparent bg-clip-text leading-tight"
+                                    style={{ backgroundImage: 'linear-gradient(90deg, #ff8b53, #b664fb)' }}
+                                >
+                                    IMPACT PROJECTION
+                                </p>
+                            </div>
+
+                            {/* CTA button */}
+                            <div className="relative z-10">
+                                <Link
+                                    href="/impact"
+                                    prefetch
+                                    className="group/btn relative inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-raela font-bold text-base tracking-wide text-white overflow-hidden transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 transform-gpu shadow-[0_0_28px_rgba(255,139,83,0.25)] hover:shadow-[0_0_40px_rgba(255,139,83,0.4)]"
+                                >
+                                    <span
+                                        className="absolute inset-0"
+                                        style={{ background: 'linear-gradient(135deg, #ff8b53 0%, #b664fb 100%)' }}
+                                    />
+                                    <span className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out" />
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        Learn More
+                                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300 transform-gpu" />
+                                    </span>
+                                </Link>
+                            </div>
+                        </div>
+                    </motion.div>
+
                     {/* Dynamic Auto-Highlighting Timeline */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
