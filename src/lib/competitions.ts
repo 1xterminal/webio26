@@ -37,6 +37,7 @@ export interface CompetitionData {
     contacts: CompetitionContact[];
     rulebookUrl?: string;
     submissionUrl?: string;
+    tags?: string[];
 }
 
 export const competitions: CompetitionData[] = [
@@ -48,6 +49,7 @@ export const competitions: CompetitionData[] = [
         color: 'from-neon-purple to-purple-600',
         accentHex: '#A856EE', // Value taken from the SVG definition
         badge: 'Popular',
+        tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
         tagline: 'Design interfaces that solve problems.',
         description:
             'Peserta UI/UX Design akan merancang antarmuka dan pengalaman pengguna. Desain harus estetis dan bermanfaat bagi masyarakat. Peserta wajib memilih satu sub-tema dan membuat solusi digital.',
@@ -73,6 +75,7 @@ export const competitions: CompetitionData[] = [
         icon: WebDevIcon,
         color: 'from-neon-blue to-blue-600',
         accentHex: '#1DBCD3', // Value taken from the SVG definition
+        tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
         tagline: 'Build web applications that solve problems.',
         description:
             'Peserta Web Development akan membangun aplikasi web yang fungsional. Kompetisi ini menguji kemampuan pemrograman dan pemecahan masalah. Aplikasi harus mampu mengatasi kendala di dunia nyata.',
@@ -99,6 +102,7 @@ export const competitions: CompetitionData[] = [
         color: 'from-neon-orange to-orange-600',
         accentHex: '#FF8B53', // Value taken from the SVG definition
         badge: 'New',
+        tags: ['Mahasiswa', 'Umum'],
         tagline: 'Create business plans with clear potential.',
         description:
             'Peserta Business Case akan menyusun rencana bisnis berbasis teknologi. Solusi peserta harus memiliki dampak sosial. Peserta wajib membuktikan kelayakan finansial dari desain bisnis tersebut.',

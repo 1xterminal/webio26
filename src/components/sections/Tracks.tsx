@@ -15,7 +15,7 @@ const tracks = [
         color: 'from-neon-purple to-purple-600',
         accentHex: '#A856EE',
         href: '/kompetisi/ui-ux',
-        tags: ['SMA/SMK', 'Mahasiswa'],
+        tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
     },
     {
         icon: WebDevIcon,
@@ -24,7 +24,7 @@ const tracks = [
         color: 'from-neon-blue to-blue-600',
         accentHex: '#1DBCD3',
         href: '/kompetisi/web-dev',
-        tags: ['SMA/SMK', 'Mahasiswa'],
+        tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
     },
     {
         icon: BusinessCaseIcon,
@@ -33,7 +33,7 @@ const tracks = [
         color: 'from-neon-orange to-orange-600',
         accentHex: '#FF8B53',
         href: '/kompetisi/business-case',
-        tags: ['Mahasiswa'],
+        tags: ['Mahasiswa', 'Umum'],
     }
 ];
 

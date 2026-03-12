@@ -375,8 +375,21 @@ export function CompetitionPage({ slug }: { slug: string }) {
                             <div className="w-20 h-20 shrink-0">
                                 <Icon className="w-full h-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
                             </div>
-                            <div>
-                                <h1 className="font-raela font-black text-4xl md:text-5xl text-white">{data.title}</h1>
+                            <div className="flex flex-col">
+                                <h1 className="font-raela font-black text-4xl md:text-5xl text-white mb-3">{data.title}</h1>
+                                {data.tags && data.tags.length > 0 && (
+                                    <div className="flex flex-wrap gap-2">
+                                        {data.tags.map((tag, idx) => (
+                                            <span 
+                                                key={idx} 
+                                                className="px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-white/70 text-[10px] font-bold font-raela uppercase tracking-widest shadow-sm"
+                                                style={{ color: idx === 0 ? data.accentHex : undefined }}
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <p className="text-white/40 text-lg font-mono italic">{data.tagline}</p>
@@ -909,14 +922,26 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 href={`https://wa.me/${cp.whatsapp}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex items-center gap-4 p-3 rounded-2xl bg-white/[0.02] hover:bg-[#25D366]/10 border border-white/5 hover:border-[#25D366]/30 transition-all duration-300 group/wa w-full"
+                                                className="relative flex items-center gap-4 p-3 rounded-2xl bg-white/[0.02] border border-white/5 transition-all duration-300 group/wa w-full overflow-hidden"
                                             >
-                                                <div className="w-10 h-10 rounded-xl bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover/wa:scale-110 shadow-lg transition-transform duration-300 shrink-0">
+                                                <div 
+                                                    className="absolute inset-0 opacity-0 group-hover/wa:opacity-10 transition-opacity duration-300"
+                                                    style={{ backgroundColor: data.accentHex }}
+                                                />
+                                                <div 
+                                                    className="absolute inset-0 border border-transparent rounded-2xl opacity-0 group-hover/wa:opacity-100 transition-opacity duration-300 pointer-events-none"
+                                                    style={{ borderColor: data.accentHex }}
+                                                />
+                                                
+                                                <div 
+                                                    className="relative z-10 w-10 h-10 rounded-xl flex items-center justify-center group-hover/wa:scale-110 shadow-lg transition-transform duration-300 shrink-0"
+                                                    style={{ backgroundColor: `${data.accentHex}20`, color: data.accentHex }}
+                                                >
                                                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                                         <path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.124.551 4.154 1.599 5.96L.18 23.4l5.589-1.465a12.015 12.015 0 0 0 6.262 1.761h.005c6.645 0 12.03-5.385 12.03-12.03S18.677 0 12.031 0zm.005 21.688a9.982 9.982 0 0 1-5.093-1.385l-.365-.216-3.785.992.997-3.69-.237-.377a9.988 9.988 0 0 1-1.528-5.32c0-5.508 4.484-9.992 9.992-9.992 2.668 0 5.176 1.04 7.062 2.926A9.954 9.954 0 0 1 21.99 12.03c0 5.508-4.484 9.992-9.992 9.992v.005zm5.483-7.495c-.301-.151-1.78-.88-2.056-.98-.276-.1-.478-.15-.679.15s-.779.98-.955 1.18c-.176.2-.352.226-.653.076-.301-.151-1.272-.469-2.42-1.49-.893-.794-1.497-1.776-1.673-2.077-.176-.301-.019-.464.131-.614.136-.135.301-.351.452-.527.15-.176.201-.301.301-.502.1-.2.05-.376-.025-.526-.075-.15-.679-1.643-.93-2.251-.243-.591-.49-.51-.679-.52-.176-.01-.377-.01-.578-.01s-.527.075-.803.376c-.276.301-1.054 1.03-1.054 2.511s1.08 2.91 1.231 3.111c.15.201 2.122 3.238 5.141 4.538.718.31 1.278.496 1.714.635.72.228 1.376.196 1.892.119.58-.087 1.78-.728 2.03-1.432.251-.703.251-1.306.176-1.432-.075-.125-.276-.2-.577-.35z"/>
                                                     </svg>
                                                 </div>
-                                                <div className="flex flex-col flex-1 truncate">
+                                                <div className="relative z-10 flex flex-col flex-1 truncate">
                                                     <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold mb-0.5 font-raela">WhatsApp</span>
                                                     <span className="text-sm font-bold text-white/90 group-hover/wa:text-white transition-colors">{cp.whatsapp.replace(/^62/, '0')}</span>
                                                 </div>
@@ -926,14 +951,25 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 href={`https://line.me/ti/p/~${cp.line}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex items-center gap-4 p-3 rounded-2xl bg-white/[0.02] hover:bg-[#00C300]/10 border border-white/5 hover:border-[#00C300]/30 transition-all duration-300 group/line w-full"
+                                                className="relative flex items-center gap-4 p-3 rounded-2xl bg-white/[0.02] border border-white/5 transition-all duration-300 group/line w-full overflow-hidden"
                                             >
-                                                <div className="w-10 h-10 rounded-xl bg-[#00C300]/10 flex items-center justify-center text-[#00C300] group-hover/line:scale-110 shadow-lg transition-transform duration-300 shrink-0">
+                                                <div 
+                                                    className="absolute inset-0 opacity-0 group-hover/line:opacity-10 transition-opacity duration-300"
+                                                    style={{ backgroundColor: data.accentHex }}
+                                                />
+                                                <div 
+                                                    className="absolute inset-0 border border-transparent rounded-2xl opacity-0 group-hover/line:opacity-100 transition-opacity duration-300 pointer-events-none"
+                                                    style={{ borderColor: data.accentHex }}
+                                                />
+                                                <div 
+                                                    className="relative z-10 w-10 h-10 rounded-xl flex items-center justify-center group-hover/line:scale-110 shadow-lg transition-transform duration-300 shrink-0"
+                                                    style={{ backgroundColor: `${data.accentHex}20`, color: data.accentHex }}
+                                                >
                                                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                        <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.12.298.077.765.037 1.083l-.337 2.023c-.1.597-.478 2.373 2.083 1.295s13.433-7.906 13.433-14.601zM7.443 12.871H5.432c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v3.647h1.304c.39 0 .707.317.707.707 0 .39-.317.707-.707.707zm4.686-.707c0 .39-.317.707-.707.707H9.72c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v4.354zm3.626 0c0 .39-.317.707-.707.707h-1.637c-.39 0-.707-.317-.707-.707V7.81c0-.39.317-.707.707-.707.389 0 .707.317.707.707v4.354zm4.493-3.858l-1.621 3.51a.703.703 0 0 1-.639.404.708.708 0 0 1-.413-.131.706.706 0 0 1-.295-.576v-3.207c0-.39.317-.707.707-.707.389 0 .707.317.707.707v1.897l1.32-2.846a.715.715 0 0 1 .42-.376.711.711 0 0 1 .843.197c.189.215.247.513.153.784z"/>
+                                                        <path d="M19.365 9.863c0-3.955-4.043-7.163-9.011-7.163C5.385 2.7 1.341 5.908 1.341 9.863c0 3.551 3.262 6.516 7.635 7.085.295.063.696.194.8.445.093.226.06.577.028.815l-.254 1.526c-.075.451-.36 1.789 1.571.976s9.967-5.861 9.967-10.847h-1.723zM5.518 11.231H3.992c-.287 0-.52-.234-.52-.52V7.425c0-.286.233-.52.52-.52.287 0 .52.234.52.52v2.766h1.006c.287 0 .52.234.52.52 0 .285-.233.52-.52.52zm3.328-.52c0 .285-.234.52-.52.52H6.992c-.286 0-.52-.234-.52-.52V7.425c0-.286.234-.52.52-.52.286 0 .52.234.52.52v3.286zm2.732 0c0 .285-.233.52-.52.52h-1.334c-.286 0-.52-.234-.52-.52V7.425c0-.286.234-.52.52-.52.286 0 .52.234.52.52v3.286h1.334zm3.319-2.766l-1.309 2.502a.521.521 0 0 1-.418.257.518.518 0 0 1-.366-.14.518.518 0 0 1-.168-.379v-2.24c0-.286.234-.52.52-.52.287 0 .52.234.52.52v1.23l1.116-2.138a.528.528 0 0 1 .324-.268.51.51 0 0 1 .593.181c.119.16.148.375.08.563l-1.412 2.432v-.002z"/>
                                                     </svg>
                                                 </div>
-                                                <div className="flex flex-col flex-1 truncate">
+                                                <div className="relative z-10 flex flex-col flex-1 truncate">
                                                     <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold mb-0.5 font-raela">LINE ID</span>
                                                     <span className="text-sm font-bold text-white/90 group-hover/line:text-white transition-colors">{cp.line}</span>
                                                 </div>
