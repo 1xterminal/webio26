@@ -95,9 +95,7 @@ export default function Home() {
       <Prizes />
       <Timeline />
       <FAQ />
-      <div className="hidden">
-        <Sponsors />
-      </div>
+      <Sponsors />
       <SponsorshipCTA />
       <CTA />
       <Footer />
