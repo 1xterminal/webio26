@@ -331,20 +331,6 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
             <div className="pt-28 pb-20 px-4 relative z-10">
                 <div className="max-w-3xl mx-auto">
-                    {/* Visible Breadcrumbs for SEO & UX */}
-                    <motion.nav
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="mb-8 flex items-center gap-2 text-[10px] font-raela font-bold uppercase tracking-[0.2em] text-white/30"
-                        aria-label="Breadcrumb navigation"
-                    >
-                        <Link href="/" className="hover:text-white transition-colors">Home</Link>
-                        <span className="opacity-20">/</span>
-                        <span className="text-white/10">Kompetisi</span>
-                        <span className="opacity-20">/</span>
-                        <span className="text-white/60 tracking-normal capitalize">{data.slug.replace('-', ' ')}</span>
-                    </motion.nav>
 
                     {/* Premium Performant Back Button */}
                     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, ease: 'easeOut' }}>
