@@ -21,6 +21,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { PremiumCardGlow } from '@/components/shared/PremiumCardGlow';
 import { MetricCard } from '@/components/shared/MetricCard';
 import { BenefitCard } from '@/components/shared/BenefitCard';
+import { CaseCollabTimeline } from '@/components/sections/CaseCollabTimeline';
 import { WhatsAppContactCard } from '@/components/shared/WhatsAppContactCard';
 import { EmailContactCard } from '@/components/shared/EmailContactCard';
 
@@ -228,6 +229,8 @@ export function CaseCollabPage() {
           </motion.blockquote>
         </div>
       </section>
+
+      <CaseCollabTimeline />
 
       <section id="contact" className="py-20 md:py-32 px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
