@@ -382,8 +382,12 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                         {data.tags.map((tag, idx) => (
                                             <span 
                                                 key={idx} 
-                                                className="px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-white/70 text-[10px] font-bold font-raela uppercase tracking-widest shadow-sm"
-                                                style={{ color: idx === 0 ? data.accentHex : undefined }}
+                                                className="px-3 py-1 rounded-full text-[10px] font-bold font-raela uppercase tracking-widest shadow-sm"
+                                                style={{ 
+                                                    color: data.accentHex,
+                                                    backgroundColor: `${data.accentHex}15`,
+                                                    border: `1px solid ${data.accentHex}40`
+                                                }}
                                             >
                                                 {tag}
                                             </span>
