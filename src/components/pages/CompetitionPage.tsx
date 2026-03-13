@@ -587,6 +587,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     </motion.div>
 
                     {/* Sub-Tema / Topics Section - BENTANG ACCORDION DESIGN */}
+                    {data.slug !== 'business-case' && (
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -713,6 +714,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                         </div>
                     </motion.div>
+                    )}
 
                     {/* ── Impact Projection CTA ─────────────────────────── */}
                     <motion.div
@@ -1029,11 +1031,11 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                            <div className={`grid grid-cols-1 ${data.contacts.length === 1 ? 'sm:grid-cols-1 max-w-md' : 'sm:grid-cols-2 max-w-3xl'} gap-6 w-full mx-auto`}>
                                 {data.contacts.map((cp, idx) => (
                                     <div
                                         key={idx}
-                                        className="group relative p-6 md:p-8 rounded-3xl md:backdrop-blur-xl border border-white/5 flex flex-col transition-transform duration-500 overflow-hidden hover:-translate-y-1"
+                                        className="group relative p-6 md:p-8 rounded-3xl md:backdrop-blur-xl border border-white/5 flex flex-col transition-transform duration-500 overflow-hidden hover:-translate-y-1 w-full"
                                         style={{
                                             background: 'rgba(20,20,20,0.6)',
                                             boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)'

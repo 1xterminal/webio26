@@ -44,9 +44,12 @@ export function Tracks() {
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        setIsMounted(true);
-        const revealDate = new Date('2026-03-26T00:00:00+07:00');
-        setIsPastRevealDate(new Date() >= revealDate);
+        const timeoutId = setTimeout(() => {
+            setIsMounted(true);
+            const revealDate = new Date('2026-03-26T00:00:00+07:00');
+            setIsPastRevealDate(new Date() >= revealDate);
+        }, 0);
+        return () => clearTimeout(timeoutId);
     }, []);
 
     return (

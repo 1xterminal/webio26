@@ -3,10 +3,6 @@
 > eslint
 
 
-D:\WEBSITE IO\webio26\src\components\pages\ImpactPage.tsx
-  184:15  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
-  184:89  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
-
 D:\WEBSITE IO\webio26\src\components\sections\Tracks.tsx
   47:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
 
@@ -22,8 +18,8 @@ D:\WEBSITE IO\webio26\src\components\sections\Tracks.tsx:47:9
 > 47 |         setIsMounted(true);
      |         ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
   48 |         const revealDate = new Date('2026-03-26T00:00:00+07:00');
-  49 |         if (new Date() >= revealDate) {
-  50 |             setIsPastRevealDate(true);  react-hooks/set-state-in-effect
+  49 |         setIsPastRevealDate(new Date() >= revealDate);
+  50 |     }, []);  react-hooks/set-state-in-effect
 
-Ô£û 3 problems (3 errors, 0 warnings)
+Ô£û 1 problem (1 error, 0 warnings)
 
