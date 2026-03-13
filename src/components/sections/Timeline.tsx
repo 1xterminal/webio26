@@ -12,9 +12,9 @@ const events = [
         startDate: new Date('2026-03-15T00:00:00+07:00'),
     },
     {
-        date: "6 - 30 Apr 2026",
+        date: "6 Apr - 30 Apr 2026",
         title: "Pendaftaran Gelombang Kedua",
-        description: "Periode pendaftaran reguler. Batas akhir pendaftaran dan pengumpulan karya awal pada 30 April.",
+        description: "Periode pendaftaran reguler untuk seluruh kompetisi IT.",
         startDate: new Date('2026-04-06T00:00:00+07:00'),
     },
     {
@@ -23,6 +23,12 @@ const events = [
         description: "Perilisan studi kasus untuk kompetisi Business Case.",
         startDate: new Date('2026-04-09T00:00:00+07:00'),
         isCaseRelease: true,
+    },
+    {
+        date: "30 Apr 2026",
+        title: "Batas Akhir Pendaftaran & Pengumpulan Karya",
+        description: "Penutupan registrasi untuk seluruh cabang lomba sekaligus batas waktu pengumpulan karya awal.",
+        startDate: new Date('2026-04-30T00:00:00+07:00'),
     },
     {
         date: "1 - 10 Mei 2026",
