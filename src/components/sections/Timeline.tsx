@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const events = [
     {
@@ -15,6 +16,13 @@ const events = [
         title: "Pendaftaran Gelombang Kedua",
         description: "Periode pendaftaran reguler. Batas akhir pendaftaran dan pengumpulan karya awal pada 30 April.",
         startDate: new Date('2026-04-06T00:00:00+07:00'),
+    },
+    {
+        date: "9 Apr 2026",
+        title: "Case Release",
+        description: "Perilisan studi kasus untuk kompetisi Business Case.",
+        startDate: new Date('2026-04-09T00:00:00+07:00'),
+        isCaseRelease: true,
     },
     {
         date: "1 - 10 Mei 2026",
@@ -51,6 +59,7 @@ const events = [
 export function Timeline() {
     const [currentPhase, setCurrentPhase] = useState(0);
     const [isMounted, setIsMounted] = useState(false);
+    const [isPastRevealDate, setIsPastRevealDate] = useState(false);
 
     useEffect(() => {
         const calculateInitialPhase = () => {
@@ -66,6 +75,8 @@ export function Timeline() {
             }
             setCurrentPhase(phase);
             setIsMounted(true);
+            const revealDate = new Date('2026-03-26T00:00:00+07:00');
+            setIsPastRevealDate(now >= revealDate);
         };
 
         // Delay execution slightly to bypass strict synchronous state update linter
@@ -139,7 +150,34 @@ export function Timeline() {
                                             )}
                                         </div>
                                         <h3 className={`text-2xl font-bold font-raela transition-colors duration-500 mb-3 ${isActive ? 'text-white' : 'text-white/90'}`}>{event.title}</h3>
-                                        <p className="text-white/70 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}">{event.description}</p>
+                                        <p className={`text-white/70 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}`}>{event.description}</p>
+                                        
+                                        {event.isCaseRelease && (
+                                            <div className={`mt-6 inline-flex flex-row items-center gap-4 p-3.5 rounded-2xl bg-white/[0.02] border border-white/10 ${index % 2 === 0 ? 'md:flex-row-reverse md:ml-auto' : 'md:flex-row'}`}>
+                                                <div className={`flex flex-col ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'}`}>
+                                                    <span className="text-[9px] font-raela font-black uppercase tracking-[0.3em] text-[#FF8B53]">Official Case Collaborator</span>
+                                                    <span className="text-white/80 text-xs font-medium font-raela">
+                                                        {isMounted ? (isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator') : 'Secret Collaborator'}
+                                                    </span>
+                                                </div>
+                                                <div className="relative w-16 h-8 md:w-20 md:h-10 shrink-0">
+                                                    {isMounted && isPastRevealDate ? (
+                                                        <Image 
+                                                            src="/assets/sponsors/Logo BCA_Putih.png" 
+                                                            alt="BCA" 
+                                                            fill
+                                                            className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+                                                        />
+                                                    ) : (
+                                                        <div className="absolute inset-0 flex items-center justify-center opacity-80">
+                                                            <div className="w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_10px_rgba(255,139,83,0.3)]">
+                                                                <span className="text-lg font-bold text-white/90 drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]">?</span>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Center Node (Desktop) */}
