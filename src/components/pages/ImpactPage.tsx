@@ -5,7 +5,7 @@ import { useLenis } from 'lenis/react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
-import { Target, Search, BarChart3, Database, CheckSquare, Layers, LineChart } from 'lucide-react';
+import { Target, Search, BarChart3, Database, CheckSquare, Layers, LineChart, TriangleAlert } from 'lucide-react';
 import { useMemo } from 'react';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import React from 'react';
@@ -61,8 +61,8 @@ const corePillars = [
     accentHex: '#22d3ee'
   },
   {
-    title: 'Kelogisan Estimasi',
-    description: 'Juri akan menilai kelogisan metode perhitungan dan estimasi dampak yang dihasilkan oleh gagasan solusi.',
+    title: 'Logika Estimasi',
+    description: 'Juri akan menilai logika metode perhitungan dan estimasi dampak yang dihasilkan oleh gagasan solusi.',
     icon: BarChart3,
     delay: 0.2,
     color: 'from-purple-400 to-fuchsia-300',
@@ -71,7 +71,7 @@ const corePillars = [
   },
   {
     title: 'Validitas Data & Riset',
-    description: 'Setiap klaim dampak harus didukung oleh validitas data pendukung dan riset peserta yang kredibel.',
+    description: 'Setiap klaim dampak harus didukung oleh validitas data pendukung dan riset yang kredibel dan faktual.',
     icon: Database,
     delay: 0.3,
     color: 'from-amber-400 to-orange-300',
@@ -83,7 +83,7 @@ const corePillars = [
 const evaluationFocus = [
   {
     title: 'Terukur',
-    description: 'Dampak harus dapat dikuantifikasi dengan metrik yang jelas dan objektif.',
+    description: 'Dampak harus dapat diukur dengan metrik yang jelas dan objektif.',
     icon: LineChart
   },
   {
@@ -105,15 +105,19 @@ export function ImpactPage() {
   // Reusing the highly optimized static background generator pattern
   const backgroundGradients = useMemo(() => {
     const layers = [
-      'radial-gradient(ellipse 80% 60% at 50% -20%, rgba(29,188,211,0.15) 0%, transparent 70%)',
-      'radial-gradient(ellipse 60% 50% at 0% 50%, rgba(168,86,238,0.1) 0%, transparent 80%)',
-      'radial-gradient(ellipse 60% 50% at 100% 50%, rgba(255,107,0,0.1) 0%, transparent 80%)',
+      'radial-gradient(ellipse 70% 60% at 0% 0%, rgba(29,188,211,0.35) 0%, transparent 80%)',
+      'radial-gradient(ellipse 70% 60% at 100% 0%, rgba(168,86,238,0.30) 0%, transparent 80%)',
+      'radial-gradient(ellipse 70% 60% at 0% 100%, rgba(255,107,0,0.25) 0%, transparent 80%)',
+      'radial-gradient(ellipse 70% 60% at 100% 100%, rgba(29,188,211,0.25) 0%, transparent 80%)',
     ];
 
     if (!isMobile) {
       layers.push(
-        'radial-gradient(circle at 15% 80%, rgba(29,188,211,0.15) 0%, transparent 40%)',
-        'radial-gradient(circle at 85% 90%, rgba(168,86,238,0.15) 0%, transparent 40%)'
+        'radial-gradient(ellipse 50% 50% at 50% -10%, rgba(168,86,238,0.25) 0%, transparent 75%)',
+        'radial-gradient(ellipse 50% 50% at 50% 110%, rgba(255,107,0,0.20) 0%, transparent 75%)',
+        'radial-gradient(circle at 10% 20%, rgba(29,188,211,0.40) 0%, transparent 25%)',
+        'radial-gradient(circle at 90% 10%, rgba(168,86,238,0.35) 0%, transparent 30%)',
+        'radial-gradient(ellipse 35% 35% at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)'
       );
     }
     return layers.join(',');
@@ -126,7 +130,7 @@ export function ImpactPage() {
 
       {/* Optimized Background Layer */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute inset-0 opacity-[0.6] md:opacity-100 mix-blend-screen" style={{ background: backgroundGradients }} />
+        <div className="absolute inset-0 opacity-[0.55] md:opacity-[0.85]" style={{ background: backgroundGradients }} />
         <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
       </div>
 
@@ -174,10 +178,10 @@ export function ImpactPage() {
             className="will-change-transform"
           >
             <p className="text-sm md:text-base text-white/40 italic font-light tracking-wide mb-3">
-              Intinya, Anda harus memaparkan secara konkret:
+              Intinya, kamu harus memaparkan secara konkret:
             </p>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-raela font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400">
-              Dampak sebesar apa yang kamu lakukan melalui solusi yang digagas?
+              &quot;Dampak sebesar apa yang bisa kamu berikan melalui solusi yang kamu gagas?&quot;
             </h2>
           </motion.div>
         </div>
@@ -198,6 +202,12 @@ export function ImpactPage() {
             <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
               Impact Projection merupakan kejelasan masalah yang diangkat dan ketepatan solusi dalam menjawab akar permasalahan.
             </p>
+            <div className="mt-6 inline-flex items-start md:items-center gap-3 px-6 py-4 rounded-2xl bg-[#FF8B53]/10 border border-[#FF8B53]/30 shadow-[0_0_20px_rgba(255,139,83,0.1)]">
+              <TriangleAlert className="w-6 h-6 md:w-5 md:h-5 text-[#FF8B53] shrink-0 translate-y-[2px] md:translate-y-0" />
+              <span className="text-white font-bold tracking-wide text-sm md:text-base">
+                Semua karya peserta <span className="text-[#FF8B53] uppercase font-black tracking-widest leading-none">WAJIB</span> memiliki bagian Impact Projection di proposal.
+              </span>
+            </div>
             <div className="h-1 w-20 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto rounded-full mt-8" />
           </motion.div>
 

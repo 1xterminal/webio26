@@ -52,7 +52,7 @@ export function CTA() {
 
                             <h3 className="font-raela font-bold text-2xl lg:text-3xl text-white mb-3 leading-tight uppercase">Siap Berkompetisi?</h3>
                             <p className="text-white/50 text-sm leading-relaxed mb-6">
-                                Daftar sekarang dan raih total hadiah <span className="text-white font-bold">Rp 46.000.000</span>.
+                                Daftar sekarang dan raih hadiah dengan total <span className="text-white font-bold">Rp 46.000.000</span>
                             </p>
 
                             <div className="mt-auto pt-6">

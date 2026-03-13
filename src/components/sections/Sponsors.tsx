@@ -18,6 +18,17 @@ interface SponsorTier {
 
 const sponsorTiers: SponsorTier[] = [
     {
+        tierName: 'Case Collaborator',
+        logos: [
+            { 
+                name: 'BCA', 
+                width: 420, 
+                height: 210, 
+                src: '/assets/sponsors/Logo BCA_Putih.png' 
+            },
+        ]
+    },
+    {
         tierName: 'Gold',
         logos: [
             { name: 'Festival Partner', width: 240, height: 120 },
@@ -29,8 +40,8 @@ const sponsorTiers: SponsorTier[] = [
         logos: [
             { 
                 name: 'Alleyway Muse', 
-                width: 180, 
-                height: 90, 
+                width: 160, 
+                height: 80, 
                 src: '/assets/sponsors/Horizontal Logo (White).png',
                 href: 'https://www.instagram.com/alleyway.muse/'
             },
@@ -84,6 +95,13 @@ export function Sponsors() {
                             transition={{ delay: tierIndex * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                             className="w-full"
                         >
+                            {tier.tierName === 'Case Collaborator' && (
+                                <div className="text-center mb-10">
+                                    <span className="text-xs md:text-sm font-raela font-bold uppercase tracking-[0.4em] text-neon-blue">
+                                        {tier.tierName}
+                                    </span>
+                                </div>
+                            )}
                             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
                                 {tier.logos.map((logo, i) => {
                                     const content = (

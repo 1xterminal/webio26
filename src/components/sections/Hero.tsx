@@ -60,7 +60,7 @@ export function Hero() {
                 className="text-white/50 text-lg md:text-xl leading-relaxed max-w-md"
                 style={{ animation: 'hero-fade-up 0.6s ease-out 0.15s both' }}
               >
-                FTI UNTAR menyelenggarakan kompetisi teknologi tingkat nasional. Peserta dapat memilih tiga cabang kompetisi.
+                Technology into Action, Ideas into Impact.
               </p>
 
               {/* CTAs */}

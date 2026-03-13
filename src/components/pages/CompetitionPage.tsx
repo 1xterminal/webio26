@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Users, User, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle, Loader2, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Users, User, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle, Loader2, CheckCircle2, TriangleAlert } from 'lucide-react';
 import { getCompetition } from '@/lib/competitions';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
@@ -150,6 +150,8 @@ function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: { title:
 
 export function CompetitionPage({ slug }: { slug: string }) {
     const [currentPhase, setCurrentPhase] = useState(0);
+    const [isPastRevealDate, setIsPastRevealDate] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const regStatus = useRegistrationStatus();
     const data = getCompetition(slug);
     const { status: mainRulebookStatus, handleDownload: handleMainRulebookDownload } = useDownloadInteraction();
@@ -177,6 +179,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
                 }
             }
             setCurrentPhase(phase);
+            setIsMounted(true);
+            const revealDate = new Date('2026-03-26T00:00:00+07:00');
+            setIsPastRevealDate(now >= revealDate);
         };
 
         // Delay execution slightly to bypass strict synchronous state update linter
@@ -197,7 +202,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
     const timelineStages = [
         { date: '15 Mar - 5 Apr', label: 'Early Bird' },
-        { date: '6 - 30 Apr', label: data.slug === 'business-case' ? 'Regular & Case Release' : 'Regular' },
+        { date: '6 - 30 Apr', label: data.slug === 'business-case' ? 'Regular & BCA Exclusive Case' : 'Regular' },
         { date: '30 Apr', label: 'Close Registration' },
         { date: '1 - 10 May', label: 'Preliminary' },
         { date: '13 May', label: 'Finalist' },
@@ -357,12 +362,14 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         transition={{ duration: 0.5 }}
                         className="mb-12"
                     >
-                        <div className="flex items-center gap-6 mb-6">
-                            <div className="w-20 h-20 shrink-0">
-                                <Icon className="w-full h-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
-                            </div>
-                            <div className="flex flex-col">
-                                <h1 className="font-raela font-black text-4xl md:text-5xl text-white mb-3">{data.title}</h1>
+                        <div className="flex flex-col gap-6 mb-6">
+
+                            <div className="flex items-center gap-6">
+                                <div className="w-20 h-20 shrink-0">
+                                    <Icon className="w-full h-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <h1 className="font-raela font-black text-4xl md:text-5xl text-white mb-3">{data.title}</h1>
                                 {data.tags && data.tags.length > 0 && (
                                     <div className="flex flex-wrap gap-2">
                                         {data.tags.map((tag, idx) => (
@@ -382,8 +389,64 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 )}
                             </div>
                         </div>
-                        <p className="text-white/40 text-lg font-mono italic">{data.tagline}</p>
-                    </motion.div>
+                    </div>
+                    <p className="text-white/40 text-lg font-mono italic">{data.tagline}</p>
+                </motion.div>
+
+                    {/* Official Collaborator Banner (Premium Highlight Iteration 2) */}
+                    {data.slug === 'business-case' && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.05 }}
+                            className="mb-10 w-full"
+                        >
+                            <div className="relative p-8 md:p-10 rounded-[2.5rem] overflow-hidden border md:backdrop-blur-md group flex flex-col md:flex-row items-center justify-between gap-8 opacity-95 hover:opacity-100 transition-all duration-700 transform-gpu z-10 bg-black/40 hover:bg-black/60 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)]"
+                                 style={{ 
+                                     borderColor: `${data.accentHex}40`,
+                                 }}
+                            >
+                                {/* Animated Glowing Border */}
+                                <div className="absolute inset-0 rounded-[2.5rem] pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" style={{ boxShadow: `inset 0 0 20px ${data.accentHex}30, 0 0 20px ${data.accentHex}20` }}></div>
+                                <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-[2.5rem]" />
+                                
+                                <div className="relative z-10 flex flex-col gap-3 max-md:text-center w-full md:w-auto">
+                                    <span className="text-xs font-raela font-black uppercase tracking-[0.4em] transition-colors duration-500" style={{ color: data.accentHex }}>Official Case Collaborator</span>
+                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-raela font-black text-white leading-tight drop-shadow-lg">
+                                        {isMounted ? (isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator') : 'Secret Collaborator'}
+                                    </h3>
+                                    <p className="text-sm md:text-base text-white/60 max-w-lg mt-1 leading-relaxed">
+                                        {isMounted ? (isPastRevealDate ? 'Tantangan eksklusif langsung dari PT Bank Central Asia Tbk untuk menguji kemampuan bisnismu di tingkat profesional.' : 'Stay Tuned!') : 'Tantangan eksklusif dari kolaborator rahasia untuk menguji kemampuan bisnismu di tingkat profesional.'}
+                                    </p>
+                                </div>
+
+                                <motion.div 
+                                    className="relative z-10 shrink-0 mt-4 md:mt-0 p-6 md:p-8 rounded-[2rem] bg-white/[0.03] border border-white/10 shadow-[inset_0_1px_20px_rgba(255,255,255,0.05),0_10px_40px_rgba(0,0,0,0.5)] group-hover:bg-white/[0.06] group-hover:border-white/20 transition-all duration-700 w-40 h-32 md:w-52 md:h-40 flex items-center justify-center overflow-hidden"
+                                    animate={{ y: [-5, 5, -5] }}
+                                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                                >
+                                    {isMounted && isPastRevealDate ? (
+                                        <Image 
+                                            src="/assets/sponsors/Logo BCA_Putih.png" 
+                                            alt="BCA" 
+                                            width={140} 
+                                            height={70} 
+                                            className="object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 origin-center drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                                        />
+                                    ) : (
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 origin-center">
+                                            <div className="w-16 h-16 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_20px_rgba(255,139,83,0.3)]">
+                                                <span className="text-3xl font-bold text-white/90 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">?</span>
+                                            </div>
+                                        </div>
+                                    )}
+                                </motion.div>
+                                
+                                {/* Intense Ambient Background Flare */}
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] rounded-full blur-[100px] pointer-events-none opacity-30 group-hover:opacity-50 transition-opacity duration-700 transform-gpu" style={{ backgroundColor: data.accentHex }}></div>
+                            </div>
+                        </motion.div>
+                    )}
 
                     {/* Description */}
                     <motion.div
@@ -530,11 +593,20 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         transition={{ delay: 0.15, duration: 0.6 }}
                         className="mb-16 mt-20"
                     >
-                        <div className="flex items-center gap-4 mb-10">
-                            <h2 className="text-sm font-raela font-bold tracking-[0.2em] text-white uppercase">
+                        <div className="flex flex-col md:flex-row md:items-center justify-center gap-4 mb-6">
+                            <h2 className="text-sm font-raela font-bold tracking-[0.2em] text-white uppercase whitespace-nowrap text-center">
                                 Sub-Tema Pilihan
                             </h2>
-                            <div className="h-[1px] flex-1 bg-gradient-to-r from-white/20 to-transparent" />
+                            <div className="h-[1px] w-full bg-gradient-to-r from-white/20 to-transparent hidden md:block" />
+                        </div>
+
+                        <div className="w-full flex justify-center mb-10">
+                            <div className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-[#FF8B53]/10 border border-[#FF8B53]/30 shadow-[0_0_20px_rgba(255,139,83,0.1)] text-center">
+                                <TriangleAlert className="w-5 h-5 text-[#FF8B53] shrink-0" />
+                                <span className="text-white font-bold tracking-wide text-sm md:text-base">
+                                    Semua karya peserta <span className="text-[#FF8B53] uppercase font-black tracking-widest leading-none">WAJIB</span> memilih 1 dari 3 topik di bawah ini.
+                                </span>
+                            </div>
                         </div>
 
                         {/* Premium Static Cards Grid */}
@@ -845,7 +917,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 <span className="text-white/50 text-sm group-hover:text-white/80 transition-colors">{rb.desc}</span>
                                             </div>
                                             <div 
-                                                className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white w-fit px-4 py-2 rounded-full transition-colors ${
+                                                className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white w-fit px-4 py-2 rounded-full transition-colors relative z-20 ${
                                                     mainRulebookStatus === 'success' 
                                                         ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50' 
                                                         : mainRulebookStatus === 'loading'
@@ -860,6 +932,19 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 {mainRulebookStatus === 'success' && 'Berhasil!'}
                                             </div>
                                         </div>
+
+                                        {/* BCA Watermark for Business Case Rulebook */}
+                                        {data.slug === 'business-case' && (
+                                            <div className="absolute top-4 right-4 md:top-6 md:right-8 opacity-5 group-hover:opacity-20 transition-all duration-700 pointer-events-none transform group-hover:scale-110">
+                                                <Image 
+                                                    src="/assets/sponsors/Logo BCA_Putih.png" 
+                                                    alt="" 
+                                                    width={100} 
+                                                    height={50} 
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                        )}
                                     </a>
                                 );
                             })()}
@@ -921,7 +1006,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                     : 'border-white/30 text-white hover:bg-white/10 hover:border-white/50 bg-black'
                                     }`}
                             >
-                                KUMPULIN KARYA <ArrowRight className="w-5 h-5" />
+                                KUMPULKAN KARYA <ArrowRight className="w-5 h-5" />
                             </a>
                         </div>
                     </motion.div>

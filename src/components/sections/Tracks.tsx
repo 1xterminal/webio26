@@ -1,6 +1,8 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
@@ -11,33 +13,42 @@ const tracks = [
     {
         icon: UIUXIcon,
         title: 'UI/UX Design',
-        description: 'Rancang antarmuka dan pengalaman pengguna yang terukur. Desain tersebut harus berguna bagi masyarakat luas.',
+        description: 'Tunjukkan bagaimana desainmu bisa benar-benar mempermudah kehidupan sehari-hari dan membawa dampak yang nyata bagi masyarakat!',
         color: 'from-neon-purple to-purple-600',
         accentHex: '#A856EE',
         href: '/kompetisi/ui-ux',
         tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
     },
     {
-        icon: WebDevIcon,
-        title: 'Web Development',
-        description: 'Bangun sebuah layanan website fungsional. Layanan tersebut harus berhasil mengatasi kendala di dunia nyata.',
-        color: 'from-neon-blue to-blue-600',
-        accentHex: '#1DBCD3',
-        href: '/kompetisi/web-dev',
-        tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
-    },
-    {
         icon: BusinessCaseIcon,
         title: 'Business Case',
-        description: 'Susun rencana bisnis berbasis teknologi ringkas. Rencana bisnis tersebut wajib mendatangkan pemasukan finansial yang terukur.',
+        description: 'Susun strategi bisnis berbasis teknologi yang efektif dan punya visi ke depan. Kami ingin melihat bagaimana idemu bisa tumbuh sekaligus memberikan manfaat nyata bagi pelaku usaha!',
         color: 'from-neon-orange to-orange-600',
         accentHex: '#FF8B53',
         href: '/kompetisi/business-case',
         tags: ['Mahasiswa', 'Umum'],
+    },
+    {
+        icon: WebDevIcon,
+        title: 'Web Development',
+        description: 'Tampil menarik saja belum cukup! kami menanti terobosanmu dalam membangun website yang fungsional dan berdampak. Punya ide yang tepat? Saatnya unjuk gigi di sini!',
+        color: 'from-neon-blue to-blue-600',
+        accentHex: '#1DBCD3',
+        href: '/kompetisi/web-dev',
+        tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
     }
 ];
 
 export function Tracks() {
+    const [isPastRevealDate, setIsPastRevealDate] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+        const revealDate = new Date('2026-03-26T00:00:00+07:00');
+        setIsPastRevealDate(new Date() >= revealDate);
+    }, []);
+
     return (
         <section id="tracks" className="py-16 md:py-32 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -52,7 +63,7 @@ export function Tracks() {
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-orange">KOMPETISI</span>
                     </h2>
                     <p className="text-white/60 max-w-2xl mx-auto text-lg mb-3">
-                        Pilih satu cabang kompetisi yang sesuai dengan minat Anda. Lima tim terbaik pada setiap cabang akan berebut kejuaraan di laga Grand Final.
+                        Manakah bidang yang paling sesuai dengan skill-mu? Pilih kategori yang paling cocok, lalu berikan karya terbaikmu untuk bisa bersaing di Grand Final!
                     </p>
                     <p className="text-white/30 text-sm">
                         Terbuka untuk Mahasiswa, Siswa, dan Umum.
@@ -67,11 +78,12 @@ export function Tracks() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0, margin: "0px 0px 800px 0px" }}
                             transition={{ delay: index * 0.1 }}
+                            className={`h-full ${track.title === 'Business Case' ? 'order-first md:order-none' : ''}`}
                         >
                             <Link
                                 href={track.href}
                                 prefetch={true}
-                                className="group relative block p-8 md:p-10 transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu overflow-hidden rounded-[24px] shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:-translate-y-2 bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)]"
+                                className="group relative flex flex-col h-full p-8 md:p-10 transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu overflow-hidden rounded-[24px] shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:-translate-y-2 bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)]"
                             >
                                 {/* Layer 1: Immersive Ambient Glow Background */}
                                 <div
@@ -107,6 +119,8 @@ export function Tracks() {
                                 <div className="mb-6 group-hover:scale-110 transition-transform duration-300 origin-left">
                                     <track.icon className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
                                 </div>
+                                
+
 
                                 {/* Tags */}
                                 <div className="flex flex-wrap gap-2 mb-4">
@@ -125,25 +139,78 @@ export function Tracks() {
                                     ))}
                                 </div>
 
-                                {/* Content */}
-                                <h3 className="font-raela font-bold text-2xl lg:text-3xl text-white mb-3 leading-tight">{track.title}</h3>
+                                {/* Content & Collaborator Row */}
+                                <div className="flex justify-between items-start gap-4 mb-3">
+                                    <h3 className="font-raela font-bold text-2xl lg:text-3xl text-white leading-tight">
+                                        {track.title}
+                                    </h3>
+                                </div>
                                 <p className="text-white/50 text-sm leading-relaxed mb-6">
                                     {track.description}
                                 </p>
 
-                                {/* High-Contrast CTA Button */}
-                                <div className="mt-auto pt-6">
-                                    <div className={`relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm tracking-wide text-white overflow-hidden group/btn shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 hover:shadow-[0_0_30px_${track.accentHex}40] transform-gpu`}>
-                                        {/* Button Background Gradient */}
-                                        <div className={`absolute inset-0 bg-gradient-to-r ${track.color} opacity-90 group-hover/btn:opacity-100 transition-opacity duration-[400ms] ease-out translate-z-0`} />
-                                        
-                                        {/* Button Inner Shine */}
-                                        <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] translate-z-0" />
-                                        
-                                        <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
-                                            Daftar Sekarang
-                                            <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu" />
-                                        </span>
+                                {/* Bottom Section (Collaborator Block & CTA) */}
+                                <div className="mt-auto flex flex-col w-full">
+                                    
+                                    {track.title === 'Business Case' && (
+                                        <div className="relative mb-6 rounded-2xl p-5 overflow-hidden group/collab transition-all duration-700 hover:-translate-y-1 bg-[rgba(10,10,10,0.8)] border md:backdrop-blur-md"
+                                             style={{
+                                                borderColor: `${track.accentHex}30`
+                                             }}>
+                                            
+                                            {/* Immersive Ambient Background Glow */}
+                                            <div className="absolute inset-0 opacity-20 group-hover/collab:opacity-40 transition-opacity duration-700 pointer-events-none mix-blend-screen"
+                                                 style={{ background: `radial-gradient(150% 100% at 50% 100%, ${track.accentHex}40 0%, transparent 80%)` }} />
+                                            
+                                            {/* Glowing Top Border Highlight */}
+                                            <div className="absolute top-0 left-0 right-0 h-[1px] opacity-50 group-hover/collab:opacity-100 transition-opacity duration-700" 
+                                                 style={{ background: `linear-gradient(90deg, transparent, ${track.accentHex}, transparent)` }} />
+                                            
+                                            {/* Multi-layered Inner Shadow */}
+                                            <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover/collab:opacity-100 transition-opacity duration-700"
+                                                 style={{ boxShadow: `inset 0 0 20px ${track.accentHex}15, 0 10px 20px -5px rgba(0,0,0,0.5)` }} />
+
+                                            <div className="relative z-10 flex flex-row items-center justify-between px-2">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-[9px] font-raela font-black uppercase tracking-[0.3em] transition-colors duration-500" style={{ color: track.accentHex }}>Official Case Collaborator</span>
+                                                    <span className="text-white/80 text-xs font-medium font-raela group-hover/collab:text-white transition-colors duration-500">
+                                                        {isMounted ? (isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Stay Tuned!') : 'Secret Collaborator'}
+                                                    </span>
+                                                </div>
+                                                <div className="relative w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
+                                                    {isMounted && isPastRevealDate ? (
+                                                        <Image 
+                                                            src="/assets/sponsors/Logo BCA_Putih.png" 
+                                                            alt="BCA" 
+                                                            fill
+                                                            className="object-contain opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] group-hover/collab:drop-shadow-[0_0_15px_rgba(255,139,83,0.5)]"
+                                                        />
+                                                    ) : (
+                                                        <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right">
+                                                            <div className="w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,139,83,0.3)]">
+                                                                <span className="text-xl font-bold text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">?</span>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* High-Contrast CTA Button */}
+                                    <div>
+                                        <div className={`relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm tracking-wide text-white overflow-hidden group/btn shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 hover:shadow-[0_0_30px_${track.accentHex}40] transform-gpu`}>
+                                            {/* Button Background Gradient */}
+                                            <div className={`absolute inset-0 bg-gradient-to-r ${track.color} opacity-90 group-hover/btn:opacity-100 transition-opacity duration-[400ms] ease-out translate-z-0`} />
+                                            
+                                            {/* Button Inner Shine */}
+                                            <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] translate-z-0" />
+                                            
+                                            <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
+                                                Daftar Sekarang
+                                                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu" />
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 

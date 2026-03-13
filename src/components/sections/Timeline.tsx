@@ -88,8 +88,7 @@ export function Timeline() {
                     viewport={{ once: true, amount: 0, margin: "0px 0px 800px 0px" }}
                     className="text-center mb-16 md:mb-24"
                 >
-                    <h2 className="font-raela font-bold text-3xl md:text-6xl mb-4 text-white">JADWAL <span className="text-neon-orange">ACARA</span></h2>
-                    <p className="text-white/60 font-raela">Tandai kalendermu. Perjalanan dimulai sekarang.</p>
+                    <h2 className="font-raela font-bold text-3xl md:text-6xl mb-4 text-white">TIMELINE <span className="text-neon-orange">LOMBA</span></h2>
                 </motion.div>
 
                 <div className="relative">

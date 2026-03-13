@@ -1,0 +1,29 @@
+
+> it-competition-web@0.1.0 lint
+> eslint
+
+
+D:\WEBSITE IO\webio26\src\components\pages\ImpactPage.tsx
+  184:15  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  184:89  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\WEBSITE IO\webio26\src\components\sections\Tracks.tsx
+  47:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\WEBSITE IO\webio26\src\components\sections\Tracks.tsx:47:9
+  45 |
+  46 |     useEffect(() => {
+> 47 |         setIsMounted(true);
+     |         ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  48 |         const revealDate = new Date('2026-03-26T00:00:00+07:00');
+  49 |         if (new Date() >= revealDate) {
+  50 |             setIsPastRevealDate(true);  react-hooks/set-state-in-effect
+
+Ô£û 3 problems (3 errors, 0 warnings)
+

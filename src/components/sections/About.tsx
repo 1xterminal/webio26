@@ -7,17 +7,18 @@ const pillars = [
     {
         icon: GraduationCap,
         title: "Akademik",
-        description: "Kami mewadahi bakat pelajar dari seluruh Indonesia. Tersedia cabang Web Development, UI/UX Design, dan Business Case."
+        description: "Ajang kompetisi bagi pelajar, mahasiswa, dan masyarakat luas dari seluruh Indonesia. Uji kemampuanmu dalam bidang Web Development, UI/UX Design, atau Business Case, dan jadikan karyamu sebagai bukti nyata inovasi."
+
     },
     {
         icon: PartyPopper,
         title: "Festival",
-        description: "Acara ini menghadirkan pameran dan presentasi interaktif. Suasana kolaboratif menjadi poin pembeda."
+        description: "I/O Festival 2026 juga merupakan ajang selebrasi inovasi. Kami menyediakan wadah bagi peserta untuk memamerkan karya, melakukan presentasi secara interaktif, dan berinteraksi langsung dalam suasana yang inklusif. Temukan inspirasi dan peluang kolaborasi baru di sini. "
     },
     {
         icon: Megaphone,
         title: "Publikasi",
-        description: "Acara ini memperkenalkan kiprah FTI UNTAR. Kami saling berinteraksi dengan sekolah, tenaga ahli, dan masyarakat."
+        description: "I/O Festival 2026 juga menjadi jembatan yang menghubungkan ide para pelajar dan mahasiswa dengan praktisi industri, akademisi, serta masyarakat luas."
     }
 ];
 
@@ -38,10 +39,16 @@ export function About() {
                             <span className="block tracking-tight text-balance">Ideas Into Impact.</span>
                         </h2>
                         <p className="text-lg text-white/70 mb-6 leading-relaxed">
-                            I/O Festival adalah kompetisi akademik tingkat nasional oleh FTI UNTAR. Kami mencari para perancang pakar. Karya peserta harus membawa manfaat nyata bagi masyarakat luas.
+                            I/O Festival adalah kompetisi akademik tingkat nasional yang diselenggarakan oleh BEM FTI UNTAR.
                         </p>
+
+                        <p className="text-lg text-white/70 mb-6 leading-relaxed">
+                            Kami percaya bahwateknologi yang baik adalah teknologi yang membawa manfaat nyata. Oleh karena itu, tahun ini I/O Festival berfokus pada karya yang memiliki dampak langsung bagi masyarakat.
+
+                        </p>
+
                         <p className="text-lg text-white/70 leading-relaxed">
-                            Penilaian kompetisi tahun ini mencakup kriteria <span className="text-white font-semibold">Impact Projection</span>. Hal ini bertujuan mengevaluasi kegunaan karya dalam masyarakat. Peserta wajib bertindak sebagai pemecah masalah.
+                            Melalui kriteria <span className="text-white font-semibold">Impact Projection</span>. kami akan mengevaluasi seberapa relevan dan aplikatif solusimu dalam menjawab tantangan di lapangan. Kami ingin melihat bagaimana karyamu bisa menjadi jawaban atas permasalahan yang ada.
                         </p>
                     </motion.div>
 
