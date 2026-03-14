@@ -81,7 +81,7 @@ export function Timeline() {
             }
             setCurrentPhase(phase);
             setIsMounted(true);
-            const revealDate = new Date('2026-03-26T00:00:00+07:00');
+            const revealDate = new Date('2026-04-24T10:00:00+07:00');
             setIsPastRevealDate(now >= revealDate);
         };
 

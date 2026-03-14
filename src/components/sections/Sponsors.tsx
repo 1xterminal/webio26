@@ -69,7 +69,7 @@ export function Sponsors() {
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setIsMounted(true);
-            const revealDate = new Date('2026-03-26T00:00:00+07:00');
+            const revealDate = new Date('2026-04-24T10:00:00+07:00');
             setIsPastRevealDate(new Date() >= revealDate);
         }, 0);
         return () => clearTimeout(timeoutId);
