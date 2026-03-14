@@ -60,7 +60,20 @@ const sponsorTiers: SponsorTier[] = [
     },
 ];
 
+import { useState, useEffect } from 'react';
+
 export function Sponsors() {
+    const [isPastRevealDate, setIsPastRevealDate] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setIsMounted(true);
+            const revealDate = new Date('2026-03-26T00:00:00+07:00');
+            setIsPastRevealDate(new Date() >= revealDate);
+        }, 0);
+        return () => clearTimeout(timeoutId);
+    }, []);
     // Filter active tiers: only those that contain at least one logo with a src
     const activeTiers = sponsorTiers
         .map(tier => ({
@@ -104,6 +117,9 @@ export function Sponsors() {
                             )}
                             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
                                 {tier.logos.map((logo, i) => {
+                                    const isSecretCollab = tier.tierName === 'Case Collaborator' && logo.name === 'BCA';
+                                    const shouldReveal = isMounted && isPastRevealDate;
+                                    
                                     const content = (
                                         <div
                                             className="relative group flex items-center justify-center p-4 transition-[opacity,transform] duration-500"
@@ -119,8 +135,23 @@ export function Sponsors() {
                                                 style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
                                             />
                                             
-                                            <div className="relative z-10 w-full h-full flex items-center justify-center grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110">
-                                                {logo.src ? (
+                                            <div className={`relative z-10 w-full h-full flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isSecretCollab && !shouldReveal ? 'opacity-80 group-hover:opacity-100 group-hover:scale-110' : 'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110'}`}>
+                                                {isSecretCollab ? (
+                                                    shouldReveal ? (
+                                                        <Image
+                                                            src={logo.src!}
+                                                            alt={logo.name}
+                                                            width={logo.width}
+                                                            height={logo.height}
+                                                            className="object-contain w-full h-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                                                            priority={tierIndex === 0}
+                                                        />
+                                                    ) : (
+                                                        <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_20px_rgba(255,139,83,0.3)]">
+                                                            <span className="text-3xl md:text-5xl font-bold text-white/90 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">?</span>
+                                                        </div>
+                                                    )
+                                                ) : logo.src ? (
                                                     <Image
                                                         src={logo.src}
                                                         alt={logo.name}
