@@ -50,16 +50,10 @@ const events = [
         startDate: new Date('2026-05-15T00:00:00+07:00'),
     },
     {
-        date: "4 Juni 2026",
-        title: "Acara Utama Hari Pertama",
-        description: "Presentasi final seluruh kategori lomba secara luring di Auditorium UNTAR.",
+        date: "4 - 5 Juni 2026",
+        title: "Grand Final and Awarding",
+        description: "Presentasi final seluruh kategori lomba disusul dengan seminar, talkshow, guest star, dan pengumuman pemenang.",
         startDate: new Date('2026-06-04T00:00:00+07:00'),
-    },
-    {
-        date: "5 Juni 2026",
-        title: "Acara Utama Hari Kedua",
-        description: "Seminar, talkshow, guest star, dan pengumuman pemenang kompetisi.",
-        startDate: new Date('2026-06-05T00:00:00+07:00'),
     }
 ];
 

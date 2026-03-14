@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Instagram, Mail, MapPin } from 'lucide-react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
+import { REGISTRATION_URL } from '@/lib/registration';
 import dynamic from 'next/dynamic';
 import { useState, useEffect, useRef } from 'react';
 
@@ -100,7 +101,7 @@ export function Footer() {
               ))}
               <li>
                 {regStatus === 'open' ? (
-                  <Link href="/kelengkapan" className="text-white/50 text-sm hover:text-white transition-colors">
+                  <Link href={REGISTRATION_URL} className="text-white/50 text-sm hover:text-white transition-colors">
                     Register
                   </Link>
                 ) : (

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Users, User, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle, Loader2, CheckCircle2, TriangleAlert } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Users, User, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle, Loader2, CheckCircle2, TriangleAlert, BookOpen, FileCheck, Image as ImageIcon, Download } from 'lucide-react';
 import { getCompetition } from '@/lib/competitions';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
@@ -14,6 +14,7 @@ import { Countdown } from '@/components/sections/Countdown';
 import { useState, useEffect } from 'react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { useDownloadInteraction } from '@/hooks/useDownloadInteraction';
+import { REGISTRATION_URL } from '@/lib/registration';
 
 // Top-Level Unified Premium Gradient Glow
 const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHex: string, roundedClass?: string }) => {
@@ -69,7 +70,20 @@ function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: { title:
                 <div className="absolute inset-0 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${accentHex}, transparent)`, opacity: 0.05 }} />
 
                 <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
-                    <ExternalLink className="w-5 h-5 text-white/30" />
+                    {doc.title.includes('Orisinalitas') && <FileCheck className="w-5 h-5 text-white/30" />}
+                    {doc.title.includes('Twibbon') && <ImageIcon className="w-5 h-5 text-white/30" />}
+                    {doc.title.includes('Logo') && (
+                        <Image 
+                            src="/assets/logo/logo io transparant.png" 
+                            alt="Logo I/O Fest" 
+                            width={24} 
+                            height={24} 
+                            className="object-contain opacity-30 px-1"
+                        />
+                    )}
+                    {!doc.title.includes('Orisinalitas') && !doc.title.includes('Twibbon') && !doc.title.includes('Logo') && (
+                        <ExternalLink className="w-5 h-5 text-white/30" />
+                    )}
                 </div>
 
                 <div className="relative z-10 flex-1 w-full flex flex-col h-full">
@@ -118,7 +132,23 @@ function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: { title:
                 ) : status === 'loading' ? (
                     <Loader2 className="w-5 h-5 text-white/50 animate-spin" />
                 ) : (
-                    <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${accentHex})` }} />
+                    <>
+                        {doc.title.includes('Orisinalitas') && <FileCheck className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${accentHex})` }} />}
+                        {doc.title.includes('Twibbon') && <ImageIcon className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${accentHex})` }} />}
+                        {doc.title.includes('Logo') && (
+                            <Image 
+                                src="/assets/logo/logo io transparant.png" 
+                                alt="Logo I/O Fest" 
+                                width={24} 
+                                height={24} 
+                                className="object-contain"
+                                style={{ filter: `drop-shadow(0 0 8px ${accentHex})` }}
+                            />
+                        )}
+                        {!doc.title.includes('Orisinalitas') && !doc.title.includes('Twibbon') && !doc.title.includes('Logo') && (
+                            <ExternalLink className="w-5 h-5 text-white" style={{ filter: `drop-shadow(0 0 8px ${accentHex})` }} />
+                        )}
+                    </>
                 )}
             </div>
 
@@ -138,7 +168,21 @@ function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: { title:
                                 : 'bg-white/10 group-hover:bg-white/20'
                         }`}
                     >
-                        {status === 'idle' && <ArrowRight className="w-3 h-3 group-hover:-rotate-45 transition-transform" />}
+                        {status === 'idle' && (
+                            <>
+                                {doc.title.includes('Orisinalitas') || doc.title.includes('Logo') ? (
+                                    <Download className="w-3" />
+                                ) : doc.title.includes('Twibbon') ? (
+                                    <svg className="w-3.5 h-3.5 translate-y-[0.5px]" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M22.857 14.786l-3.257 5.643H4.429L1.171 14.786H22.857z" />
+                                        <path d="M7.714 3.5l6.586 11.4h6.557L14.271 3.5H7.714z" />
+                                        <path d="M1.143 14.786L7.729 3.5h6.557L7.7 14.786H1.143z" />
+                                    </svg>
+                                ) : (
+                                    <ExternalLink className="w-3" />
+                                )}
+                            </>
+                        )}
                         {status === 'loading' && <Loader2 className="w-3 h-3 animate-spin" />}
                         {status === 'success' && <CheckCircle2 className="w-3 h-3" />}
                     </div>
@@ -163,13 +207,14 @@ export function CompetitionPage({ slug }: { slug: string }) {
             const now = new Date();
             // Matching standard timeline milestones with start times
             const stages = [
-                new Date('2026-03-15T00:00:00+07:00'), // Early Bird
-                new Date('2026-04-06T00:00:00+07:00'), // Regular
+                new Date('2026-03-15T00:00:00+07:00'), // Pendaftaran Gelombang Pertama
+                new Date('2026-04-06T00:00:00+07:00'), // Pendaftaran Gelombang Kedua
                 ...(data.slug === 'business-case' ? [new Date('2026-04-09T00:00:00+07:00')] : []), // Case Release
-                new Date('2026-04-30T00:00:00+07:00'), // Close Registration
-                new Date('2026-05-01T00:00:00+07:00'), // Preliminary
-                new Date('2026-05-13T00:00:00+07:00'), // Finalist Announce
-                new Date('2026-06-04T00:00:00+07:00'), // Final & Awarding
+                new Date('2026-04-30T00:00:00+07:00'), // Batas Akhir Pendaftaran & Pengumpulan Karya
+                new Date('2026-05-01T00:00:00+07:00'), // Penilaian Tahap Pertama
+                new Date('2026-05-13T00:00:00+07:00'), // Pengumuman Finalis
+                new Date('2026-05-15T00:00:00+07:00'), // Pertemuan Teknis Finalis
+                new Date('2026-06-04T00:00:00+07:00'), // Grand Final and Awarding
             ];
             let phase = 0;
             for (let i = 0; i < stages.length; i++) {
@@ -203,12 +248,13 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
     const timelineStages = [
         { date: '15 Mar - 5 Apr', label: 'Early Bird' },
-        { date: '6 - 30 Apr', label: 'Regular' },
+        { date: '6 - 30 Apr', label: 'Regular Registration' },
         ...(data.slug === 'business-case' ? [{ date: '9 Apr', label: 'Case Release' }] : []),
-        { date: '30 Apr', label: 'Close Registration' },
-        { date: '1 - 10 May', label: 'Preliminary' },
-        { date: '13 May', label: 'Finalist' },
-        { date: '4 - 5 Jun', label: 'Final & Awarding' },
+        { date: '30 Apr', label: 'Registration and Submission Deadline' },
+        { date: '1 - 10 Mei', label: 'Penilaian Juri' },
+        { date: '13 Mei', label: 'Pengumuman Finalis' },
+        { date: '15 Mei', label: 'Technical Meeting Finalis' },
+        { date: '4 - 5 Jun', label: 'Grand Final and Awarding' },
     ];
 
     const jsonLd = {
@@ -414,7 +460,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 
                                 <div className="relative z-10 flex flex-col gap-3 max-md:text-center w-full md:w-auto">
                                     <span className="text-xs font-raela font-black uppercase tracking-[0.4em] transition-colors duration-500" style={{ color: data.accentHex }}>Official Case Collaborator</span>                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-raela font-black text-white leading-tight drop-shadow-lg">
-                                        {isMounted && isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator'}
+                                        {isMounted && isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Stay Tuned!'}
                                     </h3>
                                     <p className="text-sm md:text-base text-white/60 max-w-lg mt-1 leading-relaxed">
                                         {isMounted && isPastRevealDate ? 'Tantangan eksklusif langsung dari PT Bank Central Asia Tbk untuk menguji kemampuan bisnismu di tingkat profesional.' : 'Tantangan eksklusif dari kolaborator rahasia untuk menguji kemampuan bisnismu di tingkat profesional.'}
@@ -772,21 +818,28 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         transition={{ delay: 0.15 }}
                         className="mb-16 mt-8"
                     >
-                        <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-8 font-black">Timeline</h2>
+                        <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-2 font-black">Timeline</h2>
 
-                        {/* Scrollable Container on Mobile for clean overflow without shrinking */}
-                        <div className="relative w-full overflow-x-auto no-scrollbar pb-6 -mx-4 px-4 md:mx-0 md:px-0" style={{ scrollBehavior: 'smooth' }}>
-                            <div className="min-w-[700px] md:min-w-full relative py-4">
+                        {/* Scrollable Container - Horizontal on all but fits desktop */}
+                        <div className="relative w-full overflow-x-auto lg:overflow-x-hidden no-scrollbar pb-6 lg:pb-12 -mx-4 px-4 md:mx-0 md:px-0">
+                            <div className="min-w-[800px] lg:min-w-0 lg:w-full relative pt-10 pb-4">
                                 {/* Base Track Line */}
-                                <div className="absolute top-[27px] left-[56px] right-[56px] h-[2px] bg-white/5 rounded-full z-0" />
+                                <div 
+                                    className="absolute top-[51px] h-[2px] bg-white/10 rounded-full z-0" 
+                                    style={{ 
+                                        left: `calc(100% / (${timelineStages.length} * 2))`,
+                                        right: `calc(100% / (${timelineStages.length} * 2))`
+                                    }}
+                                />
 
-                                {/* Dynamic Progress Tracking Line (Hardware Accelerated Width transform) */}
+                                {/* Dynamic Progress Tracking Line */}
                                 <div
-                                    className="absolute top-[27px] left-[56px] h-[2px] rounded-full transition-all duration-[1500ms] ease-out origin-left z-0"
+                                    className="absolute top-[51px] h-[3px] rounded-full transition-all duration-[1500ms] ease-out origin-left z-0"
                                     style={{
-                                        width: `calc((100% - 112px) * ${currentPhase / (timelineStages.length - 1)})`,
+                                        left: `calc(100% / (${timelineStages.length} * 2))`,
+                                        width: `calc((100% - (100% / ${timelineStages.length})) * ${currentPhase / (timelineStages.length - 1)})`,
                                         backgroundColor: data.accentHex,
-                                        boxShadow: `0 0 15px ${data.accentHex}80`
+                                        boxShadow: `0 0 20px ${data.accentHex}80`
                                     }}
                                 />
 
@@ -796,19 +849,17 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                         const isActive = i === currentPhase;
 
                                         return (
-                                            <div key={i} className="flex flex-col items-center w-28 shrink-0 relative group">
+                                            <div key={i} className="flex flex-col items-center flex-1 relative group min-w-0">
                                                 {/* Visual Node */}
                                                 <div className="relative flex items-center justify-center w-6 h-6 mb-4">
-                                                    {/* Pure CSS Ping Effect for Active Phase without JS Loop Starvation */}
                                                     {isActive && (
                                                         <div className="absolute inset-0 rounded-full animate-ping opacity-40 mix-blend-screen" style={{ backgroundColor: data.accentHex }} />
                                                     )}
-                                                    {/* Target Node Circle */}
                                                     <div
-                                                        className={`w-3 h-3 rounded-full transition-all duration-700 z-10 border-[2px] ${isActive ? 'scale-[1.8]' : isPassed ? 'scale-100' : 'scale-[0.8] opacity-30 shadow-none'
+                                                        className={`w-3.5 h-3.5 rounded-full transition-all duration-700 z-10 border-[2px] ${isActive ? 'scale-[1.8]' : isPassed ? 'scale-100' : 'scale-[0.8] opacity-50 shadow-none'
                                                             }`}
                                                         style={{
-                                                            borderColor: (isPassed || isActive) ? data.accentHex : '#fff',
+                                                            borderColor: (isPassed || isActive) ? data.accentHex : 'rgba(255,255,255,0.2)',
                                                             backgroundColor: isPassed ? data.accentHex : isActive ? '#000' : 'transparent',
                                                             boxShadow: isActive ? `0 0 20px ${data.accentHex}, inset 0 0 8px ${data.accentHex}` : 'none'
                                                         }}
@@ -816,12 +867,14 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 </div>
 
                                                 {/* Rendered Text Values */}
-                                                <span className={`font-raela text-xs font-black transition-colors duration-500 whitespace-nowrap ${isActive ? 'text-white' : isPassed ? 'text-white/80' : 'text-white/30'}`}>
+                                                <span className={`font-raela text-[9px] xl:text-xs font-black transition-colors duration-500 whitespace-nowrap mb-1 ${isActive ? 'text-white' : isPassed ? 'text-white/80' : 'text-white/30'}`}>
                                                     {item.date}
                                                 </span>
-                                                <span className={`text-[10px] mt-1 transition-colors duration-500 text-center uppercase tracking-wider font-bold ${isActive ? 'text-white/90 font-bold' : isPassed ? 'text-white/50' : 'text-white/20'}`}>
-                                                    {item.label}
-                                                </span>
+                                                <div className={`flex items-start justify-center text-center transition-colors duration-500 line-clamp-2 px-1 ${isActive ? 'text-white/90' : isPassed ? 'text-white/50' : 'text-white/20'}`}>
+                                                    <span className="text-[8px] xl:text-[10px] uppercase tracking-wider font-bold leading-tight">
+                                                        {item.label}
+                                                    </span>
+                                                </div>
                                             </div>
                                         );
                                     })}
@@ -840,117 +893,134 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-6 font-black">Kelengkapan Lomba</h2>
 
                         <div className="flex flex-col gap-4">
-                            {/* Rulebook Cards */}
+                            {/* Unified Rulebook Card */}
                             {(() => {
-                                const isLocked = regStatus === 'upcoming';
-                                const rulebookList = data.rulebooks || [{ title: 'Rulebook', desc: 'Panduan lengkap dan aturan kompetisi', url: data.rulebooks || '#' }];
+                                const isLocked = false; // Rulebooks are always available even if registration is upcoming
+                                const rulebookList = data.rulebooks || [{ title: 'Rulebook', desc: 'Official Rulebook of I/O Festival 2026', url: '#' }];
 
-                                return (
-                                    <>
-                                        {rulebookList.map((rb, idx) => isLocked ? (
-                                            <div
-                                                key={idx}
-                                                className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
-                                                style={{
-                                                    background: 'rgba(20, 20, 20, 0.6)',
-                                                    boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                                    border: '1px solid rgba(255,255,255,0.05)'
-                                                }}
-                                            >
-                                                <div className="absolute inset-0 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)`, opacity: 0.05 }} />
+                                return isLocked ? (
+                                    <div
+                                        className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
+                                        style={{
+                                            background: 'rgba(20, 20, 20, 0.6)',
+                                            boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+                                            border: '1px solid rgba(255,255,255,0.05)'
+                                        }}
+                                    >
+                                        <div className="absolute inset-0 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)`, opacity: 0.05 }} />
 
-                                                <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
-                                                    <ExternalLink className="w-8 h-8 text-white/30" />
+                                        <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
+                                            <BookOpen className="w-8 h-8 text-white/30" />
+                                        </div>
+
+                                        <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                            <div>
+                                                <div className="flex items-center gap-3 mb-1">
+                                                    <span className="text-white/50 font-bold text-xl md:text-2xl font-raela">{rulebookList[0].title}</span>
+                                                    <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-white/5 text-white/30 font-raela">PDF</span>
                                                 </div>
-
-                                                <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                                    <div>
-                                                        <div className="flex items-center gap-3 mb-1">
-                                                            <span className="text-white/50 font-bold text-xl md:text-2xl font-raela">{rb.title}</span>
-                                                            <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-white/5 text-white/30 font-raela">PDF</span>
-                                                        </div>
-                                                        <span className="text-white/30 text-sm">{rb.desc}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 text-xs font-raela font-black uppercase tracking-widest text-white/50 bg-white/10 w-fit px-4 py-2 rounded-full border border-white/5">
-                                                        Coming Soon
-                                                    </div>
-                                                </div>
+                                                <span className="text-white/30 text-sm">{rulebookList[0].desc}</span>
                                             </div>
-                                        ) : (
-                                            <a
-                                                key={idx}
-                                                href={rb.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => handleMainRulebookDownload(e)}
-                                                className={`relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden group w-full z-10 ${mainRulebookStatus === 'idle' ? 'hover:-translate-y-2' : ''}`}
-                                                style={{
-                                                    background: 'rgba(20, 20, 20, 0.6)',
-                                                    boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                                    border: '1px solid rgba(255,255,255,0.05)'
-                                                }}
-                                            >
-                                                <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-3xl" />
-
-                                                <div className={`relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg border border-white/5 ${mainRulebookStatus === 'idle' ? 'group-hover:scale-110' : ''}`} style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                            <div className="flex items-center gap-2 text-xs font-raela font-black uppercase tracking-widest text-white/50 bg-white/10 w-fit px-4 py-2 rounded-full border border-white/5">
+                                                Coming Soon
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div
+                                        className="relative flex flex-col gap-8 p-8 md:p-10 rounded-3xl md:backdrop-blur-xl transition-all duration-500 overflow-hidden w-full z-10 group mt-4"
+                                        style={{
+                                            background: 'rgba(20, 20, 20, 0.6)',
+                                            boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+                                            border: '1px solid rgba(255,255,255,0.05)'
+                                        }}
+                                    >
+                                        <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-3xl" />
+                                        
+                                        <div className="relative z-10 flex flex-col items-center text-center gap-8">
+                                            {/* Top: Icon + Title + Desc */}
+                                            <div className="flex flex-col items-center gap-5 w-full max-w-2xl">
+                                                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg border border-white/5 ${mainRulebookStatus === 'idle' ? 'group-hover:scale-110' : ''}`} style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
                                                     {mainRulebookStatus === 'success' ? (
-                                                        <CheckCircle2 className="w-8 h-8 text-emerald-400" style={{ filter: 'drop-shadow(0 0 12px #34d399)' }} />
+                                                        <CheckCircle2 className="w-10 h-10 text-emerald-400" style={{ filter: 'drop-shadow(0 0 12px #34d399)' }} />
                                                     ) : mainRulebookStatus === 'loading' ? (
-                                                        <Loader2 className="w-8 h-8 text-white/50 animate-spin" />
+                                                        <Loader2 className="w-10 h-10 text-white/50 animate-spin" />
                                                     ) : (
-                                                        <ExternalLink className="w-8 h-8 text-white" style={{ filter: `drop-shadow(0 0 12px ${data.accentHex})` }} />
+                                                        <BookOpen className="w-10 h-10 text-white" style={{ filter: `drop-shadow(0 0 12px ${data.accentHex})` }} />
                                                     )}
                                                 </div>
 
-                                                <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                                    <div>
-                                                        <div className="flex items-center gap-3 mb-1">
-                                                            <span className="text-white font-bold text-xl md:text-2xl font-raela group-hover:text-white transition-colors">{rb.title}</span>
-                                                            <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela">PDF</span>
-                                                        </div>
-                                                        <span className="text-white/50 text-sm group-hover:text-white/80 transition-colors">{rb.desc}</span>
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center justify-center gap-3">
+                                                        <span className="text-white font-bold text-2xl md:text-3xl font-raela group-hover:text-white transition-colors">
+                                                            {rulebookList.length > 1 ? 'Rulebook Kompetisi' : rulebookList[0].title}
+                                                        </span>
+                                                        <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela shrink-0">PDF</span>
                                                     </div>
-                                                    <div 
-                                                        className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white w-fit px-4 py-2 rounded-full transition-colors relative z-20 ${
-                                                            mainRulebookStatus === 'success' 
-                                                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50' 
-                                                                : mainRulebookStatus === 'loading'
-                                                                ? 'bg-white/5 text-white/50 cursor-wait'
-                                                                : 'bg-white/10 group-hover:bg-white/20'
-                                                        }`}
-                                                    >
-                                                        {mainRulebookStatus === 'idle' && (
-                                                            <>Buka Tautan <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" /></>
-                                                        )}
-                                                        {mainRulebookStatus === 'loading' && <span className="animate-pulse">Loading...</span>}
-                                                        {mainRulebookStatus === 'success' && 'Berhasil!'}
-                                                    </div>
+                                                    <p className="text-white/50 text-sm md:text-base max-w-xl mx-auto group-hover:text-white/80 transition-colors">
+                                                        {rulebookList.length > 1 ? 'Official Rulebook of I/O Festival 2026' : rulebookList[0].desc}
+                                                    </p>
                                                 </div>
+                                            </div>
 
-                                                {/* BCA Watermark for Business Case Rulebook */}
-                                                {data.slug === 'business-case' && isMounted && isPastRevealDate && (
-                                                    <div className="absolute top-4 right-4 md:top-6 md:right-8 opacity-5 group-hover:opacity-20 transition-all duration-700 pointer-events-none transform group-hover:scale-110">
-                                                        <Image 
-                                                            src="/assets/sponsors/Logo BCA_Putih.png" 
-                                                            alt="" 
-                                                            width={100} 
-                                                            height={50} 
-                                                            className="object-contain"
-                                                        />
-                                                    </div>
-                                                )}
-                                            </a>
-                                        ))}
-                                    </>
+                                            {/* Bottom: Action Buttons */}
+                                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+                                                {rulebookList.map((rb, idx) => {
+                                                    const label = rulebookList.length > 1 
+                                                        ? (rb.title.includes('SMA') || rb.title.includes('Siswa') ? 'SMA/SMK' : 'Mahasiswa/Umum')
+                                                        : 'Open Rulebook';
+                                                    
+                                                    return (
+                                                        <a
+                                                            key={idx}
+                                                            href={rb.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={(e) => handleMainRulebookDownload(e)}
+                                                            className={`w-full sm:w-auto min-w-[200px] flex items-center justify-center gap-3 text-xs sm:text-sm font-bold uppercase tracking-widest text-white px-8 py-4 rounded-full transition-all duration-300 relative z-20 whitespace-nowrap border ${
+                                                                mainRulebookStatus === 'success' 
+                                                                    ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50' 
+                                                                    : mainRulebookStatus === 'loading'
+                                                                    ? 'bg-white/5 text-white/50 cursor-wait border-transparent'
+                                                                    : 'bg-white/10 hover:bg-white/20 border-white/5 hover:border-white/20'
+                                                            }`}
+                                                        >
+                                                            {mainRulebookStatus === 'idle' && (
+                                                                <>
+                                                                    {label}
+                                                                    <ExternalLink className="w-4 h-4 transition-transform" />
+                                                                </>
+                                                            )}
+                                                            {mainRulebookStatus === 'loading' && <span className="animate-pulse">Loading...</span>}
+                                                            {mainRulebookStatus === 'success' && 'Berhasil!'}
+                                                        </a>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        {/* BCA Watermark for Business Case Rulebook */}
+                                        {data.slug === 'business-case' && isMounted && isPastRevealDate && (
+                                            <div className="absolute bottom-8 right-8 opacity-5 group-hover:opacity-20 transition-all duration-700 pointer-events-none transform group-hover:scale-110">
+                                                <Image 
+                                                    src="/assets/sponsors/Logo BCA_Putih.png" 
+                                                    alt="" 
+                                                    width={120} 
+                                                    height={60} 
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
                                 );
                             })()}
 
                             {/* 3 Smaller Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 {[
-                                    { title: 'Orisinalitas', desc: 'Pernyataan keaslian', href: '/downloads/LEMBAR PERNYATAAN ORISINALITAS KARYA.docx', type: 'DOCX', comingSoon: false },
-                                    { title: 'Logo I/O Fest', desc: 'Aset resmi tim', href: '/downloads/logo-iofest-2026.png', type: 'PNG', comingSoon: false },
-                                    { title: 'Twibbon', desc: 'Frame foto resmi', href: '#', type: 'PNG', comingSoon: true },
+                                    { title: 'Pernyataan Orisinalitas', desc: 'Statement of Originality', href: '/downloads/LEMBAR PERNYATAAN ORISINALITAS KARYA.docx', type: 'DOCX', comingSoon: false },
+                                    { title: 'Logo I/O Festival 2026', desc: 'Official Logo of I/O Festival 2026', href: '/downloads/logo-iofest-2026.png', type: 'PNG', comingSoon: false },
+                                    { title: 'Twibbon', desc: 'Official Twibbon of I/O Festival 2026', href: 'https://drive.google.com/drive/folders/1o997MjNSa_Zp2IdsGoPplnTNJsWiB3ee?usp=sharing', type: 'PNG', comingSoon: false },
                                 ].map((doc, idx) => {
     const badgeColor = doc.type === 'DOCX' ? 'bg-blue-500/10 text-blue-400'
                                         : doc.type === 'PNG' ? 'bg-emerald-500/10 text-emerald-400'
@@ -972,11 +1042,11 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         className="text-center border-t border-white/10 pt-12"
                     >
                         <h3 className="font-raela font-bold text-2xl text-white mb-4">Siap Berkompetisi?</h3>
-                        <p className="text-white/50 mb-8">Daftarkan tim Anda hari ini. Tunjukkan kemampuan Anda pada tingkat nasional.</p>
+                        <p className="text-white/50 mb-8">Tunjukkan kemampuan kamu pada kompetisi tingkat nasional ini!</p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             {regStatus === 'open' ? (
                                 <Link
-                                    href="https://forms.gle/VGrtKxDffHd4mZAz8"
+                                    href={REGISTRATION_URL}
                                     className="inline-flex items-center justify-center gap-3 bg-white text-black font-bold text-base px-8 py-4 hover:bg-white/90 transition-colors uppercase tracking-widest min-w-[200px]"
                                 >
                                     DAFTAR <ArrowRight className="w-5 h-5" />

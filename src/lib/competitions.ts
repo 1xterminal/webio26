@@ -42,13 +42,38 @@ export interface CompetitionData {
 
 export const competitions: CompetitionData[] = [
     {
+        slug: 'business-case',
+        title: 'Business Case',
+        shortTitle: 'Business Case',
+        icon: BusinessCaseIcon,
+        color: 'from-neon-orange to-orange-600',
+        accentHex: '#FF8B53', // Value taken from the SVG definition
+        tags: ['Mahasiswa', 'Umum'],
+        tagline: 'Create business plans with clear potential.',
+        description:
+            'Peserta Business Case akan menyusun rencana bisnis berbasis teknologi. Solusi peserta harus memiliki dampak sosial. Peserta wajib membuktikan kelayakan finansial dari desain bisnis tersebut.',
+        details: {
+            categories: 'Mahasiswa & Umum (Tim Maks. 3 Orang)',
+            fee: [
+                { type: 'Mahasiswa & Umum', early: 'Rp 60.000', regular: 'Rp 80.000' }
+            ],
+            prizes: 'Uang Tunai & E-Sertifikat',
+        },
+        contacts: [
+            { name: 'Clive Ang', whatsapp: '6285370587170', line: 'cliveang2008', role: ['Mahasiswa', 'Umum'] }
+        ],
+        rulebooks: [
+            { title: 'Rulebook Mahasiswa & Umum', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_Business_Case.pdf' }
+        ],
+        submissionUrl: '#',
+    },
+    {
         slug: 'ui-ux',
         title: 'UI/UX Design',
         shortTitle: 'UI/UX',
         icon: UIUXIcon,
         color: 'from-neon-purple to-purple-600',
         accentHex: '#A856EE', // Value taken from the SVG definition
-        badge: 'Popular',
         tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
         tagline: 'Design interfaces that solve problems.',
         description:
@@ -66,8 +91,8 @@ export const competitions: CompetitionData[] = [
             { name: 'Sheireen Sadeli', whatsapp: '6285890581118', line: 'sheireensadeli', role: ['SMA/SMK'] }
         ],
         rulebooks: [
-            { title: 'Rulebook Mahasiswa & Umum', desc: 'Panduan dan aturan (Mahasiswa)', url: '/downloads/rulebook/Rulebook_UIUX_Mahasiswa.pdf' },
-            { title: 'Rulebook Siswa SMA/K', desc: 'Panduan dan aturan (Siswa)', url: '/downloads/rulebook/Rulebook_UIUX_Siswa.pdf' }
+            { title: 'Rulebook Mahasiswa & Umum', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_UIUX_Mahasiswa.pdf' },
+            { title: 'Rulebook Siswa SMA/K', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_UIUX_Siswa.pdf' }
         ],
         submissionUrl: '#',
     },
@@ -95,35 +120,8 @@ export const competitions: CompetitionData[] = [
             { name: 'Christian Benizi Susilo', whatsapp: '6281354629105', line: 'bennzzy', role: ['SMA/SMK'] }
         ],
         rulebooks: [
-            { title: 'Rulebook Mahasiswa & Umum', desc: 'Panduan dan aturan (Mahasiswa)', url: '/downloads/rulebook/Rulebook_WebDev_Mahasiswa.pdf' },
-            { title: 'Rulebook Siswa SMA/K', desc: 'Panduan dan aturan (Siswa)', url: '/downloads/rulebook/Rulebook_WebDev_Siswa.pdf' }
-        ],
-        submissionUrl: '#',
-    },
-    {
-        slug: 'business-case',
-        title: 'Business Case',
-        shortTitle: 'Business Case',
-        icon: BusinessCaseIcon,
-        color: 'from-neon-orange to-orange-600',
-        accentHex: '#FF8B53', // Value taken from the SVG definition
-        badge: 'New',
-        tags: ['Mahasiswa', 'Umum'],
-        tagline: 'Create business plans with clear potential.',
-        description:
-            'Peserta Business Case akan menyusun rencana bisnis berbasis teknologi. Solusi peserta harus memiliki dampak sosial. Peserta wajib membuktikan kelayakan finansial dari desain bisnis tersebut.',
-        details: {
-            categories: 'Mahasiswa & Umum (Tim Maks. 3 Orang)',
-            fee: [
-                { type: 'Mahasiswa & Umum', early: 'Rp 60.000', regular: 'Rp 80.000' }
-            ],
-            prizes: 'Uang Tunai & E-Sertifikat',
-        },
-        contacts: [
-            { name: 'Clive Ang', whatsapp: '6285370587170', line: 'cliveang2008', role: ['Mahasiswa', 'Umum'] }
-        ],
-        rulebooks: [
-            { title: 'Rulebook Mahasiswa & Umum', desc: 'Panduan lengkap dan aturan kompetisi', url: '/downloads/rulebook/Rulebook_Business_Case.pdf' }
+            { title: 'Rulebook Mahasiswa & Umum', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_WebDev_Mahasiswa.pdf' },
+            { title: 'Rulebook Siswa SMA/K', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_WebDev_Siswa.pdf' }
         ],
         submissionUrl: '#',
     },

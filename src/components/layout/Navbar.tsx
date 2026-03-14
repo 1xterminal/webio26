@@ -13,11 +13,11 @@ import {
   X,
   ChevronDown,
   ArrowRight,
-  Handshake,
 } from 'lucide-react';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { competitions } from '@/lib/competitions';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
+import { REGISTRATION_URL } from '@/lib/registration';
 
 // ─── Static data outside component for zero re-allocation cost ─────────────
 // (react-best-practices: hoist static JSX/data; clean-code: meaningful names)
@@ -43,33 +43,13 @@ const NAV_ITEMS: NavItem[] = [
   {
     name: 'Partnership',
     href: '/sponsorship',
-    hasDropdown: true,
-    dropdownType: 'partnership',
     isHighlight: false,
   },
   { name: 'FAQ',                href: '/#faq',    isHighlight: false },
   { name: 'Impact Projection',  href: '/impact',  isHighlight: true  },
 ];
 
-interface PartnershipLink {
-  slug: string;
-  title: string;
-  tagline: string;
-  href: string;
-  icon: React.ElementType<{ className?: string; style?: React.CSSProperties }>;
-  accentHex: string;
-}
 
-const PARTNERSHIP_LINKS: PartnershipLink[] = [
-  {
-    slug: 'sponsorship',
-    title: 'Sponsorship',
-    tagline: 'Brand exposure & on-ground activation.',
-    href: '/sponsorship',
-    icon: Handshake,
-    accentHex: '#A856EE',
-  },
-];
 
 // ─── Framer variants — defined once, not recreated per render ─────────────
 const DROPDOWN_VARIANTS = {
@@ -93,7 +73,8 @@ export function Navbar() {
   const [isScrolled, setIsScrolled]           = useState(false);
   const [activeDropdown, setActiveDropdown]   = useState<string | null>(null);
   const [mobileCompOpen, setMobileCompOpen]   = useState(false);
-  const [mobilePartOpen, setMobilePartOpen]   = useState(false);
+  const [isPastRevealDate, setIsPastRevealDate] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const regStatus       = useRegistrationStatus();
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -103,6 +84,21 @@ export function Navbar() {
     : 'transition-all duration-300 ease-[0.7,0,0.84,0]';
 
   const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => setIsMounted(true), 0);
+    const checkReveal = () => {
+      const now = new Date();
+      const revealDate = new Date('2026-03-24T10:00:00+07:00');
+      setIsPastRevealDate(now >= revealDate);
+    };
+    checkReveal();
+    const interval = setInterval(checkReveal, 60000); // Check every minute
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   // Scroll handler — sets state only on threshold cross (avoids thrash)
   useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -124,7 +120,6 @@ export function Navbar() {
   const toggleMenu     = useCallback(() => setIsOpen((v) => !v), []);
   const closeMenu      = useCallback(() => setIsOpen(false), []);
   const toggleMobileComp = useCallback(() => setMobileCompOpen((v) => !v), []);
-  const toggleMobilePart = useCallback(() => setMobilePartOpen((v) => !v), []);
 
   return (
     <>
@@ -231,24 +226,17 @@ export function Navbar() {
                   {/* Featured panel */}
                   <div className="col-span-4 p-8 border-r border-white/5 flex flex-col justify-between bg-gradient-to-br from-neon-purple/10 via-transparent to-neon-orange/5">
                     <div>
-                      {activeDropdown === 'competition' && (
-                        <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6 block">
-                          I/O Festival 2026
-                        </span>
-                      )}
+                      <span className="text-neon-blue font-mono uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6 block">
+                        I/O Festival 2026
+                      </span>
                       <span className="block font-raela font-bold text-2xl text-white leading-tight mb-3">
-                        {activeDropdown === 'competition'
-                          ? '3 Cabang Kompetisi Nasional'
-                          : 'Strategic Partnership'}
+                        3 Cabang Kompetisi Nasional
                       </span>
                       <p className="text-white/40 text-sm leading-relaxed">
-                        {activeDropdown === 'competition'
-                          ? 'Terbuka untuk mahasiswa, siswa, dan umum. Pilih cabang yang sesuai dan buktikan skill kamu.'
-                          : 'Pilih tipe kemitraan yang paling sesuai dengan profil dan tujuan strategis perusahaan Anda.'}
+                        Terbuka untuk mahasiswa, siswa, dan umum. Pilih cabang yang sesuai dan buktikan skill kamu.
                       </p>
                     </div>
-                    {activeDropdown === 'competition' && (
-                      regStatus === 'open' ? (
+                    {regStatus === 'open' ? (
                         <Link
                           href="#"
                           onClick={closeDropdown}
@@ -263,64 +251,73 @@ export function Navbar() {
                             ? 'Registration opens 15 March'
                             : 'Registration closed'}
                         </span>
-                      )
-                    )}
+                      )}
                   </div>
 
                   {/* Links panel */}
                   <div className="col-span-8 p-2">
                     <div className="grid grid-cols-1 h-full">
-                      {(activeDropdown === 'competition'
-                        ? competitions
-                        : PARTNERSHIP_LINKS
-                      ).map((item) => {
-                        const isComp   = activeDropdown === 'competition';
-                        const compItem = isComp
-                          ? (item as import('@/lib/competitions').CompetitionData)
-                          : null;
-                        const partItem = !isComp ? (item as PartnershipLink) : null;
-                        const CompIcon = compItem?.icon as
+                      {competitions.map((item) => {
+                        const CompIcon = item.icon as
                           | React.ElementType<{ className?: string; style?: React.CSSProperties }>
                           | undefined;
-                        const PartIcon = partItem?.icon;
+                        
+                        const isBusinessCase = item.slug === 'business-case';
 
                         return (
                           <Link
-                            key={isComp ? compItem!.slug : partItem!.slug}
-                            href={isComp ? `/kompetisi/${compItem!.slug}` : partItem!.href}
+                            key={item.slug}
+                            href={`/kompetisi/${item.slug}`}
                             prefetch
                             onClick={closeDropdown}
                             className="flex items-center gap-5 px-6 py-5 hover:bg-white/[0.03] transition-colors group/item rounded-sm"
                           >
                             <div className="w-14 h-14 shrink-0 group-hover/item:scale-110 transition-transform duration-300 flex items-center justify-center transform-gpu">
-                              {isComp && CompIcon ? (
+                              {CompIcon && (
                                 <CompIcon className="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" />
-                              ) : !isComp && PartIcon && partItem ? (
-                                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover/item:border-white/20 transition-colors">
-                                  <PartIcon
-                                    className="w-6 h-6 text-white"
-                                    style={{
-                                      filter: `drop-shadow(0 0 8px ${partItem.accentHex})`,
-                                    }}
-                                  />
-                                </div>
-                              ) : null}
+                              )}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
                                 <span className="text-white font-bold text-[15px]">
-                                  {isComp ? compItem!.title : partItem!.title}
+                                  {item.title}
                                 </span>
-                                {isComp && compItem!.badge && (
-                                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-sm bg-neon-orange/20 text-neon-orange">
-                                    {compItem!.badge}
-                                  </span>
-                                )}
                               </div>
                               <span className="text-white/30 text-xs mt-0.5 block line-clamp-2 md:line-clamp-1">
-                                {isComp ? compItem!.tagline : partItem!.tagline}
+                                {item.tagline}
                               </span>
                             </div>
+
+                            {/* Redesigned Collaborator Badge */}
+                            {isBusinessCase && (
+                              <div className="relative flex items-center h-12 px-4 rounded-xl overflow-hidden group/collab border border-white/5 bg-white/[0.02] shrink-0"
+                                   style={{ borderColor: `${item.accentHex}20` }}>
+                                <div className="flex flex-col items-end mr-3">
+                                  <span className="text-[8px] font-raela font-black uppercase tracking-[0.2em] opacity-40" style={{ color: item.accentHex }}>Official Case Collaborator</span>
+                                  <span className="text-[10px] text-white/60 font-medium whitespace-nowrap">
+                                    {isMounted && isPastRevealDate ? 'BCA' : 'Stay Tuned!'}
+                                  </span>
+                                </div>
+                                <div className="relative w-8 h-8 flex items-center justify-center">
+                                  {isMounted && isPastRevealDate ? (
+                                    <Image
+                                      src="/assets/sponsors/Logo BCA_Putih.png"
+                                      alt="BCA"
+                                      fill
+                                      className="object-contain opacity-80 group-hover/item:opacity-100 transition-all duration-500"
+                                    />
+                                  ) : (
+                                    <div className="w-6 h-6 rounded-full bg-black/40 border border-white/10 flex items-center justify-center shadow-[0_0_10px_rgba(255,139,83,0.3)]">
+                                      <span className="text-[10px] font-bold text-white/80">?</span>
+                                    </div>
+                                  )}
+                                  {/* Ambient Glow */}
+                                  <div className="absolute inset-0 opacity-0 group-hover/item:opacity-40 transition-opacity duration-500 blur-md rounded-full"
+                                       style={{ background: item.accentHex }} />
+                                </div>
+                              </div>
+                            )}
+
                             <ArrowRight className="w-4 h-4 text-white/0 group-hover/item:text-white/40 transition-all shrink-0 -translate-x-2 group-hover/item:translate-x-0" />
                           </Link>
                         );
@@ -350,22 +347,12 @@ export function Navbar() {
                 <MobileDropdownItem
                   key={item.name}
                   item={item}
-                  isOpen={
-                    item.dropdownType === 'competition'
-                      ? mobileCompOpen
-                      : mobilePartOpen
-                  }
-                  onToggle={
-                    item.dropdownType === 'competition'
-                      ? toggleMobileComp
-                      : toggleMobilePart
-                  }
-                  subItems={
-                    item.dropdownType === 'competition'
-                      ? competitions
-                      : PARTNERSHIP_LINKS
-                  }
+                  isOpen={mobileCompOpen}
+                  onToggle={toggleMobileComp}
+                  subItems={competitions}
                   onClose={closeMenu}
+                  isPastRevealDate={isPastRevealDate}
+                  isMounted={isMounted}
                 />
               ) : (
                 <Link
@@ -537,8 +524,10 @@ interface MobileDropdownItemProps {
   item: NavItem;
   isOpen: boolean;
   onToggle: () => void;
-  subItems: typeof competitions | PartnershipLink[];
+  subItems: typeof competitions;
   onClose: () => void;
+  isPastRevealDate: boolean;
+  isMounted: boolean;
 }
 
 function MobileDropdownItem({
@@ -547,9 +536,9 @@ function MobileDropdownItem({
   onToggle,
   subItems,
   onClose,
+  isPastRevealDate,
+  isMounted,
 }: MobileDropdownItemProps) {
-  const isComp = item.dropdownType === 'competition';
-
   return (
     <div className="flex flex-col items-center">
       <button
@@ -577,9 +566,12 @@ function MobileDropdownItem({
             className="mt-4 space-y-3"
           >
             {subItems.map((subItem) => {
-              const href = isComp
-                ? `/kompetisi/${subItem.slug}`
-                : (subItem as PartnershipLink).href;
+              const href = `/kompetisi/${subItem.slug}`;
+              const isBusinessCase = subItem.slug === 'business-case';
+              const collaboratorText = isMounted 
+                ? (isPastRevealDate ? 'BCA Case' : 'Official Case Collaborator')
+                : 'Official Case Collaborator';
+
               return (
                 <Link
                   key={subItem.slug}
@@ -588,7 +580,31 @@ function MobileDropdownItem({
                   onClick={onClose}
                   className="block text-center text-lg text-white/60 hover:text-neon-orange transition-colors"
                 >
-                  {subItem.title}
+                  <span className="flex flex-col items-center gap-1">
+                    <span>{subItem.title}</span>
+                    {isBusinessCase && (
+                      <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5"
+                           style={{ borderColor: `${subItem.accentHex}20` }}>
+                        <span className="text-[9px] font-black uppercase tracking-widest" style={{ color: subItem.accentHex }}>
+                          {collaboratorText}
+                        </span>
+                        <div className="relative w-4 h-4">
+                          {isMounted && isPastRevealDate ? (
+                            <Image
+                              src="/assets/sponsors/Logo BCA_Putih.png"
+                              alt="BCA"
+                              fill
+                              className="object-contain opacity-80"
+                            />
+                          ) : (
+                            <div className="w-4 h-4 rounded-full bg-black/40 border border-white/10 flex items-center justify-center">
+                              <span className="text-[8px] font-bold text-white/60">?</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </span>
                 </Link>
               );
             })}
@@ -615,7 +631,7 @@ function RegisterButton({ regStatus, isScrolled, transitionClass }: RegisterButt
   if (regStatus === 'open') {
     return (
       <Link
-        href="https://forms.gle/VGrtKxDffHd4mZAz8"
+        href={REGISTRATION_URL}
         className={`hidden md:block bg-white text-black rounded-full font-raela font-black tracking-tight hover:bg-neon-orange hover:text-white hover:shadow-[0_0_20px_rgba(255,139,83,0.4)] ${transitionClass} transform hover:-translate-y-0.5 ${sizeClass}`}
       >
         Register
