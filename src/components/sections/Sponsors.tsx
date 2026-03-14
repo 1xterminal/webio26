@@ -142,7 +142,7 @@ export function Sponsors() {
                                                     </div>
                                                 ) : logo.src || shouldReveal ? (
                                                     <Image
-                                                        src={shouldReveal ? "/assets/sponsors/Logo BCA_Putih.png" : logo.src}
+                                                        src={shouldReveal ? "/assets/sponsors/Logo BCA_Putih.png" : (logo.src || "")}
                                                         alt={shouldReveal ? "BCA" : logo.name}
                                                         width={shouldReveal ? 300 : logo.width}
                                                         height={shouldReveal ? 150 : logo.height}
