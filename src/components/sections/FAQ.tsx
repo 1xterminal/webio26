@@ -19,7 +19,7 @@ const faqs = [
     },
     {
         question: "Bagaimana tahapan kompetisi ini?",
-        answer: "Kompetisi berlangsung dalam dua tahap. Babak Penyisihan berlangsung secara daring dengan mengumpulkan proposal dan progres karya. Lima tim terbaik (Top 5) pada setiap cabang berhak melaju ke babak Grand Final yang diselenggarakan secara luring (offline) di kampus Universitas Tarumanagara."
+        answer: "Kompetisi berlangsung dalam dua tahap. Babak Penyisihan dilakukan secara Online (daring). Setelah itu, tim yang lolos ke babak Grand Final akan bertanding secara Offline (luring) di kampus Universitas Tarumanagara."
     },
     {
         question: "Berapa batas jumlah anggota tim?",
@@ -31,7 +31,7 @@ const faqs = [
     },
     {
         question: "Apa hadiah bagi para pemenang?",
-        answer: "Para pemenang akan mendapatkan uang pembinaan (Total Prize Pool jutaan rupiah) dan E-Sertifikat penghargaan resmi."
+        answer: "Para pemenang akan mendapatkan uang pembinaan (Total Prize Pool jutaan rupiah), E-Sertifikat penghargaan resmi, dan piala."
     }
 ];
 

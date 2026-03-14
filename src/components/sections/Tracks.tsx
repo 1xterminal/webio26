@@ -13,7 +13,7 @@ const tracks = [
     {
         icon: UIUXIcon,
         title: 'UI/UX Design',
-        description: 'Tunjukkan bagaimana desainmu bisa benar-benar mempermudah kehidupan sehari-hari dan membawa dampak yang nyata bagi masyarakat!',
+        description: 'Bikin tampilan yang nggak cuma enak dipandang, tapi juga punya pengalaman pengguna yang intuitif. Tunjukkan gimana desainmu bisa benar-benar mempermudah kehidupan sehari-hari.',
         color: 'from-neon-purple to-purple-600',
         accentHex: '#A856EE',
         href: '/kompetisi/ui-ux',
@@ -22,7 +22,7 @@ const tracks = [
     {
         icon: BusinessCaseIcon,
         title: 'Business Case',
-        description: 'Susun strategi bisnis berbasis teknologi yang efektif dan punya visi ke depan. Kami ingin melihat bagaimana idemu bisa tumbuh sekaligus memberikan manfaat nyata bagi pelaku usaha!',
+        description: 'Susun strategi bisnis berbasis teknologi yang efektif dan punya visi ke depan. Kami ingin melihat bagaimana idemu bisa tumbuh sekaligus memberikan manfaat nyata bagi sekitar.',
         color: 'from-neon-orange to-orange-600',
         accentHex: '#FF8B53',
         href: '/kompetisi/business-case',
@@ -46,8 +46,9 @@ export function Tracks() {
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setIsMounted(true);
-            const revealDate = new Date('2026-04-24T10:00:00+07:00');
-            setIsPastRevealDate(new Date() >= revealDate);
+            const now = new Date();
+            const revealDate = new Date('2026-03-24T10:00:00+07:00');
+            setIsPastRevealDate(now >= revealDate);
         }, 0);
         return () => clearTimeout(timeoutId);
     }, []);
@@ -66,10 +67,7 @@ export function Tracks() {
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-orange">KOMPETISI</span>
                     </h2>
                     <p className="text-white/60 max-w-2xl mx-auto text-lg mb-3">
-                        Manakah bidang yang paling sesuai dengan skill-mu? Pilih kategori yang paling cocok, lalu berikan karya terbaikmu untuk bisa bersaing di Grand Final!
-                    </p>
-                    <p className="text-white/30 text-sm">
-                        Terbuka untuk Mahasiswa, Siswa, dan Umum.
+                        Manakah bidang yang paling sesuai dengan skill-mu? Pilih kategori yang paling cocok, lalu berikan aksi terbaik timmu untuk bisa bersaing di Grand Final. Terbuka untuk pelajar, mahasiswa, dan umum. Mari buktikan inovasimu di sini!
                     </p>
                 </motion.div>
 
@@ -182,11 +180,11 @@ export function Tracks() {
                                                 </div>
                                                 <div className="relative w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (
-                                                        <Image 
-                                                            src="/assets/sponsors/Logo BCA_Putih.png" 
-                                                            alt="BCA" 
+                                                        <Image
+                                                            src="/assets/sponsors/Logo BCA_Putih.png"
+                                                            alt="BCA"
                                                             fill
-                                                            className="object-contain opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] group-hover/collab:drop-shadow-[0_0_15px_rgba(255,139,83,0.5)]"
+                                                            className="object-contain opacity-90 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                                                         />
                                                     ) : (
                                                         <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right">

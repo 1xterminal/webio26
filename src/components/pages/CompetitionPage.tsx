@@ -165,6 +165,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
             const stages = [
                 new Date('2026-03-15T00:00:00+07:00'), // Early Bird
                 new Date('2026-04-06T00:00:00+07:00'), // Regular
+                ...(data.slug === 'business-case' ? [new Date('2026-04-09T00:00:00+07:00')] : []), // Case Release
                 new Date('2026-04-30T00:00:00+07:00'), // Close Registration
                 new Date('2026-05-01T00:00:00+07:00'), // Preliminary
                 new Date('2026-05-13T00:00:00+07:00'), // Finalist Announce
@@ -180,7 +181,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
             }
             setCurrentPhase(phase);
             setIsMounted(true);
-            const revealDate = new Date('2026-04-24T10:00:00+07:00');
+            const revealDate = new Date('2026-03-24T10:00:00+07:00');
             setIsPastRevealDate(now >= revealDate);
         };
 
@@ -202,7 +203,8 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
     const timelineStages = [
         { date: '15 Mar - 5 Apr', label: 'Early Bird' },
-        { date: '6 - 30 Apr', label: data.slug === 'business-case' ? 'Regular & BCA Exclusive Case' : 'Regular' },
+        { date: '6 - 30 Apr', label: 'Regular' },
+        ...(data.slug === 'business-case' ? [{ date: '9 Apr', label: 'Case Release' }] : []),
         { date: '30 Apr', label: 'Close Registration' },
         { date: '1 - 10 May', label: 'Preliminary' },
         { date: '13 May', label: 'Finalist' },
@@ -411,17 +413,16 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-[2.5rem]" />
                                 
                                 <div className="relative z-10 flex flex-col gap-3 max-md:text-center w-full md:w-auto">
-                                    <span className="text-xs font-raela font-black uppercase tracking-[0.4em] transition-colors duration-500" style={{ color: data.accentHex }}>Official Case Collaborator</span>
-                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-raela font-black text-white leading-tight drop-shadow-lg">
-                                        {isMounted ? (isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator') : 'Secret Collaborator'}
+                                    <span className="text-xs font-raela font-black uppercase tracking-[0.4em] transition-colors duration-500" style={{ color: data.accentHex }}>Official Case Collaborator</span>                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-raela font-black text-white leading-tight drop-shadow-lg">
+                                        {isMounted && isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator'}
                                     </h3>
                                     <p className="text-sm md:text-base text-white/60 max-w-lg mt-1 leading-relaxed">
-                                        {isMounted ? (isPastRevealDate ? 'Tantangan eksklusif langsung dari PT Bank Central Asia Tbk untuk menguji kemampuan bisnismu di tingkat profesional.' : 'Stay Tuned!') : 'Tantangan eksklusif dari kolaborator rahasia untuk menguji kemampuan bisnismu di tingkat profesional.'}
+                                        {isMounted && isPastRevealDate ? 'Tantangan eksklusif langsung dari PT Bank Central Asia Tbk untuk menguji kemampuan bisnismu di tingkat profesional.' : 'Tantangan eksklusif dari kolaborator rahasia untuk menguji kemampuan bisnismu di tingkat profesional.'}
                                     </p>
                                 </div>
 
                                 <motion.div 
-                                    className="relative z-10 shrink-0 mt-4 md:mt-0 p-6 md:p-8 rounded-[2rem] bg-white/[0.03] border border-white/10 shadow-[inset_0_1px_20px_rgba(255,255,255,0.05),0_10px_40px_rgba(0,0,0,0.5)] group-hover:bg-white/[0.06] group-hover:border-white/20 transition-all duration-700 w-40 h-32 md:w-52 md:h-40 flex items-center justify-center overflow-hidden"
+                                    className="relative z-10 shrink-0 mt-4 md:mt-0 p-6 md:p-8 rounded-[2rem] bg-white/[0.03] border border-white/10 shadow-[inset_0_1px_20px_rgba(255,255,255,0.05),0_10px_40px_rgba(0,0,0,0.5)] group-hover:bg-white/6 group-hover:border-white/20 transition-all duration-700 w-40 h-32 md:w-52 md:h-40 flex items-center justify-center overflow-hidden"
                                     animate={{ y: [-5, 5, -5] }}
                                     transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
                                 >
@@ -624,11 +625,6 @@ export function CompetitionPage({ slug }: { slug: string }) {
                             >
                                 <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
 
-                                {/* Large Decorative Watermark Icon */}
-                                <div className="absolute -bottom-8 -right-8 opacity-5 group-hover:opacity-10 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-1000 ease-out pointer-events-none z-0">
-                                    <Landmark className="w-64 h-64" style={{ color: data.accentHex }} />
-                                </div>
-
                                 {/* Content Layer */}
                                 <div className="relative z-10 flex flex-col h-full">
                                     {/* Icon Badge */}
@@ -659,10 +655,6 @@ export function CompetitionPage({ slug }: { slug: string }) {
                             >
                                 <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
 
-                                <div className="absolute -bottom-8 -right-8 opacity-5 group-hover:opacity-10 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-1000 ease-out pointer-events-none z-0">
-                                    <Recycle className="w-64 h-64" style={{ color: data.accentHex }} />
-                                </div>
-
                                 <div className="relative z-10 flex flex-col h-full">
                                     <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white/[0.03] border border-white/5 transition-transform duration-500 group-hover:scale-110 shadow-xl relative z-10 mb-10" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
                                         <Recycle className="w-8 h-8 text-white/80" style={{ filter: `drop-shadow(0 0 8px ${data.accentHex}80)` }} />
@@ -690,10 +682,6 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 }}
                             >
                                 <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-2xl" />
-
-                                <div className="absolute -bottom-8 -right-8 opacity-5 group-hover:opacity-10 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-1000 ease-out pointer-events-none z-0">
-                                    <GraduationCap className="w-64 h-64" style={{ color: data.accentHex }} />
-                                </div>
 
                                 <div className="relative z-10 flex flex-col h-full">
                                     <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white/[0.03] border border-white/5 transition-transform duration-500 group-hover:scale-110 shadow-xl relative z-10 mb-10" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
@@ -852,102 +840,108 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-6 font-black">Kelengkapan Lomba</h2>
 
                         <div className="flex flex-col gap-4">
-                            {/* Big Rulebook Card (Full Width) */}
+                            {/* Rulebook Cards */}
                             {(() => {
                                 const isLocked = regStatus === 'upcoming';
-                                const rb = { title: 'Rulebook', desc: 'Panduan lengkap dan aturan kompetisi', href: data.rulebookUrl || '#' };
+                                const rulebookList = data.rulebooks || [{ title: 'Rulebook', desc: 'Panduan lengkap dan aturan kompetisi', url: data.rulebooks || '#' }];
 
-                                return isLocked ? (
-                                    <div
-                                        className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
-                                        style={{
-                                            background: 'rgba(20, 20, 20, 0.6)',
-                                            boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                            border: '1px solid rgba(255,255,255,0.05)'
-                                        }}
-                                    >
-                                        <div className="absolute inset-0 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)`, opacity: 0.05 }} />
-
-                                        <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
-                                            <ExternalLink className="w-8 h-8 text-white/30" />
-                                        </div>
-
-                                        <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-1">
-                                                    <span className="text-white/50 font-bold text-xl md:text-2xl font-raela">{rb.title}</span>
-                                                    <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-white/5 text-white/30 font-raela">PDF</span>
-                                                </div>
-                                                <span className="text-white/30 text-sm">{rb.desc}</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 text-xs font-raela font-black uppercase tracking-widest text-white/50 bg-white/10 w-fit px-4 py-2 rounded-full border border-white/5">
-                                                Coming Soon
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <a
-                                        href={rb.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={(e) => handleMainRulebookDownload(e)}
-                                        className={`relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden group w-full z-10 ${mainRulebookStatus === 'idle' ? 'hover:-translate-y-2' : ''}`}
-                                        style={{
-                                            background: 'rgba(20, 20, 20, 0.6)',
-                                            boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-                                            border: '1px solid rgba(255,255,255,0.05)'
-                                        }}
-                                    >
-                                        <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-3xl" />
-
-                                        <div className={`relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg border border-white/5 ${mainRulebookStatus === 'idle' ? 'group-hover:scale-110' : ''}`} style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
-                                            {mainRulebookStatus === 'success' ? (
-                                                <CheckCircle2 className="w-8 h-8 text-emerald-400" style={{ filter: 'drop-shadow(0 0 12px #34d399)' }} />
-                                            ) : mainRulebookStatus === 'loading' ? (
-                                                <Loader2 className="w-8 h-8 text-white/50 animate-spin" />
-                                            ) : (
-                                                <ExternalLink className="w-8 h-8 text-white" style={{ filter: `drop-shadow(0 0 12px ${data.accentHex})` }} />
-                                            )}
-                                        </div>
-
-                                        <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-1">
-                                                    <span className="text-white font-bold text-xl md:text-2xl font-raela group-hover:text-white transition-colors">{rb.title}</span>
-                                                    <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela">PDF</span>
-                                                </div>
-                                                <span className="text-white/50 text-sm group-hover:text-white/80 transition-colors">{rb.desc}</span>
-                                            </div>
-                                            <div 
-                                                className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white w-fit px-4 py-2 rounded-full transition-colors relative z-20 ${
-                                                    mainRulebookStatus === 'success' 
-                                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50' 
-                                                        : mainRulebookStatus === 'loading'
-                                                        ? 'bg-white/5 text-white/50 cursor-wait'
-                                                        : 'bg-white/10 group-hover:bg-white/20'
-                                                }`}
+                                return (
+                                    <>
+                                        {rulebookList.map((rb, idx) => isLocked ? (
+                                            <div
+                                                key={idx}
+                                                className="relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl overflow-hidden w-full z-10 opacity-50 cursor-not-allowed"
+                                                style={{
+                                                    background: 'rgba(20, 20, 20, 0.6)',
+                                                    boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+                                                    border: '1px solid rgba(255,255,255,0.05)'
+                                                }}
                                             >
-                                                {mainRulebookStatus === 'idle' && (
-                                                    <>Buka Tautan <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" /></>
-                                                )}
-                                                {mainRulebookStatus === 'loading' && <span className="animate-pulse">Loading...</span>}
-                                                {mainRulebookStatus === 'success' && 'Berhasil!'}
-                                            </div>
-                                        </div>
+                                                <div className="absolute inset-0 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, ${data.accentHex}, transparent)`, opacity: 0.05 }} />
 
-                                        {/* BCA Watermark for Business Case Rulebook */}
-                                        {data.slug === 'business-case' && (
-                                            <div className="absolute top-4 right-4 md:top-6 md:right-8 opacity-5 group-hover:opacity-20 transition-all duration-700 pointer-events-none transform group-hover:scale-110">
-                                                <Image 
-                                                    src="/assets/sponsors/Logo BCA_Putih.png" 
-                                                    alt="" 
-                                                    width={100} 
-                                                    height={50} 
-                                                    className="object-contain"
-                                                />
+                                                <div className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-lg border border-white/5" style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0))` }}>
+                                                    <ExternalLink className="w-8 h-8 text-white/30" />
+                                                </div>
+
+                                                <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                                    <div>
+                                                        <div className="flex items-center gap-3 mb-1">
+                                                            <span className="text-white/50 font-bold text-xl md:text-2xl font-raela">{rb.title}</span>
+                                                            <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-white/5 text-white/30 font-raela">PDF</span>
+                                                        </div>
+                                                        <span className="text-white/30 text-sm">{rb.desc}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-xs font-raela font-black uppercase tracking-widest text-white/50 bg-white/10 w-fit px-4 py-2 rounded-full border border-white/5">
+                                                        Coming Soon
+                                                    </div>
+                                                </div>
                                             </div>
-                                        )}
-                                    </a>
+                                        ) : (
+                                            <a
+                                                key={idx}
+                                                href={rb.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={(e) => handleMainRulebookDownload(e)}
+                                                className={`relative flex flex-col md:flex-row md:items-center gap-6 p-6 md:p-8 rounded-3xl md:backdrop-blur-xl transition-transform duration-500 overflow-hidden group w-full z-10 ${mainRulebookStatus === 'idle' ? 'hover:-translate-y-2' : ''}`}
+                                                style={{
+                                                    background: 'rgba(20, 20, 20, 0.6)',
+                                                    boxShadow: '0 4px 20px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
+                                                    border: '1px solid rgba(255,255,255,0.05)'
+                                                }}
+                                            >
+                                                <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-3xl" />
+
+                                                <div className={`relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg border border-white/5 ${mainRulebookStatus === 'idle' ? 'group-hover:scale-110' : ''}`} style={{ background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))` }}>
+                                                    {mainRulebookStatus === 'success' ? (
+                                                        <CheckCircle2 className="w-8 h-8 text-emerald-400" style={{ filter: 'drop-shadow(0 0 12px #34d399)' }} />
+                                                    ) : mainRulebookStatus === 'loading' ? (
+                                                        <Loader2 className="w-8 h-8 text-white/50 animate-spin" />
+                                                    ) : (
+                                                        <ExternalLink className="w-8 h-8 text-white" style={{ filter: `drop-shadow(0 0 12px ${data.accentHex})` }} />
+                                                    )}
+                                                </div>
+
+                                                <div className="relative z-10 flex-1 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                                    <div>
+                                                        <div className="flex items-center gap-3 mb-1">
+                                                            <span className="text-white font-bold text-xl md:text-2xl font-raela group-hover:text-white transition-colors">{rb.title}</span>
+                                                            <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela">PDF</span>
+                                                        </div>
+                                                        <span className="text-white/50 text-sm group-hover:text-white/80 transition-colors">{rb.desc}</span>
+                                                    </div>
+                                                    <div 
+                                                        className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white w-fit px-4 py-2 rounded-full transition-colors relative z-20 ${
+                                                            mainRulebookStatus === 'success' 
+                                                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50' 
+                                                                : mainRulebookStatus === 'loading'
+                                                                ? 'bg-white/5 text-white/50 cursor-wait'
+                                                                : 'bg-white/10 group-hover:bg-white/20'
+                                                        }`}
+                                                    >
+                                                        {mainRulebookStatus === 'idle' && (
+                                                            <>Buka Tautan <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform" /></>
+                                                        )}
+                                                        {mainRulebookStatus === 'loading' && <span className="animate-pulse">Loading...</span>}
+                                                        {mainRulebookStatus === 'success' && 'Berhasil!'}
+                                                    </div>
+                                                </div>
+
+                                                {/* BCA Watermark for Business Case Rulebook */}
+                                                {data.slug === 'business-case' && isMounted && isPastRevealDate && (
+                                                    <div className="absolute top-4 right-4 md:top-6 md:right-8 opacity-5 group-hover:opacity-20 transition-all duration-700 pointer-events-none transform group-hover:scale-110">
+                                                        <Image 
+                                                            src="/assets/sponsors/Logo BCA_Putih.png" 
+                                                            alt="" 
+                                                            width={100} 
+                                                            height={50} 
+                                                            className="object-contain"
+                                                        />
+                                                    </div>
+                                                )}
+                                            </a>
+                                        ))}
+                                    </>
                                 );
                             })()}
 
@@ -982,7 +976,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             {regStatus === 'open' ? (
                                 <Link
-                                    href="#"
+                                    href="https://forms.gle/VGrtKxDffHd4mZAz8"
                                     className="inline-flex items-center justify-center gap-3 bg-white text-black font-bold text-base px-8 py-4 hover:bg-white/90 transition-colors uppercase tracking-widest min-w-[200px]"
                                 >
                                     DAFTAR <ArrowRight className="w-5 h-5" />
@@ -997,19 +991,6 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                     {regStatus === 'upcoming' ? 'SEGERA DIBUKA' : 'PENDAFTARAN DITUTUP'}
                                 </span>
                             )}
-
-                            {/* Kumpulin Karya Button */}
-                            <a
-                                href={data.submissionUrl || '#'}
-                                target={data.submissionUrl === '#' ? '_self' : '_blank'}
-                                rel="noopener noreferrer"
-                                className={`inline-flex items-center justify-center gap-3 font-bold text-base px-8 py-4 uppercase tracking-widest min-w-[200px] border transition-colors ${data.submissionUrl === '#' || regStatus === 'upcoming'
-                                    ? 'border-white/10 text-white/30 cursor-not-allowed bg-black/50'
-                                    : 'border-white/30 text-white hover:bg-white/10 hover:border-white/50 bg-black'
-                                    }`}
-                            >
-                                KUMPULKAN KARYA <ArrowRight className="w-5 h-5" />
-                            </a>
                         </div>
                     </motion.div>
 
