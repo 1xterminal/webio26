@@ -13,7 +13,7 @@ const tracks = [
     {
         icon: UIUXIcon,
         title: 'UI/UX Design',
-        description: 'Bikin tampilan yang nggak cuma enak dipandang, tapi juga punya pengalaman pengguna yang intuitif. Tunjukkan gimana desainmu bisa benar-benar mempermudah kehidupan sehari-hari.',
+        description: 'Bikin tampilan yang tidak hanya enak dipandang, tapi juga punya pengalaman pengguna yang intuitif. Tunjukkan bagaimana desainmu bisa benar-benar mempermudah kehidupan sehari-hari dengan impact yang nyata!',
         color: 'from-neon-purple to-purple-600',
         accentHex: '#A856EE',
         href: '/kompetisi/ui-ux',
