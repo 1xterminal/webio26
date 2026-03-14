@@ -21,10 +21,9 @@ const sponsorTiers: SponsorTier[] = [
         tierName: 'Case Collaborator',
         logos: [
             { 
-                name: 'BCA', 
+                name: 'Secret', 
                 width: 420, 
                 height: 210, 
-                src: '/assets/sponsors/Logo BCA_Putih.png' 
             },
         ]
     },
@@ -69,16 +68,17 @@ export function Sponsors() {
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setIsMounted(true);
-            const revealDate = new Date('2026-04-24T10:00:00+07:00');
-            setIsPastRevealDate(new Date() >= revealDate);
+            const now = new Date();
+            const revealDate = new Date('2026-03-24T10:00:00+07:00');
+            setIsPastRevealDate(now >= revealDate);
         }, 0);
         return () => clearTimeout(timeoutId);
     }, []);
-    // Filter active tiers: only those that contain at least one logo with a src
+    // Filter active tiers: only those that contain at least one logo with a src or are secret
     const activeTiers = sponsorTiers
         .map(tier => ({
             ...tier,
-            logos: tier.logos.filter(logo => logo.src)
+            logos: tier.logos.filter(logo => logo.src || (tier.tierName === 'Case Collaborator' && logo.name === 'Secret'))
         }))
         .filter(tier => tier.logos.length > 0);
 
@@ -117,8 +117,8 @@ export function Sponsors() {
                             )}
                             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
                                 {tier.logos.map((logo, i) => {
-                                    const isSecretCollab = tier.tierName === 'Case Collaborator' && logo.name === 'BCA';
-                                    const shouldReveal = isMounted && isPastRevealDate;
+                                    const isSecretCollab = tier.tierName === 'Case Collaborator' && logo.name === 'Secret';
+                                    const shouldReveal = isSecretCollab && isMounted && isPastRevealDate;
                                     
                                     const content = (
                                         <div
@@ -136,27 +136,16 @@ export function Sponsors() {
                                             />
                                             
                                             <div className={`relative z-10 w-full h-full flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isSecretCollab && !shouldReveal ? 'opacity-80 group-hover:opacity-100 group-hover:scale-110' : 'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110'}`}>
-                                                {isSecretCollab ? (
-                                                    shouldReveal ? (
-                                                        <Image
-                                                            src={logo.src!}
-                                                            alt={logo.name}
-                                                            width={logo.width}
-                                                            height={logo.height}
-                                                            className="object-contain w-full h-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
-                                                            priority={tierIndex === 0}
-                                                        />
-                                                    ) : (
-                                                        <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_20px_rgba(255,139,83,0.3)]">
-                                                            <span className="text-3xl md:text-5xl font-bold text-white/90 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">?</span>
-                                                        </div>
-                                                    )
-                                                ) : logo.src ? (
+                                                {isSecretCollab && !shouldReveal ? (
+                                                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_20px_rgba(255,139,83,0.3)]">
+                                                        <span className="text-3xl md:text-5xl font-bold text-white/90 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">?</span>
+                                                    </div>
+                                                ) : logo.src || shouldReveal ? (
                                                     <Image
-                                                        src={logo.src}
-                                                        alt={logo.name}
-                                                        width={logo.width}
-                                                        height={logo.height}
+                                                        src={shouldReveal ? "/assets/sponsors/Logo BCA_Putih.png" : logo.src}
+                                                        alt={shouldReveal ? "BCA" : logo.name}
+                                                        width={shouldReveal ? 300 : logo.width}
+                                                        height={shouldReveal ? 150 : logo.height}
                                                         className="object-contain w-full h-full"
                                                         priority={tierIndex === 0}
                                                     />

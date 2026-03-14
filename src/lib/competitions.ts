@@ -35,7 +35,7 @@ export interface CompetitionData {
     description: string;
     details: CompetitionDetails;
     contacts: CompetitionContact[];
-    rulebookUrl?: string;
+    rulebooks?: { title: string; desc: string; url: string }[];
     submissionUrl?: string;
     tags?: string[];
 }
@@ -65,7 +65,10 @@ export const competitions: CompetitionData[] = [
             { name: 'Felicia Rivera', whatsapp: '6281383763005', line: 'riverraa', role: ['Mahasiswa', 'Umum'] },
             { name: 'Sheireen Sadeli', whatsapp: '6285890581118', line: 'sheireensadeli', role: ['SMA/SMK'] }
         ],
-        rulebookUrl: '#',
+        rulebooks: [
+            { title: 'Rulebook Mahasiswa & Umum', desc: 'Panduan dan aturan (Mahasiswa)', url: '/downloads/rulebook/Rulebook_UIUX_Mahasiswa.pdf' },
+            { title: 'Rulebook Siswa SMA/K', desc: 'Panduan dan aturan (Siswa)', url: '/downloads/rulebook/Rulebook_UIUX_Siswa.pdf' }
+        ],
         submissionUrl: '#',
     },
     {
@@ -91,7 +94,10 @@ export const competitions: CompetitionData[] = [
             { name: 'Rein Mark Manopo', whatsapp: '628989364118', line: 'markreeen', role: ['Mahasiswa', 'Umum'] },
             { name: 'Christian Benizi Susilo', whatsapp: '6281354629105', line: 'bennzzy', role: ['SMA/SMK'] }
         ],
-        rulebookUrl: '#',
+        rulebooks: [
+            { title: 'Rulebook Mahasiswa & Umum', desc: 'Panduan dan aturan (Mahasiswa)', url: '/downloads/rulebook/Rulebook_WebDev_Mahasiswa.pdf' },
+            { title: 'Rulebook Siswa SMA/K', desc: 'Panduan dan aturan (Siswa)', url: '/downloads/rulebook/Rulebook_WebDev_Siswa.pdf' }
+        ],
         submissionUrl: '#',
     },
     {
@@ -116,7 +122,9 @@ export const competitions: CompetitionData[] = [
         contacts: [
             { name: 'Clive Ang', whatsapp: '6285370587170', line: 'cliveang2008', role: ['Mahasiswa', 'Umum'] }
         ],
-        rulebookUrl: '#',
+        rulebooks: [
+            { title: 'Rulebook Mahasiswa & Umum', desc: 'Panduan lengkap dan aturan kompetisi', url: '/downloads/rulebook/Rulebook_Business_Case.pdf' }
+        ],
         submissionUrl: '#',
     },
 ];

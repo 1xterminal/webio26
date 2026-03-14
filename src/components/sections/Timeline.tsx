@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { GraduationCap, ArrowDown, MapPin, Building2, MonitorPlay, Code2, Presentation, Calendar, Trophy, ChevronRightIcon, CalendarIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
@@ -81,7 +82,7 @@ export function Timeline() {
             }
             setCurrentPhase(phase);
             setIsMounted(true);
-            const revealDate = new Date('2026-04-24T10:00:00+07:00');
+            const revealDate = new Date('2026-03-24T10:00:00+07:00');
             setIsPastRevealDate(now >= revealDate);
         };
 
@@ -163,16 +164,16 @@ export function Timeline() {
                                                 <div className={`flex flex-col ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'}`}>
                                                     <span className="text-[9px] font-raela font-black uppercase tracking-[0.3em] text-[#FF8B53]">Official Case Collaborator</span>
                                                     <span className="text-white/80 text-xs font-medium font-raela">
-                                                        {isMounted ? (isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator') : 'Secret Collaborator'}
+                                                        {isMounted && isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator'}
                                                     </span>
                                                 </div>
                                                 <div className="relative w-16 h-8 md:w-20 md:h-10 shrink-0">
                                                     {isMounted && isPastRevealDate ? (
-                                                        <Image 
-                                                            src="/assets/sponsors/Logo BCA_Putih.png" 
-                                                            alt="BCA" 
+                                                        <Image
+                                                            src="/assets/sponsors/Logo BCA_Putih.png"
+                                                            alt="BCA"
                                                             fill
-                                                            className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+                                                            className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
                                                         />
                                                     ) : (
                                                         <div className="absolute inset-0 flex items-center justify-center opacity-80">

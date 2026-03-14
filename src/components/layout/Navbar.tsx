@@ -14,7 +14,6 @@ import {
   ChevronDown,
   ArrowRight,
   Handshake,
-  Briefcase,
 } from 'lucide-react';
 import { useState, useRef, useCallback } from 'react';
 import { competitions } from '@/lib/competitions';
@@ -69,14 +68,6 @@ const PARTNERSHIP_LINKS: PartnershipLink[] = [
     href: '/sponsorship',
     icon: Handshake,
     accentHex: '#A856EE',
-  },
-  {
-    slug: 'casecollab',
-    title: 'Case Collaborator',
-    tagline: 'Transform challenges into opportunities.',
-    href: '/casecollab',
-    icon: Briefcase,
-    accentHex: '#1DBCD3',
   },
 ];
 
@@ -624,7 +615,7 @@ function RegisterButton({ regStatus, isScrolled, transitionClass }: RegisterButt
   if (regStatus === 'open') {
     return (
       <Link
-        href="#"
+        href="https://forms.gle/VGrtKxDffHd4mZAz8"
         className={`hidden md:block bg-white text-black rounded-full font-raela font-black tracking-tight hover:bg-neon-orange hover:text-white hover:shadow-[0_0_20px_rgba(255,139,83,0.4)] ${transitionClass} transform hover:-translate-y-0.5 ${sizeClass}`}
       >
         Register
