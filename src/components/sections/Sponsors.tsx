@@ -60,6 +60,7 @@ const sponsorTiers: SponsorTier[] = [
 ];
 
 import { useState, useEffect } from 'react';
+import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 
 export function Sponsors() {
     const [isPastRevealDate, setIsPastRevealDate] = useState(false);
@@ -113,6 +114,11 @@ export function Sponsors() {
                                     <span className="text-xs md:text-sm font-raela font-bold uppercase tracking-[0.4em] text-neon-blue">
                                         {tier.tierName}
                                     </span>
+                                    {isMounted && !isPastRevealDate && (
+                                        <div className="mt-6 flex justify-center">
+                                            <CaseRevealCountdown accentColor="#1DBCD3" size="md" showGlass={true} />
+                                        </div>
+                                    )}
                                 </div>
                             )}
                             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">

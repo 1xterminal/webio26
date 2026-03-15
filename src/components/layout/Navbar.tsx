@@ -18,6 +18,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { competitions } from '@/lib/competitions';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { REGISTRATION_URL } from '@/lib/registration';
+import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 
 // ─── Static data outside component for zero re-allocation cost ─────────────
 // (react-best-practices: hoist static JSX/data; clean-code: meaningful names)
@@ -290,13 +291,16 @@ export function Navbar() {
 
                             {/* Redesigned Collaborator Badge */}
                             {isBusinessCase && (
-                              <div className="relative flex items-center h-12 px-4 rounded-xl overflow-hidden group/collab border border-white/5 bg-white/[0.02] shrink-0"
+                              <div className="relative flex items-center min-h-[3rem] h-auto py-1 px-4 rounded-xl group/collab border border-white/5 bg-white/[0.02] shrink-0"
                                    style={{ borderColor: `${item.accentHex}20` }}>
                                 <div className="flex flex-col items-end mr-3">
                                   <span className="text-[8px] font-raela font-black uppercase tracking-[0.2em] opacity-40" style={{ color: item.accentHex }}>Official Case Collaborator</span>
                                   <span className="text-[10px] text-white/60 font-medium whitespace-nowrap">
                                     {isMounted && isPastRevealDate ? 'BCA' : 'Stay Tuned!'}
                                   </span>
+                                  {isMounted && !isPastRevealDate && (
+                                    <CaseRevealCountdown hideLabel={true} className="mt-0.5" />
+                                  )}
                                 </div>
                                 <div className="relative w-8 h-8 flex items-center justify-center">
                                   {isMounted && isPastRevealDate ? (
@@ -583,25 +587,30 @@ function MobileDropdownItem({
                   <span className="flex flex-col items-center gap-1">
                     <span>{subItem.title}</span>
                     {isBusinessCase && (
-                      <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5"
-                           style={{ borderColor: `${subItem.accentHex}20` }}>
-                        <span className="text-[9px] font-black uppercase tracking-widest" style={{ color: subItem.accentHex }}>
-                          {collaboratorText}
-                        </span>
-                        <div className="relative w-4 h-4">
-                          {isMounted && isPastRevealDate ? (
-                            <Image
-                              src="/assets/sponsors/Logo BCA_Putih.png"
-                              alt="BCA"
-                              fill
-                              className="object-contain opacity-80"
-                            />
-                          ) : (
-                            <div className="w-4 h-4 rounded-full bg-black/40 border border-white/10 flex items-center justify-center">
-                              <span className="text-[8px] font-bold text-white/60">?</span>
-                            </div>
-                          )}
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5"
+                             style={{ borderColor: `${subItem.accentHex}20` }}>
+                          <span className="text-[9px] font-black uppercase tracking-widest" style={{ color: subItem.accentHex }}>
+                            {collaboratorText}
+                          </span>
+                          <div className="relative w-4 h-4">
+                            {isMounted && isPastRevealDate ? (
+                              <Image
+                                src="/assets/sponsors/Logo BCA_Putih.png"
+                                alt="BCA"
+                                fill
+                                className="object-contain opacity-80"
+                              />
+                            ) : (
+                              <div className="w-4 h-4 rounded-full bg-black/40 border border-white/10 flex items-center justify-center">
+                                <span className="text-[8px] font-bold text-white/60">?</span>
+                              </div>
+                            )}
+                          </div>
                         </div>
+                        {isMounted && !isPastRevealDate && (
+                          <CaseRevealCountdown accentColor={subItem.accentHex} hideLabel={true} className="scale-75 origin-top" />
+                        )}
                       </div>
                     )}
                   </span>

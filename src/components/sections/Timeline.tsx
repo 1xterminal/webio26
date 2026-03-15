@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { GraduationCap, ArrowDown, MapPin, Building2, MonitorPlay, Code2, Presentation, Calendar, Trophy, ChevronRightIcon, CalendarIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 
 const events = [
     {
@@ -154,12 +155,13 @@ export function Timeline() {
                                         <p className={`text-white/70 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}`}>{event.description}</p>
                                         
                                         {event.isCaseRelease && (
-                                            <div className={`mt-6 inline-flex flex-row items-center gap-4 p-3.5 rounded-2xl bg-white/[0.02] border border-white/10 ${index % 2 === 0 ? 'md:flex-row-reverse md:ml-auto' : 'md:flex-row'}`}>
-                                                <div className={`flex flex-col ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'}`}>
+                                            <div className={`mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-6 p-5 rounded-2xl bg-white/[0.02] border border-white/10 ${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
+                                                <div className={`flex flex-col gap-1 ${index % 2 === 0 ? 'md:items-end md:text-right' : 'items-start text-left'}`}>
                                                     <span className="text-[9px] font-raela font-black uppercase tracking-[0.3em] text-[#FF8B53]">Official Case Collaborator</span>
                                                     <span className="text-white/80 text-xs font-medium font-raela">
                                                         {isMounted && isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator'}
                                                     </span>
+                                                    {isMounted && !isPastRevealDate && <CaseRevealCountdown accentColor="#FF8B53" size="md" className="mt-2" />}
                                                 </div>
                                                 <div className="relative w-16 h-8 md:w-20 md:h-10 shrink-0">
                                                     {isMounted && isPastRevealDate ? (

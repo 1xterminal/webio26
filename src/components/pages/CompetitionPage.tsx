@@ -11,6 +11,7 @@ import dynamic from 'next/dynamic';
 const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
 import Image from 'next/image';
 import { Countdown } from '@/components/sections/Countdown';
+import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 import { useState, useEffect } from 'react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { useDownloadInteraction } from '@/hooks/useDownloadInteraction';
@@ -462,6 +463,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                     <span className="text-xs font-raela font-black uppercase tracking-[0.4em] transition-colors duration-500" style={{ color: data.accentHex }}>Official Case Collaborator</span>                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-raela font-black text-white leading-tight drop-shadow-lg">
                                         {isMounted && isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Stay Tuned!'}
                                     </h3>
+                                    {isMounted && !isPastRevealDate && <CaseRevealCountdown accentColor={data.accentHex} size="lg" showGlass={true} className="mt-4" />}
                                     <p className="text-sm md:text-base text-white/60 max-w-lg mt-1 leading-relaxed">
                                         {isMounted && isPastRevealDate ? 'Tantangan eksklusif langsung dari PT Bank Central Asia Tbk untuk menguji kemampuan bisnismu di tingkat profesional.' : 'Tantangan eksklusif dari kolaborator rahasia untuk menguji kemampuan bisnismu di tingkat profesional.'}
                                     </p>

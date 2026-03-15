@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
 import { BusinessCaseIcon } from '@/components/ui/icons/BusinessCaseIcon';
+import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 
 const tracks = [
     {
@@ -154,7 +155,7 @@ export function Tracks() {
                                 <div className="mt-auto flex flex-col w-full">
                                     
                                     {track.title === 'Business Case' && (
-                                        <div className="relative mb-6 rounded-2xl p-5 overflow-hidden group/collab transition-all duration-700 hover:-translate-y-1 bg-[rgba(10,10,10,0.8)] border md:backdrop-blur-md"
+                                        <div className="relative mb-6 rounded-2xl p-5 group/collab transition-all duration-700 hover:-translate-y-1 bg-[rgba(10,10,10,0.8)] border md:backdrop-blur-md"
                                              style={{
                                                 borderColor: `${track.accentHex}30`
                                              }}>
@@ -171,12 +172,13 @@ export function Tracks() {
                                             <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover/collab:opacity-100 transition-opacity duration-700"
                                                  style={{ boxShadow: `inset 0 0 20px ${track.accentHex}15, 0 10px 20px -5px rgba(0,0,0,0.5)` }} />
 
-                                            <div className="relative z-10 flex flex-row items-center justify-between px-2">
+                                            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between px-2 gap-4">
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-[9px] font-raela font-black uppercase tracking-[0.3em] transition-colors duration-500" style={{ color: track.accentHex }}>Official Case Collaborator</span>
                                                     <span className="text-white/80 text-xs font-medium font-raela group-hover/collab:text-white transition-colors duration-500">
                                                         {isMounted ? (isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Stay Tuned!') : 'Secret Collaborator'}
                                                     </span>
+                                                    {!isPastRevealDate && <CaseRevealCountdown accentColor={track.accentHex} size="lg" className="mt-4" />}
                                                 </div>
                                                 <div className="relative w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (
