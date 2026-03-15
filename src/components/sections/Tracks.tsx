@@ -178,7 +178,7 @@ export function Tracks() {
                                                     <span className="text-white/80 text-xs font-medium font-raela group-hover/collab:text-white transition-colors duration-500">
                                                         {isMounted ? (isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Stay Tuned!') : 'Secret Collaborator'}
                                                     </span>
-                                                    {!isPastRevealDate && <CaseRevealCountdown accentColor={track.accentHex} size="lg" className="mt-4" />}
+                                                    {!isPastRevealDate && <CaseRevealCountdown accentColor={track.accentHex} size="lg" className="mt-2 sm:mt-4" />}
                                                 </div>
                                                 <div className="relative w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (

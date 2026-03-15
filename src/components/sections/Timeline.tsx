@@ -155,13 +155,13 @@ export function Timeline() {
                                         <p className={`text-white/70 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}`}>{event.description}</p>
                                         
                                         {event.isCaseRelease && (
-                                            <div className={`mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-6 p-5 rounded-2xl bg-white/[0.02] border border-white/10 ${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
-                                                <div className={`flex flex-col gap-1 ${index % 2 === 0 ? 'md:items-end md:text-right' : 'items-start text-left'}`}>
+                                            <div className={`mt-4 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-5 rounded-2xl bg-white/[0.02] border border-white/10 ${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
+                                                <div className={`flex flex-col gap-0.5 sm:gap-1 ${index % 2 === 0 ? 'md:items-end md:text-right' : 'items-start text-left'}`}>
                                                     <span className="text-[9px] font-raela font-black uppercase tracking-[0.3em] text-[#FF8B53]">Official Case Collaborator</span>
-                                                    <span className="text-white/80 text-xs font-medium font-raela">
+                                                    <span className="text-white/80 text-[10px] sm:text-xs font-medium font-raela">
                                                         {isMounted && isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Secret Collaborator'}
                                                     </span>
-                                                    {isMounted && !isPastRevealDate && <CaseRevealCountdown accentColor="#FF8B53" size="md" className="mt-2" />}
+                                                    {isMounted && !isPastRevealDate && <CaseRevealCountdown accentColor="#FF8B53" size="md" className="mt-1 sm:mt-2" />}
                                                 </div>
                                                 <div className="relative w-16 h-8 md:w-20 md:h-10 shrink-0">
                                                     {isMounted && isPastRevealDate ? (

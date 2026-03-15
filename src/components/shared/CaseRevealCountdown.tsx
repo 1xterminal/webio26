@@ -61,34 +61,34 @@ export function CaseRevealCountdown({
     const sizeStyles = {
         sm: {
             container: "gap-1.5",
-            label: "text-[8px]",
-            value: "text-[10px]",
-            unit: "text-[8px]",
-            separator: "text-[9px]",
-            dot: "h-1.5 w-1.5"
+            label: "text-[7px] sm:text-[8px]",
+            value: "text-[9px] sm:text-[10px]",
+            unit: "text-[7px] sm:text-[8px]",
+            separator: "text-[8px] sm:text-[9px]",
+            dot: "h-1 sm:h-1.5 w-1 sm:w-1.5"
         },
         md: {
-            container: "gap-2.5",
-            label: "text-[10px]",
-            value: "text-base",
-            unit: "text-[10px]",
-            separator: "text-sm",
-            dot: "h-2 w-2"
+            container: "gap-2 sm:gap-2.5",
+            label: "text-[8px] sm:text-[10px]",
+            value: "text-sm sm:text-base",
+            unit: "text-[8px] sm:text-[10px]",
+            separator: "text-xs sm:text-sm",
+            dot: "h-1.5 sm:h-2 w-1.5 sm:w-2"
         },
         lg: {
-            container: "gap-4",
-            label: "text-xs",
-            value: "text-2xl md:text-3xl",
-            unit: "text-xs md:text-sm",
-            separator: "text-xl",
-            dot: "h-3 w-3"
+            container: "gap-3 sm:gap-4",
+            label: "text-[10px] sm:text-xs",
+            value: "text-xl sm:text-2xl md:text-3xl",
+            unit: "text-[10px] sm:text-xs md:text-sm",
+            separator: "text-lg sm:text-xl",
+            dot: "h-2 sm:h-3 w-2 sm:w-3"
         }
     }[size];
 
     return (
         <div className={`flex flex-col ${size === 'lg' ? 'items-start' : 'items-center'} ${className}`}>
             {!hideLabel && (
-                <span className={`${sizeStyles.label} font-black uppercase tracking-[0.3em] text-white/40 mb-1 animate-pulse`}>
+                <span className={`${sizeStyles.label} font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-white/30 sm:text-white/40 mb-1 sm:animate-pulse`}>
                     Official Reveal In
                 </span>
             )}
