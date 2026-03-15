@@ -28,7 +28,8 @@ export function CaseRevealCountdown({
     });
 
     useEffect(() => {
-        setIsMounted(true);
+        // Use a microtask to avoid synchronous setState inside useEffect
+        Promise.resolve().then(() => setIsMounted(true));
         
         const updateCountdown = () => {
             const now = new Date();

@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { GraduationCap, ArrowDown, MapPin, Building2, MonitorPlay, Code2, Presentation, Calendar, Trophy, ChevronRightIcon, CalendarIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
