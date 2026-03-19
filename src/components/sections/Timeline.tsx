@@ -185,7 +185,7 @@ export function Timeline() {
                                     {/* Center Node (Desktop) */}
                                     <div className="hidden md:flex relative shrink-0 w-10 h-10 items-center justify-center">
                                         {isActive && (
-                                            <div className="absolute inset-0 rounded-full animate-ping opacity-40 mix-blend-screen bg-neon-orange" />
+                                            <div className="absolute inset-0 rounded-full animate-ping opacity-40 mix-blend-normal md:mix-blend-screen bg-neon-orange" />
                                         )}
                                         <div
                                             className="w-4 h-4 rounded-full transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-10 border-[2px] transform-gpu"
@@ -201,7 +201,7 @@ export function Timeline() {
                                     {/* Mobile Node (Absolute Left) */}
                                     <div className="md:hidden absolute left-[5px] top-[-2px] w-[32px] h-[32px] flex items-center justify-center">
                                         {isActive && (
-                                            <div className="absolute inset-0 rounded-full animate-ping opacity-40 mix-blend-screen bg-neon-orange" />
+                                            <div className="absolute inset-0 rounded-full animate-ping opacity-40 mix-blend-normal md:mix-blend-screen bg-neon-orange" />
                                         )}
                                         <div
                                             className="w-3.5 h-3.5 rounded-full transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-10 border-[2px] transform-gpu"

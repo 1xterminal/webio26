@@ -20,7 +20,7 @@ export default function Loading() {
           }}
         />
         {/* Subtle texture grain */}
-        <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+        <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none hidden md:block" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
       </div>
 
       <div className="relative z-10 animate-pulse flex flex-col items-center justify-center">

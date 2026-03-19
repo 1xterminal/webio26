@@ -36,18 +36,33 @@ export function CaseRevealCountdown({
             const difference = +REVEAL_DATE - +now;
 
             if (difference > 0) {
-                setTimeLeft({
-                    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                    minutes: Math.floor((difference / 1000 / 60) % 60),
-                    seconds: Math.floor((difference / 1000) % 60)
+                setTimeLeft(prev => {
+                    const nextDays = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    const nextHours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                    const nextMinutes = Math.floor((difference / 1000 / 60) % 60);
+                    const nextSeconds = Math.floor((difference / 1000) % 60);
+
+                    // Bail out of state update if values are identical (prevents re-renders)
+                    if (prev.seconds === nextSeconds && prev.minutes === nextMinutes && prev.hours === nextHours && prev.days === nextDays) {
+                        return prev;
+                    }
+
+                    return {
+                        days: nextDays,
+                        hours: nextHours,
+                        minutes: nextMinutes,
+                        seconds: nextSeconds
+                    };
                 });
-                requestAnimationFrame(updateCountdown);
             }
         };
 
-        const frameId = requestAnimationFrame(updateCountdown);
-        return () => cancelAnimationFrame(frameId);
+        // Run immediately
+        updateCountdown();
+        
+        // Update at 1Hz instead of 60Hz
+        const timerId = setInterval(updateCountdown, 1000);
+        return () => clearInterval(timerId);
     }, []);
 
     if (!isMounted || +new Date() >= +REVEAL_DATE) return null;
@@ -93,7 +108,7 @@ export function CaseRevealCountdown({
                     Official Reveal In
                 </span>
             )}
-            <div className={`flex items-center ${sizeStyles.container} font-raela ${showGlass ? 'bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 rounded-2xl' : ''}`}>
+            <div className={`flex items-center ${sizeStyles.container} font-raela ${showGlass ? 'bg-white/5 md:backdrop-blur-md border border-white/10 px-4 py-2 rounded-2xl' : ''}`}>
                 <div className="flex items-center gap-2 md:gap-3">
                     {units.map((unit, index) => (
                         <div key={unit.label} className="flex items-baseline group">

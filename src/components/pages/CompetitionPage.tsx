@@ -33,9 +33,9 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
                 style={{ background: accentHex }}
             />
 
-            {/* Layer 3: Glowing Gradient Border Mask */}
+            {/* Layer 3: Glowing Gradient Border Mask (Desktop Only) */}
             <div
-                className={`absolute inset-0 ${roundedClass} pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0`}
+                className={`absolute inset-0 ${roundedClass} pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 hidden md:block`}
                 style={{
                     padding: '1px',
                     background: `linear-gradient(135deg, ${accentHex}90 0%, rgba(255,255,255,0.05) 100%)`,
@@ -44,10 +44,16 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
                     maskComposite: 'exclude',
                 }}
             />
+            
+            {/* Layer 3 Mobile Fallback: Standard Border */}
+            <div 
+                className={`absolute inset-0 ${roundedClass} pointer-events-none border opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] md:hidden`}
+                style={{ borderColor: `${accentHex}60` }}
+            />
 
-            {/* Layer 4: Inner Glow & Shadow Enhancement */}
+            {/* Layer 4: Inner Glow & Shadow Enhancement (Desktop Only) */}
             <div
-                className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 pointer-events-none`}
+                className={`absolute inset-0 ${roundedClass} opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 pointer-events-none hidden md:block`}
                 style={{ boxShadow: `inset 0 0 40px ${accentHex}15, 0 10px 40px 0 ${accentHex}25` }}
             />
         </>
@@ -331,8 +337,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
             <StarDust />
             {/* Page background — Hyper-vibrant 15-layer "Festive" system (Pure CSS) */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+                {/* Desktop Background */}
                 <div
-                    className="absolute inset-0 opacity-55 md:opacity-[0.85]"
+                    className="absolute inset-0 opacity-55 md:opacity-[0.85] hidden md:block"
                     style={{
                         background: `
                             /* Large Base Fields */
@@ -360,6 +367,18 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         `
                     }}
                 />
+                {/* Mobile Background (Simplified to 4 layers) */}
+                <div
+                    className="absolute inset-0 opacity-60 md:hidden"
+                    style={{
+                        background: `
+                            radial-gradient(ellipse 80% 80% at 0% 0%, ${data.accentHex}40 0%, transparent 70%),
+                            radial-gradient(ellipse 80% 80% at 100% 100%, rgba(168,86,238,0.35) 0%, transparent 70%),
+                            radial-gradient(circle at 82% 85%, rgba(255,107,0,0.35) 0%, transparent 40%),
+                            radial-gradient(ellipse 45% 45% at 50% 50%, ${data.accentHex}20 0%, transparent 60%)
+                        `
+                    }}
+                />
                 {/* Desktop-only floating PNG elements */}
                 <div
                     className="absolute -top-20 -right-20 w-100 h-100 opacity-40 max-md:hidden transform-gpu"
@@ -380,7 +399,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     <Image src="/assets/element/ELEMEN FLARE 1.png" alt="" width={500} height={500} className="object-contain" />
                 </div>
                 {/* Texture Grain */}
-                <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+                <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none hidden md:block" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
             </div>
 
             <div className="pt-28 pb-20 px-4 relative z-10">
@@ -761,9 +780,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     >
                         <div className="relative group flex flex-col items-center justify-center gap-7 px-8 py-12 md:py-14 rounded-[24px] overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)] bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)]">
 
-                            {/* Gradient border mask */}
+                            {/* Gradient border mask (Desktop Only) */}
                             <div
-                                className="absolute inset-0 rounded-[24px] pointer-events-none opacity-50"
+                                className="absolute inset-0 rounded-[24px] pointer-events-none opacity-50 hidden md:block"
                                 style={{
                                     padding: '1px',
                                     background: 'linear-gradient(135deg, #ff8b5380 0%, #b664fb60 50%, rgba(255,255,255,0.04) 100%)',
@@ -771,6 +790,11 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                     WebkitMaskComposite: 'xor',
                                     maskComposite: 'exclude',
                                 }}
+                            />
+                            {/* Mobile Fallback Border */}
+                            <div
+                                className="absolute inset-0 rounded-[24px] pointer-events-none border border-white/10 opacity-50 md:hidden"
+                                style={{ borderColor: '#ff8b5340' }}
                             />
 
                             {/* Ambient glow — compositor-only opacity transition */}
@@ -1122,7 +1146,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                                         <div className="relative z-10 flex flex-col gap-3 mt-auto w-full">
                                             <a
-                                                href={`https://wa.me/${cp.whatsapp}`}
+                                                href={`https://wa.me/${cp.whatsapp}?text=${encodeURIComponent(`Halo, kak! aku mau tanya-tanya tentang I/O Festival 2026 di cabang lomba ${data.title} tingkat ${cp.role ? cp.role.join('/') : 'Umum'}`)}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="relative flex items-center gap-4 p-3 rounded-2xl bg-white/[0.02] border border-white/5 transition-all duration-300 group/wa w-full overflow-hidden"

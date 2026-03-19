@@ -99,9 +99,9 @@ export function Tracks() {
                                     style={{ background: track.accentHex }}
                                 />
 
-                                {/* Layer 3: Glowing Gradient Border Mask */}
+                                {/* Layer 3: Glowing Gradient Border Mask (Desktop Only) */}
                                 <div
-                                    className="absolute inset-0 rounded-[24px] pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0"
+                                    className="absolute inset-0 rounded-[24px] pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 hidden md:block"
                                     style={{
                                         padding: '1px',
                                         background: `linear-gradient(135deg, ${track.accentHex}90 0%, rgba(255,255,255,0.05) 100%)`,
@@ -110,10 +110,15 @@ export function Tracks() {
                                         maskComposite: 'exclude',
                                     }}
                                 />
+                                {/* Layer 3 Mobile Fallback: Standard Border */}
+                                <div 
+                                    className="absolute inset-0 rounded-[24px] pointer-events-none border border-white/10 opacity-40 group-hover:opacity-100 transition-opacity duration-[600ms] md:hidden"
+                                    style={{ borderColor: `${track.accentHex}50` }}
+                                />
                                 
-                                {/* Layer 4: Inner Glow & Shadow Enhancement */}
+                                {/* Layer 4: Inner Glow & Shadow Enhancement (Desktop Only) */}
                                 <div
-                                    className="absolute inset-0 rounded-[24px] opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 pointer-events-none"
+                                    className="absolute inset-0 rounded-[24px] opacity-0 group-hover:opacity-100 transition-opacity duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] translate-z-0 pointer-events-none hidden md:block"
                                     style={{ boxShadow: `inset 0 0 40px ${track.accentHex}15, 0 10px 40px 0 ${track.accentHex}25` }}
                                 />
 
@@ -233,9 +238,9 @@ export function Tracks() {
                 >
                     <div className="relative group flex flex-col items-center justify-center gap-7 px-8 py-12 md:py-14 rounded-[24px] overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)] bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)]">
 
-                        {/* Gradient border mask */}
+                        {/* Gradient border mask (Desktop Only) */}
                         <div
-                            className="absolute inset-0 rounded-[24px] pointer-events-none opacity-50"
+                            className="absolute inset-0 rounded-[24px] pointer-events-none opacity-50 hidden md:block"
                             style={{
                                 padding: '1px',
                                 background: 'linear-gradient(135deg, #ff8b5380 0%, #b664fb60 50%, rgba(255,255,255,0.04) 100%)',
@@ -243,6 +248,11 @@ export function Tracks() {
                                 WebkitMaskComposite: 'xor',
                                 maskComposite: 'exclude',
                             }}
+                        />
+                        {/* Mobile Fallback Border */}
+                        <div
+                            className="absolute inset-0 rounded-[24px] pointer-events-none border border-white/10 opacity-50 md:hidden"
+                            style={{ borderColor: '#ff8b5350' }}
                         />
 
                         {/* Ambient glow — compositor-only opacity transition */}

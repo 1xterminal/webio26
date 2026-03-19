@@ -118,7 +118,7 @@ export function SponsorshipPage() {
 
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 opacity-[0.55] md:opacity-[0.85]" style={{ background: backgroundGradients }} />
-        <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+        <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none hidden md:block" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
       </div>
 
       <section className="relative pt-40 pb-24 px-4 min-h-[80vh] flex items-center justify-center">

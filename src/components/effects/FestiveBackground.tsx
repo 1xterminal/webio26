@@ -15,7 +15,7 @@ export default function FestiveBackground({ accentColor = '#FF8B53' }: FestiveBa
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
             {/* The Gradient System - Optimized for Mobile (Lower Opacity) */}
             <div
-                className="absolute inset-0 opacity-[0.25] md:opacity-[0.65] lg:opacity-[0.85] transform-gpu"
+                className="absolute inset-0 opacity-[0.25] md:opacity-[0.65] lg:opacity-[0.85] transform-gpu hidden md:block"
                 style={{
                     background: `
                         /* Large Base Fields */
@@ -40,6 +40,18 @@ export default function FestiveBackground({ accentColor = '#FF8B53' }: FestiveBa
                         radial-gradient(ellipse 40% 40% at 35% 40%,    rgba(29,188,211,0.18) 0%, transparent 60%),
                         radial-gradient(ellipse 40% 40% at 65% 60%,    rgba(168,86,238,0.18) 0%, transparent 60%),
                         radial-gradient(ellipse 35% 35% at 50% 50%,    rgba(255,255,255,0.08) 0%, transparent 50%)
+                    `
+                }}
+            />
+            {/* Mobile Gradient fallback (4 layers max) */}
+            <div
+                className="absolute inset-0 opacity-[0.25] transform-gpu md:hidden"
+                style={{
+                    background: `
+                        radial-gradient(ellipse 80% 80% at 0% 0%, ${accentColor}40 0%, transparent 70%),
+                        radial-gradient(ellipse 80% 80% at 100% 100%, rgba(168,86,238,0.35) 0%, transparent 70%),
+                        radial-gradient(circle at 82% 85%, rgba(255,107,0,0.35) 0%, transparent 40%),
+                        radial-gradient(ellipse 45% 45% at 50% 50%, ${accentColor}20 0%, transparent 60%)
                     `
                 }}
             />
