@@ -44,7 +44,13 @@ const sponsorTiers: SponsorTier[] = [
                 src: '/assets/sponsors/Horizontal Logo (White).png',
                 href: 'https://www.instagram.com/alleyway.muse/'
             },
-            { name: 'Sponsor 2', width: 140, height: 70 },
+            { 
+                name: 'JND Dimsum', 
+                width: 160, 
+                height: 80, 
+                src: '/assets/sponsors/logo jnd.png',
+                href: 'https://www.instagram.com/jnd_dimsum/'
+            },
             { name: 'Sponsor 3', width: 140, height: 70 },
         ]
     },
