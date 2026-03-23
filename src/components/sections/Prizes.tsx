@@ -8,14 +8,14 @@ export function Prizes() {
    const isInView = useInView(ref, { once: true, margin: "200px" });
    const count = useMotionValue(0);
    
-   // Format the number to Indonesian Locale e.g. Rp 46.000.000
+   // Format the number to Indonesian Locale e.g. Rp 45.000.000+
    const roundedDisplay = useTransform(count, (latest) => {
-       return "Rp " + new Intl.NumberFormat('id-ID').format(Math.round(latest));
+       return "Rp " + new Intl.NumberFormat('id-ID').format(Math.round(latest)) + "+";
    });
 
    useEffect(() => {
        if (isInView) {
-           const controls = animate(count, 46000000, { 
+           const controls = animate(count, 45000000, { 
                duration: 1.2, 
                ease: "easeOut"
            });
