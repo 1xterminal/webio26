@@ -377,7 +377,7 @@ export function Navbar() {
             {/* Mobile CTA */}
             {regStatus === 'open' ? (
               <Link
-                href="#"
+                href={REGISTRATION_URL}
                 onClick={closeMenu}
                 className="mt-8 bg-neon-orange text-white px-8 py-3 rounded-full font-bold text-lg tracking-wider shadow-[0_0_20px_rgba(255,139,83,0.4)]"
               >
