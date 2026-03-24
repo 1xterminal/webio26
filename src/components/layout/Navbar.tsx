@@ -19,6 +19,7 @@ import { competitions } from '@/lib/competitions';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { REGISTRATION_URL } from '@/lib/registration';
 import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
+import { sendGAEvent } from '@next/third-parties/google';
 
 // ─── Static data outside component for zero re-allocation cost ─────────────
 // (react-best-practices: hoist static JSX/data; clean-code: meaningful names)
@@ -304,12 +305,27 @@ export function Navbar() {
                                 </div>
                                 <div className="relative w-8 h-8 flex items-center justify-center">
                                   {isMounted && isPastRevealDate ? (
-                                    <Image
-                                      src="/assets/sponsors/Logo BCA_Putih.png"
-                                      alt="BCA"
-                                      fill
-                                      className="object-contain opacity-80 group-hover/item:opacity-100 transition-all duration-500"
-                                    />
+                                    <a
+                                      href="https://www.instagram.com/lifeatbca/"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        sendGAEvent('event', 'click_sponsor_logo', {
+                                          sponsor_name: 'BCA',
+                                          destination: 'https://www.instagram.com/lifeatbca/',
+                                          location: 'navbar_desktop',
+                                        });
+                                      }}
+                                      className="absolute inset-0 z-10"
+                                    >
+                                      <Image
+                                        src="/assets/sponsors/Logo BCA_Putih.png"
+                                        alt="BCA"
+                                        fill
+                                        className="object-contain opacity-80 group-hover/item:opacity-100 transition-all duration-500"
+                                      />
+                                    </a>
                                   ) : (
                                     <div className="w-6 h-6 rounded-full bg-black/40 border border-white/10 flex items-center justify-center shadow-[0_0_10px_rgba(255,139,83,0.3)]">
                                       <span className="text-[10px] font-bold text-white/80">?</span>
@@ -595,12 +611,27 @@ function MobileDropdownItem({
                           </span>
                           <div className="relative w-4 h-4">
                             {isMounted && isPastRevealDate ? (
-                              <Image
-                                src="/assets/sponsors/Logo BCA_Putih.png"
-                                alt="BCA"
-                                fill
-                                className="object-contain opacity-80"
-                              />
+                              <a
+                                href="https://www.instagram.com/lifeatbca/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  sendGAEvent('event', 'click_sponsor_logo', {
+                                    sponsor_name: 'BCA',
+                                    destination: 'https://www.instagram.com/lifeatbca/',
+                                    location: 'navbar_mobile',
+                                  });
+                                }}
+                                className="absolute inset-0 z-10"
+                              >
+                                <Image
+                                  src="/assets/sponsors/Logo BCA_Putih.png"
+                                  alt="BCA"
+                                  fill
+                                  className="object-contain opacity-80"
+                                />
+                              </a>
                             ) : (
                               <div className="w-4 h-4 rounded-full bg-black/40 border border-white/10 flex items-center justify-center">
                                 <span className="text-[8px] font-bold text-white/60">?</span>

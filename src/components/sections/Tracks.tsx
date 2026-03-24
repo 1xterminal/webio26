@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { sendGAEvent } from '@next/third-parties/google';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
 import { BusinessCaseIcon } from '@/components/ui/icons/BusinessCaseIcon';
@@ -187,12 +188,27 @@ export function Tracks() {
                                                 </div>
                                                 <div className="relative w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (
-                                                        <Image
-                                                            src="/assets/sponsors/Logo BCA_Putih.png"
-                                                            alt="BCA"
-                                                            fill
-                                                            className="object-contain opacity-90 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
-                                                        />
+                                                        <a
+                                                            href="https://www.instagram.com/lifeatbca/"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                sendGAEvent('event', 'click_sponsor_logo', {
+                                                                    sponsor_name: 'BCA',
+                                                                    destination: 'https://www.instagram.com/lifeatbca/',
+                                                                    location: 'tracks_section',
+                                                                });
+                                                            }}
+                                                            className="absolute inset-0 z-10"
+                                                        >
+                                                            <Image
+                                                                src="/assets/sponsors/Logo BCA_Putih.png"
+                                                                alt="BCA"
+                                                                fill
+                                                                className="object-contain opacity-90 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                                                            />
+                                                        </a>
                                                     ) : (
                                                         <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right">
                                                             <div className="w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,139,83,0.3)]">

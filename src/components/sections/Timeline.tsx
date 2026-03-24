@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
+import { sendGAEvent } from '@next/third-parties/google';
 
 const events = [
     {
@@ -164,12 +165,26 @@ export function Timeline() {
                                                 </div>
                                                 <div className="relative w-16 h-8 md:w-20 md:h-10 shrink-0">
                                                     {isMounted && isPastRevealDate ? (
-                                                        <Image
-                                                            src="/assets/sponsors/Logo BCA_Putih.png"
-                                                            alt="BCA"
-                                                            fill
-                                                            className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
-                                                        />
+                                                        <a
+                                                            href="https://www.instagram.com/lifeatbca/"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={() => {
+                                                                sendGAEvent('event', 'click_sponsor_logo', {
+                                                                    sponsor_name: 'BCA',
+                                                                    destination: 'https://www.instagram.com/lifeatbca/',
+                                                                    location: 'timeline_section',
+                                                                });
+                                                            }}
+                                                            className="absolute inset-0 z-10"
+                                                        >
+                                                            <Image
+                                                                src="/assets/sponsors/Logo BCA_Putih.png"
+                                                                alt="BCA"
+                                                                fill
+                                                                className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
+                                                            />
+                                                        </a>
                                                     ) : (
                                                         <div className="absolute inset-0 flex items-center justify-center opacity-80">
                                                             <div className="w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_10px_rgba(255,139,83,0.3)]">

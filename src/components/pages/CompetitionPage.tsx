@@ -10,6 +10,7 @@ import { BusinessCaseIcon } from '@/components/ui/icons/BusinessCaseIcon';
 import dynamic from 'next/dynamic';
 const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
 import Image from 'next/image';
+import { sendGAEvent } from '@next/third-parties/google';
 import { Countdown } from '@/components/sections/Countdown';
 import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 import { useState, useEffect } from 'react';
@@ -494,13 +495,27 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                     transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
                                 >
                                     {isMounted && isPastRevealDate ? (
-                                        <Image 
-                                            src="/assets/sponsors/Logo BCA_Putih.png" 
-                                            alt="BCA" 
-                                            width={140} 
-                                            height={70} 
-                                            className="object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 origin-center drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
-                                        />
+                                        <a
+                                            href="https://www.instagram.com/lifeatbca/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={() => {
+                                                sendGAEvent('event', 'click_sponsor_logo', {
+                                                    sponsor_name: 'BCA',
+                                                    destination: 'https://www.instagram.com/lifeatbca/',
+                                                    location: 'competition_page',
+                                                });
+                                            }}
+                                            className="relative z-10"
+                                        >
+                                            <Image 
+                                                src="/assets/sponsors/Logo BCA_Putih.png" 
+                                                alt="BCA" 
+                                                width={140} 
+                                                height={70} 
+                                                className="object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 origin-center drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                                            />
+                                        </a>
                                     ) : (
                                         <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 origin-center">
                                             <div className="w-16 h-16 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_20px_rgba(255,139,83,0.3)]">
@@ -1027,15 +1042,27 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                                         {/* BCA Watermark for Business Case Rulebook */}
                                         {data.slug === 'business-case' && isMounted && isPastRevealDate && (
-                                            <div className="absolute bottom-8 right-8 opacity-5 group-hover:opacity-20 transition-all duration-700 pointer-events-none transform group-hover:scale-110">
+                                            <a
+                                                href="https://www.instagram.com/lifeatbca/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={() => {
+                                                    sendGAEvent('event', 'click_sponsor_logo', {
+                                                        sponsor_name: 'BCA',
+                                                        destination: 'https://www.instagram.com/lifeatbca/',
+                                                        location: 'competition_page_watermark',
+                                                    });
+                                                }}
+                                                className="absolute bottom-8 right-8 opacity-5 group-hover:opacity-20 transition-all duration-700 transform group-hover:scale-110 z-10 cursor-pointer"
+                                            >
                                                 <Image 
                                                     src="/assets/sponsors/Logo BCA_Putih.png" 
-                                                    alt="" 
+                                                    alt="BCA" 
                                                     width={120} 
                                                     height={60} 
                                                     className="object-contain"
                                                 />
-                                            </div>
+                                            </a>
                                         )}
                                     </div>
                                 );
