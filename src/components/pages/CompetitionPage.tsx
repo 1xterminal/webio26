@@ -1040,30 +1040,6 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                             </div>
                                         </div>
 
-                                        {/* BCA Watermark for Business Case Rulebook */}
-                                        {data.slug === 'business-case' && isMounted && isPastRevealDate && (
-                                            <a
-                                                href="https://www.instagram.com/lifeatbca/"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={() => {
-                                                    sendGAEvent('event', 'click_sponsor_logo', {
-                                                        sponsor_name: 'BCA',
-                                                        destination: 'https://www.instagram.com/lifeatbca/',
-                                                        location: 'competition_page_watermark',
-                                                    });
-                                                }}
-                                                className="absolute bottom-8 right-8 opacity-5 group-hover:opacity-20 transition-all duration-700 transform group-hover:scale-110 z-10 cursor-pointer"
-                                            >
-                                                <Image 
-                                                    src="/assets/sponsors/Logo BCA_Putih.png" 
-                                                    alt="BCA" 
-                                                    width={120} 
-                                                    height={60} 
-                                                    className="object-contain"
-                                                />
-                                            </a>
-                                        )}
                                     </div>
                                 );
                             })()}
