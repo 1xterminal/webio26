@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const raela = localFont({
   src: [
@@ -132,6 +133,7 @@ export default function RootLayout({
           </SmoothScroll>
         </PreloaderGate>
       </body>
+      <GoogleAnalytics gaId="G-1L3ZCMK7NG" />
     </html>
   );
 }

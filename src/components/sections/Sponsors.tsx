@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { sendGAEvent } from '@next/third-parties/google';
 
 interface SponsorLogo {
     name: string;
@@ -24,6 +25,7 @@ const sponsorTiers: SponsorTier[] = [
                 name: 'Secret', 
                 width: 420, 
                 height: 210, 
+                href: 'https://www.instagram.com/lifeatbca/',
             },
         ]
     },
@@ -168,7 +170,7 @@ export function Sponsors() {
                                         </div>
                                     );
 
-                                    if (logo.href) {
+                                    if (logo.href && shouldReveal) {
                                         return (
                                             <a 
                                                 key={i} 
@@ -176,6 +178,12 @@ export function Sponsors() {
                                                 target="_blank" 
                                                 rel="noopener noreferrer"
                                                 className="block cursor-pointer"
+                                                onClick={() => {
+                                                    sendGAEvent('event', 'click_sponsor_logo', {
+                                                        sponsor_name: logo.name === 'Secret' ? 'BCA' : logo.name,
+                                                        destination: logo.href,
+                                                    });
+                                                }}
                                             >
                                                 {content}
                                             </a>
