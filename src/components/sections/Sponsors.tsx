@@ -170,7 +170,7 @@ export function Sponsors() {
                                         </div>
                                     );
 
-                                    if (logo.href) {
+                                    if (logo.href && shouldReveal) {
                                         return (
                                             <a 
                                                 key={i} 
