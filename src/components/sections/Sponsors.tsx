@@ -53,7 +53,19 @@ const sponsorTiers: SponsorTier[] = [
                 src: '/assets/sponsors/logo jnd.png',
                 href: 'https://www.instagram.com/jnd_dimsum/'
             },
-            { name: 'Sponsor 3', width: 140, height: 70 },
+            { 
+                name: 'Anamcara', 
+                width: 200, 
+                height: 120, 
+                src: '/assets/sponsors/anamcara.png',
+                href: 'https://wa.me/6282297771594'
+            },
+            { 
+                name: 'Cendol Duren', 
+                width: 160, 
+                height: 80, 
+                src: '/assets/sponsors/cendol duren.png'
+            },
         ]
     },
     {

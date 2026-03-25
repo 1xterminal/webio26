@@ -317,7 +317,7 @@ export function Navbar() {
                                           location: 'navbar_desktop',
                                         });
                                       }}
-                                      className="absolute inset-0 z-10"
+                                      className="absolute inset-0 z-20 cursor-pointer"
                                     >
                                       <Image
                                         src="/assets/sponsors/Logo BCA_Putih.png"
@@ -623,7 +623,7 @@ function MobileDropdownItem({
                                     location: 'navbar_mobile',
                                   });
                                 }}
-                                className="absolute inset-0 z-10"
+                                className="absolute inset-0 z-20 cursor-pointer"
                               >
                                 <Image
                                   src="/assets/sponsors/Logo BCA_Putih.png"

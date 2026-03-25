@@ -506,7 +506,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                     location: 'competition_page',
                                                 });
                                             }}
-                                            className="relative z-10"
+                                            className="relative z-20 cursor-pointer"
                                         >
                                             <Image 
                                                 src="/assets/sponsors/Logo BCA_Putih.png" 

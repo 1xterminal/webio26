@@ -169,14 +169,15 @@ export function Timeline() {
                                                             href="https://www.instagram.com/lifeatbca/"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            onClick={() => {
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
                                                                 sendGAEvent('event', 'click_sponsor_logo', {
                                                                     sponsor_name: 'BCA',
                                                                     destination: 'https://www.instagram.com/lifeatbca/',
                                                                     location: 'timeline_section',
                                                                 });
                                                             }}
-                                                            className="absolute inset-0 z-10"
+                                                            className="absolute inset-0 z-20 cursor-pointer"
                                                         >
                                                             <Image
                                                                 src="/assets/sponsors/Logo BCA_Putih.png"

@@ -200,7 +200,7 @@ export function Tracks() {
                                                                     location: 'tracks_section',
                                                                 });
                                                             }}
-                                                            className="absolute inset-0 z-10"
+                                                            className="absolute inset-0 z-20 cursor-pointer"
                                                         >
                                                             <Image
                                                                 src="/assets/sponsors/Logo BCA_Putih.png"
