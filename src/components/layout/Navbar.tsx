@@ -303,7 +303,7 @@ export function Navbar() {
                                     <CaseRevealCountdown hideLabel={true} className="mt-0.5" />
                                   )}
                                 </div>
-                                <div className="relative w-8 h-8 flex items-center justify-center">
+                                <div className="relative z-10 w-8 h-8 flex items-center justify-center">
                                   {isMounted && isPastRevealDate ? (
                                     <a
                                       href="https://www.instagram.com/lifeatbca/"
@@ -332,7 +332,7 @@ export function Navbar() {
                                     </div>
                                   )}
                                   {/* Ambient Glow */}
-                                  <div className="absolute inset-0 opacity-0 group-hover/item:opacity-40 transition-opacity duration-500 blur-md rounded-full"
+                                  <div className="absolute inset-0 opacity-0 group-hover/item:opacity-40 transition-opacity duration-500 blur-md rounded-full pointer-events-none"
                                        style={{ background: item.accentHex }} />
                                 </div>
                               </div>
@@ -609,7 +609,7 @@ function MobileDropdownItem({
                           <span className="text-[9px] font-black uppercase tracking-widest" style={{ color: subItem.accentHex }}>
                             {collaboratorText}
                           </span>
-                          <div className="relative w-4 h-4">
+                          <div className="relative z-10 w-4 h-4">
                             {isMounted && isPastRevealDate ? (
                               <a
                                 href="https://www.instagram.com/lifeatbca/"

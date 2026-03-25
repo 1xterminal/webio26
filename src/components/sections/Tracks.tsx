@@ -186,7 +186,7 @@ export function Tracks() {
                                                     </span>
                                                     {!isPastRevealDate && <CaseRevealCountdown accentColor={track.accentHex} size="lg" className="mt-2 sm:mt-4" />}
                                                 </div>
-                                                <div className="relative w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
+                                                <div className="relative z-10 w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (
                                                         <a
                                                             href="https://www.instagram.com/lifeatbca/"

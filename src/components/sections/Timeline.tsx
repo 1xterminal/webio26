@@ -163,7 +163,7 @@ export function Timeline() {
                                                     </span>
                                                     {isMounted && !isPastRevealDate && <CaseRevealCountdown accentColor="#FF8B53" size="md" className="mt-1 sm:mt-2" />}
                                                 </div>
-                                                <div className="relative w-16 h-8 md:w-20 md:h-10 shrink-0">
+                                                <div className="relative z-10 w-16 h-8 md:w-20 md:h-10 shrink-0">
                                                     {isMounted && isPastRevealDate ? (
                                                         <a
                                                             href="https://www.instagram.com/lifeatbca/"
