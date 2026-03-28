@@ -1,0 +1,15 @@
+feat(scholarship): refactor BCA PPTI scholarship gimmick UI/UX
+
+Improved the visibility and hierarchy of the BCA scholarship program across the website to better serve as a primary selling point for SMA/SMK participants.
+
+Key Highlights:
+1. **Headline Hierarchy**: Restructured the scholarship headline on Home and Competition pages. 
+   - Initial instruction "Daftar sekarang..." now uses font-normal and reduced opacity (80%).
+   - "BEASISWA PPTI BCA" is now massive (5xl on md), font-black, and on a separate line for maximum visual impact.
+2. **Prominent Branding**: Scaled the BCA Logo to 72px and integrated it as a standalone element with a vertical divider and "Official Program" tag.
+3. **Design Synchronization**: Fully aligned the banner aesthetics in Tracks.tsx (Home) with CompetitionPage.tsx, ensuring consistent padding, gaps, and premium "Neon Flare" styling.
+4. **Subtle Copy Refinement**: Updated the disclaimer to a more balanced corporate tone: "Proses seleksi beasiswa tetap menjadi kebijakan internal dari pihak BCA" with font-normal styling.
+5. **UI Polish**:
+   - Changed CTA text from "Cek Selengkapnya" to "Learn More".
+   - Removed all redundant perks badges and watermarks to reduce clutter.
+   - Applied subtle hover effects (transform -y) for a premium feel.

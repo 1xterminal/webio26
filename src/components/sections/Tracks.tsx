@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Info, TriangleAlert } from 'lucide-react';
 import { sendGAEvent } from '@next/third-parties/google';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
@@ -263,65 +263,65 @@ export function Tracks() {
                                 destination: 'https://ppti.bca.co.id/',
                             });
                         }}
-                        className="group relative flex flex-col items-center text-center gap-5 p-8 sm:p-10 rounded-[24px] overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 transform-gpu cursor-pointer"
+                        className="group relative flex flex-col md:flex-row items-center md:justify-between text-center md:text-left gap-6 md:gap-10 p-8 sm:p-10 rounded-3xl overflow-hidden transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 transform-gpu cursor-pointer"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(0,50,120,0.35) 0%, rgba(20,20,20,0.7) 60%, rgba(20,20,20,0.6) 100%)',
-                            boxShadow: '0 12px 40px -8px rgba(0,91,170,0.25), inset 0 1px 1px rgba(255,255,255,0.08)',
-                            border: '1px solid rgba(0,91,170,0.2)',
+                            background: 'linear-gradient(135deg, rgba(0,91,170,0.2) 0%, rgba(10,10,10,0.8) 50%, rgba(20,20,20,0.7) 100%)',
+                            boxShadow: '0 12px 48px -12px rgba(0,91,170,0.3), inset 0 1px 1px rgba(255,255,255,0.08)',
+                            border: '1px solid rgba(0,91,170,0.25)',
                         }}
                     >
                         {/* Glow effects */}
-                        <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full opacity-15 group-hover:opacity-35 transition-opacity duration-700 blur-[60px] pointer-events-none" style={{ background: '#005baa' }} />
-                        <div className="absolute -bottom-8 -right-8 w-48 h-48 rounded-full opacity-10 group-hover:opacity-25 transition-opacity duration-700 blur-[50px] pointer-events-none" style={{ background: '#4da3ff' }} />
+                        <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-700 blur-[80px] pointer-events-none" style={{ background: '#005baa' }} />
+                        <div className="absolute -bottom-10 -right-10 w-60 h-60 rounded-full opacity-10 group-hover:opacity-30 transition-opacity duration-700 blur-[60px] pointer-events-none" style={{ background: '#4da3ff' }} />
 
                         {/* Glowing border */}
                         <div className="absolute inset-0 rounded-[24px] pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" style={{ boxShadow: 'inset 0 0 16px rgba(0,91,170,0.1), 0 0 16px rgba(0,91,170,0.08)' }} />
 
-                        {/* SMA/SMK emphasis badge */}
-                        <div className="relative z-10 flex items-center gap-2.5 px-4 py-2 rounded-xl bg-[#4da3ff]/15 border border-[#4da3ff]/30 shadow-[0_0_16px_rgba(77,163,255,0.12)]">
-                            <div className="w-7 h-7 rounded-md bg-white/[0.08] border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
-                                <Image
-                                    src="/assets/sponsors/Logo BCA_Putih.png"
-                                    alt="BCA"
-                                    width={18}
-                                    height={9}
-                                    className="object-contain opacity-90"
-                                />
-                            </div>
-                            <span className="text-xs sm:text-sm font-raela font-black uppercase tracking-[0.15em] text-[#4da3ff]">
-                                Khusus Peserta SMA/SMK
-                            </span>
-                        </div>
-
-                        {/* Headline */}
-                        <h3 className="relative z-10 text-xl sm:text-2xl font-raela font-black text-white leading-tight tracking-tight">
-                            Dapatkan Beasiswa Penuh{' '}
-                            <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #4da3ff, #80c4ff)' }}>
-                                + Karier di BCA
-                            </span>
-                        </h3>
-
-                        {/* Value badges */}
-                        <div className="relative z-10 flex flex-wrap justify-center gap-2">
-                            {['Beasiswa Penuh', '30 Bulan', 'Langsung Berkarier'].map((badge, i) => (
-                                <span
-                                    key={i}
-                                    className="px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wide bg-white/[0.06] text-white/70 border border-white/10 group-hover:bg-white/10 group-hover:text-white transition-all duration-300"
-                                >
-                                    {badge}
+                        <div className="relative z-10 flex flex-col items-center md:items-start flex-1">
+                            {/* SMA/SMK High-Alert Emphasis Badge */}
+                            <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-[#0066AE]/20 border border-[#0066AE]/50 shadow-[0_0_15px_rgba(0,102,174,0.3)] ring-1 ring-[#0066AE]/30 group-hover:bg-[#0066AE]/30 group-hover:border-[#0066AE]/70 transition-all duration-500 mb-4 w-fit">
+                                <TriangleAlert className="w-3.5 h-3.5 text-[#00bfff] animate-pulse" />
+                                <span className="text-[10px] sm:text-xs font-raela font-black uppercase tracking-[0.1em] text-[#00bfff]">
+                                    KHUSUS SMA/SMK
                                 </span>
-                            ))}
+                            </div>
+
+                            <div className="flex flex-col items-center md:items-start">
+                                <h3 className="text-xl md:text-2xl font-raela font-normal text-white/80 leading-tight tracking-tight mb-4">
+                                    Daftar sekarang dan dapatkan kesempatan untuk meraih
+                                    <span className="block text-3xl md:text-5xl mt-3 font-black text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #4da3ff, #80c4ff)' }}>
+                                        BEASISWA PPTI BCA
+                                    </span>
+                                </h3>
+                                
+                                <div className="flex items-center justify-center md:justify-start gap-4 opacity-100 mb-6 group/bca">
+                                    <Image src="/assets/sponsors/Logo BCA_Putih.png" alt="BCA" width={72} height={32} className="object-contain relative z-10" />
+                                    <div className="h-6 w-[1px] bg-white/20" />
+                                    <span className="text-xs md:text-sm font-raela font-black text-[#00bfff] tracking-[0.2em] uppercase drop-shadow-[0_0_10px_rgba(0,191,255,0.4)]">
+                                        Official Program
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center justify-center md:justify-start gap-1.5 text-white/40 group-hover:text-white/60 transition-colors duration-300">
+                                    <Info className="w-3.5 h-3.5 shrink-0" />
+                                    <span className="text-[9px] md:text-xs italic font-normal opacity-50">
+                                        * Proses seleksi beasiswa tetap menjadi kebijakan internal dari pihak BCA
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
                         {/* CTA */}
-                        <div className="relative z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full font-raela font-bold text-xs tracking-wide text-white overflow-hidden transition-all duration-300 hover:scale-105 transform-gpu shadow-[0_0_24px_rgba(0,91,170,0.3)] group-hover:shadow-[0_0_36px_rgba(77,163,255,0.45)]"
-                             style={{ background: 'linear-gradient(135deg, #005baa 0%, #4da3ff 100%)' }}
-                        >
-                            <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-                            <span className="relative z-10 flex items-center gap-2">
-                                Pelajari Beasiswa
-                                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300 transform-gpu" />
-                            </span>
+                        <div className="relative z-10 shrink-0 mt-6 md:mt-0">
+                            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-raela font-bold text-xs tracking-wide text-white overflow-hidden transition-all duration-300 hover:scale-105 transform-gpu shadow-[0_0_28px_rgba(0,91,170,0.35)] group-hover:shadow-[0_0_40px_rgba(77,163,255,0.5)]"
+                                 style={{ background: 'linear-gradient(135deg, #005baa 0%, #4da3ff 100%)' }}
+                            >
+                                <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                                <span className="relative z-10 flex items-center gap-2">
+                                    Learn More
+                                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300 transform-gpu" />
+                                </span>
+                            </div>
                         </div>
                     </a>
                 </motion.div>
