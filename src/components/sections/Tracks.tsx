@@ -188,17 +188,18 @@ export function Tracks() {
                                                 </div>
                                                 <div className="relative z-10 w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (
-                                                        <a
-                                                            href="https://www.instagram.com/lifeatbca/"
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
+                                                        <div
+                                                            role="link"
+                                                            tabIndex={0}
                                                             onClick={(e) => {
+                                                                e.preventDefault();
                                                                 e.stopPropagation();
                                                                 sendGAEvent('event', 'click_sponsor_logo', {
                                                                     sponsor_name: 'BCA',
                                                                     destination: 'https://www.instagram.com/lifeatbca/',
                                                                     location: 'tracks_section',
                                                                 });
+                                                                window.open('https://www.instagram.com/lifeatbca/', '_blank', 'noopener,noreferrer');
                                                             }}
                                                             className="absolute inset-0 z-20 cursor-pointer"
                                                         >
@@ -208,7 +209,7 @@ export function Tracks() {
                                                                 fill
                                                                 className="object-contain opacity-90 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                                                             />
-                                                        </a>
+                                                        </div>
                                                     ) : (
                                                         <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right">
                                                             <div className="w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,139,83,0.3)]">
@@ -243,6 +244,87 @@ export function Tracks() {
                         </motion.div>
                     ))}
                 </div>
+
+                {/* PPTI BCA Scholarship Banner */}
+                <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0, margin: "0px 0px 400px 0px" }}
+                    transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="mt-6"
+                >
+                    <a
+                        href="https://ppti.bca.co.id/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => {
+                            sendGAEvent('event', 'click_ppti_bca', {
+                                location: 'tracks_section_homepage',
+                                destination: 'https://ppti.bca.co.id/',
+                            });
+                        }}
+                        className="group relative flex flex-col items-center text-center gap-5 p-8 sm:p-10 rounded-[24px] overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 transform-gpu cursor-pointer"
+                        style={{
+                            background: 'linear-gradient(135deg, rgba(0,50,120,0.35) 0%, rgba(20,20,20,0.7) 60%, rgba(20,20,20,0.6) 100%)',
+                            boxShadow: '0 12px 40px -8px rgba(0,91,170,0.25), inset 0 1px 1px rgba(255,255,255,0.08)',
+                            border: '1px solid rgba(0,91,170,0.2)',
+                        }}
+                    >
+                        {/* Glow effects */}
+                        <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full opacity-15 group-hover:opacity-35 transition-opacity duration-700 blur-[60px] pointer-events-none" style={{ background: '#005baa' }} />
+                        <div className="absolute -bottom-8 -right-8 w-48 h-48 rounded-full opacity-10 group-hover:opacity-25 transition-opacity duration-700 blur-[50px] pointer-events-none" style={{ background: '#4da3ff' }} />
+
+                        {/* Glowing border */}
+                        <div className="absolute inset-0 rounded-[24px] pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" style={{ boxShadow: 'inset 0 0 16px rgba(0,91,170,0.1), 0 0 16px rgba(0,91,170,0.08)' }} />
+
+                        {/* SMA/SMK emphasis badge */}
+                        <div className="relative z-10 flex items-center gap-2.5 px-4 py-2 rounded-xl bg-[#4da3ff]/15 border border-[#4da3ff]/30 shadow-[0_0_16px_rgba(77,163,255,0.12)]">
+                            <div className="w-7 h-7 rounded-md bg-white/[0.08] border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                                <Image
+                                    src="/assets/sponsors/Logo BCA_Putih.png"
+                                    alt="BCA"
+                                    width={18}
+                                    height={9}
+                                    className="object-contain opacity-90"
+                                />
+                            </div>
+                            <span className="text-xs sm:text-sm font-raela font-black uppercase tracking-[0.15em] text-[#4da3ff]">
+                                Khusus Peserta SMA/SMK
+                            </span>
+                        </div>
+
+                        {/* Headline */}
+                        <h3 className="relative z-10 text-xl sm:text-2xl font-raela font-black text-white leading-tight tracking-tight">
+                            Dapatkan Beasiswa Penuh{' '}
+                            <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #4da3ff, #80c4ff)' }}>
+                                + Karier di BCA
+                            </span>
+                        </h3>
+
+                        {/* Value badges */}
+                        <div className="relative z-10 flex flex-wrap justify-center gap-2">
+                            {['Beasiswa Penuh', '30 Bulan', 'Langsung Berkarier'].map((badge, i) => (
+                                <span
+                                    key={i}
+                                    className="px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wide bg-white/[0.06] text-white/70 border border-white/10 group-hover:bg-white/10 group-hover:text-white transition-all duration-300"
+                                >
+                                    {badge}
+                                </span>
+                            ))}
+                        </div>
+
+                        {/* CTA */}
+                        <div className="relative z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full font-raela font-bold text-xs tracking-wide text-white overflow-hidden transition-all duration-300 hover:scale-105 transform-gpu shadow-[0_0_24px_rgba(0,91,170,0.3)] group-hover:shadow-[0_0_36px_rgba(77,163,255,0.45)]"
+                             style={{ background: 'linear-gradient(135deg, #005baa 0%, #4da3ff 100%)' }}
+                        >
+                            <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                            <span className="relative z-10 flex items-center gap-2">
+                                Pelajari Beasiswa
+                                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300 transform-gpu" />
+                            </span>
+                        </div>
+                    </a>
+                </motion.div>
 
                 {/* ── Impact Projection CTA ─────────────────────────────── */}
                 <motion.div

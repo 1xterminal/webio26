@@ -531,6 +531,98 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         </motion.div>
                     )}
 
+                    {/* PPTI BCA Scholarship Banner — SMA/K competitions only */}
+                    {data.slug !== 'business-case' && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.05 }}
+                            className="mb-10 w-full"
+                        >
+                            <a
+                                href="https://ppti.bca.co.id/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => {
+                                    sendGAEvent('event', 'click_ppti_bca', {
+                                        location: `competition_page_${data.slug}`,
+                                        destination: 'https://ppti.bca.co.id/',
+                                    });
+                                }}
+                                className="group relative flex flex-col items-center text-center gap-6 p-10 md:p-14 rounded-[2.5rem] overflow-hidden transition-all duration-700 hover:-translate-y-1 transform-gpu z-10 cursor-pointer"
+                                style={{
+                                    background: 'linear-gradient(135deg, rgba(0,50,120,0.4) 0%, rgba(20,20,20,0.7) 60%, rgba(20,20,20,0.6) 100%)',
+                                    boxShadow: '0 12px 40px -8px rgba(0,91,170,0.3), inset 0 1px 1px rgba(255,255,255,0.08)',
+                                    border: '1px solid rgba(0,91,170,0.25)',
+                                }}
+                            >
+                                {/* Glow effects */}
+                                <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-700 blur-[80px] pointer-events-none" style={{ background: '#005baa' }} />
+                                <div className="absolute -bottom-10 -right-10 w-60 h-60 rounded-full opacity-10 group-hover:opacity-30 transition-opacity duration-700 blur-[60px] pointer-events-none" style={{ background: '#4da3ff' }} />
+
+                                {/* Glowing border */}
+                                <div className="absolute inset-0 rounded-[2.5rem] pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" style={{ boxShadow: 'inset 0 0 20px rgba(0,91,170,0.15), 0 0 20px rgba(0,91,170,0.1)' }} />
+
+                                {/* SMA/SMK emphasis badge */}
+                                <div className="relative z-10 flex flex-col items-center gap-4">
+                                    <div className="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#4da3ff]/15 border border-[#4da3ff]/30 shadow-[0_0_20px_rgba(77,163,255,0.15)]">
+                                        <div className="w-8 h-8 rounded-lg bg-white/[0.08] border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                                            <Image
+                                                src="/assets/sponsors/Logo BCA_Putih.png"
+                                                alt="BCA"
+                                                width={22}
+                                                height={11}
+                                                className="object-contain opacity-90"
+                                            />
+                                        </div>
+                                        <span className="text-sm sm:text-base font-raela font-black uppercase tracking-[0.15em] text-[#4da3ff]">
+                                            Khusus Peserta SMA/SMK
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Headline */}
+                                <div className="relative z-10">
+                                    <h3 className="text-2xl md:text-4xl font-raela font-black text-white leading-tight tracking-tight">
+                                        Dapatkan Beasiswa Penuh
+                                        <br />
+                                        <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #4da3ff, #80c4ff)' }}>
+                                            + Karier di BCA
+                                        </span>
+                                    </h3>
+                                </div>
+
+                                {/* Value badges */}
+                                <div className="relative z-10 flex flex-wrap justify-center gap-3">
+                                    {['Beasiswa Penuh', 'Training 30 Bulan', 'Langsung Berkarier'].map((badge, i) => (
+                                        <span
+                                            key={i}
+                                            className="px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-white/[0.06] text-white/80 border border-white/10 group-hover:bg-white/10 group-hover:text-white transition-all duration-300"
+                                        >
+                                            {badge}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                {/* Single-line subtext */}
+                                <p className="relative z-10 text-sm text-white/40 group-hover:text-white/60 transition-colors max-w-lg">
+                                    Program beasiswa PPTI dari PT Bank Central Asia Tbk untuk lulusan SMA/SMK berprestasi di bidang IT
+                                </p>
+
+                                {/* Primary CTA */}
+                                <div className="relative z-10 inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-raela font-bold text-sm tracking-wide text-white overflow-hidden transition-all duration-300 hover:scale-105 transform-gpu shadow-[0_0_28px_rgba(0,91,170,0.35)] group-hover:shadow-[0_0_40px_rgba(77,163,255,0.5)]"
+                                     style={{ background: 'linear-gradient(135deg, #005baa 0%, #4da3ff 100%)' }}
+                                >
+                                    <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        Pelajari Beasiswa
+                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                                    </span>
+                                </div>
+                            </a>
+                        </motion.div>
+                    )}
+
                     {/* Description */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -1062,6 +1154,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                             </div>
                         </div>
                     </motion.div>
+
 
                     {/* CTA */}
                     <motion.div
