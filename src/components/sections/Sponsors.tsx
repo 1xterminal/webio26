@@ -66,6 +66,13 @@ const sponsorTiers: SponsorTier[] = [
                 height: 80, 
                 src: '/assets/sponsors/cendol duren.png'
             },
+            { 
+                name: 'Digisnap', 
+                width: 320, 
+                height: 160, 
+                src: '/assets/sponsors/Digisnap (Light).png',
+                href: 'https://linktr.ee/digisnap.id'
+            },
         ]
     },
     {
