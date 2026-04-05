@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
 
@@ -35,8 +35,46 @@ const faqs = [
     }
 ];
 
+const FAQItem = memo(({ faq, index, isOpen, onToggle }: { faq: typeof faqs[0], index: number, isOpen: boolean, onToggle: (index: number) => void }) => {
+    return (
+        <div className="rounded-2xl overflow-hidden border border-white/10 bg-black/50 md:backdrop-blur-sm transform-gpu">
+            <button
+                onClick={() => onToggle(index)}
+                className="w-full px-6 py-5 flex items-center justify-between text-left transition-colors focus:outline-none"
+            >
+                <span className="font-raela font-bold text-[17px] text-white tracking-wide">{faq.question}</span>
+                {isOpen ? (
+                    <Minus className="w-5 h-5 text-white/70 stroke-[1.5]" />
+                ) : (
+                    <Plus className="w-5 h-5 text-white/70 stroke-[1.5]" />
+                )}
+            </button>
+
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                    >
+                        <div className="px-6 pb-6 text-white/70 text-[15px] leading-relaxed">
+                            {faq.answer}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+});
+FAQItem.displayName = 'FAQItem';
+
 export function FAQ() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+    const handleToggle = useCallback((index: number) => {
+        setOpenIndex((prev) => (prev === index ? null : index));
+    }, []);
 
     const faqSchema = {
         '@context': 'https://schema.org',
@@ -64,34 +102,13 @@ export function FAQ() {
 
                 <div className="space-y-4">
                     {faqs.map((faq, index) => (
-                        <div key={index} className="rounded-2xl overflow-hidden border border-white/10 bg-black/50 md:backdrop-blur-sm">
-                            <button
-                                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                                className="w-full px-6 py-5 flex items-center justify-between text-left transition-colors"
-                            >
-                                <span className="font-raela font-bold text-[17px] text-white tracking-wide">{faq.question}</span>
-                                {openIndex === index ? (
-                                    <Minus className="w-5 h-5 text-white/70 stroke-[1.5]" />
-                                ) : (
-                                    <Plus className="w-5 h-5 text-white/70 stroke-[1.5]" />
-                                )}
-                            </button>
-
-                            <AnimatePresence>
-                                {openIndex === index && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: -6 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -6 }}
-                                        transition={{ duration: 0.2, ease: 'easeOut' }}
-                                    >
-                                        <div className="px-6 pb-6 text-white/70 text-[15px] leading-relaxed">
-                                            {faq.answer}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                        <FAQItem
+                            key={index}
+                            faq={faq}
+                            index={index}
+                            isOpen={openIndex === index}
+                            onToggle={handleToggle}
+                        />
                     ))}
                 </div>
             </div>

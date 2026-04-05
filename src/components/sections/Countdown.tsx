@@ -126,9 +126,15 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                         {getLabel(phase)}
                     </p>
                     {phase === 'wave1' && (
-                        <div className="inline-flex items-center gap-2 px-3 py-1 mt-1 md:mt-0 rounded-full bg-[#FF8B53]/10 border border-[#FF8B53]/30 shrink-0 whitespace-nowrap">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#FF8B53] animate-pulse shrink-0" />
-                            <span className="text-[10px] md:text-[11px] text-[#FF8B53] font-bold tracking-[0.2em] uppercase">EXTENDED</span>
+                        <div className="relative flex items-center gap-1.5 px-3 py-1 mt-1 md:mt-0 rounded bg-[#FF8B53]/5 border border-[#FF8B53]/20 shrink-0 overflow-hidden transform-gpu">
+                            {/* Performant light leak bloom */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[#FF8B53] opacity-30 blur-xl pointer-events-none mix-blend-screen" />
+                            
+                            {/* Animated performant breathing glow without layout shifts */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FF8B53]/30 to-transparent opacity-0 animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] pointer-events-none" />
+
+                            <span className="relative z-10 w-1.5 h-1.5 rounded-full bg-neon-orange ring-2 ring-neon-orange/40" />
+                            <span className="relative z-10 text-[10.5px] md:text-[11.5px] text-white font-bold uppercase tracking-widest pl-0.5 text-shadow-[0_0_10px_rgba(255,139,83,0.8)]">EXTENDED</span>
                         </div>
                     )}
                 </div>

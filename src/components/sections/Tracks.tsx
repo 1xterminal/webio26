@@ -255,7 +255,7 @@ export function Tracks() {
                     transition={{ delay: 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="mt-6 max-w-3xl mx-auto w-full"
                 >
-                    <div className="relative group flex flex-col items-center justify-center gap-7 px-8 py-12 md:py-14 rounded-[24px] overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)] bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)]">
+                    <div className="relative group flex flex-col items-center justify-center gap-7 px-8 py-12 md:py-14 rounded-[24px] overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)] bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)] transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] transform-gpu">
 
                         {/* Gradient border mask (Desktop Only) */}
                         <div
