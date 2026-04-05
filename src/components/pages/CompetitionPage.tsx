@@ -217,8 +217,8 @@ export function CompetitionPage({ slug }: { slug: string }) {
             // Matching standard timeline milestones with start times
             const stages = [
                 new Date('2026-03-15T00:00:00+07:00'), // Pendaftaran Gelombang Pertama
-                new Date('2026-04-06T00:00:00+07:00'), // Pendaftaran Gelombang Kedua
                 ...(data.slug === 'business-case' ? [new Date('2026-04-09T00:00:00+07:00')] : []), // Case Release
+                new Date('2026-04-20T00:00:00+07:00'), // Pendaftaran Gelombang Kedua
                 new Date('2026-04-30T00:00:00+07:00'), // Batas Akhir Pendaftaran & Pengumpulan Karya
                 new Date('2026-05-01T00:00:00+07:00'), // Penilaian Tahap Pertama
                 new Date('2026-05-13T00:00:00+07:00'), // Pengumuman Finalis
@@ -256,9 +256,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
                  BusinessCaseIcon;
 
     const timelineStages = [
-        { date: '15 Mar - 5 Apr', label: 'Early Bird' },
-        { date: '6 - 30 Apr', label: 'Regular Registration' },
+        { date: '15 Mar - 19 Apr', label: 'Early Bird' },
         ...(data.slug === 'business-case' ? [{ date: '9 Apr', label: 'Case Release' }] : []),
+        { date: '20 - 30 Apr', label: 'Regular Registration' },
         { date: '30 Apr', label: 'Registration and Submission Deadline' },
         { date: '1 - 10 Mei', label: 'Penilaian Juri' },
         { date: '13 Mei', label: 'Pengumuman Finalis' },
@@ -901,7 +901,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         transition={{ delay: 0.18, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         className="mb-16 w-full"
                     >
-                        <div className="relative group flex flex-col items-center justify-center gap-7 px-8 py-12 md:py-14 rounded-[24px] overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)] bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)]">
+                        <div className="relative group flex flex-col items-center justify-center gap-7 px-8 py-12 md:py-14 rounded-[24px] overflow-hidden text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.08)] bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)] transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] transform-gpu">
 
                             {/* Gradient border mask (Desktop Only) */}
                             <div
@@ -994,8 +994,17 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
                                 <div className="flex justify-between relative z-10 w-full">
                                     {timelineStages.map((item, i) => {
-                                        const isPassed = i < currentPhase;
-                                        const isActive = i === currentPhase;
+                                        let isPassed = i < currentPhase;
+                                        let isActive = i === currentPhase;
+                                        
+                                        const now = new Date();
+                                        const isEarlyBirdStillActive = now >= new Date('2026-03-15T00:00:00+07:00') && now <= new Date('2026-04-19T23:59:59+07:00');
+
+                                        // Decoupled logic specifically mapped to resolve Case Release / Early Bird overlap conflict
+                                        if (item.label === 'Early Bird' && isEarlyBirdStillActive) {
+                                            isActive = true;
+                                            isPassed = false;
+                                        }
 
                                         return (
                                             <div key={i} className="flex flex-col items-center flex-1 relative group min-w-0">
