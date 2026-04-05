@@ -92,24 +92,24 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
                         </p>
 
                         {/* Embedded Case Release Sub-Event */}
-                        <div className="mt-4 sm:mt-6 flex flex-col items-end gap-1.5 sm:gap-2 p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-[#FF8B53]/30 w-full relative z-10 group/subevent hover:bg-white/10 transition-all duration-300 backdrop-blur-sm shadow-[0_0_15px_rgba(255,139,83,0.05)]">
+                        <div className="mt-4 sm:mt-6 flex flex-col items-start md:items-end gap-1.5 sm:gap-2 p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-[#FF8B53]/30 w-full relative z-10 group/subevent hover:bg-white/10 transition-all duration-300 backdrop-blur-sm shadow-[0_0_15px_rgba(255,139,83,0.05)]">
                             
                             {/* Top Line: Date and Event Name */}
-                            <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3 pb-1.5 border-b border-[#FF8B53]/10 w-full">
-                                <span className="font-raela font-bold text-white text-[13px] sm:text-base tracking-wide">Business Case Release</span>
-                                <div className="flex items-center gap-2 border border-[#FF8B53]/20 bg-[#FF8B53]/10 px-2.5 py-1 rounded-full">
+                            <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 sm:gap-3 pb-1.5 border-b border-[#FF8B53]/10 w-full">
+                                <div className="order-1 md:order-2 flex items-center gap-2 border border-[#FF8B53]/20 bg-[#FF8B53]/10 px-2.5 py-1 rounded-full">
                                     <span className="text-[9px] sm:text-[10px] font-raela font-black uppercase tracking-[0.2em] text-[#FF8B53] leading-none">9 Apr 2026</span>
                                     <div className="w-1.5 h-1.5 rounded-full bg-[#FF8B53] animate-pulse shadow-[0_0_8px_#FF8B53]" />
                                 </div>
+                                <span className="order-2 md:order-1 font-raela font-bold text-white text-[13px] sm:text-base tracking-wide">Business Case Release</span>
                             </div>
 
                             {/* Center Stack: Collaborator -> Logo -> Text */}
-                            <div className="flex flex-col items-end gap-0 w-full mt-0.5">
-                                <span className="text-[#FF8B53] font-raela text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-right leading-none z-20">
+                            <div className="flex flex-col items-start md:items-end gap-0 w-full mt-0.5">
+                                <span className="text-[#FF8B53] font-raela text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-left md:text-right leading-none z-20">
                                     {isMounted && isPastRevealDate ? 'Official Case Collaborator' : 'Secret Collaborator'}
                                 </span>
                                 
-                                <div className="relative z-10 w-28 h-12 sm:w-36 sm:h-16 flex items-center justify-end -my-1 sm:-my-1.5 transition-all">
+                                <div className="relative z-10 w-28 h-12 sm:w-36 sm:h-16 flex items-center justify-start md:justify-end -my-1 sm:-my-1.5 transition-all">
                                     {isMounted && isPastRevealDate ? (
                                         <a
                                             href="https://www.instagram.com/lifeatbca/"
@@ -129,7 +129,7 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
                                                 src="/assets/sponsors/Logo BCA_Putih.png"
                                                 alt="BCA"
                                                 fill
-                                                className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] group-hover/subevent:opacity-100 transition-opacity object-right"
+                                                className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] group-hover/subevent:opacity-100 transition-opacity object-left md:object-right"
                                             />
                                         </a>
                                     ) : (
@@ -140,7 +140,7 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
                                 </div>
 
                                 {isMounted && isPastRevealDate && (
-                                    <span className="text-white/90 font-raela text-[10px] sm:text-[13px] font-medium tracking-wide text-right">
+                                    <span className="text-white/90 font-raela text-[10px] sm:text-[13px] font-medium tracking-wide text-left md:text-right">
                                         PT Bank Central Asia Tbk
                                     </span>
                                 )}
