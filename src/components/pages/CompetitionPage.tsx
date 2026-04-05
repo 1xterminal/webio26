@@ -17,6 +17,7 @@ import { useState, useEffect } from 'react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { useDownloadInteraction } from '@/hooks/useDownloadInteraction';
 import { REGISTRATION_URL } from '@/lib/registration';
+import { FEATURES } from '@/lib/constants';
 
 // Top-Level Unified Premium Gradient Glow
 const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHex: string, roundedClass?: string }) => {
@@ -591,32 +592,48 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 <span className="text-white font-raela font-black uppercase tracking-[0.1em] text-sm md:text-base lg:text-lg whitespace-nowrap">{tier.type}</span>
                                             </div>
 
-                                            <div className="p-6 flex flex-col items-center text-center relative">
-                                                {/* Early Bird - HERO SECTION */}
-                                                <div className="mb-4 w-full">
-                                                    <span className="block text-xs text-white/50 uppercase tracking-[0.2em] mb-2 font-raela font-black">Early Bird</span>
-                                                    <div className="relative inline-block group/price">
-                                                        <span className="block font-raela font-black text-3xl lg:text-4xl tracking-tight text-white mb-1 transition-all duration-500 group-hover/tier:scale-110" style={{ color: data.accentHex }}>
-                                                            {tier.early}
-                                                        </span>
-                                                        <div className="absolute inset-0 blur-2xl opacity-10 group-hover/tier:opacity-30 scale-150 transition-opacity pointer-events-none" style={{ backgroundColor: data.accentHex }} />
+                                            <div className="p-6 flex flex-col justify-center items-center text-center relative h-full min-h-[220px]">
+                                                {tier.early.toUpperCase() === 'GRATIS' ? (
+                                                    <div className="flex flex-col items-center justify-center w-full h-full">
+                                                        <div className="relative inline-block group/free mt-2">
+                                                            <div className="absolute -inset-4 bg-gradient-to-r from-emerald-400 to-teal-500 blur-2xl opacity-20 group-hover/tier:opacity-40 transition-opacity duration-700 rounded-full animate-[pulse_3s_ease-in-out_infinite] pointer-events-none" />
+                                                            <div className="relative group-hover/tier:scale-110 transition-transform duration-500">
+                                                                <span className="block font-raela font-black text-3xl lg:text-4xl tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-emerald-300 to-emerald-500 drop-shadow-[0_0_15px_rgba(52,211,153,0.8)]">
+                                                                    GRATIS
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] mt-6 font-raela font-bold group-hover/tier:text-emerald-400/80 transition-colors">Tanpa Biaya Pendaftaran</span>
                                                     </div>
-                                                </div>
+                                                ) : (
+                                                    <div className="flex flex-col items-center w-full h-full">
+                                                        {/* Early Bird - HERO SECTION */}
+                                                        <div className="mb-4 w-full">
+                                                            <span className="block text-xs text-white/50 uppercase tracking-[0.2em] mb-2 font-raela font-black">Early Bird</span>
+                                                            <div className="relative inline-block group/price">
+                                                                <span className="block font-raela font-black text-3xl lg:text-4xl tracking-tight text-white mb-1 transition-all duration-500 group-hover/tier:scale-110" style={{ color: data.accentHex }}>
+                                                                    {tier.early}
+                                                                </span>
+                                                                <div className="absolute inset-0 blur-2xl opacity-10 group-hover/tier:opacity-30 scale-150 transition-opacity pointer-events-none" style={{ backgroundColor: data.accentHex }} />
+                                                            </div>
+                                                        </div>
 
-                                                {/* Separator / OR */}
-                                                <div className="flex items-center gap-3 w-full opacity-10 mb-4">
-                                                    <div className="h-[1px] flex-1 bg-white" />
-                                                    <span className="text-[8px] font-raela text-white uppercase tracking-widest">Regular Price</span>
-                                                    <div className="h-[1px] flex-1 bg-white" />
-                                                </div>
+                                                        {/* Separator / OR */}
+                                                        <div className="flex items-center gap-3 w-full opacity-10 mb-4">
+                                                            <div className="h-[1px] flex-1 bg-white" />
+                                                            <span className="text-[8px] font-raela text-white uppercase tracking-widest">Regular Price</span>
+                                                            <div className="h-[1px] flex-1 bg-white" />
+                                                        </div>
 
-                                                {/* Regular - SECONDARY SECTION */}
-                                                <div className="opacity-30 group-hover/tier:opacity-50 transition-all duration-500 transform group-hover/tier:translate-y-[-2px]">
-                                                    <span className="block text-[8px] text-white/50 uppercase tracking-widest mb-1 font-raela">Regular</span>
-                                                    <span className="block font-bold text-lg text-white/80 line-through decoration-white/30 whitespace-nowrap">
-                                                        {tier.regular}
-                                                    </span>
-                                                </div>
+                                                        {/* Regular - SECONDARY SECTION */}
+                                                        <div className="opacity-30 group-hover/tier:opacity-50 transition-all duration-500 transform group-hover/tier:translate-y-[-2px]">
+                                                            <span className="block text-[8px] text-white/50 uppercase tracking-widest mb-1 font-raela">Regular</span>
+                                                            <span className="block font-bold text-lg text-white/80 line-through decoration-white/30 whitespace-nowrap">
+                                                                {tier.regular}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
 
                                             {/* Corner Visual Accent */}
@@ -671,8 +688,8 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         </div>
                     </motion.div>
 
-                    {/* Sub-Tema / Topics Section - BENTANG ACCORDION DESIGN */}
-                    {data.slug !== 'business-case' && (
+                    {/* PPTI BCA Promo Banner */}
+                    {data.slug !== 'business-case' && FEATURES.SHOW_PPTI_BCA_PROMO && (
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -708,20 +725,20 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 {/* Badge and Text Container */}
                                 <div className="flex flex-col items-center md:items-start gap-3 flex-1">
                                     <div className="flex flex-col items-center md:items-start gap-4">
-                                        <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-[#0066AE]/20 border border-[#0066AE]/50 shadow-[0_0_15px_rgba(0,102,174,0.3)] ring-1 ring-[#0066AE]/30 group-hover:bg-[#0066AE]/30 group-hover:border-[#0066AE]/70 transition-all duration-500 w-fit">
-                                            <TriangleAlert className="w-3.5 h-3.5 text-[#00bfff] animate-pulse" />
-                                            <span className="text-[10px] sm:text-xs font-raela font-black uppercase tracking-[0.1em] text-[#00bfff]">
-                                                KHUSUS SMA/SMK
-                                            </span>
-                                        </div>
-
                                         <div>
                                             <h3 className="text-xl md:text-2xl font-raela font-normal text-white/80 leading-tight tracking-tight mb-4">
-                                                Daftar sekarang dan dapatkan kesempatan untuk meraih
+                                                Dapatkan kesempatan untuk meraih
                                                 <span className="block text-3xl md:text-5xl mt-3 font-black text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #4da3ff, #80c4ff)' }}>
-                                                    BEASISWA PPTI BCA
+                                                    Beasiswa PPTI BCA
                                                 </span>
                                             </h3>
+
+                                            <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-[#0066AE]/20 border border-[#0066AE]/50 shadow-[0_0_15px_rgba(0,102,174,0.3)] ring-1 ring-[#0066AE]/30 group-hover:bg-[#0066AE]/30 group-hover:border-[#0066AE]/70 transition-all duration-500 w-fit mb-4">
+                                                <TriangleAlert className="w-3.5 h-3.5 text-[#00bfff] animate-pulse" />
+                                                <span className="text-[10px] sm:text-xs font-raela font-black uppercase tracking-[0.1em] text-[#00bfff]">
+                                                    Khusus SMA/SMK
+                                                </span>
+                                            </div>
                                             
                                             <div className="flex items-center justify-center md:justify-start gap-4 opacity-100 mb-6 group/bca">
                                                 <Image src="/assets/sponsors/Logo BCA_Putih.png" alt="BCA" width={72} height={32} className="object-contain relative z-10" />
@@ -739,6 +756,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
 
                                 {/* Right Side: CTA */}
@@ -749,7 +767,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                     >
                                         <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
                                         <span className="relative z-10 flex items-center gap-2">
-                                            Learn More
+                                            Daftar Beasiswa
                                             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
                                         </span>
                                     </div>

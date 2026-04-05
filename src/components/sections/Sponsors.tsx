@@ -68,8 +68,8 @@ const sponsorTiers: SponsorTier[] = [
             },
             { 
                 name: 'Digisnap', 
-                width: 320, 
-                height: 160, 
+                width: 160, 
+                height: 80, 
                 src: '/assets/sponsors/Digisnap (Light).png',
                 href: 'https://linktr.ee/digisnap.id'
             },

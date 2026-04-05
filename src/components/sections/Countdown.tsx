@@ -2,25 +2,23 @@
 
 import { useState, useEffect } from 'react';
 
-
-const OPEN_REG_DATE = new Date("2026-03-15T00:00:00+07:00");
-const CLOSE_REG_DATE = new Date("2026-04-30T23:59:59+07:00");
+import { DATES } from '@/lib/constants';
 
 type Phase = 'before_open' | 'wave1' | 'wave2' | 'closed';
 
 function getPhase(now: Date): Phase {
-    if (now < OPEN_REG_DATE) return 'before_open';
-    if (now <= new Date("2026-04-05T23:59:59+07:00")) return 'wave1';
-    if (now <= CLOSE_REG_DATE) return 'wave2';
+    if (now < DATES.REGISTRATION_OPEN) return 'before_open';
+    if (now <= DATES.EARLY_BIRD_END) return 'wave1';
+    if (now <= DATES.REGISTRATION_CLOSE) return 'wave2';
     return 'closed';
 }
 
 function getTargetDate(phase: Phase): Date {
     switch (phase) {
-        case 'before_open': return OPEN_REG_DATE;
-        case 'wave1': return new Date("2026-04-05T23:59:59+07:00");
-        case 'wave2': return CLOSE_REG_DATE;
-        case 'closed': return CLOSE_REG_DATE;
+        case 'before_open': return DATES.REGISTRATION_OPEN;
+        case 'wave1': return DATES.EARLY_BIRD_END;
+        case 'wave2': return DATES.REGISTRATION_CLOSE;
+        case 'closed': return DATES.REGISTRATION_CLOSE;
     }
 }
 
@@ -119,15 +117,23 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-[shimmer_3s_infinite] pointer-events-none -translate-x-full" />
 
             <div className="relative z-10 text-center md:text-left mb-10">
-                <p className="text-sm md:text-base tracking-[0.2em] font-black uppercase text-white mb-2 relative inline-flex items-center gap-3 font-raela">
-                    <span 
-                        className={`w-2 h-2 rounded-full animate-pulse ${!accentColor && 'bg-neon-orange shadow-[0_0_10px_rgba(249,115,22,1)]'}`} 
-                        style={accentColor ? { backgroundColor: accentColor, boxShadow: `0 0 10px ${accentColor}` } : {}}
-                    />
-                    {getLabel(phase)}
-                </p>
+                <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3 md:gap-4 mb-3">
+                    <p className="text-sm md:text-base tracking-[0.2em] font-black uppercase text-white relative inline-flex items-center gap-3 font-raela">
+                        <span 
+                            className={`w-2 h-2 rounded-full animate-pulse shrink-0 ${!accentColor && 'bg-neon-orange shadow-[0_0_10px_rgba(249,115,22,1)]'}`} 
+                            style={accentColor ? { backgroundColor: accentColor, boxShadow: `0 0 10px ${accentColor}` } : {}}
+                        />
+                        {getLabel(phase)}
+                    </p>
+                    {phase === 'wave1' && (
+                        <div className="inline-flex items-center gap-2 px-3 py-1 mt-1 md:mt-0 rounded-full bg-[#FF8B53]/10 border border-[#FF8B53]/30 shrink-0 whitespace-nowrap">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#FF8B53] animate-pulse shrink-0" />
+                            <span className="text-[10px] md:text-[11px] text-[#FF8B53] font-bold tracking-[0.2em] uppercase">EXTENDED</span>
+                        </div>
+                    )}
+                </div>
                 {subLabel && (
-                    <p className="text-xs md:text-sm text-white/50 font-raela tracking-widest pl-5 font-bold">
+                    <p className="text-xs md:text-sm text-white/50 font-raela tracking-[0.15em] pl-0 text-center md:text-left md:pl-[1.25rem] font-bold">
                         {subLabel}
                     </p>
                 )}

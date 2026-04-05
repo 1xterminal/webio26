@@ -305,17 +305,24 @@ export function Navbar() {
                                 </div>
                                 <div className="relative z-10 w-8 h-8 flex items-center justify-center">
                                   {isMounted && isPastRevealDate ? (
-                                    <a
-                                      href="https://www.instagram.com/lifeatbca/"
-                                      target="_blank"
-                                      rel="noopener noreferrer"
+                                    <div
+                                      role="link"
+                                      tabIndex={0}
                                       onClick={(e) => {
+                                        e.preventDefault();
                                         e.stopPropagation();
                                         sendGAEvent('event', 'click_sponsor_logo', {
                                           sponsor_name: 'BCA',
                                           destination: 'https://www.instagram.com/lifeatbca/',
                                           location: 'navbar_desktop',
                                         });
+                                        window.open('https://www.instagram.com/lifeatbca/', '_blank', 'noopener,noreferrer');
+                                      }}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                          e.preventDefault();
+                                          window.open('https://www.instagram.com/lifeatbca/', '_blank', 'noopener,noreferrer');
+                                        }
                                       }}
                                       className="absolute inset-0 z-20 cursor-pointer"
                                     >
@@ -325,7 +332,7 @@ export function Navbar() {
                                         fill
                                         className="object-contain opacity-80 group-hover/item:opacity-100 transition-all duration-500"
                                       />
-                                    </a>
+                                    </div>
                                   ) : (
                                     <div className="w-6 h-6 rounded-full bg-black/40 border border-white/10 flex items-center justify-center shadow-[0_0_10px_rgba(255,139,83,0.3)]">
                                       <span className="text-[10px] font-bold text-white/80">?</span>
@@ -611,17 +618,24 @@ function MobileDropdownItem({
                           </span>
                           <div className="relative z-10 w-4 h-4">
                             {isMounted && isPastRevealDate ? (
-                              <a
-                                href="https://www.instagram.com/lifeatbca/"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                              <div
+                                role="link"
+                                tabIndex={0}
                                 onClick={(e) => {
+                                  e.preventDefault();
                                   e.stopPropagation();
                                   sendGAEvent('event', 'click_sponsor_logo', {
                                     sponsor_name: 'BCA',
                                     destination: 'https://www.instagram.com/lifeatbca/',
                                     location: 'navbar_mobile',
                                   });
+                                  window.open('https://www.instagram.com/lifeatbca/', '_blank', 'noopener,noreferrer');
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    window.open('https://www.instagram.com/lifeatbca/', '_blank', 'noopener,noreferrer');
+                                  }
                                 }}
                                 className="absolute inset-0 z-20 cursor-pointer"
                               >
@@ -631,7 +645,7 @@ function MobileDropdownItem({
                                   fill
                                   className="object-contain opacity-80"
                                 />
-                              </a>
+                              </div>
                             ) : (
                               <div className="w-4 h-4 rounded-full bg-black/40 border border-white/10 flex items-center justify-center">
                                 <span className="text-[8px] font-bold text-white/60">?</span>
