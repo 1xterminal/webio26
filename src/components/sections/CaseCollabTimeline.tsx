@@ -89,26 +89,26 @@ const TimelineNode = memo(({ event, index, isActive, isPassed }: { event: typeof
                         </p>
 
                         {/* Embedded Case Release Sub-Event */}
-                        <div className="mt-4 sm:mt-6 flex flex-col items-end gap-1.5 sm:gap-2 p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-[#A856EE]/30 w-full relative z-10 group/subevent hover:bg-white/10 transition-all duration-300 backdrop-blur-sm shadow-[0_0_15px_rgba(168,86,238,0.05)]">
+                        <div className="mt-4 sm:mt-6 flex flex-col items-start md:items-end gap-1.5 sm:gap-2 p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-[#A856EE]/30 w-full relative z-10 group/subevent hover:bg-white/10 transition-all duration-300 backdrop-blur-sm shadow-[0_0_15px_rgba(168,86,238,0.05)]">
                             
                             {/* Top Line: Date and Event Name */}
-                            <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3 pb-1.5 border-b border-[#A856EE]/10 w-full">
-                                <span className="font-raela font-bold text-white text-[13px] sm:text-base tracking-wide">Business Case Release</span>
-                                <div className="flex items-center gap-2 border border-[#A856EE]/20 bg-[#A856EE]/10 px-2.5 py-1 rounded-full">
+                            <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 sm:gap-3 pb-1.5 border-b border-[#A856EE]/10 w-full">
+                                <div className="order-1 md:order-2 flex items-center gap-2 border border-[#A856EE]/20 bg-[#A856EE]/10 px-2.5 py-1 rounded-full">
                                     <span className="text-[9px] sm:text-[10px] font-raela font-black uppercase tracking-[0.2em] text-[#A856EE] leading-none">9 Apr 2026</span>
                                     <div className="w-1.5 h-1.5 rounded-full bg-[#A856EE] animate-pulse shadow-[0_0_8px_#A856EE]" />
                                 </div>
+                                <span className="order-2 md:order-1 font-raela font-bold text-white text-[13px] sm:text-base tracking-wide">Business Case Release</span>
                             </div>
 
                             {/* Center Stack: Collaborator -> Logo/Spacer -> Text */}
-                            <div className="flex flex-col items-end gap-0 w-full mt-0.5">
-                                <span className="text-[#A856EE] font-raela text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-right leading-none z-20">
+                            <div className="flex flex-col items-start md:items-end gap-0 w-full mt-0.5">
+                                <span className="text-[#A856EE] font-raela text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-left md:text-right leading-none z-20">
                                     Official Case Collaborator
                                 </span>
                                 
-                                <div className="relative z-10 w-28 h-12 sm:w-36 sm:h-16 flex items-center justify-end opacity-0 pointer-events-none -my-1 sm:-my-1.5" aria-hidden="true" />
+                                <div className="relative z-10 w-28 h-12 sm:w-36 sm:h-16 flex items-center justify-start md:justify-end opacity-0 pointer-events-none -my-1 sm:-my-1.5" aria-hidden="true" />
 
-                                <span className="text-white/90 font-raela text-[10px] sm:text-[13px] font-medium tracking-wide text-right">
+                                <span className="text-white/90 font-raela text-[10px] sm:text-[13px] font-medium tracking-wide text-left md:text-right">
                                     Rilis rancangan studi kasus resmi untuk babak kualifikasi Business Case I/O Festival.
                                 </span>
                             </div>
