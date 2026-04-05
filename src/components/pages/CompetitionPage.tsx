@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Users, User, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle, Loader2, CheckCircle2, TriangleAlert, BookOpen, FileCheck, Image as ImageIcon, Download } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Users, User, Wallet, Trophy, ExternalLink, Landmark, Recycle, GraduationCap, MessageCircle, Loader2, CheckCircle2, TriangleAlert, BookOpen, FileCheck, Image as ImageIcon, Download, Info } from 'lucide-react';
 import { getCompetition } from '@/lib/competitions';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
@@ -17,6 +17,7 @@ import { useState, useEffect } from 'react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { useDownloadInteraction } from '@/hooks/useDownloadInteraction';
 import { REGISTRATION_URL } from '@/lib/registration';
+import { FEATURES } from '@/lib/constants';
 
 // Top-Level Unified Premium Gradient Glow
 const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHex: string, roundedClass?: string }) => {
@@ -531,6 +532,8 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         </motion.div>
                     )}
 
+
+
                     {/* Description */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -589,32 +592,48 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 <span className="text-white font-raela font-black uppercase tracking-[0.1em] text-sm md:text-base lg:text-lg whitespace-nowrap">{tier.type}</span>
                                             </div>
 
-                                            <div className="p-6 flex flex-col items-center text-center relative">
-                                                {/* Early Bird - HERO SECTION */}
-                                                <div className="mb-4 w-full">
-                                                    <span className="block text-xs text-white/50 uppercase tracking-[0.2em] mb-2 font-raela font-black">Early Bird</span>
-                                                    <div className="relative inline-block group/price">
-                                                        <span className="block font-raela font-black text-3xl lg:text-4xl tracking-tight text-white mb-1 transition-all duration-500 group-hover/tier:scale-110" style={{ color: data.accentHex }}>
-                                                            {tier.early}
-                                                        </span>
-                                                        <div className="absolute inset-0 blur-2xl opacity-10 group-hover/tier:opacity-30 scale-150 transition-opacity pointer-events-none" style={{ backgroundColor: data.accentHex }} />
+                                            <div className="p-6 flex flex-col justify-center items-center text-center relative h-full min-h-[220px]">
+                                                {tier.early.toUpperCase() === 'GRATIS' ? (
+                                                    <div className="flex flex-col items-center justify-center w-full h-full">
+                                                        <div className="relative inline-block group/free mt-2">
+                                                            <div className="absolute -inset-4 bg-gradient-to-r from-emerald-400 to-teal-500 blur-2xl opacity-20 group-hover/tier:opacity-40 transition-opacity duration-700 rounded-full animate-[pulse_3s_ease-in-out_infinite] pointer-events-none" />
+                                                            <div className="relative group-hover/tier:scale-110 transition-transform duration-500">
+                                                                <span className="block font-raela font-black text-3xl lg:text-4xl tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-emerald-300 to-emerald-500 drop-shadow-[0_0_15px_rgba(52,211,153,0.8)]">
+                                                                    GRATIS
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] mt-6 font-raela font-bold group-hover/tier:text-emerald-400/80 transition-colors">Tanpa Biaya Pendaftaran</span>
                                                     </div>
-                                                </div>
+                                                ) : (
+                                                    <div className="flex flex-col items-center w-full h-full">
+                                                        {/* Early Bird - HERO SECTION */}
+                                                        <div className="mb-4 w-full">
+                                                            <span className="block text-xs text-white/50 uppercase tracking-[0.2em] mb-2 font-raela font-black">Early Bird</span>
+                                                            <div className="relative inline-block group/price">
+                                                                <span className="block font-raela font-black text-3xl lg:text-4xl tracking-tight text-white mb-1 transition-all duration-500 group-hover/tier:scale-110" style={{ color: data.accentHex }}>
+                                                                    {tier.early}
+                                                                </span>
+                                                                <div className="absolute inset-0 blur-2xl opacity-10 group-hover/tier:opacity-30 scale-150 transition-opacity pointer-events-none" style={{ backgroundColor: data.accentHex }} />
+                                                            </div>
+                                                        </div>
 
-                                                {/* Separator / OR */}
-                                                <div className="flex items-center gap-3 w-full opacity-10 mb-4">
-                                                    <div className="h-[1px] flex-1 bg-white" />
-                                                    <span className="text-[8px] font-raela text-white uppercase tracking-widest">Regular Price</span>
-                                                    <div className="h-[1px] flex-1 bg-white" />
-                                                </div>
+                                                        {/* Separator / OR */}
+                                                        <div className="flex items-center gap-3 w-full opacity-10 mb-4">
+                                                            <div className="h-[1px] flex-1 bg-white" />
+                                                            <span className="text-[8px] font-raela text-white uppercase tracking-widest">Regular Price</span>
+                                                            <div className="h-[1px] flex-1 bg-white" />
+                                                        </div>
 
-                                                {/* Regular - SECONDARY SECTION */}
-                                                <div className="opacity-30 group-hover/tier:opacity-50 transition-all duration-500 transform group-hover/tier:translate-y-[-2px]">
-                                                    <span className="block text-[8px] text-white/50 uppercase tracking-widest mb-1 font-raela">Regular</span>
-                                                    <span className="block font-bold text-lg text-white/80 line-through decoration-white/30 whitespace-nowrap">
-                                                        {tier.regular}
-                                                    </span>
-                                                </div>
+                                                        {/* Regular - SECONDARY SECTION */}
+                                                        <div className="opacity-30 group-hover/tier:opacity-50 transition-all duration-500 transform group-hover/tier:translate-y-[-2px]">
+                                                            <span className="block text-[8px] text-white/50 uppercase tracking-widest mb-1 font-raela">Regular</span>
+                                                            <span className="block font-bold text-lg text-white/80 line-through decoration-white/30 whitespace-nowrap">
+                                                                {tier.regular}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
 
                                             {/* Corner Visual Accent */}
@@ -668,6 +687,95 @@ export function CompetitionPage({ slug }: { slug: string }) {
                             </div>
                         </div>
                     </motion.div>
+
+                    {/* PPTI BCA Promo Banner */}
+                    {data.slug !== 'business-case' && FEATURES.SHOW_PPTI_BCA_PROMO && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.2 }}
+                        transition={{ delay: 0.1 }}
+                        className="mb-12 w-full"
+                    >
+                        <a
+                            href="https://ppti.bca.co.id/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => {
+                                sendGAEvent('event', 'click_ppti_bca', {
+                                    location: `competition_page_${data.slug}_prize`,
+                                    destination: 'https://ppti.bca.co.id/',
+                                });
+                            }}
+                            className="group relative flex flex-col md:flex-row items-center md:items-center text-center md:text-left justify-between gap-6 p-6 md:px-10 md:py-8 rounded-3xl overflow-hidden transition-all duration-700 hover:-translate-y-1 transform-gpu z-10 cursor-pointer"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(0,50,120,0.4) 0%, rgba(20,20,20,0.7) 60%, rgba(20,20,20,0.6) 100%)',
+                                boxShadow: '0 12px 40px -8px rgba(0,91,170,0.3), inset 0 1px 1px rgba(255,255,255,0.08)',
+                                border: '1px solid rgba(0,91,170,0.25)',
+                            }}
+                        >
+                            {/* Glow effects */}
+                            <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-700 blur-[80px] pointer-events-none" style={{ background: '#005baa' }} />
+                            <div className="absolute -bottom-10 -right-10 w-60 h-60 rounded-full opacity-10 group-hover:opacity-30 transition-opacity duration-700 blur-[60px] pointer-events-none" style={{ background: '#4da3ff' }} />
+
+                            {/* Glowing border */}
+                            <div className="absolute inset-0 rounded-3xl pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" style={{ boxShadow: 'inset 0 0 20px rgba(0,91,170,0.15), 0 0 20px rgba(0,91,170,0.1)' }} />
+
+                            <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 md:gap-8 w-full">
+                                {/* Badge and Text Container */}
+                                <div className="flex flex-col items-center md:items-start gap-3 flex-1">
+                                    <div className="flex flex-col items-center md:items-start gap-4">
+                                        <div>
+                                            <h3 className="text-xl md:text-2xl font-raela font-normal text-white/80 leading-tight tracking-tight mb-4">
+                                                Dapatkan kesempatan untuk meraih
+                                                <span className="block text-3xl md:text-5xl mt-3 font-black text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #4da3ff, #80c4ff)' }}>
+                                                    Beasiswa PPTI BCA
+                                                </span>
+                                            </h3>
+
+                                            <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-[#0066AE]/20 border border-[#0066AE]/50 shadow-[0_0_15px_rgba(0,102,174,0.3)] ring-1 ring-[#0066AE]/30 group-hover:bg-[#0066AE]/30 group-hover:border-[#0066AE]/70 transition-all duration-500 w-fit mb-4">
+                                                <TriangleAlert className="w-3.5 h-3.5 text-[#00bfff] animate-pulse" />
+                                                <span className="text-[10px] sm:text-xs font-raela font-black uppercase tracking-[0.1em] text-[#00bfff]">
+                                                    Khusus SMA/SMK
+                                                </span>
+                                            </div>
+                                            
+                                            <div className="flex items-center justify-center md:justify-start gap-4 opacity-100 mb-6 group/bca">
+                                                <Image src="/assets/sponsors/Logo BCA_Putih.png" alt="BCA" width={72} height={32} className="object-contain relative z-10" />
+                                                <div className="h-6 w-[1px] bg-white/20" />
+                                                <span className="text-xs md:text-sm font-raela font-black text-[#00bfff] tracking-[0.2em] uppercase drop-shadow-[0_0_10px_rgba(0,191,255,0.4)]">
+                                                    Official Program
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center justify-center md:justify-start gap-1.5 text-white/40 group-hover:text-white/60 transition-colors duration-300">
+                                                <Info className="w-3.5 h-3.5 shrink-0" />
+                                                <span className="text-[9px] md:text-xs italic font-normal opacity-50">
+                                                    * Proses seleksi beasiswa tetap menjadi kebijakan internal dari pihak BCA
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                {/* Right Side: CTA */}
+                                <div className="flex flex-col items-center md:items-end gap-5 shrink-0 mt-4 md:mt-0">
+                                    {/* Primary CTA */}
+                                    <div className="relative z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full font-raela font-bold text-xs tracking-wide text-white overflow-hidden transition-all duration-300 hover:scale-105 transform-gpu shadow-[0_0_28px_rgba(0,91,170,0.35)] group-hover:shadow-[0_0_40px_rgba(77,163,255,0.5)]"
+                                         style={{ background: 'linear-gradient(135deg, #005baa 0%, #4da3ff 100%)' }}
+                                    >
+                                        <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                                        <span className="relative z-10 flex items-center gap-2">
+                                            Daftar Beasiswa
+                                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </motion.div>
+                    )}
 
                     {/* Sub-Tema / Topics Section - BENTANG ACCORDION DESIGN */}
                     {data.slug !== 'business-case' && (
@@ -1062,6 +1170,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                             </div>
                         </div>
                     </motion.div>
+
 
                     {/* CTA */}
                     <motion.div

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Info, TriangleAlert } from 'lucide-react';
 import { sendGAEvent } from '@next/third-parties/google';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
@@ -188,17 +188,18 @@ export function Tracks() {
                                                 </div>
                                                 <div className="relative z-10 w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (
-                                                        <a
-                                                            href="https://www.instagram.com/lifeatbca/"
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
+                                                        <div
+                                                            role="link"
+                                                            tabIndex={0}
                                                             onClick={(e) => {
+                                                                e.preventDefault();
                                                                 e.stopPropagation();
                                                                 sendGAEvent('event', 'click_sponsor_logo', {
                                                                     sponsor_name: 'BCA',
                                                                     destination: 'https://www.instagram.com/lifeatbca/',
                                                                     location: 'tracks_section',
                                                                 });
+                                                                window.open('https://www.instagram.com/lifeatbca/', '_blank', 'noopener,noreferrer');
                                                             }}
                                                             className="absolute inset-0 z-20 cursor-pointer"
                                                         >
@@ -208,7 +209,7 @@ export function Tracks() {
                                                                 fill
                                                                 className="object-contain opacity-90 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                                                             />
-                                                        </a>
+                                                        </div>
                                                     ) : (
                                                         <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right">
                                                             <div className="w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,139,83,0.3)]">
@@ -243,6 +244,8 @@ export function Tracks() {
                         </motion.div>
                     ))}
                 </div>
+
+
 
                 {/* ── Impact Projection CTA ─────────────────────────────── */}
                 <motion.div
@@ -313,5 +316,91 @@ export function Tracks() {
             </div>
         </section>
 
+    );
+}
+
+export function PPTIBCABanner() {
+    return (
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+            <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0, margin: "0px 0px 400px 0px" }}
+                transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-6"
+            >
+                <a
+                    href="https://ppti.bca.co.id/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                        sendGAEvent('event', 'click_ppti_bca', {
+                            location: 'tracks_section_homepage',
+                            destination: 'https://ppti.bca.co.id/',
+                        });
+                    }}
+                    className="group relative flex flex-col md:flex-row items-center md:justify-between text-center md:text-left gap-6 md:gap-10 p-8 sm:p-10 rounded-3xl overflow-hidden transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 transform-gpu cursor-pointer"
+                    style={{
+                        background: 'linear-gradient(135deg, rgba(0,91,170,0.2) 0%, rgba(10,10,10,0.8) 50%, rgba(20,20,20,0.7) 100%)',
+                        boxShadow: '0 12px 48px -12px rgba(0,91,170,0.3), inset 0 1px 1px rgba(255,255,255,0.08)',
+                        border: '1px solid rgba(0,91,170,0.25)',
+                    }}
+                >
+                    {/* Glow effects */}
+                    <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-700 blur-[80px] pointer-events-none" style={{ background: '#005baa' }} />
+                    <div className="absolute -bottom-10 -right-10 w-60 h-60 rounded-full opacity-10 group-hover:opacity-30 transition-opacity duration-700 blur-[60px] pointer-events-none" style={{ background: '#4da3ff' }} />
+
+                    {/* Glowing border */}
+                    <div className="absolute inset-0 rounded-[24px] pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" style={{ boxShadow: 'inset 0 0 16px rgba(0,91,170,0.1), 0 0 16px rgba(0,91,170,0.08)' }} />
+
+                    <div className="relative z-10 flex flex-col items-center md:items-start flex-1">
+                        <div className="flex flex-col items-center md:items-start">
+                            <h3 className="text-xl md:text-2xl font-raela font-normal text-white/80 leading-tight tracking-tight mb-4">
+                                Dapatkan kesempatan untuk meraih
+                                <span className="block text-3xl md:text-5xl mt-3 font-black text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #4da3ff, #80c4ff)' }}>
+                                    Beasiswa PPTI BCA
+                                </span>
+                            </h3>
+
+                            {/* SMA/SMK High-Alert Emphasis Badge */}
+                            <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-[#0066AE]/20 border border-[#0066AE]/50 shadow-[0_0_15px_rgba(0,102,174,0.3)] ring-1 ring-[#0066AE]/30 group-hover:bg-[#0066AE]/30 group-hover:border-[#0066AE]/70 transition-all duration-500 mb-4 w-fit">
+                                <TriangleAlert className="w-3.5 h-3.5 text-[#00bfff] animate-pulse" />
+                                <span className="text-[10px] sm:text-xs font-raela font-black uppercase tracking-[0.1em] text-[#00bfff]">
+                                    Khusus SMA/SMK
+                                </span>
+                            </div>
+
+                            <div className="flex items-center justify-center md:justify-start gap-4 opacity-100 mb-6 group/bca">
+                                <Image src="/assets/sponsors/Logo BCA_Putih.png" alt="BCA" width={72} height={32} className="object-contain relative z-10" />
+                                <div className="h-6 w-[1px] bg-white/20" />
+                                <span className="text-xs md:text-sm font-raela font-black text-[#00bfff] tracking-[0.2em] uppercase drop-shadow-[0_0_10px_rgba(0,191,255,0.4)]">
+                                    Official Program
+                                </span>
+                            </div>
+
+                            <div className="flex items-center justify-center md:justify-start gap-1.5 text-white/40 group-hover:text-white/60 transition-colors duration-300">
+                                <Info className="w-3.5 h-3.5 shrink-0" />
+                                <span className="text-[9px] md:text-xs italic font-normal opacity-50">
+                                    * Proses seleksi beasiswa tetap menjadi kebijakan internal dari pihak BCA
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="relative z-10 shrink-0 mt-6 md:mt-0">
+                        <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-raela font-bold text-xs tracking-wide text-white overflow-hidden transition-all duration-300 hover:scale-105 transform-gpu shadow-[0_0_28px_rgba(0,91,170,0.35)] group-hover:shadow-[0_0_40px_rgba(77,163,255,0.5)]"
+                             style={{ background: 'linear-gradient(135deg, #005baa 0%, #4da3ff 100%)' }}
+                        >
+                            <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                            <span className="relative z-10 flex items-center gap-2">
+                                Daftar Beasiswa
+                                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300 transform-gpu" />
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </motion.div>
+        </div>
     );
 }

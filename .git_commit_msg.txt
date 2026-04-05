@@ -1,0 +1,17 @@
+feat(ui): redesign timeline extension, free sma promos, and ppti bca toggle
+
+WHAT IT DOES:
+Redesigns the Early Bird Extension indicators for greater aesthetic clarity and converts all SMA/SMK competition fee structures strictly to 'GRATIS' (Free). Also introduces a central feature flag mechanism to toggle specific event promotional banners on or off.
+
+WHAT CHANGED:
+- src/lib/constants.ts: Extended the 'EARLY_BIRD_END' deadline to April 19, 2026. Added the 'FEATURES.SHOW_PPTI_BCA_PROMO' boolean to globally control BCA promotional elements.
+- src/lib/competitions.ts: Updated pricing structures for all 'SMA/SMK' tracks to display 'GRATIS'.
+- src/components/sections/Countdown.tsx: Cleaned up the 'EXTENDED' pill badge to look minimalistic, eliminating heavy gloom/bloom leakages. Secured the text from overflowing using shrink-0 & whitespace-nowrap.
+- src/components/sections/Timeline.tsx & CaseCollabTimeline.tsx: Overhauled the extension timeline nodes into dark high-contrast 3D glassmorphic cards for maximum readability. Eradicated distracting shimmer hover-loop animations for cleaner navigation.
+- src/components/pages/CompetitionPage.tsx: Engineered a minimalist, neon aesthetic strictly for 'GRATIS' tiers, stripping away rectangular enclosures, slightly scaling down size dimensions, and scraping '100%' badges. Dynamically linked PPTI BCA sections to the UI flag.
+- src/app/page.tsx: Implemented conditional gating for PPTIBCABanner using the central features toggle.
+
+EFFECTS:
+- SMA tracks universally present as Free (GRATIS) using a custom visually appealing glow to amplify user acquisition.
+- A singular boolean configuration switch is established minimizing future technical debt whenever PPTI BCA content needs shifting.
+- Timeline and Extension visual elements are structurally responsive, cleaner, and exhibit high professional-grade contrast reading thresholds.

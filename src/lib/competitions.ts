@@ -81,7 +81,7 @@ export const competitions: CompetitionData[] = [
         details: {
             categories: 'Mahasiswa & Umum / Siswa SMA/K (Tim Maks. 3 Orang)',
             fee: [
-                { type: 'SMA/SMK', early: 'Rp 55.000', regular: 'Rp 70.000' },
+                { type: 'SMA/SMK', early: 'GRATIS', regular: 'GRATIS' },
                 { type: 'Mahasiswa & Umum', early: 'Rp 60.000', regular: 'Rp 80.000' }
             ],
             prizes: 'Uang Tunai & E-Sertifikat',
@@ -110,7 +110,7 @@ export const competitions: CompetitionData[] = [
         details: {
             categories: 'Mahasiswa & Umum / Siswa SMA/K (Tim Maks. 3 Orang)',
             fee: [
-                { type: 'SMA/SMK', early: 'Rp 55.000', regular: 'Rp 70.000' },
+                { type: 'SMA/SMK', early: 'GRATIS', regular: 'GRATIS' },
                 { type: 'Mahasiswa & Umum', early: 'Rp 60.000', regular: 'Rp 80.000' }
             ],
             prizes: 'Uang Tunai & E-Sertifikat',

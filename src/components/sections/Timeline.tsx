@@ -8,16 +8,16 @@ import { sendGAEvent } from '@next/third-parties/google';
 
 const events = [
     {
-        date: "15 Mar - 5 Apr 2026",
+        date: "15 Mar - 19 Apr 2026",
         title: "Pendaftaran Gelombang Pertama",
-        description: "Periode pendaftaran awal dengan harga early bird bagi seluruh peserta.",
+        description: "Periode pendaftaran awal dengan harga early bird bagi seluruh peserta",
         startDate: new Date('2026-03-15T00:00:00+07:00'),
     },
     {
-        date: "6 Apr - 30 Apr 2026",
+        date: "20 Apr - 30 Apr 2026",
         title: "Pendaftaran Gelombang Kedua",
         description: "Periode pendaftaran reguler untuk seluruh kompetisi IT.",
-        startDate: new Date('2026-04-06T00:00:00+07:00'),
+        startDate: new Date('2026-04-20T00:00:00+07:00'),
     },
     {
         date: "9 Apr 2026",
@@ -144,18 +144,46 @@ export function Timeline() {
                                     className={`flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-16 group transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} ${isActive ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
                                 >
                                     {/* Content Side */}
-                                    <div className={`flex-1 pl-14 md:pl-0 w-full ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'} transition-opacity duration-500 ${isPassed ? 'opacity-60' : isActive ? 'opacity-100' : 'opacity-80'}`}>
-                                        <div className={`flex items-center gap-3 mb-3 ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
-                                            <h3 className={`font-raela text-xs tracking-[0.15em] uppercase font-black transition-colors duration-500 ${isActive ? 'text-neon-orange drop-shadow-[0_0_10px_rgba(255,139,83,0.6)]' : isPassed ? 'text-white/50' : 'text-neon-blue/90'}`}>{event.date}</h3>
-                                            {isActive && (
-                                                <span className="px-2 py-0.5 rounded text-[9px] bg-neon-orange/20 border border-neon-orange/50 text-neon-orange animate-pulse font-bold tracking-wider">SEDANG BERLANGSUNG</span>
-                                            )}
-                                        </div>
-                                        <h3 className={`text-2xl font-bold font-raela transition-colors duration-500 mb-3 ${isActive ? 'text-white' : 'text-white/90'}`}>{event.title}</h3>
-                                        <p className={`text-white/70 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}`}>{event.description}</p>
+                                    <div className={`flex-1 pl-14 md:pl-0 w-full transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isPassed ? 'opacity-60' : isActive ? 'opacity-100' : 'opacity-80'}`}>
+                                        {index === 0 ? (
+                                            <div className={`relative p-6 md:p-8 rounded-[2rem] bg-black/60 backdrop-blur-3xl border border-[#FF8B53]/40 overflow-hidden group/card hover:-translate-y-2 hover:scale-[1.02] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${index % 2 === 0 ? 'md:items-end text-left md:text-right md:ml-auto' : 'items-start text-left'} flex flex-col max-w-lg`}
+                                                 style={{ boxShadow: '0 30px 60px -15px rgba(0,0,0,0.8), inset 0 0 30px rgba(255,139,83,0.1)' }}>
+                                                 
+                                                {/* Animated Glow Backdrops */}
+                                                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#FF8B53] to-transparent opacity-80 group-hover/card:opacity-100 transition-opacity duration-500" />
+                                                <div className="absolute inset-0 bg-gradient-to-br from-[#FF8B53]/20 via-transparent to-transparent opacity-40 group-hover/card:opacity-70 transition-opacity duration-700 pointer-events-none" />
+
+                                                <div className={`flex items-center gap-3 mb-4 ${index % 2 === 0 ? 'md:justify-end' : 'justify-start'} flex-wrap relative z-10 w-full`}>
+                                                    <div className="inline-flex items-center gap-2 px-3 md:px-4 py-1.5 rounded-full bg-[#FF8B53]/30 border border-[#FF8B53]/60 shadow-[0_0_20px_rgba(255,139,83,0.6)] backdrop-blur-md">
+                                                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-white animate-pulse drop-shadow-[0_0_8px_rgba(255,255,255,1)]" />
+                                                        <span className="text-[9px] md:text-[10px] font-raela font-black tracking-[0.2em] text-white uppercase drop-shadow-sm">EXTENDED TO 19 APR</span>
+                                                    </div>
+                                                    {isActive && (
+                                                        <span className="px-2 py-0.5 rounded text-[9px] bg-white/20 border border-white/30 text-white animate-pulse font-bold tracking-wider">SEDANG BERLANGSUNG</span>
+                                                    )}
+                                                </div>
+                                                
+                                                <h3 className={`text-2xl md:text-3xl font-black font-raela mb-3 tracking-wide text-white drop-shadow-lg relative z-10 w-full`}>
+                                                    {event.title}
+                                                </h3>
+                                                
+                                                <p className={`text-white/90 text-sm md:text-base font-light leading-relaxed mb-2 relative z-10 w-full drop-shadow-md`}>
+                                                    {event.description}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className={`w-full ${index % 2 === 0 ? 'md:text-right text-left' : 'text-left'}`}>
+                                                <div className={`flex items-center gap-3 mb-3 flex-wrap ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
+                                                    <h3 className={`font-raela text-xs tracking-[0.15em] uppercase font-black transition-colors duration-500 ${isActive ? 'text-neon-orange drop-shadow-[0_0_10px_rgba(255,139,83,0.6)]' : isPassed ? 'text-white/50' : 'text-neon-blue/90'}`}>{event.date}</h3>
+                                                    {isActive && (
+                                                        <span className="px-2 py-0.5 rounded text-[9px] bg-neon-orange/20 border border-neon-orange/50 text-neon-orange animate-pulse font-bold tracking-wider">SEDANG BERLANGSUNG</span>
+                                                    )}
+                                                </div>
+                                                <h3 className={`text-2xl font-bold font-raela transition-colors duration-500 mb-3 ${isActive ? 'text-white' : 'text-white/90'}`}>{event.title}</h3>
+                                                <p className={`text-white/70 text-sm font-light leading-relaxed max-w-md ml-0 ${index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:ml-0 md:mr-auto'}`}>{event.description}</p>
                                         
-                                        {event.isCaseRelease && (
-                                            <div className={`mt-4 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-5 rounded-2xl bg-white/[0.02] border border-white/10 ${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
+                                                {event.isCaseRelease && (
+                                                    <div className={`mt-4 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-5 rounded-2xl bg-white/[0.02] border border-white/10 ${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
                                                 <div className={`flex flex-col gap-0.5 sm:gap-1 ${index % 2 === 0 ? 'md:items-end md:text-right' : 'items-start text-left'}`}>
                                                     <span className="text-[9px] font-raela font-black uppercase tracking-[0.3em] text-[#FF8B53]">Official Case Collaborator</span>
                                                     <span className="text-white/80 text-[10px] sm:text-xs font-medium font-raela">
@@ -194,6 +222,8 @@ export function Timeline() {
                                                         </div>
                                                     )}
                                                 </div>
+                                            </div>
+                                        )}
                                             </div>
                                         )}
                                     </div>

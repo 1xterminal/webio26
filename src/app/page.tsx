@@ -4,10 +4,13 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/sections/Hero';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
+import { FEATURES } from '@/lib/constants';
 
 const Gallery = dynamic(() => import('@/components/sections/Gallery'), { ssr: false });
 const About = dynamic(() => import('@/components/sections/About').then(mod => mod.About), { ssr: false });
 const Tracks = dynamic(() => import('@/components/sections/Tracks').then(mod => mod.Tracks), { ssr: false });
+const PPTIBCABanner = dynamic(() => import('@/components/sections/Tracks').then(mod => mod.PPTIBCABanner), { ssr: false });
+
 const Timeline = dynamic(() => import('@/components/sections/Timeline').then(mod => mod.Timeline), { ssr: false });
 const Prizes = dynamic(() => import('@/components/sections/Prizes').then(mod => mod.Prizes), { ssr: false });
 const Sponsors = dynamic(() => import('@/components/sections/Sponsors').then(mod => mod.Sponsors), { ssr: false });
@@ -94,7 +97,9 @@ export default function Home() {
       </div>
       <Tracks />
       <Prizes />
+      {FEATURES.SHOW_PPTI_BCA_PROMO && <PPTIBCABanner />}
       <Timeline />
+
       <FAQ />
       <Sponsors />
       <SponsorshipCTA />
