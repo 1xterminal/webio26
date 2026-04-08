@@ -19,7 +19,7 @@ const tracks = [
         color: 'from-neon-purple to-purple-600',
         accentHex: '#A856EE',
         href: '/kompetisi/ui-ux',
-        tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
+        tags: ['SMA/SMK', 'Mahasiswa', 'Umum', 'Early Bird Extended!'],
     },
     {
         icon: BusinessCaseIcon,
@@ -28,7 +28,7 @@ const tracks = [
         color: 'from-neon-orange to-orange-600',
         accentHex: '#FF8B53',
         href: '/kompetisi/business-case',
-        tags: ['Mahasiswa', 'Umum'],
+        tags: ['Mahasiswa', 'Umum', 'Early Bird Extended!'],
     },
     {
         icon: WebDevIcon,
@@ -37,7 +37,7 @@ const tracks = [
         color: 'from-neon-blue to-blue-600',
         accentHex: '#1DBCD3',
         href: '/kompetisi/web-dev',
-        tags: ['SMA/SMK', 'Mahasiswa', 'Umum'],
+        tags: ['SMA/SMK', 'Mahasiswa', 'Umum', 'Early Bird Extended!'],
     }
 ];
 
@@ -131,20 +131,37 @@ export function Tracks() {
 
 
                                 {/* Tags */}
-                                <div className="flex flex-wrap gap-2 mb-4">
-                                    {track.tags.map((tag, idx) => (
-                                        <span 
-                                            key={idx} 
-                                            className="px-3 py-1 rounded-full text-[10px] font-raela font-bold uppercase tracking-[0.1em] border"
-                                            style={{ 
-                                                color: track.accentHex,
-                                                backgroundColor: `${track.accentHex}15`,
-                                                borderColor: `${track.accentHex}40`
-                                            }}
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
+                                <div className="flex flex-col gap-2.5 mb-4">
+                                    <div className="flex flex-wrap gap-2">
+                                        {track.tags.filter(tag => tag !== 'Early Bird Extended!').map((tag, idx) => (
+                                            <span 
+                                                key={idx} 
+                                                className="px-3 py-1 rounded-full text-[10px] font-raela font-bold uppercase tracking-[0.1em] border"
+                                                style={{ 
+                                                    color: track.accentHex,
+                                                    backgroundColor: `${track.accentHex}15`,
+                                                    borderColor: `${track.accentHex}40`
+                                                }}
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    {track.tags.includes('Early Bird Extended!') && (
+                                        <div className="w-fit">
+                                            <span 
+                                                className="inline-block px-3 py-1.5 rounded-full text-[10px] font-raela font-black uppercase tracking-[0.1em] border animate-pulse"
+                                                style={{
+                                                    color: '#FFF',
+                                                    backgroundColor: track.accentHex,
+                                                    borderColor: track.accentHex,
+                                                    boxShadow: `0 0 15px ${track.accentHex}80`
+                                                }}
+                                            >
+                                                Early Bird Extended!
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Content & Collaborator Row */}
@@ -224,6 +241,14 @@ export function Tracks() {
 
                                     {/* High-Contrast CTA Button */}
                                     <div>
+                                        {track.title !== 'Business Case' && (
+                                            <div className="flex items-center gap-2 mb-3 px-3 py-1.5 rounded-lg border w-fit"
+                                                 style={{ borderColor: `${track.accentHex}30`, backgroundColor: `${track.accentHex}10` }}>
+                                                <span className="text-[11px] font-raela font-bold uppercase tracking-wider" style={{ color: track.accentHex }}>
+                                                    FREE for SMA/SMK!
+                                                </span>
+                                            </div>
+                                        )}
                                         <div className={`relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm tracking-wide text-white overflow-hidden group/btn shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 hover:shadow-[0_0_30px_${track.accentHex}40] transform-gpu`}>
                                             {/* Button Background Gradient */}
                                             <div className={`absolute inset-0 bg-gradient-to-r ${track.color} opacity-90 group-hover/btn:opacity-100 transition-opacity duration-[400ms] ease-out translate-z-0`} />

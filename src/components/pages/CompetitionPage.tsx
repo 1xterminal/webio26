@@ -98,6 +98,9 @@ function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: { title:
                 <div className="relative z-10 flex-1 w-full flex flex-col h-full">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                         <span className="text-white/50 font-bold text-base font-raela">{doc.title}</span>
+                        {doc.title.toLowerCase().includes('rulebook') && (
+                            <span className="ml-1 px-1.5 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest bg-red-500/20 text-red-400 border border-red-500/50 opacity-50">Updated!</span>
+                        )}
                     </div>
                     <span className="text-white/30 text-xs block mb-4">{doc.desc}</span>
                     <div className="mt-auto flex items-center justify-between w-full">
@@ -162,7 +165,12 @@ function SmallDocCard({ doc, regStatus, accentHex, badgeColor }: { doc: { title:
             </div>
 
             <div className="relative z-10 flex-1 w-full flex flex-col h-full">
-                <span className="text-white font-bold block text-base mb-1 group-hover:text-white transition-colors font-raela">{doc.title}</span>
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <span className="text-white font-bold block text-base group-hover:text-white transition-colors font-raela">{doc.title}</span>
+                    {doc.title.toLowerCase().includes('rulebook') && (
+                        <span className="ml-1 px-1.5 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest bg-red-500/20 text-red-400 border border-red-500/50 animate-pulse">Updated!</span>
+                    )}
+                </div>
                 <span className="text-white/50 text-xs group-hover:text-white/80 transition-colors block mb-4">{doc.desc}</span>
                 <div className="mt-auto flex items-center justify-between w-full">
                     <span className={`text-[9px] font-bold tracking-wider px-2 py-1 rounded-md ${badgeColor} font-raela`}>
@@ -481,13 +489,30 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 <PremiumCardGlow accentHex={data.accentHex} roundedClass="rounded-[2.5rem]" />
                                 
                                 <div className="relative z-10 flex flex-col gap-3 max-md:text-center w-full md:w-auto">
-                                    <span className="text-xs font-raela font-black uppercase tracking-[0.4em] transition-colors duration-500" style={{ color: data.accentHex }}>Official Case Collaborator</span>                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-raela font-black text-white leading-tight drop-shadow-lg">
-                                        {isMounted && isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Stay Tuned!'}
+                                    <div className="flex flex-col md:flex-row md:items-center gap-3">
+                                        <span className="text-xs font-raela font-black uppercase tracking-[0.4em] transition-colors duration-500" style={{ color: data.accentHex }}>Official Case Collaborator</span>
+                                    </div>
+                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-raela font-black text-white leading-tight drop-shadow-lg max-w-2xl">
+                                        {isMounted && isPastRevealDate ? 'Official Case Book of I/O Festival 2026 is Officially Released!' : 'Stay Tuned!'}
                                     </h3>
                                     {isMounted && !isPastRevealDate && <CaseRevealCountdown accentColor={data.accentHex} size="lg" showGlass={true} className="mt-4" />}
-                                    <p className="text-sm md:text-base text-white/60 max-w-lg mt-1 leading-relaxed">
-                                        {isMounted && isPastRevealDate ? 'Tantangan eksklusif langsung dari PT Bank Central Asia Tbk untuk menguji kemampuan bisnismu di tingkat profesional.' : 'Tantangan eksklusif dari kolaborator rahasia untuk menguji kemampuan bisnismu di tingkat profesional.'}
+                                    <p className="text-sm md:text-base text-white/60 max-w-xl mt-1 leading-relaxed">
+                                        {isMounted && isPastRevealDate ? 'Tantangan eksklusif langsung dari PT Bank Central Asia Tbk untuk menguji kemampuan bisnismu di tingkat profesional kini sudah tersedia.' : 'Tantangan eksklusif dari kolaborator rahasia untuk menguji kemampuan bisnismu di tingkat profesional.'}
                                     </p>
+                                    {isMounted && isPastRevealDate && (
+                                        <div className="mt-2 md:mt-4">
+                                            <a
+                                                href={REGISTRATION_URL}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-raela font-bold text-sm tracking-wide text-white overflow-hidden group/btn shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-[400ms] hover:scale-105"
+                                                style={{ background: `linear-gradient(135deg, ${data.accentHex} 0%, rgba(20,20,20,0) 100%)`, backgroundColor: `${data.accentHex}80` }}
+                                            >
+                                                <ExternalLink className="w-4 h-4" />
+                                                <span>Register Now</span>
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <motion.div 
@@ -1047,6 +1072,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
                         className="mb-16 block"
+                        id="documents"
                     >
                         <h2 className="text-xs font-raela uppercase tracking-[0.1em] text-white/30 mb-6 font-black">Kelengkapan Lomba</h2>
 
@@ -1076,6 +1102,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                 <div className="flex items-center gap-3 mb-1">
                                                     <span className="text-white/50 font-bold text-xl md:text-2xl font-raela">{rulebookList[0].title}</span>
                                                     <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-white/5 text-white/30 font-raela">PDF</span>
+                                                    <span className="text-[9px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/20 text-red-400 border border-red-500/50 uppercase opacity-50">Updated!</span>
                                                 </div>
                                                 <span className="text-white/30 text-sm">{rulebookList[0].desc}</span>
                                             </div>
@@ -1114,6 +1141,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                             {rulebookList.length > 1 ? 'Rulebook Kompetisi' : rulebookList[0].title}
                                                         </span>
                                                         <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded-md bg-red-500/10 text-red-400 font-raela shrink-0">PDF</span>
+                                                    </div>
+                                                    <div className="flex justify-center mt-1 mb-2">
+                                                        <span className="text-[10px] font-bold tracking-widest px-2 py-1 rounded-md bg-red-500/20 text-red-400 border border-red-500/50 uppercase font-raela shrink-0 animate-pulse">Updated!</span>
                                                     </div>
                                                     <p className="text-white/50 text-sm md:text-base max-w-xl mx-auto group-hover:text-white/80 transition-colors">
                                                         {rulebookList.length > 1 ? 'Official Rulebook of I/O Festival 2026' : rulebookList[0].desc}
