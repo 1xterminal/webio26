@@ -44,5 +44,5 @@ export const SEO = {
 // --- FEATURE FLAGS ---
 export const FEATURES = {
     // Toggle for PPTI BCA promo banners (Home Page & Competition Details)
-    SHOW_PPTI_BCA_PROMO: false,
+    SHOW_PPTI_BCA_PROMO: true,
 };
