@@ -355,13 +355,13 @@ export function PPTIBCABanner() {
                 className="mt-6"
             >
                 <a
-                    href="https://ppti.bca.co.id/"
+                    href="https://bca.id/beasiswabca-iofest"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => {
                         sendGAEvent('event', 'click_ppti_bca', {
                             location: 'tracks_section_homepage',
-                            destination: 'https://ppti.bca.co.id/',
+                            destination: 'https://bca.id/beasiswabca-iofest',
                         });
                     }}
                     className="group relative flex flex-col md:flex-row items-center md:justify-between text-center md:text-left gap-6 md:gap-10 p-8 sm:p-10 rounded-3xl overflow-hidden transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 transform-gpu cursor-pointer"

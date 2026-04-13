@@ -723,13 +723,13 @@ export function CompetitionPage({ slug }: { slug: string }) {
                         className="mb-12 w-full"
                     >
                         <a
-                            href="https://ppti.bca.co.id/"
+                            href="https://bca.id/beasiswabca-iofest"
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => {
                                 sendGAEvent('event', 'click_ppti_bca', {
                                     location: `competition_page_${data.slug}_prize`,
-                                    destination: 'https://ppti.bca.co.id/',
+                                    destination: 'https://bca.id/beasiswabca-iofest',
                                 });
                             }}
                             className="group relative flex flex-col md:flex-row items-center md:items-center text-center md:text-left justify-between gap-6 p-6 md:px-10 md:py-8 rounded-3xl overflow-hidden transition-all duration-700 hover:-translate-y-1 transform-gpu z-10 cursor-pointer"
