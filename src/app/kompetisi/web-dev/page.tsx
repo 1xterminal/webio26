@@ -1,6 +1,6 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { CompetitionPage } from '@/components/pages/CompetitionPage';
+import CompetitionPage from '@/components/pages/CompetitionPage';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,6 +11,9 @@ export const metadata: Metadata = {
         title: 'Web Development Competition | I/O FESTIVAL 2026',
         description: 'Buktikan kemampuan pemrograman web-mu di tingkat nasional. Ikuti kompetisi Web Development bergengsi!',
         url: 'https://iofest.com/kompetisi/web-dev',
+    },
+    alternates: {
+        canonical: 'https://iofest.com/kompetisi/web-dev',
     },
 };
 

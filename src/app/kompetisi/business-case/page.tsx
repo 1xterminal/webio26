@@ -1,6 +1,6 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { CompetitionPage } from '@/components/pages/CompetitionPage';
+import CompetitionPage from '@/components/pages/CompetitionPage';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,6 +11,9 @@ export const metadata: Metadata = {
         title: 'Business Case Competition | I/O FESTIVAL 2026',
         description: 'Pecahkan studi kasus bisnis nyata dan buktikan pemikiran strategismu. Ikuti kompetisi Business Case bergengsi untuk mahasiswa tingkat nasional.',
         url: 'https://iofest.com/kompetisi/business-case',
+    },
+    alternates: {
+        canonical: 'https://iofest.com/kompetisi/business-case',
     },
 };
 

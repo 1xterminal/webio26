@@ -1,6 +1,6 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { CompetitionPage } from '@/components/pages/CompetitionPage';
+import CompetitionPage from '@/components/pages/CompetitionPage';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,6 +11,9 @@ export const metadata: Metadata = {
         title: 'UI/UX Design Competition | I/O FESTIVAL 2026',
         description: 'Tantang kreativitas Anda dalam mendesain solusi antarmuka terbaik. Ikuti kompetisi UI/UX Design tingkat nasional!',
         url: 'https://iofest.com/kompetisi/ui-ux',
+    },
+    alternates: {
+        canonical: 'https://iofest.com/kompetisi/ui-ux',
     },
 };
 
