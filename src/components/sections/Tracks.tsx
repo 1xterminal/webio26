@@ -76,7 +76,7 @@ export function Tracks() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {tracks.map((track, index) => (
                         <motion.div
-                            key={index}
+                            key={track.title}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0, margin: "0px 0px 800px 0px" }}
@@ -87,6 +87,7 @@ export function Tracks() {
                                 href={track.href}
                                 prefetch={true}
                                 className="group relative flex flex-col h-full p-8 md:p-10 transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu overflow-hidden rounded-[24px] shadow-[0_8px_32px_0_rgba(0,0,0,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:-translate-y-2 bg-[rgba(20,20,20,0.8)] md:bg-[rgba(20,20,20,0.4)] md:[backdrop-filter:blur(16px)] md:[-webkit-backdrop-filter:blur(16px)]"
+                                aria-label={`Detail kompetisi ${track.title}`}
                             >
                                 {/* Layer 1: Immersive Ambient Glow Background */}
                                 <div
@@ -206,8 +207,6 @@ export function Tracks() {
                                                 <div className="relative z-10 w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (
                                                         <div
-                                                            role="link"
-                                                            tabIndex={0}
                                                             onClick={(e) => {
                                                                 e.preventDefault();
                                                                 e.stopPropagation();
@@ -218,7 +217,16 @@ export function Tracks() {
                                                                 });
                                                                 window.open('https://www.instagram.com/lifeatbca/', '_blank', 'noopener,noreferrer');
                                                             }}
-                                                            className="absolute inset-0 z-20 cursor-pointer"
+                                                            className="absolute inset-0 z-20 cursor-pointer transform-gpu"
+                                                            role="button"
+                                                            tabIndex={0}
+                                                            aria-label="Kunjungi Instagram BCA"
+                                                            onKeyDown={(e) => {
+                                                                if (e.key === 'Enter' || e.key === ' ') {
+                                                                    e.preventDefault();
+                                                                    window.open('https://www.instagram.com/lifeatbca/', '_blank', 'noopener,noreferrer');
+                                                                }
+                                                            }}
                                                         >
                                                             <Image
                                                                 src="/assets/sponsors/Logo BCA_Putih.png"

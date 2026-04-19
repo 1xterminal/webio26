@@ -17,6 +17,15 @@ export interface CompetitionContact {
     role?: string[];
 }
 
+export interface CompetitionJudge {
+    name: string;
+    role: string;
+    title: string;
+    company: string;
+    imagePath?: string;
+    objectPosition?: string;
+}
+
 export interface CompetitionDetails {
     categories: string;
     fee: CompetitionFee[];
@@ -35,6 +44,7 @@ export interface CompetitionData {
     description: string;
     details: CompetitionDetails;
     contacts: CompetitionContact[];
+    judges?: CompetitionJudge[];
     rulebooks?: { title: string; desc: string; url: string }[];
     submissionUrl?: string;
     tags?: string[];
@@ -61,6 +71,32 @@ export const competitions: CompetitionData[] = [
         },
         contacts: [
             { name: 'Clive Ang', whatsapp: '6285370587170', line: 'cliveang2008', role: ['Mahasiswa', 'Umum'] }
+        ],
+        judges: [
+            { 
+                name: 'Shanti Ratna Ningsih', 
+                role: 'Juri', 
+                title: 'Vice President Of Corporate Banking Application',
+                company: 'BCA', 
+                imagePath: '/assets/juri/businesscase/Shanti Ratna Ningsih.png',
+                objectPosition: 'center'
+            },
+            { 
+                name: 'Irfan Walhidayah', 
+                role: 'Juri', 
+                title: 'Founder & CEO',
+                company: 'Rudaya – Connect The Art', 
+                imagePath: '/assets/juri/businesscase/Irfan Walhidayah (Business Case).jpg',
+                objectPosition: 'center 1%'
+            },
+            { 
+                name: 'Andhika Setiawan', 
+                role: 'Juri', 
+                title: 'Vice President of Business Ecosystem',
+                company: 'BCA', 
+                imagePath: '/assets/juri/businesscase/Andhika_Setiawan_New.jpeg',
+                objectPosition: 'center 25%'
+            }
         ],
         rulebooks: [
             { title: 'Rulebook Mahasiswa & Umum', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_Business_Case.pdf' }
@@ -90,6 +126,40 @@ export const competitions: CompetitionData[] = [
             { name: 'Felicia Rivera', whatsapp: '6281383763005', line: 'riverraa', role: ['Mahasiswa', 'Umum'] },
             { name: 'Sheireen Sadeli', whatsapp: '6285890581118', line: 'sheireensadeli', role: ['SMA/SMK'] }
         ],
+        judges: [
+            { 
+                name: 'Dinda Farradila Jasmine', 
+                role: 'Juri Kategori Mahasiswa', 
+                title: 'UI/UX Designer',
+                company: 'PT Paragon Technology and Innovation', 
+                imagePath: '/assets/juri/uiux/mahasiswa/Dinda Farradila Jasmine.png',
+                objectPosition: 'center 10%'
+            },
+            { 
+                name: 'Randi Winarbisono', 
+                role: 'Juri Kategori Mahasiswa', 
+                title: 'UI/UX Lead',
+                company: 'Bvarta (PT Bhumi Varta Technology)', 
+                imagePath: '/assets/juri/uiux/mahasiswa/Randi Winarbisono.png',
+                objectPosition: 'center 1%'
+            },
+            { 
+                name: 'Davia Belinda Hidayat', 
+                role: 'Juri Kategori Siswa', 
+                title: 'UI/UX Designer',
+                company: 'PT ASIX Indonesia Cerdas', 
+                imagePath: '/assets/juri/uiux/siswa/Davia Belinda Hidayat.png',
+                objectPosition: 'center 40%'
+            },
+            { 
+                name: 'Muhammad Abiyyu Habibi', 
+                role: 'Juri Kategori Siswa', 
+                title: 'Product Designer',
+                company: 'PT. Karya Inti Hutama', 
+                imagePath: '/assets/juri/uiux/siswa/Muhammad Abiyyu Habibi.png',
+                objectPosition: 'center 10%'
+            }
+        ],
         rulebooks: [
             { title: 'Rulebook Mahasiswa & Umum', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_UIUX_Mahasiswa.pdf' },
             { title: 'Rulebook Siswa SMA/K', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_UIUX_Siswa.pdf' }
@@ -118,6 +188,40 @@ export const competitions: CompetitionData[] = [
         contacts: [
             { name: 'Rein Mark Manopo', whatsapp: '628989364118', line: 'markreeen', role: ['Mahasiswa', 'Umum'] },
             { name: 'Christian Benizi Susilo', whatsapp: '6281354629105', line: 'bennzzy', role: ['SMA/SMK'] }
+        ],
+        judges: [
+            { 
+                name: 'Rully Saputra', 
+                role: 'Juri Kategori Mahasiswa', 
+                title: 'Mid Software Engineer',
+                company: 'Tiket.com', 
+                imagePath: '/assets/juri/webdev/mahasiswa/Rully Saputra - Web Dev Mhs.jpeg',
+                objectPosition: 'center 1%'
+            },
+            { 
+                name: 'Irfan Maulana', 
+                role: 'Juri Kategori Mahasiswa', 
+                title: 'Senior Software Engineer II',
+                company: 'Wego.com', 
+                imagePath: '/assets/juri/webdev/mahasiswa/Irfan Maulana - Web Dev Mhs.jpg',
+                objectPosition: 'center 10%'
+            },
+            { 
+                name: 'Abdul Azis', 
+                role: 'Juri Kategori Siswa', 
+                title: 'Creative Specialist',
+                company: 'PT Desain Visual Indonesia', 
+                imagePath: '/assets/juri/webdev/siswa/ABDUL AZIZ (Webdev siswa).jpg',
+                objectPosition: 'center 1%'
+            },
+            { 
+                name: 'Aufa Billah', 
+                role: 'Juri Kategori Siswa', 
+                title: 'Software Engineer',
+                company: 'Pintarnya', 
+                imagePath: '/assets/juri/webdev/siswa/WEBDEV - AUFA NEW.jpg',
+                objectPosition: 'center 20%'
+            }
         ],
         rulebooks: [
             { title: 'Rulebook Mahasiswa & Umum', desc: 'Official Rulebook of I/O Festival 2026', url: '/downloads/rulebook/Rulebook_WebDev_Mahasiswa.pdf' },

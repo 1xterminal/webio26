@@ -13,7 +13,7 @@ import Image from 'next/image';
 import { sendGAEvent } from '@next/third-parties/google';
 import { Countdown } from '@/components/sections/Countdown';
 import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { useDownloadInteraction } from '@/hooks/useDownloadInteraction';
 import { REGISTRATION_URL } from '@/lib/registration';
@@ -258,12 +258,13 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
     if (!data) return null;
     
-    // Select icon based on slug to avoid serialization issues with functions passed from server data
-    const Icon = data.slug === 'ui-ux' ? UIUXIcon : 
-                 data.slug === 'web-dev' ? WebDevIcon : 
-                 BusinessCaseIcon;
+    const Icon = useMemo(() => {
+        return data.slug === 'ui-ux' ? UIUXIcon : 
+               data.slug === 'web-dev' ? WebDevIcon : 
+               BusinessCaseIcon;
+    }, [data.slug]);
 
-    const timelineStages = [
+    const timelineStages = useMemo(() => [
         { date: '15 Mar - 19 Apr', label: 'Early Bird' },
         ...(data.slug === 'business-case' ? [{ date: '9 Apr', label: 'Case Release' }] : []),
         { date: '20 - 30 Apr', label: 'Regular Registration' },
@@ -272,9 +273,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
         { date: '13 Mei', label: 'Pengumuman Finalis' },
         { date: '15 Mei', label: 'Technical Meeting Finalis' },
         { date: '4 - 5 Jun', label: 'Grand Final and Awarding' },
-    ];
+    ], [data.slug]);
 
-    const jsonLd = {
+    const jsonLd = useMemo(() => ({
         '@context': 'https://schema.org',
         '@graph': [
             {
@@ -336,7 +337,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                 }))
             }
         ]
-    };
+    }), [data.title, data.slug]);
 
     return (
         <>
@@ -578,6 +579,115 @@ export function CompetitionPage({ slug }: { slug: string }) {
                     >
                         <Countdown accentColor={data.accentHex} />
                     </motion.div>
+                    {/* Meet Our Judges - NEW SECTION */}
+                    {data.judges && data.judges.length > 0 && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.12 }}
+                            className="mb-16 mt-0"
+                        >
+                            <div className="flex flex-col items-center text-center mb-10">
+                                <h2 className="text-3xl md:text-4xl font-raela font-black text-white tracking-tight uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                                    Meet Our <span style={{ color: data.accentHex, textShadow: `0 0 20px ${data.accentHex}80` }}>Judges</span>
+                                </h2>
+                                <div className="h-1 w-16 mt-4 mb-4 rounded-full opacity-50 mx-auto" style={{ background: `linear-gradient(90deg, transparent, ${data.accentHex}, transparent)` }} />
+                                <p className="text-white/50 text-sm max-w-lg mx-auto">
+                                    Para pakar dan profesional yang akan mengevaluasi serta memberikan feedback berharga bagi karya-karya terbaikmu.
+                                </p>
+                            </div>
+
+                            {/* Group Judges by Role */}
+                        {(() => {
+                            const groupedJudges = useMemo(() => {
+                                if (!data.judges) return [];
+                                const grouped = data.judges.reduce((acc, judge) => {
+                                    if (!acc[judge.role]) acc[judge.role] = [];
+                                    acc[judge.role].push(judge);
+                                    return acc;
+                                }, {} as Record<string, typeof data.judges>);
+                                return Object.entries(grouped);
+                            }, [data.judges]);
+
+                            return (
+                                <div className="flex flex-col gap-12 w-full">
+                                    {groupedJudges.map(([role, judges]) => {
+                                            const cardAccentHex = data.accentHex;
+
+                                            return (
+                                                <div key={role} className="flex flex-col items-center w-full">
+                                                    {groupedJudges.length > 1 && (
+                                                        <div className="flex items-center justify-center gap-4 mb-8 w-full relative">
+                                                            <div className="h-[1px] flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-white/20" />
+                                                            <div className="px-6 py-2.5 rounded-xl border bg-black/40 border-white/10 flex items-center gap-2 shadow-lg backdrop-blur-md relative overflow-hidden group/cat">
+                                                                <div className="absolute inset-0 opacity-20 group-hover/cat:opacity-40 transition-opacity duration-500" style={{ background: `linear-gradient(45deg, transparent, ${cardAccentHex}, transparent)` }} />
+                                                                <span className="relative z-10 text-white font-raela font-black uppercase tracking-[0.2em] text-xs sm:text-sm whitespace-nowrap" style={{ textShadow: `0 0 10px ${cardAccentHex}80` }}>
+                                                                    Kategori <span style={{ color: cardAccentHex }}>{role.replace('Juri Kategori ', '').replace('Juri', 'Umum')}</span>
+                                                                </span>
+                                                            </div>
+                                                            <div className="h-[1px] flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-white/20" />
+                                                        </div>
+                                                    )}
+
+                                                    <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${judges.length >= 4 ? 4 : judges.length === 3 ? 3 : judges.length === 2 ? 2 : 1} gap-6 w-full mx-auto`}>
+                                                        {judges.map((judge) => (
+                                                            <div
+                                                                key={`${role}-${judge.name}`}
+                                                                className="group relative flex flex-col items-center p-8 rounded-3xl md:backdrop-blur-xl border border-white/5 transition-transform duration-500 overflow-hidden hover:-translate-y-2 w-full text-center transform-gpu"
+                                                                style={{
+                                                                    background: 'rgba(20,20,20,0.6)',
+                                                                    boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)'
+                                                                }}
+                                                            >
+                                                                <PremiumCardGlow accentHex={cardAccentHex} roundedClass="rounded-3xl" />
+                                                                
+                                                                <div className="relative z-10 w-28 h-28 md:w-32 md:h-32 mb-6 rounded-full overflow-hidden border-[3px] border-white/10 group-hover:border-white/40 transition-colors shadow-lg" style={{ boxShadow: `0 0 25px ${cardAccentHex}30` }}>
+                                                                    {judge.imagePath ? (
+                                                                        <Image 
+                                                                            src={judge.imagePath} 
+                                                                            alt={judge.name} 
+                                                                            fill 
+                                                                            className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-110"
+                                                                            style={{ objectPosition: judge.objectPosition || 'center' }}
+                                                                        />
+                                                                    ) : (
+                                                                        <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/10 flex items-center justify-center transition-all duration-500 group-hover:scale-110">
+                                                                            <User className="w-12 h-12 text-white/30 group-hover:text-white/50 transition-colors" />
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                 <div className="relative z-10">
+                                                                     <h3 className="font-raela font-black text-xl text-white tracking-wide mb-3">{judge.name}</h3>
+                                                                     <div className="flex flex-col items-center gap-2">
+                                                                         <p className="text-white/70 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.15em] leading-tight">
+                                                                             {judge.title}
+                                                                         </p>
+                                                                         <div className="text-white/40 text-[10px] sm:text-xs font-medium uppercase tracking-wider">
+                                                                             {judge.company === 'BCA' ? (
+                                                                                 <div className="h-12 sm:h-15 mt-2 brightness-110 opacity-90 transition-all group-hover:opacity-100 group-hover:scale-110 duration-500">
+                                                                                     <img 
+                                                                                        src="/assets/sponsors/Logo BCA_Putih.png" 
+                                                                                        alt="BCA" 
+                                                                                        className="h-full w-auto object-contain"
+                                                                                     />
+                                                                                 </div>
+                                                                             ) : (
+                                                                                 judge.company
+                                                                         )}
+                                                                         </div>
+                                                                     </div>
+                                                                 </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                );
+                            })()}
+                        </motion.div>
+                    )}
 
                     {/* Info Grid (Summary) - NEW REDESIGN */}
                     <motion.div

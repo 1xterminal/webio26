@@ -30,6 +30,24 @@ const sponsorTiers: SponsorTier[] = [
         ]
     },
     {
+        tierName: 'Platinum',
+        logos: [
+            { 
+                name: 'Seindonesia', 
+                width: 280, 
+                height: 140, 
+                src: '/assets/sponsors/seindonesia.png'
+            },
+            { 
+                name: 'Digisnap', 
+                width: 280, 
+                height: 140, 
+                src: '/assets/sponsors/Digisnap (Light).png',
+                href: 'https://linktr.ee/digisnap.id'
+            },
+        ]
+    },
+    {
         tierName: 'Gold',
         logos: [
             { name: 'Festival Partner', width: 240, height: 120 },
@@ -67,11 +85,28 @@ const sponsorTiers: SponsorTier[] = [
                 src: '/assets/sponsors/cendol duren.png'
             },
             { 
-                name: 'Digisnap', 
-                width: 160, 
-                height: 80, 
-                src: '/assets/sponsors/Digisnap (Light).png',
-                href: 'https://linktr.ee/digisnap.id'
+                name: 'Djadul Cake', 
+                width: 180, 
+                height: 100, 
+                src: '/assets/sponsors/djadul cake.png'
+            },
+            { 
+                name: 'Nailboo', 
+                width: 180, 
+                height: 100, 
+                src: '/assets/sponsors/nailboo.png'
+            },
+            { 
+                name: 'Suki Bento', 
+                width: 180, 
+                height: 100, 
+                src: '/assets/sponsors/suki bento.png'
+            },
+            { 
+                name: 'Unomi', 
+                width: 180, 
+                height: 100, 
+                src: '/assets/sponsors/unomi.png'
             },
         ]
     },
@@ -86,7 +121,7 @@ const sponsorTiers: SponsorTier[] = [
     },
 ];
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 
 export function Sponsors() {
@@ -103,12 +138,12 @@ export function Sponsors() {
         return () => clearTimeout(timeoutId);
     }, []);
     // Filter active tiers: only those that contain at least one logo with a src or are secret
-    const activeTiers = sponsorTiers
+    const activeTiers = useMemo(() => sponsorTiers
         .map(tier => ({
             ...tier,
             logos: tier.logos.filter(logo => logo.src || (tier.tierName === 'Case Collaborator' && logo.name === 'Secret'))
         }))
-        .filter(tier => tier.logos.length > 0);
+        .filter(tier => tier.logos.length > 0), []);
 
     return (
         <section className="py-16 md:py-24 relative overflow-hidden" aria-labelledby="sponsors-title">
@@ -155,7 +190,7 @@ export function Sponsors() {
                                     
                                     const content = (
                                         <div
-                                            className="relative group flex items-center justify-center p-4 transition-[opacity,transform] duration-500"
+                                            className="relative group flex items-center justify-center p-4 transition-[opacity,transform] duration-500 transform-gpu"
                                             style={{ 
                                                 maxWidth: logo.width, 
                                                 width: '100%',
@@ -192,7 +227,7 @@ export function Sponsors() {
                                     if (logo.href && (shouldReveal || !isSecretCollab)) {
                                         return (
                                             <a 
-                                                key={i} 
+                                                key={logo.name} 
                                                 href={logo.href} 
                                                 target="_blank" 
                                                 rel="noopener noreferrer"
@@ -209,7 +244,7 @@ export function Sponsors() {
                                         );
                                     }
 
-                                    return <div key={i}>{content}</div>;
+                                    return <div key={logo.name}>{content}</div>;
                                 })}
                             </div>
                         </motion.div>

@@ -281,7 +281,7 @@ export function Timeline() {
 
                             return (
                                 <TimelineNode
-                                    key={index}
+                                    key={event.title}
                                     event={event}
                                     index={index}
                                     isActive={isActive}
