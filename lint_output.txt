@@ -1,4 +1,0 @@
-
-> it-competition-web@0.1.0 lint
-> eslint
-
