@@ -121,7 +121,7 @@ const sponsorTiers: SponsorTier[] = [
     },
 ];
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 
 export function Sponsors() {
@@ -138,12 +138,12 @@ export function Sponsors() {
         return () => clearTimeout(timeoutId);
     }, []);
     // Filter active tiers: only those that contain at least one logo with a src or are secret
-    const activeTiers = sponsorTiers
+    const activeTiers = useMemo(() => sponsorTiers
         .map(tier => ({
             ...tier,
             logos: tier.logos.filter(logo => logo.src || (tier.tierName === 'Case Collaborator' && logo.name === 'Secret'))
         }))
-        .filter(tier => tier.logos.length > 0);
+        .filter(tier => tier.logos.length > 0), []);
 
     return (
         <section className="py-16 md:py-24 relative overflow-hidden" aria-labelledby="sponsors-title">
@@ -190,7 +190,7 @@ export function Sponsors() {
                                     
                                     const content = (
                                         <div
-                                            className="relative group flex items-center justify-center p-4 transition-[opacity,transform] duration-500"
+                                            className="relative group flex items-center justify-center p-4 transition-[opacity,transform] duration-500 transform-gpu"
                                             style={{ 
                                                 maxWidth: logo.width, 
                                                 width: '100%',
@@ -227,7 +227,7 @@ export function Sponsors() {
                                     if (logo.href && (shouldReveal || !isSecretCollab)) {
                                         return (
                                             <a 
-                                                key={i} 
+                                                key={logo.name} 
                                                 href={logo.href} 
                                                 target="_blank" 
                                                 rel="noopener noreferrer"
@@ -244,7 +244,7 @@ export function Sponsors() {
                                         );
                                     }
 
-                                    return <div key={i}>{content}</div>;
+                                    return <div key={logo.name}>{content}</div>;
                                 })}
                             </div>
                         </motion.div>

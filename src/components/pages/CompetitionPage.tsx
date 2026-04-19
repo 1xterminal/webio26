@@ -13,7 +13,7 @@ import Image from 'next/image';
 import { sendGAEvent } from '@next/third-parties/google';
 import { Countdown } from '@/components/sections/Countdown';
 import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { useDownloadInteraction } from '@/hooks/useDownloadInteraction';
 import { REGISTRATION_URL } from '@/lib/registration';
@@ -258,12 +258,13 @@ export function CompetitionPage({ slug }: { slug: string }) {
 
     if (!data) return null;
     
-    // Select icon based on slug to avoid serialization issues with functions passed from server data
-    const Icon = data.slug === 'ui-ux' ? UIUXIcon : 
-                 data.slug === 'web-dev' ? WebDevIcon : 
-                 BusinessCaseIcon;
+    const Icon = useMemo(() => {
+        return data.slug === 'ui-ux' ? UIUXIcon : 
+               data.slug === 'web-dev' ? WebDevIcon : 
+               BusinessCaseIcon;
+    }, [data.slug]);
 
-    const timelineStages = [
+    const timelineStages = useMemo(() => [
         { date: '15 Mar - 19 Apr', label: 'Early Bird' },
         ...(data.slug === 'business-case' ? [{ date: '9 Apr', label: 'Case Release' }] : []),
         { date: '20 - 30 Apr', label: 'Regular Registration' },
@@ -272,9 +273,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
         { date: '13 Mei', label: 'Pengumuman Finalis' },
         { date: '15 Mei', label: 'Technical Meeting Finalis' },
         { date: '4 - 5 Jun', label: 'Grand Final and Awarding' },
-    ];
+    ], [data.slug]);
 
-    const jsonLd = {
+    const jsonLd = useMemo(() => ({
         '@context': 'https://schema.org',
         '@graph': [
             {
@@ -336,7 +337,7 @@ export function CompetitionPage({ slug }: { slug: string }) {
                 }))
             }
         ]
-    };
+    }), [data.title, data.slug]);
 
     return (
         <>
@@ -597,23 +598,25 @@ export function CompetitionPage({ slug }: { slug: string }) {
                             </div>
 
                             {/* Group Judges by Role */}
-                            {(() => {
-                                const groupedJudges = data.judges!.reduce((acc, judge) => {
+                        {(() => {
+                            const groupedJudges = useMemo(() => {
+                                if (!data.judges) return [];
+                                const grouped = data.judges.reduce((acc, judge) => {
                                     if (!acc[judge.role]) acc[judge.role] = [];
                                     acc[judge.role].push(judge);
                                     return acc;
                                 }, {} as Record<string, typeof data.judges>);
-                                
-                                const entries = Object.entries(groupedJudges);
+                                return Object.entries(grouped);
+                            }, [data.judges]);
 
-                                return (
-                                    <div className="flex flex-col gap-12 w-full">
-                                        {entries.map(([role, judges]) => {
+                            return (
+                                <div className="flex flex-col gap-12 w-full">
+                                    {groupedJudges.map(([role, judges]) => {
                                             const cardAccentHex = data.accentHex;
 
                                             return (
                                                 <div key={role} className="flex flex-col items-center w-full">
-                                                    {entries.length > 1 && (
+                                                    {groupedJudges.length > 1 && (
                                                         <div className="flex items-center justify-center gap-4 mb-8 w-full relative">
                                                             <div className="h-[1px] flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-white/20" />
                                                             <div className="px-6 py-2.5 rounded-xl border bg-black/40 border-white/10 flex items-center gap-2 shadow-lg backdrop-blur-md relative overflow-hidden group/cat">
@@ -629,8 +632,8 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                                     <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${judges.length >= 4 ? 4 : judges.length === 3 ? 3 : judges.length === 2 ? 2 : 1} gap-6 w-full mx-auto`}>
                                                         {judges.map((judge) => (
                                                             <div
-                                                                key={judge.name}
-                                                                className="group relative flex flex-col items-center p-8 rounded-3xl md:backdrop-blur-xl border border-white/5 transition-transform duration-500 overflow-hidden hover:-translate-y-2 w-full text-center"
+                                                                key={`${role}-${judge.name}`}
+                                                                className="group relative flex flex-col items-center p-8 rounded-3xl md:backdrop-blur-xl border border-white/5 transition-transform duration-500 overflow-hidden hover:-translate-y-2 w-full text-center transform-gpu"
                                                                 style={{
                                                                     background: 'rgba(20,20,20,0.6)',
                                                                     boxShadow: '0 8px 32px -5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05)'

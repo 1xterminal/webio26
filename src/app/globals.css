@@ -14,6 +14,8 @@
   --font-raela: var(--font-raela);
   --font-jakarta: var(--font-jakarta);
   --font-mono: var(--font-jakarta); /* No other font is allowed, mapping mono to sans */
+
+  --spacing-15: 3.75rem;
 }
 
 @layer base {
@@ -136,7 +138,7 @@
 
   @keyframes shimmer {
     100% {
-      transform: translateX(100%);
+      transform: translateZ(0) translateX(100%);
     }
   }
 
