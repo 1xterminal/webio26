@@ -213,10 +213,9 @@ export function CompetitionPage({ slug }: { slug: string }) {
     const [currentPhase, setCurrentPhase] = useState(0);
     const [isPastRevealDate, setIsPastRevealDate] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-    const regStatus = useRegistrationStatus();
     const data = getCompetition(slug);
-    const { status: mainRulebookStatus, handleDownload: handleMainRulebookDownload } = useDownloadInteraction();
-    
+    const regStatus = useRegistrationStatus();
+
     // Auto-calculate relevant live timeline segment utilizing client-side hydration bypassing server mismatch
     useEffect(() => {
         if (!data) return;
@@ -256,152 +255,148 @@ export function CompetitionPage({ slug }: { slug: string }) {
         };
     }, [data]);
 
-    if (!data) return null;
-    
     const Icon = useMemo(() => {
+        if (!data) return BusinessCaseIcon; // Fallback
         return data.slug === 'ui-ux' ? UIUXIcon : 
                data.slug === 'web-dev' ? WebDevIcon : 
                BusinessCaseIcon;
-    }, [data.slug]);
+    }, [data]);
 
-    const timelineStages = useMemo(() => [
-        { date: '15 Mar - 19 Apr', label: 'Early Bird' },
-        ...(data.slug === 'business-case' ? [{ date: '9 Apr', label: 'Case Release' }] : []),
-        { date: '20 - 30 Apr', label: 'Regular Registration' },
-        { date: '30 Apr', label: 'Registration and Submission Deadline' },
-        { date: '1 - 10 Mei', label: 'Penilaian Juri' },
-        { date: '13 Mei', label: 'Pengumuman Finalis' },
-        { date: '15 Mei', label: 'Technical Meeting Finalis' },
-        { date: '4 - 5 Jun', label: 'Grand Final and Awarding' },
-    ], [data.slug]);
+    const timelineStages = useMemo(() => {
+        if (!data) return [];
+        return [
+            { date: '15 Mar - 19 Apr', label: 'Early Bird' },
+            ...(data.slug === 'business-case' ? [{ date: '9 Apr', label: 'Case Release' }] : []),
+            { date: '20 - 30 Apr', label: 'Regular Registration' },
+            { date: '30 Apr', label: 'Registration and Submission Deadline' },
+            { date: '1 - 10 Mei', label: 'Penilaian Juri' },
+            { date: '13 Mei', label: 'Pengumuman Finalis' },
+            { date: '15 Mei', label: 'Technical Meeting Finalis' },
+            { date: '4 - 5 Jun', label: 'Grand Final and Awarding' },
+        ];
+    }, [data]);
 
-    const jsonLd = useMemo(() => ({
-        '@context': 'https://schema.org',
-        '@graph': [
-            {
-                '@type': 'BreadcrumbList',
-                'itemListElement': [
-                    {
-                        '@type': 'ListItem',
-                        'position': 1,
-                        'name': 'Home',
-                        'item': 'https://iofest.com/'
-                    },
-                    {
-                        '@type': 'ListItem',
-                        'position': 2,
-                        'name': 'Kompetisi',
-                        'item': 'https://iofest.com/kompetisi'
-                    },
-                    {
-                        '@type': 'ListItem',
-                        'position': 3,
-                        'name': data.title,
-                        'item': `https://iofest.com/kompetisi/${data.slug}`
-                    }
-                ]
-            },
-            {
-                '@type': 'Event',
-                'name': `${data.title} - I/O FESTIVAL 2026`,
-                'description': data.description,
-                'startDate': '2026-03-01T08:00:00+07:00',
-                'endDate': '2026-06-30T18:00:00+07:00',
-                'eventAttendanceMode': 'https://schema.org/MixedEventAttendanceMode',
-                'eventStatus': 'https://schema.org/EventScheduled',
-                'location': {
-                    '@type': 'Place',
-                    'name': 'Universitas Tarumanagara',
-                    'address': {
-                        '@type': 'PostalAddress',
-                        'streetAddress': 'Jl. Letjen S. Parman No.1',
-                        'addressLocality': 'Jakarta Barat',
-                        'postalCode': '11440',
-                        'addressRegion': 'DKI Jakarta',
-                        'addressCountry': 'ID'
-                    }
+    const jsonLd = useMemo(() => {
+        if (!data) return {};
+        return {
+            '@context': 'https://schema.org',
+            '@graph': [
+                {
+                    '@type': 'BreadcrumbList',
+                    'itemListElement': [
+                        {
+                            '@type': 'ListItem',
+                            'position': 1,
+                            'name': 'Home',
+                            'item': 'https://iofest.com/'
+                        },
+                        {
+                            '@type': 'ListItem',
+                            'position': 2,
+                            'name': 'Kompetisi',
+                            'item': 'https://iofest.com/kompetisi'
+                        },
+                        {
+                            '@type': 'ListItem',
+                            'position': 3,
+                            'name': data?.title,
+                            'item': `https://iofest.com/kompetisi/${data?.slug}`
+                        }
+                    ]
                 },
-                'image': ['https://iofest.com/og-image.jpg'],
-                'organizer': {
-                    '@type': 'Organization',
-                    'name': 'BEM FTI UNTAR',
-                    'url': 'https://bemftiuntar.com'
-                },
-                'offers': data.details.fee.map(fee => ({
-                    '@type': 'Offer',
-                    'name': fee.type,
-                    'price': fee.regular.replace(/[^0-9]/g, '') || '0',
-                    'priceCurrency': 'IDR',
-                    'availability': 'https://schema.org/InStock',
-                    'validFrom': '2026-03-01T08:00:00+07:00'
-                }))
-            }
-        ]
-    }), [data.title, data.slug]);
+                {
+                    '@type': 'Event',
+                    'name': `${data?.title} - I/O FESTIVAL 2026`,
+                    'description': data?.description,
+                    'startDate': '2026-03-01T08:00:00+07:00',
+                    'endDate': '2026-06-30T18:00:00+07:00',
+                    'eventAttendanceMode': 'https://schema.org/MixedEventAttendanceMode',
+                    'eventStatus': 'https://schema.org/EventScheduled',
+                    'location': {
+                        '@type': 'Place',
+                        'name': 'Universitas Tarumanagara',
+                        'address': {
+                            '@type': 'PostalAddress',
+                            'streetAddress': 'Jl. Letjen S. Parman No.1',
+                            'addressLocality': 'Jakarta Barat',
+                            'postalCode': '11440',
+                            'addressRegion': 'DKI Jakarta',
+                            'addressCountry': 'ID'
+                        }
+                    },
+                    'image': ['https://iofest.com/og-image.jpg'],
+                    'organizer': {
+                        '@type': 'Organization',
+                        'name': 'BEM FTI UNTAR',
+                        'url': 'https://bemftiuntar.com'
+                    },
+                    'offers': data?.details.fee.map(fee => ({
+                        '@type': 'Offer',
+                        'name': fee.type,
+                        'price': fee.regular.replace(/[^0-9]/g, '') || '0',
+                        'priceCurrency': 'IDR',
+                        'availability': 'https://schema.org/InStock',
+                        'validFrom': '2026-03-01T08:00:00+07:00'
+                    })) || []
+                }
+            ]
+        };
+    }, [data]);
+
+    const groupedJudges = useMemo(() => {
+        if (!data?.judges) return [];
+        const grouped = data.judges.reduce((acc, judge) => {
+            if (!acc[judge.role]) acc[judge.role] = [];
+            acc[judge.role].push(judge);
+            return acc;
+        }, {} as Record<string, typeof data.judges>);
+        return Object.entries(grouped);
+    }, [data]);
+
+    const { status: mainRulebookStatus, handleDownload: handleMainRulebookDownload } = useDownloadInteraction();
+
+    if (!data) return null;
+
+    const jsonLdData = jsonLd as Record<string, unknown>;
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
-            <StarDust />
-            {/* Page background — Hyper-vibrant 15-layer "Festive" system (Pure CSS) */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
-                {/* Desktop Background */}
-                <div
-                    className="absolute inset-0 opacity-55 md:opacity-[0.85] hidden md:block"
-                    style={{
-                        background: `
-                            /* Large Base Fields */
-                            radial-gradient(ellipse 70% 60% at 0% 0%,       ${data.accentHex}40 0%, transparent 80%),
-                            radial-gradient(ellipse 70% 60% at 100% 100%,  rgba(168,86,238,0.35) 0%, transparent 80%),
-                            radial-gradient(ellipse 70% 60% at 100% 0%,    ${data.accentHex}30 0%, transparent 80%),
-                            radial-gradient(ellipse 70% 60% at 0% 100%,    rgba(255,107,0,0.30) 0%, transparent 80%),
-                            
-                            /* Secondary Mid-fields */
-                            radial-gradient(ellipse 50% 50% at 50% -10%,   rgba(29,188,211,0.25) 0%, transparent 75%),
-                            radial-gradient(ellipse 50% 50% at 50% 110%,   rgba(168,86,238,0.25) 0%, transparent 75%),
-                            radial-gradient(ellipse 45% 45% at -15% 50%,   ${data.accentHex}25 0%, transparent 70%),
-                            radial-gradient(ellipse 45% 45% at 115% 50%,   rgba(255,107,0,0.25) 0%, transparent 70%),
-                            
-                            /* High-Intensity "Laser" Accents */
-                            radial-gradient(circle at 12% 25%,             ${data.accentHex}45 0%, transparent 20%),
-                            radial-gradient(circle at 88% 15%,             rgba(168,86,238,0.40) 0%, transparent 25%),
-                            radial-gradient(circle at 82% 85%,             rgba(255,107,0,0.35) 0%, transparent 20%),
-                            radial-gradient(circle at 18% 75%,             rgba(29,188,211,0.35) 0%, transparent 25%),
-                            
-                            /* Internal Pop/Glow */
-                            radial-gradient(ellipse 40% 40% at 35% 40%,    rgba(29,188,211,0.18) 0%, transparent 60%),
-                            radial-gradient(ellipse 40% 40% at 65% 60%,    rgba(168,86,238,0.18) 0%, transparent 60%),
-                            radial-gradient(ellipse 35% 35% at 50% 50%,    rgba(255,255,255,0.08) 0%, transparent 50%)
-                        `
-                    }}
+            {jsonLdData['@graph'] && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
-                {/* Mobile Background (Simplified to 4 layers) */}
-                <div
-                    className="absolute inset-0 opacity-60 md:hidden"
-                    style={{
-                        background: `
-                            radial-gradient(ellipse 80% 80% at 0% 0%, ${data.accentHex}40 0%, transparent 70%),
-                            radial-gradient(ellipse 80% 80% at 100% 100%, rgba(168,86,238,0.35) 0%, transparent 70%),
-                            radial-gradient(circle at 82% 85%, rgba(255,107,0,0.35) 0%, transparent 40%),
-                            radial-gradient(ellipse 45% 45% at 50% 50%, ${data.accentHex}20 0%, transparent 60%)
-                        `
-                    }}
-                />
+            )}
+            
+            <div 
+                className="fixed inset-0 pointer-events-none z-0 overflow-hidden" 
+                style={{ 
+                    '--accent-alpha-20': `${data.accentHex}33`,
+                    '--accent-alpha-25': `${data.accentHex}40`,
+                    '--accent-alpha-30': `${data.accentHex}4d`,
+                    '--accent-alpha-40': `${data.accentHex}66`,
+                    '--accent-alpha-45': `${data.accentHex}73`,
+                } as React.CSSProperties}
+            >
+                <div className="hidden md:block premium-festive-bg" />
+                <div className="md:hidden premium-festive-bg-mobile" />
+                <StarDust />
+            </div>
+
+            {/* Floating decorative elements — High performance Layering */}
+            <div className="fixed inset-0 overflow-hidden pointer-events-none z-[1]" aria-hidden="true">
                 {/* Desktop-only floating PNG elements */}
                 <div
                     className="absolute -top-20 -right-20 w-100 h-100 opacity-40 max-md:hidden transform-gpu"
                     style={{ animation: 'native-float-1 10s ease-in-out infinite' }}
                 >
-                    <Image src="/assets/element/ELEMEN 3.png" alt="" width={400} height={400} className="object-contain" />
+                    <Image src="/assets/element/ELEMEN 3.png" alt="" width={400} height={400} className="object-contain" priority />
                 </div>
                 <div
                     className="absolute top-1/2 -left-32 w-87.5 h-87.5 opacity-30 max-md:hidden transform-gpu"
                     style={{ animation: 'native-float-2 15s ease-in-out infinite 2s' }}
                 >
-                    <Image src="/assets/element/ELEMEN 2.png" alt="" width={350} height={350} className="object-contain" />
+                    <Image src="/assets/element/ELEMEN 2.png" alt="" width={350} height={350} className="object-contain" priority />
                 </div>
                 <div
                     className="absolute bottom-[-10%] right-[10%] w-125 h-125 max-md:hidden transform-gpu"
@@ -597,21 +592,10 @@ export function CompetitionPage({ slug }: { slug: string }) {
                                 </p>
                             </div>
 
-                            {/* Group Judges by Role */}
-                        {(() => {
-                            const groupedJudges = useMemo(() => {
-                                if (!data.judges) return [];
-                                const grouped = data.judges.reduce((acc, judge) => {
-                                    if (!acc[judge.role]) acc[judge.role] = [];
-                                    acc[judge.role].push(judge);
-                                    return acc;
-                                }, {} as Record<string, typeof data.judges>);
-                                return Object.entries(grouped);
-                            }, [data.judges]);
-
-                            return (
-                                <div className="flex flex-col gap-12 w-full">
-                                    {groupedJudges.map(([role, judges]) => {
+                            {(() => {
+                                return (
+                                    <div className="flex flex-col gap-12 w-full">
+                                        {groupedJudges.map(([role, judges]) => {
                                             const cardAccentHex = data.accentHex;
 
                                             return (

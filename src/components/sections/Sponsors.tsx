@@ -184,7 +184,7 @@ export function Sponsors() {
                                 </div>
                             )}
                             <div className="relative z-10 flex flex-wrap items-center justify-center gap-8 md:gap-16">
-                                {tier.logos.map((logo, i) => {
+                                {tier.logos.map((logo) => {
                                     const isSecretCollab = tier.tierName === 'Case Collaborator' && logo.name === 'Secret';
                                     const shouldReveal = isSecretCollab && isMounted && isPastRevealDate;
                                     
