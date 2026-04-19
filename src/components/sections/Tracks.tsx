@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Info, TriangleAlert } from 'lucide-react';
 import { sendGAEvent } from '@next/third-parties/google';
+import { DATES } from '@/lib/constants';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
 import { BusinessCaseIcon } from '@/components/ui/icons/BusinessCaseIcon';
@@ -42,15 +43,14 @@ const tracks = [
 ];
 
 export function Tracks() {
-    const [isPastRevealDate, setIsPastRevealDate] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const isPastRevealDate = useMemo(() => {
+        return new Date() >= DATES.OFFICIAL_CASE_RELEASE;
+    }, []);
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setIsMounted(true);
-            const now = new Date();
-            const revealDate = new Date('2026-03-24T10:00:00+07:00');
-            setIsPastRevealDate(now >= revealDate);
         }, 0);
         return () => clearTimeout(timeoutId);
     }, []);
