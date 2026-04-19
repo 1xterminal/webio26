@@ -54,8 +54,7 @@ const sponsorTiers: SponsorTier[] = [
     {
         tierName: 'Gold',
         logos: [
-            { name: 'Festival Partner', width: 240, height: 120 },
-            { name: 'Case Collaborator', width: 240, height: 120 },
+            // No sponsors yet
         ]
     },
     {
@@ -117,10 +116,7 @@ const sponsorTiers: SponsorTier[] = [
     {
         tierName: 'Bronze',
         logos: [
-            { name: 'Sponsor 4', width: 110, height: 56 },
-            { name: 'Sponsor 5', width: 110, height: 56 },
-            { name: 'Sponsor 6', width: 110, height: 56 },
-            { name: 'Sponsor 7', width: 110, height: 56 },
+            // No sponsors yet
         ]
     },
 ];
