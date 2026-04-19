@@ -6,17 +6,18 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/sections/Hero';
 import { Footer } from '@/components/layout/Footer';
 
-// Dynamic imports with ssr: false are allowed here because this is a Client Component
+// Static imports for better build performance (they are already Client Components internally)
+import { About } from '@/components/sections/About';
+import { Tracks, PPTIBCABanner } from '@/components/sections/Tracks';
+import { Timeline } from '@/components/sections/Timeline';
+import { Prizes } from '@/components/sections/Prizes';
+import { Sponsors } from '@/components/sections/Sponsors';
+import { FAQ } from '@/components/sections/FAQ';
+import { CTA } from '@/components/sections/CTA';
+import SponsorshipCTA from '@/components/sections/SponsorshipCTA';
+
+// Retain dynamic(ssr: false) ONLY for heavy WebGL/Canvas effects to protect SSR
 const Gallery = dynamic(() => import('@/components/sections/Gallery').then(mod => mod.default), { ssr: false });
-const About = dynamic(() => import('@/components/sections/About').then(mod => mod.About), { ssr: false });
-const Tracks = dynamic(() => import('@/components/sections/Tracks').then(mod => mod.Tracks), { ssr: false });
-const PPTIBCABanner = dynamic(() => import('@/components/sections/Tracks').then(mod => mod.PPTIBCABanner), { ssr: false });
-const Timeline = dynamic(() => import('@/components/sections/Timeline').then(mod => mod.Timeline), { ssr: false });
-const Prizes = dynamic(() => import('@/components/sections/Prizes').then(mod => mod.Prizes), { ssr: false });
-const Sponsors = dynamic(() => import('@/components/sections/Sponsors').then(mod => mod.Sponsors), { ssr: false });
-const FAQ = dynamic(() => import('@/components/sections/FAQ').then(mod => mod.FAQ), { ssr: false });
-const CTA = dynamic(() => import('@/components/sections/CTA').then(mod => mod.CTA), { ssr: false });
-const SponsorshipCTA = dynamic(() => import('@/components/sections/SponsorshipCTA').then(mod => mod.default), { ssr: false });
 const StarDust = dynamic(() => import('@/components/effects/StarDust').then(mod => mod.default), { ssr: false });
 
 export default function HomePageClient() {

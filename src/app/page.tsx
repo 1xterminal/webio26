@@ -50,7 +50,7 @@ export default function Home() {
             addressCountry: 'ID'
           }
         },
-        image: ['https://iofest.com/og-image.jpg'],
+        image: ['https://iofest.com/icon.png'],
         organizer: {
           '@id': 'https://iofest.com/#organization'
         },
