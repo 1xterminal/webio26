@@ -10,7 +10,7 @@ import { useLenis } from 'lenis/react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
-const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
+const StarDust = dynamic(() => import('@/components/effects/StarDust').then(mod => mod.default), { ssr: false });
 import { Users, Eye, Globe, ExternalLink, ArrowRight, LucideProps, Loader2, CheckCircle2 } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
 import { useDownloadInteraction } from '@/hooks/useDownloadInteraction';

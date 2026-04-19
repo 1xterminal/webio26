@@ -25,7 +25,7 @@ import { CompetitionDocs } from './competition/CompetitionDocs';
 import { CompetitionContact } from './competition/CompetitionContact';
 
 // Dynamic Effects
-const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
+const StarDust = dynamic(() => import('@/components/effects/StarDust').then(mod => mod.default), { ssr: false });
 
 export default function CompetitionPage({ slug }: { slug: string }) {
     const [isMounted, setIsMounted] = useState(false);

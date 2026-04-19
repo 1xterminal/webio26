@@ -48,7 +48,7 @@ const PremiumCardGlow = ({ accentHex, roundedClass = 'rounded-2xl' }: { accentHe
 };
 
 // Use dynamic import for heavy background effects if applicable, similar to SponsorshipPage
-const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
+const StarDust = dynamic(() => import('@/components/effects/StarDust').then(mod => mod.default), { ssr: false });
 
 const corePillars = [
   {
