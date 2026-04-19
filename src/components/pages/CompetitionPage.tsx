@@ -11,6 +11,7 @@ import { getCompetition } from '@/lib/competitions';
 import { UIUXIcon } from '@/components/ui/icons/UIUXIcon';
 import { WebDevIcon } from '@/components/ui/icons/WebDevIcon';
 import { BusinessCaseIcon } from '@/components/ui/icons/BusinessCaseIcon';
+import { DATES } from '@/lib/constants';
 
 import { useRegistrationStatus } from '@/hooks/useRegistrationStatus';
 import { REGISTRATION_URL } from '@/lib/registration';
@@ -50,18 +51,29 @@ export default function CompetitionPage({ slug }: { slug: string }) {
     }, [data]);
 
     const isPastRevealDate = useMemo(() => {
-        return new Date() >= new Date('2026-03-24T10:00:00+07:00');
-    }, []);
+        // Only Business Case has a "Secret" reveal date
+        if (slug !== 'business-case') return true;
+        return new Date() >= DATES.OFFICIAL_CASE_RELEASE;
+    }, [slug]);
 
-    const timelineStages = useMemo(() => [
-        { date: '15 Mar', label: 'Open Registration' },
-        { date: '24 Mar', label: 'Official Case Release' },
-        { date: '19 Apr', label: 'Early Bird' },
-        { date: '30 Apr', label: 'Closing Registration' },
-        { date: '1 Mei', label: 'Preliminary Stage' },
-        { date: '13 Mei', label: 'Finalist Announcement' },
-        { date: '4 Jun', label: 'Grand Final & Awarding' },
-    ], []);
+    const timelineStages = useMemo(() => {
+        const baseStages = [
+            { date: '15 Mar', label: 'Open Registration' },
+            { date: '30 Apr', label: 'Close Registration and Submission Deadline' },
+            { date: '1 - 10 Mei', label: 'Penilaian Juri' },
+            { date: '13 Mei', label: 'Finalist Announcement' },
+            { date: '4 Jun', label: 'Grand Final & Awarding' },
+        ];
+
+        if (slug === 'business-case') {
+            // Insert Official Case Release for Business Case
+            const stages = [...baseStages];
+            stages.splice(1, 0, { date: '9 Apr', label: 'Official Case Release' });
+            return stages;
+        }
+
+        return baseStages;
+    }, [slug]);
 
     const [currentPhase, setCurrentPhase] = useState(0);
 
@@ -69,13 +81,13 @@ export default function CompetitionPage({ slug }: { slug: string }) {
         const calculatePhase = () => {
             const now = new Date();
             const dates = [
-                new Date('2026-03-15T00:00:00+07:00'),
-                new Date('2026-03-24T10:00:00+07:00'),
-                new Date('2026-04-19T23:59:59+07:00'),
-                new Date('2026-04-30T23:59:59+07:00'),
-                new Date('2026-05-01T00:00:00'),
-                new Date('2026-05-13T00:00:00'),
-                new Date('2026-06-04T00:00:00'),
+                DATES.REGISTRATION_OPEN,
+                DATES.OFFICIAL_CASE_RELEASE,
+                DATES.EARLY_BIRD_END,
+                DATES.REGISTRATION_CLOSE,
+                DATES.JUDGING_START,
+                DATES.FINALIST_ANNOUNCE,
+                DATES.FINAL_AWARDING,
             ];
 
             let index = 0;

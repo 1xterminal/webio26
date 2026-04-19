@@ -1,8 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useEffect, useMemo } from 'react';
+import { motion, useAnimation, useMotionValue } from 'framer-motion';
 import Image from 'next/image';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { sendGAEvent } from '@next/third-parties/google';
+import { DATES } from '@/lib/constants';
+import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
 
 interface SponsorLogo {
     name: string;
@@ -121,11 +125,6 @@ const sponsorTiers: SponsorTier[] = [
     },
 ];
 
-import { useState, useEffect, useMemo } from 'react';
-import { useAnimation, useMotionValue } from 'framer-motion';
-import { useIsMobile } from '@/hooks/useIsMobile';
-import { CaseRevealCountdown } from '@/components/shared/CaseRevealCountdown';
-
 function SponsorMarquee({ logos, tierName, isMounted, isPastRevealDate, tierIndex }: { logos: SponsorLogo[], tierName: string, isMounted: boolean, isPastRevealDate: boolean, tierIndex: number }) {
     // Double the logos for a 50% loop (most reliable CSS pattern)
     const doubledLogos = [...logos, ...logos];
@@ -197,7 +196,8 @@ function SponsorMarquee({ logos, tierName, isMounted, isPastRevealDate, tierInde
 }
 
 function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, compact = false }: { logo: SponsorLogo, tierName: string, isMounted: boolean, isPastRevealDate: boolean, tierIndex: number, compact?: boolean }) {
-    const isMobile = useIsMobile();
+    const isMobileRaw = useIsMobile();
+    const isMobile = isMounted ? isMobileRaw : false; // Hydration safe
     const isSecretCollab = tierName === 'Case Collaborator' && logo.name === 'Secret';
     const shouldReveal = isSecretCollab && isMounted && isPastRevealDate;
 
@@ -282,7 +282,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
 }
 
 export function Sponsors() {
-    const isMobile = useIsMobile();
+    const isMobileRaw = useIsMobile();
     const [isPastRevealDate, setIsPastRevealDate] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
@@ -290,16 +290,19 @@ export function Sponsors() {
         const timeoutId = setTimeout(() => {
             setIsMounted(true);
             const now = new Date();
-            const revealDate = new Date('2026-03-24T10:00:00+07:00');
+            const revealDate = DATES.OFFICIAL_CASE_RELEASE;
             setIsPastRevealDate(now >= revealDate);
         }, 0);
         return () => clearTimeout(timeoutId);
     }, []);
-    // Filter active tiers: only those that contain at least one logo with a src or are secret
+
+    const isMobile = isMounted ? isMobileRaw : false; // Hydration safe
+
+    // Filter active tiers: only those that contain at least one logo
     const activeTiers = useMemo(() => sponsorTiers
         .map(tier => ({
             ...tier,
-            logos: tier.logos.filter(logo => logo.src || (tier.tierName === 'Case Collaborator' && logo.name === 'Secret'))
+            logos: tier.logos.filter(logo => logo.src || logo.name || (tier.tierName === 'Case Collaborator' && logo.name === 'Secret'))
         }))
         .filter(tier => tier.logos.length > 0), []);
 
@@ -353,7 +356,7 @@ export function Sponsors() {
                                 />
                             ) : (
                                 <div className={`relative z-10 flex items-center justify-center ${isMobile ? 'px-4' : 'md:gap-16'}`}>
-                                    <div className={`w-full flex flex-wrap items-center justify-center ${isMobile ? (tier.logos.length === 1 ? 'flex-col gap-4' : 'grid grid-cols-2 gap-2 md:gap-4') : 'gap-8 md:gap-16'}`}>
+                                    <div className={`w-full ${isMobile ? (tier.logos.length === 1 ? 'flex flex-col items-center justify-center gap-4' : 'grid grid-cols-2 gap-2') : 'flex flex-wrap items-center justify-center gap-8 md:gap-16'}`}>
                                         {tier.logos.map((logo) => (
                                             <SponsorCard 
                                                 key={logo.name} 
