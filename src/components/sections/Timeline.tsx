@@ -16,7 +16,7 @@ const events = [
     {
         date: "20 Apr - 30 Apr 2026",
         title: "Regular Registration",
-        description: "Periode pendaftaran reguler untuk seluruh kompetisi IT.",
+        description: "Periode pendaftaran reguler.",
         startDate: new Date('2026-04-20T00:00:00+07:00'),
     },
 
@@ -29,7 +29,7 @@ const events = [
     {
         date: "1 - 10 Mei 2026",
         title: "Penilaian Tahap Pertama",
-        description: "Dewan juri menyeleksi semifinalis dari seluruh hasil karya yang masuk.",
+        description: "Dewan juri menyeleksi finalis dari seluruh hasil karya yang masuk.",
         startDate: new Date('2026-05-01T00:00:00+07:00'),
     },
     {
@@ -47,7 +47,7 @@ const events = [
     {
         date: "4 - 5 Juni 2026",
         title: "Grand Final and Awarding",
-        description: "Presentasi final seluruh kategori lomba disusul dengan seminar, talkshow, guest star, dan pengumuman pemenang.",
+        description: "Presentasi final seluruh kategori lomba disusul dengan seminar, talkshow, dan pengumuman pemenang.",
         startDate: new Date('2026-06-04T00:00:00+07:00'),
     }
 ];

@@ -20,8 +20,12 @@ export function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-32 pb-20">
         {/* Glassmorphism Wrapper around Hero */}
         <div
-          className="rounded-[24px] p-8 md:p-12 lg:p-16 overflow-hidden relative backdrop-blur-none md:backdrop-blur-2xl max-md:bg-white/5 transform-gpu"
+          className="rounded-[24px] p-8 md:p-12 lg:p-16 overflow-hidden relative transform-gpu"
           style={{
+            // Replaced backdrop-blur-2xl (32px) with a leaner glass effect.
+            // Full-viewport backdrop-filter: blur() is the #1 paint bottleneck.
+            // We recreate the frosted look with a semi-transparent bg + inner border.
+            background: 'rgba(255, 255, 255, 0.03)',
             boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.1), inset 0 2px 2px 0 rgba(255, 255, 255, 0.4)',
           }}
         >

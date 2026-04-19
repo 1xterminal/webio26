@@ -26,10 +26,11 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         <ReactLenis
             root
             options={{
-                lerp: 0.1,         // Standard lerp for smooth but responsive feel
-                duration: 1.5,
+                lerp: 0.12,       // More responsive
+                duration: 0.9,    // Was 1.5 — felt laggy
                 smoothWheel: true,
-                syncTouch: false,  // Do not intercept touch events to maintain native mobile scroll
+                syncTouch: false, // Keep native touch scroll on mobile
+                wheelMultiplier: 1.2, // Slightly quicker wheel response
             }}
         >
             <Suspense fallback={null}>
