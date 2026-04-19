@@ -1,12 +1,11 @@
-
-'use client';
 import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/sections/Hero';
 import { Footer } from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
 import { FEATURES } from '@/lib/constants';
+import { Metadata } from 'next';
 
-const Gallery = dynamic(() => import('@/components/sections/Gallery'), { ssr: false });
+const Gallery = dynamic(() => import('@/components/sections/Gallery').then(mod => mod.default), { ssr: false });
 const About = dynamic(() => import('@/components/sections/About').then(mod => mod.About), { ssr: false });
 const Tracks = dynamic(() => import('@/components/sections/Tracks').then(mod => mod.Tracks), { ssr: false });
 const PPTIBCABanner = dynamic(() => import('@/components/sections/Tracks').then(mod => mod.PPTIBCABanner), { ssr: false });
@@ -16,8 +15,13 @@ const Prizes = dynamic(() => import('@/components/sections/Prizes').then(mod => 
 const Sponsors = dynamic(() => import('@/components/sections/Sponsors').then(mod => mod.Sponsors), { ssr: false });
 const FAQ = dynamic(() => import('@/components/sections/FAQ').then(mod => mod.FAQ), { ssr: false });
 const CTA = dynamic(() => import('@/components/sections/CTA').then(mod => mod.CTA), { ssr: false });
-const SponsorshipCTA = dynamic(() => import('@/components/sections/SponsorshipCTA'), { ssr: false });
-const StarDust = dynamic(() => import('@/components/effects/StarDust'), { ssr: false });
+const SponsorshipCTA = dynamic(() => import('@/components/sections/SponsorshipCTA').then(mod => mod.default), { ssr: false });
+const StarDust = dynamic(() => import('@/components/effects/StarDust').then(mod => mod.default), { ssr: false });
+
+export const metadata: Metadata = {
+  title: 'I/O FESTIVAL 2026 | Technology into Action, Ideas into Impact',
+  description: 'Buktikan Inovasi Teknologimu! Ajang kompetisi IT bergengsi skala nasional untuk Mahasiswa & SMA/SMK. Ikuti UI/UX, Web Dev & Business Case.',
+};
 
 export default function Home() {
   const jsonLd = {
@@ -40,7 +44,7 @@ export default function Home() {
         url: 'https://bemftiuntar.com',
         logo: 'https://iofest.com/icon.png',
         sameAs: [
-          'https://instagram.com/iofestival'
+          'https://instagram.com/iofest.untar'
         ]
       },
       {
@@ -81,7 +85,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black relative">
-      {/* Background system now handled inside Hero for better hydration performance */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

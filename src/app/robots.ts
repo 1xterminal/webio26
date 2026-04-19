@@ -4,11 +4,18 @@ export default function robots(): MetadataRoute.Robots {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://iofest.com';
 
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: '/private/',
-    },
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: '/private/',
+      },
+      {
+        // Allow AI Crawlers for Answer Engine Optimization (AEO)
+        userAgent: ['GPTBot', 'ChatGPT-User', 'PerplexityBot', 'anthropic-ai', 'ClaudeBot', 'Google-Extended'],
+        allow: '/',
+      }
+    ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

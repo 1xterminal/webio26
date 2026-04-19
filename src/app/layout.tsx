@@ -35,14 +35,15 @@ export const metadata: Metadata = {
     default: 'I/O FESTIVAL 2026 | Technology into Action, Ideas into Impact',
     template: '%s | I/O FESTIVAL 2026',
   },
-  description: 'Ajang kompetisi IT bergengsi skala nasional untuk Mahasiswa & SMA/SMK. Asah kemampuanmu di UI/UX, Web Dev & Business Case. Daftar sekarang & raih total hadiah puluhan juta rupiah! 🚀',
+  description: 'I/O Festival 2026: Ajang kompetisi IT nasional bergengsi (UI/UX, Web Dev, Business Case) untuk Mahasiswa & SMA/SMK. Menangkan total hadiah puluhan juta rupiah! 🚀',
   keywords: [
-    'I/O Festival 2026', 'lomba IT tingkat nasional', 'kompetisi IT', 'lomba mahasiswa', 'lomba SMA SMK',
-    'kompetisi UI/UX', 'lomba Web Development', 'lomba Business Case', 'IT competition Indonesia',
-    'teknologi', 'inovasi', 'event IT 2026', 'Tarumanagara'
+    'I/O Festival 2026', 'Kompetisi IT Nasional 2026', 'Lomba UI/UX Design', 'Lomba Web Development', 'Lomba Business Case',
+    'Lomba IT Mahasiswa', 'Lomba IT SMA SMK', 'IT Festival Indonesia', 'BEM FTI UNTAR', 'Universitas Tarumanagara',
+    'Lomba Desain Aplikasi', 'Lomba Pemrograman Web', 'Ide Bisnis Teknologi', 'Event IT Jakarta'
   ],
   authors: [{ name: 'BEM FTI UNTAR', url: 'https://bemftiuntar.com' }],
   creator: 'I/O Festival Team',
+  publisher: 'BEM FTI UNTAR',
   applicationName: 'I/O Festival 2026',
   category: 'technology',
   alternates: {
@@ -53,21 +54,21 @@ export const metadata: Metadata = {
     locale: 'id_ID',
     url: 'https://iofest.com',
     title: 'I/O FESTIVAL 2026 | Buktikan Inovasi Teknologimu! 🔥',
-    description: 'Ajang kompetisi IT bergengsi skala nasional untuk Mahasiswa & SMA/SMK. Asah kemampuanmu di UI/UX, Web Dev & Business Case. Daftar sekarang & raih hadiahnya! 🏆',
+    description: 'Ikuti kompetisi IT skala nasional terbaik: UI/UX, Web Development, dan Business Case. Raih hadiah puluhan juta rupiah & sertifikat nasional. Daftar sekarang!',
     siteName: 'I/O FESTIVAL 2026',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'I/O FESTIVAL 2026 Preview - Kompetisi IT Nasional',
+        alt: 'I/O FESTIVAL 2026 - Kompetisi Teknologi Terbesar Nasional',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'I/O FESTIVAL 2026 | Buktikan Skill IT Kamu! 🚀',
-    description: 'Ajang kompetisi teknologi terbesar tahun ini. Bergabunglah dalam Web Dev, UI/UX, dan Business Case. Registrasi & amankan slot timmu sekarang! ✨',
+    description: 'Kompetisi IT Nasional: UI/UX, Web Dev, dan Business Case. Registrasi sekarang dan jadilah pemenang di I/O Festival 2026! ✨',
     creator: '@iofestival',
     images: ['/twitter-image.jpg'],
   },

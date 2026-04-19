@@ -35,6 +35,7 @@ export function About() {
                         transition={{ duration: 0.8 }}
                     >
                         <h2 className="font-raela font-bold text-3xl md:text-5xl lg:text-6xl lg:leading-[1.1] mb-8 text-white flex flex-col gap-2">
+                            <span className="block text-neon-blue text-xs md:text-sm uppercase tracking-[0.4em] mb-2 opacity-80">Tentang I/O Festival 2026</span>
                             <span className="block tracking-tight text-balance">Technology Into Action,</span>
                             <span className="block tracking-tight text-balance">Ideas Into Impact.</span>
                         </h2>

@@ -151,7 +151,7 @@ export function Navbar() {
             <Image
               id="navbar-logo"
               src="/assets/logo/logo-io.webp"
-              alt="I/O Festival Logo"
+              alt="Logo I/O Festival 2026 - Kompetisi Teknologi Terbesar Nasional"
               width={200}
               height={60}
               className={`w-auto object-contain transform-gpu will-change-[height] ${transitionClass} ${
@@ -328,7 +328,7 @@ export function Navbar() {
                                     >
                                       <Image
                                         src="/assets/sponsors/Logo BCA_Putih.png"
-                                        alt="BCA"
+                                        alt="BCA - Official Case Collaborator I/O Festival 2026"
                                         fill
                                         className="object-contain opacity-80 group-hover/item:opacity-100 transition-all duration-500"
                                       />
@@ -641,7 +641,7 @@ function MobileDropdownItem({
                               >
                                 <Image
                                   src="/assets/sponsors/Logo BCA_Putih.png"
-                                  alt="BCA"
+                                  alt="BCA - Official Case Collaborator I/O Festival 2026"
                                   fill
                                   className="object-contain opacity-80"
                                 />
