@@ -60,7 +60,7 @@ export function Footer() {
             <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/assets/logo/logo-io.webp"
-                alt="I/O Festival Logo"
+                alt="Logo Utama I/O Festival 2026 - National Tech Competition"
                 width={200}
                 height={60}
                 className="h-10 w-auto object-contain"
@@ -72,7 +72,7 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Image
                 src="/assets/logo/LOGO FTI UNTAR.png"
-                alt="FTI UNTAR Logo"
+                alt="Logo Fakultas Teknologi Informasi Universitas Tarumanagara (FTI UNTAR)"
                 width={120}
                 height={60}
                 className="h-8 w-auto object-contain opacity-50"
@@ -80,7 +80,7 @@ export function Footer() {
               <div className="w-px h-6 bg-white/10" />
               <Image
                 src="/assets/logo/logo bem fti white.png"
-                alt="BEM FTI Logo"
+                alt="Logo BEM FTI UNTAR - Penyelenggara Kompetisi IT Nasional"
                 width={120}
                 height={60}
                 className="h-8 w-auto object-contain opacity-50"

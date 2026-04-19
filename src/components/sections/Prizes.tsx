@@ -44,15 +44,14 @@ export function Prizes() {
                 <div
                     className="relative inline-block px-6 py-8 md:px-16 md:py-12 rounded-[2rem] md:rounded-[3rem] md:backdrop-blur-[24px] bg-white/[0.03] border border-white/10 shadow-2xl hover:bg-white/[0.05] hover:border-white/20 hover:scale-[1.02] transition-all duration-300 transform-gpu"
                 >
-                   <motion.h1
+                   <motion.div
                       className="text-[12vw] md:text-[8rem] xl:text-[10rem] font-black font-raela text-transparent bg-clip-text bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange leading-none tracking-tighter"
                    >
                       {roundedDisplay}
-                   </motion.h1>
+                   </motion.div>
                </div>
             </motion.div>
          </div>
       </section>
    );
 }
-
