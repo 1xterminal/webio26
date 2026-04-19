@@ -30,6 +30,24 @@ const sponsorTiers: SponsorTier[] = [
         ]
     },
     {
+        tierName: 'Platinum',
+        logos: [
+            { 
+                name: 'Seindonesia', 
+                width: 280, 
+                height: 140, 
+                src: '/assets/sponsors/seindonesia.png'
+            },
+            { 
+                name: 'Digisnap', 
+                width: 280, 
+                height: 140, 
+                src: '/assets/sponsors/Digisnap (Light).png',
+                href: 'https://linktr.ee/digisnap.id'
+            },
+        ]
+    },
+    {
         tierName: 'Gold',
         logos: [
             { name: 'Festival Partner', width: 240, height: 120 },
@@ -67,11 +85,28 @@ const sponsorTiers: SponsorTier[] = [
                 src: '/assets/sponsors/cendol duren.png'
             },
             { 
-                name: 'Digisnap', 
-                width: 160, 
-                height: 80, 
-                src: '/assets/sponsors/Digisnap (Light).png',
-                href: 'https://linktr.ee/digisnap.id'
+                name: 'Djadul Cake', 
+                width: 180, 
+                height: 100, 
+                src: '/assets/sponsors/djadul cake.png'
+            },
+            { 
+                name: 'Nailboo', 
+                width: 180, 
+                height: 100, 
+                src: '/assets/sponsors/nailboo.png'
+            },
+            { 
+                name: 'Suki Bento', 
+                width: 180, 
+                height: 100, 
+                src: '/assets/sponsors/suki bento.png'
+            },
+            { 
+                name: 'Unomi', 
+                width: 180, 
+                height: 100, 
+                src: '/assets/sponsors/unomi.png'
             },
         ]
     },
