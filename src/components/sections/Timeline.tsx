@@ -64,15 +64,16 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
             {/* Content Side */}
             <div className={`flex-1 pl-14 md:pl-0 w-full transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isPassed ? 'opacity-90' : 'opacity-100'}`}>
                 {index === 0 ? (
-                    <div className={`relative p-6 md:p-8 rounded-[2rem] bg-black/60 backdrop-blur-3xl border border-[#FF8B53]/40 overflow-hidden group/card hover:-translate-y-2 hover:scale-[1.02] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${index % 2 === 0 ? 'md:items-end text-left md:text-right md:ml-auto' : 'items-start text-left'} flex flex-col max-w-lg`}
-                         style={{ boxShadow: '0 30px 60px -15px rgba(0,0,0,0.8), inset 0 0 30px rgba(255,139,83,0.1)' }}>
+                    <div className={`relative p-6 md:p-8 rounded-[2rem] bg-black/80 md:bg-black/60 md:backdrop-blur-3xl border border-[#FF8B53]/40 overflow-hidden group/card hover:-translate-y-2 hover:scale-[1.02] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${index % 2 === 0 ? 'md:items-end text-left md:text-right md:ml-auto' : 'items-start text-left'} flex flex-col max-w-lg transform-gpu`}
+                         style={{ boxShadow: '0 20px 40px -10px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,139,83,0.05)' }}>
                          
                         {/* Animated Glow Backdrops */}
                         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#FF8B53] to-transparent opacity-80 group-hover/card:opacity-100 transition-opacity duration-500" />
                         <div className="absolute inset-0 bg-gradient-to-br from-[#FF8B53]/20 via-transparent to-transparent opacity-40 group-hover/card:opacity-70 transition-opacity duration-700 pointer-events-none" />
                         
-                        {/* Performant Bloom Light Leak */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF8B53] blur-[80px] rounded-full opacity-0 group-hover/card:opacity-30 transition-opacity duration-1000 pointer-events-none mix-blend-screen -z-10 translate-x-1/4 -translate-y-1/4" />
+                        {/* Performant Bloom Light Leak (Gradient replaces Blur on high-DPI/Mobile) */}
+                        <div className="absolute top-0 right-0 w-64 h-64 opacity-0 group-hover/card:opacity-30 transition-opacity duration-1000 pointer-events-none mix-blend-screen -z-10 translate-x-1/4 -translate-y-1/4" 
+                             style={{ background: 'radial-gradient(circle, #FF8B53 0%, transparent 70%)' }} />
 
                         <div className={`flex items-center gap-3 mb-4 ${index % 2 === 0 ? 'md:justify-end' : 'justify-start'} flex-wrap relative z-10 w-full`}>
                             <h3 className="font-raela text-xs tracking-[0.15em] uppercase font-black text-[#FF8B53] drop-shadow-[0_0_10px_rgba(255,139,83,0.6)]">
@@ -92,7 +93,7 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
                         </p>
 
                         {/* Embedded Case Release Sub-Event */}
-                        <div className="mt-4 sm:mt-6 flex flex-col items-start md:items-end gap-1.5 sm:gap-2 p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-[#FF8B53]/30 w-full relative z-10 group/subevent hover:bg-white/10 transition-all duration-300 backdrop-blur-sm shadow-[0_0_15px_rgba(255,139,83,0.05)]">
+                        <div className="mt-4 sm:mt-6 flex flex-col items-start md:items-end gap-1.5 sm:gap-2 p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-[#FF8B53]/30 w-full relative z-10 group/subevent hover:bg-white/10 transition-all duration-300 md:backdrop-blur-sm shadow-[0_0_15px_rgba(255,139,83,0.05)] transform-gpu">
                             
                             {/* Top Line: Date and Event Name */}
                             <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 sm:gap-3 pb-1.5 border-b border-[#FF8B53]/10 w-full">
@@ -226,13 +227,13 @@ export function Timeline() {
             setIsPastRevealDate(now >= revealDate);
         };
 
-        // Delay execution slightly to bypass strict synchronous state update linter
-        const timeoutId = setTimeout(calculateInitialPhase, 0);
+        // Sync execution with browser render frame to bypass strict synchronous state update linter
+        const frameId = requestAnimationFrame(calculateInitialPhase);
 
         // Recalculate periodically just in case the tab is kept open for a long time
         const interval = setInterval(calculateInitialPhase, 1000 * 60 * 60);
         return () => {
-            clearTimeout(timeoutId);
+            cancelAnimationFrame(frameId);
             clearInterval(interval);
         };
     }, []);

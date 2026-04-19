@@ -56,23 +56,30 @@ export default function StarDust() {
             cachedGlow = glow;
         }
 
+        let logicalWidth = 0;
+        let logicalHeight = 0;
+
         function resize() {
             if (!cvs) return;
-            cvs.width = window.innerWidth;
-            cvs.height = window.innerHeight;
-            // Rebuild gradient on every resize since canvas dimensions changed
+            const dpr = window.devicePixelRatio || 1;
+            logicalWidth = window.innerWidth;
+            logicalHeight = window.innerHeight;
+            cvs.width = logicalWidth * dpr;
+            cvs.height = logicalHeight * dpr;
+            cvs.style.width = `${logicalWidth}px`;
+            cvs.style.height = `${logicalHeight}px`;
+            ctx?.scale(dpr, dpr);
             buildGlow();
         }
 
         resize();
 
         motes.current = Array.from({ length: MOTE_COUNT }, () =>
-            spawnMote(cvs.width, cvs.height)
+            spawnMote(logicalWidth, logicalHeight)
         );
-        // one big star
         motes.current.push({
-            x: Math.random() * cvs.width,
-            y: Math.random() * cvs.height * 0.6,
+            x: Math.random() * logicalWidth,
+            y: Math.random() * logicalHeight * 0.6,
             size: 5,
             vx: 0.02,
             vy: -0.01,
@@ -81,36 +88,39 @@ export default function StarDust() {
             phase: 0,
         });
 
-        // Pre-cache fillStyle strings per mote — alpha never changes so this is safe
         const moteColors = motes.current.map(m => `rgba(220,220,230,${m.alpha})`);
-
-        // matchMedia guard — render loop only runs on desktop (>=768px)
-        // Zero RAF iterations on mobile — replaces the old setTimeout polling loop
         const mq = window.matchMedia('(min-width: 768px)');
+        let isVisible = true;
+
+        const observer = new IntersectionObserver((entries) => {
+            isVisible = entries[0].isIntersecting;
+        }, { threshold: 0.01 });
+        observer.observe(cvs);
 
         function render() {
-            if (!ctx || !cvs) return;
+            if (!ctx || !cvs || !isVisible) {
+                if (!isVisible) raf.current = requestAnimationFrame(render);
+                return;
+            }
 
-            ctx.clearRect(0, 0, cvs.width, cvs.height);
+            ctx.clearRect(0, 0, logicalWidth, logicalHeight);
 
-            // Use the cached glow gradient — zero allocations per frame
             if (cachedGlow) {
                 ctx.fillStyle = cachedGlow;
-                ctx.fillRect(0, 0, cvs.width, cvs.height);
+                ctx.fillRect(0, 0, logicalWidth, logicalHeight);
             }
 
             for (let i = 0; i < motes.current.length; i++) {
                 const m = motes.current[i];
                 m.x += m.vx;
                 m.y += m.vy;
-                if (m.x < -5) m.x = cvs.width + 5;
-                if (m.x > cvs.width + 5) m.x = -5;
-                if (m.y < -5) m.y = cvs.height + 5;
-                if (m.y > cvs.height + 5) m.y = -5;
+                if (m.x < -5) m.x = logicalWidth + 5;
+                if (m.x > logicalWidth + 5) m.x = -5;
+                if (m.y < -5) m.y = logicalHeight + 5;
+                if (m.y > logicalHeight + 5) m.y = -5;
 
                 ctx.beginPath();
                 ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
-                // Use pre-cached color string — no string allocation per frame
                 ctx.fillStyle = moteColors[i];
                 ctx.fill();
             }
