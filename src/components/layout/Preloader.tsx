@@ -18,14 +18,14 @@ export function Preloader() {
 
         const exitTimer = setTimeout(() => {
             setPhase('exiting');
-        }, 2500); // Increased from 1200ms
+        }, 1400); // Was 2500ms — reduced for faster perceived load
 
         const doneTimer = setTimeout(() => {
             document.body.style.overflow = '';
             // sessionStorage.setItem('io_preloader_done', 'true');
             window.dispatchEvent(new CustomEvent('preloader:done'));
             setPhase('done');
-        }, 3500); // Increased from 2200ms
+        }, 2000); // Was 3500ms — reduced for faster interaction
 
         return () => {
             clearTimeout(exitTimer);
@@ -63,12 +63,12 @@ export function Preloader() {
                 {phase === 'loading' && (
                     <motion.div
                         className="relative z-10 flex flex-col items-center justify-center mix-blend-difference gap-6"
-                        initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-                        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                        exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+                        initial={{ opacity: 0, scale: 0.92 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.06 }}
                         transition={{
-                            duration: 0.8,
-                            ease: [0.16, 1, 0.3, 1], // Custom snappy ease-out
+                            duration: 0.6,
+                            ease: [0.16, 1, 0.3, 1],
                         }}
                     >
                         <Image

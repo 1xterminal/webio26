@@ -109,12 +109,12 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                 } : {}}
             />
             <div 
-                className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-[60px] opacity-40 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none -translate-y-1/2 translate-x-1/2 ${!accentColor && 'bg-neon-orange/20'} max-md:hidden`} 
+                className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-[30px] opacity-30 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none -translate-y-1/2 translate-x-1/2 ${!accentColor && 'bg-neon-orange/20'} max-md:hidden`} 
                 style={accentColor ? { backgroundColor: glow2 } : {}}
             />
             
-            {/* Shimmer Sweep */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-[shimmer_3s_infinite] pointer-events-none -translate-x-full" />
+            {/* Shimmer Sweep — GPU-only: transform+opacity only, no paint */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             <div className="relative z-10 text-center md:text-left mb-10">
                 <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3 md:gap-4 mb-3">
@@ -165,8 +165,7 @@ export function Countdown({ accentColor }: { accentColor?: string }) {
                         {Object.entries(timeLeft).map(([interval, value], index) => (
                             <div key={interval} className="flex flex-col items-center justify-center relative w-full">
                                 <span 
-                                    className="font-raela font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-tighter leading-none inline-block text-center w-[1.5em]"
-                                    style={{ filter: 'drop-shadow(0 4px 15px rgba(255,255,255,0.25))' }}
+                                    className="font-raela font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-tighter leading-none inline-block text-center w-[1.5em] drop-shadow-lg"
                                 >
                                     {value.toString().padStart(2, '0')}
                                 </span>
