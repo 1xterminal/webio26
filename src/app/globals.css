@@ -215,6 +215,48 @@
     .nav-pulse-dot,
     .nav-glow-line { animation: none !important; }
   }
+
+  /* ─── Premium Festive Background ─────────────────────────── */
+  .premium-festive-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    transform: translateZ(0); /* Force compositor layer */
+    will-change: background;
+    background: 
+      /* Large Base Fields */
+      radial-gradient(ellipse 70% 60% at 0% 0%, var(--accent-alpha-40) 0%, transparent 80%),
+      radial-gradient(ellipse 70% 60% at 100% 100%, rgba(168, 86, 238, 0.35) 0%, transparent 80%),
+      radial-gradient(ellipse 70% 60% at 100% 0%, var(--accent-alpha-30) 0%, transparent 80%),
+      radial-gradient(ellipse 70% 60% at 0% 100%, rgba(255, 107, 0, 0.30) 0%, transparent 80%),
+      /* Secondary Mid-fields */
+      radial-gradient(ellipse 50% 50% at 50% -10%, rgba(29, 188, 211, 0.25) 0%, transparent 75%),
+      radial-gradient(ellipse 50% 50% at 50% 110%, rgba(168, 86, 238, 0.25) 0%, transparent 75%),
+      radial-gradient(ellipse 45% 45% at -15% 50%, var(--accent-alpha-25) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 45% at 115% 50%, rgba(255, 107, 0, 0.25) 0%, transparent 70%),
+      /* High-Intensity Accents */
+      radial-gradient(circle at 12% 25%, var(--accent-alpha-45) 0%, transparent 20%),
+      radial-gradient(circle at 88% 15%, rgba(168, 86, 238, 0.40) 0%, transparent 25%),
+      radial-gradient(circle at 82% 85%, rgba(255, 107, 0, 0.35) 0%, transparent 20%),
+      radial-gradient(circle at 18% 75%, rgba(29, 188, 211, 0.35) 0%, transparent 25%),
+      /* Internal Pop/Glow */
+      radial-gradient(ellipse 40% 40% at 35% 40%, rgba(29, 188, 211, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 65% 60%, rgba(168, 86, 238, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 35% at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  }
+
+  .premium-festive-bg-mobile {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: 
+      radial-gradient(ellipse 80% 80% at 0% 0%, var(--accent-alpha-40) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 80% at 100% 100%, rgba(168, 86, 238, 0.35) 0%, transparent 70%),
+      radial-gradient(circle at 82% 85%, rgba(255, 107, 0, 0.35) 0%, transparent 40%),
+      radial-gradient(ellipse 45% 45% at 50% 50%, var(--accent-alpha-20) 0%, transparent 60%);
+  }
 }
 
 @theme inline {

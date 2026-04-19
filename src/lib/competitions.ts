@@ -78,7 +78,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri', 
                 title: 'Vice President Of Corporate Banking Application',
                 company: 'BCA', 
-                imagePath: '/assets/juri/businesscase/Shanti Ratna Ningsih.png',
+                imagePath: '/assets/juri/businesscase/shanti-ratna-ningsih.png',
                 objectPosition: 'center'
             },
             { 
@@ -86,7 +86,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri', 
                 title: 'Founder & CEO',
                 company: 'Rudaya – Connect The Art', 
-                imagePath: '/assets/juri/businesscase/Irfan Walhidayah (Business Case).jpg',
+                imagePath: '/assets/juri/businesscase/irfan-walhidayah.jpg',
                 objectPosition: 'center 1%'
             },
             { 
@@ -94,7 +94,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri', 
                 title: 'Vice President of Business Ecosystem',
                 company: 'BCA', 
-                imagePath: '/assets/juri/businesscase/Andhika_Setiawan_New.jpeg',
+                imagePath: '/assets/juri/businesscase/andhika-setiawan.jpeg',
                 objectPosition: 'center 25%'
             }
         ],
@@ -132,7 +132,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri Kategori Mahasiswa', 
                 title: 'UI/UX Designer',
                 company: 'PT Paragon Technology and Innovation', 
-                imagePath: '/assets/juri/uiux/mahasiswa/Dinda Farradila Jasmine.png',
+                imagePath: '/assets/juri/uiux/mahasiswa/dinda-farradila-jasmine.png',
                 objectPosition: 'center 10%'
             },
             { 
@@ -140,7 +140,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri Kategori Mahasiswa', 
                 title: 'UI/UX Lead',
                 company: 'Bvarta (PT Bhumi Varta Technology)', 
-                imagePath: '/assets/juri/uiux/mahasiswa/Randi Winarbisono.png',
+                imagePath: '/assets/juri/uiux/mahasiswa/randi-winarbisono.png',
                 objectPosition: 'center 1%'
             },
             { 
@@ -148,7 +148,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri Kategori Siswa', 
                 title: 'UI/UX Designer',
                 company: 'PT ASIX Indonesia Cerdas', 
-                imagePath: '/assets/juri/uiux/siswa/Davia Belinda Hidayat.png',
+                imagePath: '/assets/juri/uiux/siswa/davia-belinda-hidayat.png',
                 objectPosition: 'center 40%'
             },
             { 
@@ -156,7 +156,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri Kategori Siswa', 
                 title: 'Product Designer',
                 company: 'PT. Karya Inti Hutama', 
-                imagePath: '/assets/juri/uiux/siswa/Muhammad Abiyyu Habibi.png',
+                imagePath: '/assets/juri/uiux/siswa/muhammad-abiyyu-habibi.png',
                 objectPosition: 'center 10%'
             }
         ],
@@ -195,7 +195,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri Kategori Mahasiswa', 
                 title: 'Mid Software Engineer',
                 company: 'Tiket.com', 
-                imagePath: '/assets/juri/webdev/mahasiswa/Rully Saputra - Web Dev Mhs.jpeg',
+                imagePath: '/assets/juri/webdev/mahasiswa/rully-saputra.jpeg',
                 objectPosition: 'center 1%'
             },
             { 
@@ -203,7 +203,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri Kategori Mahasiswa', 
                 title: 'Senior Software Engineer II',
                 company: 'Wego.com', 
-                imagePath: '/assets/juri/webdev/mahasiswa/Irfan Maulana - Web Dev Mhs.jpg',
+                imagePath: '/assets/juri/webdev/mahasiswa/irfan-maulana.jpg',
                 objectPosition: 'center 10%'
             },
             { 
@@ -211,7 +211,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri Kategori Siswa', 
                 title: 'Creative Specialist',
                 company: 'PT Desain Visual Indonesia', 
-                imagePath: '/assets/juri/webdev/siswa/ABDUL AZIZ (Webdev siswa).jpg',
+                imagePath: '/assets/juri/webdev/siswa/abdul-aziz.jpg',
                 objectPosition: 'center 1%'
             },
             { 
@@ -219,7 +219,7 @@ export const competitions: CompetitionData[] = [
                 role: 'Juri Kategori Siswa', 
                 title: 'Software Engineer',
                 company: 'Pintarnya', 
-                imagePath: '/assets/juri/webdev/siswa/WEBDEV - AUFA NEW.jpg',
+                imagePath: '/assets/juri/webdev/siswa/aufa-billah.jpg',
                 objectPosition: 'center 20%'
             }
         ],
