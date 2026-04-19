@@ -58,9 +58,9 @@ export const metadata: Metadata = {
     siteName: 'I/O FESTIVAL 2026',
     images: [
       {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
+        url: '/icon.png',
+        width: 192,
+        height: 192,
         alt: 'I/O FESTIVAL 2026 - Kompetisi Teknologi Terbesar Nasional',
       },
     ],
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     title: 'I/O FESTIVAL 2026 | Buktikan Skill IT Kamu! 🚀',
     description: 'Kompetisi IT Nasional: UI/UX, Web Dev, dan Business Case. Registrasi sekarang dan jadilah pemenang di I/O Festival 2026! ✨',
     creator: '@iofestival',
-    images: ['/twitter-image.jpg'],
+    images: ['/icon.png'],
   },
   icons: {
     icon: [
