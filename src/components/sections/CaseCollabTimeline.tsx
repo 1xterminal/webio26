@@ -6,8 +6,8 @@ import React, { useState, useEffect, memo } from 'react';
 const events = [
     {
         date: "15 Mar - 19 Apr 2026",
-        title: "Early Bird Registration (Diperpanjang!)",
-        description: "Merespons antusiasme peserta yang tinggi, penawaran harga Early Bird diperpanjang hingga 19 April. Daftarkan tim kamu sekarang sebelum tarif kembali normal.",
+        title: "Early Bird Registration",
+        description: "Periode pendaftaran awal dengan penawaran harga khusus bagi seluruh peserta.",
         startDate: new Date('2026-03-15T00:00:00+07:00'),
     },
     {

@@ -58,7 +58,7 @@ export const CompetitionInfo = React.memo(({ data }: CompetitionInfoProps) => {
                                     </div>
 
                                     <div className="p-6 flex flex-col justify-center items-center text-center relative h-full min-h-[220px]">
-                                        {tier.early.toUpperCase() === 'GRATIS' ? (
+                                        {tier.regular.toUpperCase() === 'GRATIS' ? (
                                             <div className="flex flex-col items-center justify-center w-full h-full">
                                                 <div className="relative inline-block group/free mt-2">
                                                     <div className="absolute -inset-4 bg-gradient-to-r from-emerald-400 to-teal-500 blur-2xl opacity-20 group-hover/tier:opacity-40 transition-opacity duration-700 rounded-full animate-[pulse_3s_ease-in-out_infinite] pointer-events-none" />
@@ -73,23 +73,23 @@ export const CompetitionInfo = React.memo(({ data }: CompetitionInfoProps) => {
                                         ) : (
                                             <div className="flex flex-col items-center w-full h-full">
                                                 <div className="mb-4 w-full">
-                                                    <span className="block text-xs text-white/50 uppercase tracking-[0.2em] mb-2 font-raela font-black">Early Bird</span>
+                                                    <span className="block text-xs text-white/50 uppercase tracking-[0.2em] mb-2 font-raela font-black">Regular Registration</span>
                                                     <div className="relative inline-block group/price">
                                                         <span className="block font-raela font-black text-3xl lg:text-4xl tracking-tight text-white mb-1 transition-all duration-500 group-hover/tier:scale-110" style={{ color: data.accentHex }}>
-                                                            {tier.early}
+                                                            {tier.regular}
                                                         </span>
                                                         <div className="absolute inset-0 blur-2xl opacity-10 group-hover/tier:opacity-30 scale-150 transition-opacity pointer-events-none" style={{ backgroundColor: data.accentHex }} />
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-3 w-full opacity-10 mb-4">
                                                     <div className="h-[1px] flex-1 bg-white" />
-                                                    <span className="text-[8px] font-raela text-white uppercase tracking-widest">Regular Price</span>
+                                                    <span className="text-[8px] font-raela text-white uppercase tracking-widest">Early Bird Ended</span>
                                                     <div className="h-[1px] flex-1 bg-white" />
                                                 </div>
                                                 <div className="opacity-30 group-hover/tier:opacity-50 transition-all duration-500 transform group-hover/tier:translate-y-[-2px]">
-                                                    <span className="block text-[8px] text-white/50 uppercase tracking-widest mb-1 font-raela">Regular</span>
+                                                    <span className="block text-[8px] text-white/50 uppercase tracking-widest mb-1 font-raela">Early Bird</span>
                                                     <span className="block font-bold text-lg text-white/80 line-through decoration-white/30 whitespace-nowrap">
-                                                        {tier.regular}
+                                                        {tier.early}
                                                     </span>
                                                 </div>
                                             </div>

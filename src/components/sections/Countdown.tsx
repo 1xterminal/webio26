@@ -24,10 +24,10 @@ function getTargetDate(phase: Phase): Date {
 
 function getLabel(phase: Phase): string {
     switch (phase) {
-        case 'before_open': return 'Pendaftaran dibuka dalam';
+        case 'before_open': return 'Registrasi dibuka dalam';
         case 'wave1': return 'Early Bird ditutup dalam';
-        case 'wave2': return 'Pendaftaran ditutup dalam';
-        case 'closed': return 'Pendaftaran telah ditutup';
+        case 'wave2': return 'Registrasi ditutup & deadline pengumpulan karya dalam';
+        case 'closed': return 'Registrasi dan pengumpulan karya telah ditutup';
     }
 }
 
