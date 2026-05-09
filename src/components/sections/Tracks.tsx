@@ -247,17 +247,9 @@ export function Tracks() {
                                         </div>
                                     )}
 
-                                    {/* High-Contrast CTA Button */}
-                                    <div>
-                                        {track.title !== 'Business Case' && (
-                                            <div className="flex items-center gap-2 mb-3 px-3 py-1.5 rounded-lg border w-fit"
-                                                 style={{ borderColor: `${track.accentHex}30`, backgroundColor: `${track.accentHex}10` }}>
-                                                <span className="text-[11px] font-raela font-bold uppercase tracking-wider" style={{ color: track.accentHex }}>
-                                                    FREE for SMA/SMK!
-                                                </span>
-                                            </div>
-                                        )}
-                                        <div className={`relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm tracking-wide text-white overflow-hidden group/btn shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 hover:shadow-[0_0_30px_${track.accentHex}40] transform-gpu`}>
+                                    {/* CTA Row */}
+                                    <div className="flex flex-col items-start mt-2">
+                                        <div className={`relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm tracking-wide text-white overflow-hidden group/btn shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 hover:shadow-[0_0_30px_${track.accentHex}40] transform-gpu`}>
                                             {/* Button Background Gradient */}
                                             <div className={`absolute inset-0 bg-gradient-to-r ${track.color} opacity-90 group-hover/btn:opacity-100 transition-opacity duration-[400ms] ease-out translate-z-0`} />
                                             
@@ -265,7 +257,7 @@ export function Tracks() {
                                             <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] translate-z-0" />
                                             
                                             <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
-                                                Daftar Sekarang
+                                                See Details
                                                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] transform-gpu" />
                                             </span>
                                         </div>
