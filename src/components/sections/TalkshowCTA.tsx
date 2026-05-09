@@ -115,11 +115,11 @@ export default function TalkshowCTA() {
         <div className="col-span-1 order-5 lg:order-none lg:col-span-6 relative flex flex-col items-center justify-end w-full h-[220px] sm:h-[350px] md:h-[500px] lg:h-[600px] z-10 lg:z-20">
           
           {/* Dynamic Background Elements */}
-          <div style={{ animation: 'spin 30s linear infinite' }} className="absolute w-[120px] h-[120px] sm:w-[250px] sm:h-[250px] md:w-[350px] md:h-[350px] lg:w-[450px] lg:h-[450px] border border-white/10 rounded-full border-dashed opacity-50 bottom-[10%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2" />
-          <div style={{ animation: 'spin 40s linear infinite reverse' }} className="absolute w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] md:w-[280px] md:h-[280px] lg:w-[350px] lg:h-[350px] border-2 border-neon-purple/20 rounded-full opacity-50 bottom-[15%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2" />
+          <div style={{ animation: 'spin 30s linear infinite' }} className="absolute w-[120px] h-[120px] sm:w-[250px] sm:h-[250px] md:w-[350px] md:h-[350px] lg:w-[450px] lg:h-[450px] border border-white/10 rounded-full border-dashed opacity-50 bottom-[10%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 transform-gpu will-change-transform" />
+          <div style={{ animation: 'spin 40s linear infinite reverse' }} className="absolute w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] md:w-[280px] md:h-[280px] lg:w-[350px] lg:h-[350px] border-2 border-neon-purple/20 rounded-full opacity-50 bottom-[15%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 transform-gpu will-change-transform" />
           
           {/* Solid Glow */}
-          <div className="absolute w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] md:w-[300px] md:h-[300px] lg:w-[400px] lg:h-[400px] bg-gradient-to-tr from-neon-blue/20 via-neon-purple/20 to-transparent rounded-full blur-[30px] md:blur-[60px] bottom-[15%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2" />
+          <div className="absolute w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] md:w-[300px] md:h-[300px] lg:w-[400px] lg:h-[400px] bg-gradient-to-tr from-neon-blue/20 via-neon-purple/20 to-transparent rounded-full blur-[30px] md:blur-[60px] bottom-[15%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 transform-gpu" />
 
           {/* Speaker Image */}
           <motion.div 
@@ -128,9 +128,9 @@ export default function TalkshowCTA() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
-            className="relative w-full h-[120%] sm:h-full flex items-end justify-center scale-125 -translate-y-6 sm:scale-100 sm:translate-y-0 origin-bottom"
+            className="relative w-full h-[120%] sm:h-full flex items-end justify-center scale-125 -translate-y-6 sm:scale-100 sm:translate-y-0 origin-bottom transform-gpu"
           >
-            <div className="relative w-full h-full drop-shadow-[0_0_20px_rgba(168,86,238,0.3)] lg:hover:drop-shadow-[0_0_50px_rgba(29,188,211,0.6)] transition-[filter] duration-700">
+            <div className="relative w-full h-full transition-[filter] duration-700">
               <div 
                 className="relative w-full h-full"
                 style={{ 
