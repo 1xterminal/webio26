@@ -137,11 +137,11 @@ export function TalkshowPage() {
           <div className="col-span-1 order-5 lg:order-none lg:col-span-6 relative flex flex-col items-center justify-end w-full h-[220px] sm:h-[350px] md:h-[450px] lg:h-[650px] z-10 lg:z-20">
             
             {/* Dynamic Background Elements for the Photo */}
-            <div style={{ animation: 'spin 30s linear infinite' }} className="absolute w-[120px] h-[120px] sm:w-[250px] sm:h-[250px] md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] border border-white/10 rounded-full border-dashed opacity-50 lg:opacity-100 bottom-[10%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2" />
-            <div style={{ animation: 'spin 40s linear infinite reverse' }} className="absolute w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] md:w-[280px] md:h-[280px] lg:w-[350px] lg:h-[350px] border-2 border-neon-purple/20 rounded-full opacity-50 lg:opacity-100 bottom-[15%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2" />
+            <div style={{ animation: 'spin 30s linear infinite' }} className="absolute w-[120px] h-[120px] sm:w-[250px] sm:h-[250px] md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] border border-white/10 rounded-full border-dashed opacity-50 lg:opacity-100 bottom-[10%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 transform-gpu will-change-transform" />
+            <div style={{ animation: 'spin 40s linear infinite reverse' }} className="absolute w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] md:w-[280px] md:h-[280px] lg:w-[350px] lg:h-[350px] border-2 border-neon-purple/20 rounded-full opacity-50 lg:opacity-100 bottom-[15%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 transform-gpu will-change-transform" />
             
             {/* Solid Glow behind speaker */}
-            <div className="absolute w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] md:w-[300px] md:h-[300px] lg:w-[400px] lg:h-[400px] bg-gradient-to-tr from-neon-blue/20 via-neon-purple/20 to-transparent rounded-full blur-[30px] md:blur-[60px] bottom-[15%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2" />
+            <div className="absolute w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] md:w-[300px] md:h-[300px] lg:w-[400px] lg:h-[400px] bg-gradient-to-tr from-neon-blue/20 via-neon-purple/20 to-transparent rounded-full blur-[30px] md:blur-[60px] bottom-[15%] lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 transform-gpu" />
 
             {/* The Cutout Speaker Image */}
             <motion.div 
@@ -149,10 +149,10 @@ export function TalkshowPage() {
               initial={{ opacity: 0, scale: 0.9 }} 
               animate={{ opacity: 1, scale: 1 }} 
               transition={{ duration: 0.8, type: "spring", bounce: 0.3, delay: 0.2 }}
-              className="relative w-full h-[120%] lg:h-[85%] flex items-end justify-center scale-125 -translate-y-6 lg:scale-100 lg:translate-y-0 origin-bottom"
+              className="relative w-full h-[120%] lg:h-[85%] flex items-end justify-center scale-125 -translate-y-6 lg:scale-100 lg:translate-y-0 origin-bottom transform-gpu"
             >
               {!imageError ? (
-                <div className="relative w-full h-full drop-shadow-[0_0_20px_rgba(168,86,238,0.3)] lg:hover:drop-shadow-[0_0_50px_rgba(29,188,211,0.6)] transition-[filter] duration-700">
+                <div className="relative w-full h-full transition-[filter] duration-700">
                   <div 
                     className="relative w-full h-full"
                     style={{ 
