@@ -41,6 +41,7 @@ const NAV_ITEMS: NavItem[] = [
     dropdownType: 'competition',
     isHighlight: true,
   },
+  { name: 'Talkshow',   href: '/talkshow',    isHighlight: true },
   { name: 'Schedule',   href: '/#timeline',   isHighlight: false },
   {
     name: 'Partnership',

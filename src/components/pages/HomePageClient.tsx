@@ -15,6 +15,7 @@ import { Sponsors } from '@/components/sections/Sponsors';
 import { FAQ } from '@/components/sections/FAQ';
 import { CTA } from '@/components/sections/CTA';
 import SponsorshipCTA from '@/components/sections/SponsorshipCTA';
+import TalkshowCTA from '@/components/sections/TalkshowCTA';
 
 // Retain dynamic(ssr: false) ONLY for heavy WebGL/Canvas effects to protect SSR
 const Gallery = dynamic(() => import('@/components/sections/Gallery').then(mod => mod.default), { ssr: false });
@@ -32,6 +33,7 @@ export default function HomePageClient() {
       <div className="relative z-0 mt-8 md:mt-16">
         <Gallery />
       </div>
+      <TalkshowCTA />
       <Tracks />
       <Prizes />
       {FEATURES.SHOW_PPTI_BCA_PROMO && <PPTIBCABanner />}
