@@ -252,12 +252,12 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
             return 0.85; // Silver
         }
 
-        // Mobile Multipliers (Aggressively scaled down because Diamond is forced into 3 columns)
-        if (tierName === 'Diamond') return 1.0; // Constrained by w-[75%] inside 1/3 grid width (logo ends up ~85px)
-        if (tierName === 'Platinum') return 0.26; // 280 * 0.26 = 72px
-        if (tierName === 'Gold') return 0.27; // 240 * 0.27 = 64px
-        if (compact) return 0.45; // Silver marquee base is ~120px. 120 * 0.45 = 54px
-        return 0.3; // Default fallback
+        // Mobile Multipliers (Hierarchy scaling rules broken for mobile legibility)
+        if (tierName === 'Diamond') return 1.0; // Constrained by the grid cell
+        if (tierName === 'Platinum') return 0.5; // Was 0.26 -> increased for legibility
+        if (tierName === 'Gold') return 0.55; // Was 0.27 -> increased for legibility
+        if (compact) return 0.6; // Silver marquee -> increased
+        return 0.5; // Default fallback
     };
     
     const multiplier = getResponsiveMultiplier();
@@ -314,8 +314,8 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
         const diamondContent = (
             <motion.div 
                 whileHover={{ y: -10, scale: 1.02 }}
-                transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
-                className={`relative flex items-center justify-center p-2 md:p-8 bg-[#0a0a0a] border ${borderColor} rounded-xl md:rounded-[2rem] overflow-hidden group/card ${isMobile ? 'w-full min-h-[140px]' : 'w-[320px] min-h-[340px]'}`}
+                transition={{ duration: 0.4, type: "tween", ease: "easeOut" }}
+                className={`relative flex items-center justify-center max-md:p-1 md:p-8 bg-[#0a0a0a] border ${borderColor} rounded-xl md:rounded-[2rem] overflow-hidden group/card ${isMobile ? 'w-full min-h-[85px]' : 'w-[320px] min-h-[340px]'}`}
             >
                 {/* Glowing Orb Backgrounds (Replaced blur with radial gradients) */}
                 <div className="absolute top-0 right-0 w-24 h-24 md:w-48 md:h-48 rounded-full -mr-12 -mt-12 md:-mr-24 md:-mt-24 transition-opacity duration-500 opacity-30 group-hover/card:opacity-60" style={{ background: 'radial-gradient(circle, rgba(29,188,211,1) 0%, transparent 70%)' }} />
@@ -323,7 +323,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
 
                 {/* Centered Technical Badge */}
                 <div className="absolute top-2 md:top-8 left-0 w-full flex justify-center z-10">
-                    <div className="relative flex items-center justify-center border-y border-neon-blue/40 bg-gradient-to-r from-transparent via-neon-blue/10 to-transparent px-3 py-1 md:px-8 md:py-2">
+                    <div className="relative flex items-center justify-center border-y border-neon-blue/40 bg-gradient-to-r from-transparent via-neon-blue/10 to-transparent max-md:px-1.5 max-md:py-0.5 md:px-8 md:py-2">
                         {/* Corner Accents */}
                         <div className="absolute top-0 left-0 w-1 h-1 md:w-2 md:h-2 border-t border-l border-neon-blue shadow-[0_0_5px_rgba(29,188,211,0.5)]" />
                         <div className="absolute top-0 right-0 w-1 h-1 md:w-2 md:h-2 border-t border-r border-neon-blue shadow-[0_0_5px_rgba(29,188,211,0.5)]" />
@@ -352,7 +352,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
                 </div>
 
                 {/* Logo Area */}
-                <div className="flex items-center justify-center w-[75%] relative z-20 mt-3 md:mt-8 transition-transform duration-500 group-hover/card:scale-110">
+                <div className="flex items-center justify-center max-md:w-[95%] md:w-[75%] relative z-20 max-md:mt-3 md:mt-8 transition-transform duration-500 group-hover/card:scale-110">
                     {content}
                 </div>
             </motion.div>
