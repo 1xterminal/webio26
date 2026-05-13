@@ -196,15 +196,15 @@ export function Tracks() {
                                             <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover/collab:opacity-100 transition-opacity duration-700"
                                                  style={{ boxShadow: `inset 0 0 20px ${track.accentHex}15, 0 10px 20px -5px rgba(0,0,0,0.5)` }} />
 
-                                            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between px-2 gap-6">
-                                                <div className="flex flex-col gap-2">
+                                            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between px-2 gap-4">
+                                                <div className="flex flex-col gap-1">
                                                     <span className="text-[9px] font-raela font-black uppercase tracking-[0.3em] transition-colors duration-500" style={{ color: track.accentHex }}>Official Case Collaborator</span>
-                                                    <span className="text-white/80 text-xs font-medium font-raela group-hover/collab:text-white transition-colors duration-500 mt-0.5">
+                                                    <span className="text-white/80 text-xs font-medium font-raela group-hover/collab:text-white transition-colors duration-500">
                                                         {isMounted ? (isPastRevealDate ? 'PT Bank Central Asia Tbk' : 'Stay Tuned!') : 'Secret Collaborator'}
                                                     </span>
                                                     {!isPastRevealDate && <CaseRevealCountdown accentColor={track.accentHex} size="lg" className="mt-2 sm:mt-4" />}
                                                 </div>
-                                                <div className="relative z-10 w-16 h-8 md:w-20 md:h-10 shrink-0 -mr-2 md:-mr-3">
+                                                <div className="relative z-10 w-28 h-12 md:w-32 md:h-14 shrink-0 -mr-7 md:-mr-7">
                                                     {isMounted && isPastRevealDate ? (
                                                         <div
                                                             onClick={(e) => {
@@ -229,11 +229,9 @@ export function Tracks() {
                                                             }}
                                                         >
                                                             <Image
-                                                                src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png"
+                                                                src="/assets/sponsors/Logo BCA_Putih.png"
                                                                 alt="BCA"
                                                                 fill
-                                                                unoptimized={true}
-                                                                quality={100}
                                                                 className="object-contain opacity-90 group-hover/collab:opacity-100 group-hover/collab:scale-110 transition-all duration-700 origin-right drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                                                             />
                                                         </div>
@@ -398,7 +396,7 @@ export function PPTIBCABanner() {
                             </div>
 
                             <div className="flex items-center justify-center md:justify-start gap-4 opacity-100 mb-6 group/bca">
-                                <Image src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png" alt="BCA" width={72} height={32} unoptimized={true} quality={100} className="object-contain relative z-10" />
+                                <Image src="/assets/sponsors/Logo BCA_Putih.png" alt="BCA" width={72} height={32} className="object-contain relative z-10" />
                                 <div className="h-6 w-[1px] bg-white/20" />
                                 <span className="text-xs md:text-sm font-raela font-black text-[#00bfff] tracking-[0.2em] uppercase drop-shadow-[0_0_10px_rgba(0,191,255,0.4)]">
                                     Official Program

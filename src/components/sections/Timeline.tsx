@@ -105,12 +105,12 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
                             </div>
 
                             {/* Center Stack: Collaborator -> Logo -> Text */}
-                            <div className="flex flex-col items-start md:items-end gap-1.5 sm:gap-2 w-full mt-1">
+                            <div className="flex flex-col items-start md:items-end gap-0 w-full mt-0.5">
                                 <span className="text-[#FF8B53] font-raela text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-left md:text-right leading-none z-20">
                                     {isMounted && isPastRevealDate ? 'Official Case Collaborator' : 'Secret Collaborator'}
                                 </span>
                                 
-                                <div className="relative z-10 w-16 h-8 sm:w-20 sm:h-10 flex items-center justify-start md:justify-end transition-all">
+                                <div className="relative z-10 w-28 h-12 sm:w-36 sm:h-16 flex items-center justify-start md:justify-end -my-1 sm:-my-1.5 transition-all">
                                     {isMounted && isPastRevealDate ? (
                                         <a
                                             href="https://www.instagram.com/lifeatbca/"
@@ -127,11 +127,9 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
                                             className="relative block w-full h-full z-20 cursor-pointer transition-transform duration-500 hover:scale-[1.05]"
                                         >
                                             <Image
-                                                src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png"
+                                                src="/assets/sponsors/Logo BCA_Putih.png"
                                                 alt="BCA"
                                                 fill
-                                                unoptimized={true}
-                                                quality={100}
                                                 className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] group-hover/subevent:opacity-100 transition-opacity object-left md:object-right"
                                             />
                                         </a>

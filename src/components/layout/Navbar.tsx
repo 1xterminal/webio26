@@ -328,7 +328,7 @@ export function Navbar() {
                                       className="absolute inset-0 z-20 cursor-pointer"
                                     >
                                       <Image
-                                        src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png"
+                                        src="/assets/sponsors/Logo BCA_Putih.png"
                                         alt="BCA - Official Case Collaborator I/O Festival 2026"
                                         fill
                                         className="object-contain opacity-80 group-hover/item:opacity-100 transition-all duration-500"
@@ -641,7 +641,7 @@ function MobileDropdownItem({
                                 className="absolute inset-0 z-20 cursor-pointer"
                               >
                                 <Image
-                                  src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png"
+                                  src="/assets/sponsors/Logo BCA_Putih.png"
                                   alt="BCA - Official Case Collaborator I/O Festival 2026"
                                   fill
                                   className="object-contain opacity-80"
