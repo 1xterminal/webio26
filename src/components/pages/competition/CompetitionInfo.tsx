@@ -191,7 +191,7 @@ export const CompetitionInfo = React.memo(({ data }: CompetitionInfoProps) => {
                                         </div>
                                         
                                         <div className="flex items-center justify-center md:justify-start gap-4 opacity-100 mb-6 group/bca">
-                                            <Image src="/assets/sponsors/Logo BCA_Putih.png" alt="BCA" width={72} height={32} className="object-contain relative z-10" />
+                                            <Image src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png" alt="BCA" width={72} height={32} className="object-contain relative z-10" />
                                             <div className="h-6 w-[1px] bg-white/20" />
                                             <span className="text-xs md:text-sm font-raela font-black text-[#00bfff] tracking-[0.2em] uppercase drop-shadow-[0_0_10px_rgba(0,191,255,0.4)]">
                                                 Official Program

@@ -116,7 +116,7 @@ const JudgeCard = React.memo(({ judge, accentHex }: { judge: Judge, accentHex: s
                         {judge.company === 'BCA' ? (
                             <div className="h-12 sm:h-15 mt-2 brightness-110 opacity-90 transition-all group-hover:opacity-100 group-hover:scale-110 duration-500 flex items-center justify-center">
                                 <Image 
-                                   src="/assets/sponsors/Logo BCA_Putih.png" 
+                                   src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png" 
                                    alt="BCA" 
                                    width={72} height={32}
                                    className="object-contain"
