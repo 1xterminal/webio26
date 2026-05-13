@@ -141,7 +141,7 @@ export const CompetitionHero = React.memo(({ data, Icon, isMounted, isPastReveal
                                         className="relative z-20 cursor-pointer"
                                     >
                                         <Image 
-                                            src="/assets/sponsors/Logo BCA_Putih.png" 
+                                            src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png" 
                                             alt="BCA" 
                                             width={140} 
                                             height={70} 

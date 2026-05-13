@@ -110,7 +110,7 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
                                     {isMounted && isPastRevealDate ? 'Official Case Collaborator' : 'Secret Collaborator'}
                                 </span>
                                 
-                                <div className="relative z-10 w-28 h-12 sm:w-36 sm:h-16 flex items-center justify-start md:justify-end -my-1 sm:-my-1.5 transition-all">
+                                <div className="relative z-10 w-16 h-6 sm:w-20 sm:h-8 flex items-center justify-start md:justify-end my-2 sm:my-3 transition-all">
                                     {isMounted && isPastRevealDate ? (
                                         <a
                                             href="https://www.instagram.com/lifeatbca/"
@@ -127,7 +127,7 @@ const TimelineNode = memo(({ event, index, isActive, isPassed, isMounted, isPast
                                             className="relative block w-full h-full z-20 cursor-pointer transition-transform duration-500 hover:scale-[1.05]"
                                         >
                                             <Image
-                                                src="/assets/sponsors/Logo BCA_Putih.png"
+                                                src="/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png"
                                                 alt="BCA"
                                                 fill
                                                 className="object-contain opacity-90 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] group-hover/subevent:opacity-100 transition-opacity object-left md:object-right"
