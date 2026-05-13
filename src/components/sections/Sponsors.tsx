@@ -14,6 +14,7 @@ interface SponsorLogo {
     height: number;
     src?: string;
     href?: string;
+    boxLabel?: string;
 }
 
 interface SponsorTier {
@@ -23,14 +24,30 @@ interface SponsorTier {
 
 const sponsorTiers: SponsorTier[] = [
     {
-        tierName: 'Case Collaborator',
+        tierName: 'Diamond',
         logos: [
+            {
+                name: 'V3 Production',
+                width: 280,
+                height: 140,
+                src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/v3 production.png',
+                boxLabel: 'Festival Partner'
+            },
             { 
                 name: 'Secret', 
-                width: 420, 
-                height: 210, 
+                width: 280, 
+                height: 140, 
                 href: 'https://www.instagram.com/lifeatbca/',
+                src: '/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png',
+                boxLabel: 'Case Collaborator'
             },
+            {
+                name: 'Archipelago',
+                width: 280,
+                height: 140,
+                src: '/assets/sponsors/DIAMOND/OFFICIAL APPAREL/archipelago.png',
+                boxLabel: 'Official Apparel'
+            }
         ]
     },
     {
@@ -40,13 +57,13 @@ const sponsorTiers: SponsorTier[] = [
                 name: 'Seindonesia', 
                 width: 280, 
                 height: 140, 
-                src: '/assets/sponsors/seindonesia.png'
+                src: '/assets/sponsors/PLATINUM/seindonesia.png'
             },
             { 
                 name: 'Digisnap', 
                 width: 280, 
                 height: 140, 
-                src: '/assets/sponsors/Digisnap (Light).png',
+                src: '/assets/sponsors/PLATINUM/digisnap.png',
                 href: 'https://linktr.ee/digisnap.id'
             },
         ]
@@ -54,7 +71,12 @@ const sponsorTiers: SponsorTier[] = [
     {
         tierName: 'Gold',
         logos: [
-            // No sponsors yet
+            {
+                name: 'Rumah Nenek',
+                width: 240,
+                height: 120,
+                src: '/assets/sponsors/GOLD/rumah nenek.png'
+            }
         ]
     },
     {
@@ -64,61 +86,85 @@ const sponsorTiers: SponsorTier[] = [
                 name: 'Alleyway Muse', 
                 width: 160, 
                 height: 80, 
-                src: '/assets/sponsors/Horizontal Logo (White).png',
+                src: '/assets/sponsors/SILVER/alleyway.png',
                 href: 'https://www.instagram.com/alleyway.muse/'
             },
             { 
                 name: 'JND Dimsum', 
                 width: 160, 
                 height: 80, 
-                src: '/assets/sponsors/logo jnd.png',
+                src: '/assets/sponsors/SILVER/jnd.png',
                 href: 'https://www.instagram.com/jnd_dimsum/'
             },
             { 
                 name: 'Anamcara', 
                 width: 200, 
                 height: 120, 
-                src: '/assets/sponsors/anamcara.png',
+                src: '/assets/sponsors/SILVER/anamcara.png',
                 href: 'https://wa.me/6282297771594'
             },
             { 
                 name: 'Cendol Duren', 
                 width: 160, 
                 height: 80, 
-                src: '/assets/sponsors/cendol duren.png'
+                src: '/assets/sponsors/SILVER/cendol duren.png'
             },
             { 
                 name: 'Djadul Cake', 
                 width: 180, 
                 height: 100, 
-                src: '/assets/sponsors/djadul cake.png'
+                src: '/assets/sponsors/SILVER/djadoel cake.png'
             },
             { 
                 name: 'Nailboo', 
                 width: 180, 
                 height: 100, 
-                src: '/assets/sponsors/nailboo.png'
+                src: '/assets/sponsors/SILVER/nailboo.png'
             },
             { 
                 name: 'Suki Bento', 
                 width: 180, 
                 height: 100, 
-                src: '/assets/sponsors/suki bento.png'
+                src: '/assets/sponsors/SILVER/suki suki bento.png'
             },
             { 
                 name: 'Unomi', 
                 width: 180, 
                 height: 100, 
-                src: '/assets/sponsors/unomi.png'
+                src: '/assets/sponsors/SILVER/unomi.png'
             },
+            {
+                name: 'Dooble G',
+                width: 160,
+                height: 80,
+                src: '/assets/sponsors/SILVER/dooble g.png'
+            },
+            {
+                name: 'Es Teh Makassar',
+                width: 160,
+                height: 80,
+                src: '/assets/sponsors/SILVER/es teh makassar.png'
+            },
+            {
+                name: 'Hoky Food',
+                width: 160,
+                height: 80,
+                src: '/assets/sponsors/SILVER/hoky food.png'
+            },
+            {
+                name: 'Jacks Hotdog',
+                width: 160,
+                height: 80,
+                src: '/assets/sponsors/SILVER/jacks hotdog.png'
+            },
+            {
+                name: 'Khong Thai Tea',
+                width: 160,
+                height: 80,
+                src: '/assets/sponsors/SILVER/khong thai tea.png'
+            }
         ]
-    },
-    {
-        tierName: 'Bronze',
-        logos: [
-            // No sponsors yet
-        ]
-    },
+    }
 ];
 
 function SponsorMarquee({ logos, tierName, isMounted, isPastRevealDate, tierIndex }: { logos: SponsorLogo[], tierName: string, isMounted: boolean, isPastRevealDate: boolean, tierIndex: number }) {
@@ -159,7 +205,7 @@ function SponsorMarquee({ logos, tierName, isMounted, isPastRevealDate, tierInde
     return (
         <div className="w-full overflow-hidden relative py-4">
             <motion.div 
-                className="flex items-center gap-10 px-4 w-fit select-none cursor-grab active:cursor-grabbing"
+                className="flex items-center gap-6 px-2 w-fit select-none cursor-grab active:cursor-grabbing"
                 drag="x"
                 dragConstraints={{ left: -10000, right: 0 }}
                 onDragStart={() => controls.stop()}
@@ -194,23 +240,24 @@ function SponsorMarquee({ logos, tierName, isMounted, isPastRevealDate, tierInde
 function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, compact = false }: { logo: SponsorLogo, tierName: string, isMounted: boolean, isPastRevealDate: boolean, tierIndex: number, compact?: boolean }) {
     const isMobileRaw = useIsMobile();
     const isMobile = isMounted ? isMobileRaw : false; // Hydration safe
-    const isSecretCollab = tierName === 'Case Collaborator' && logo.name === 'Secret';
+    const isSecretCollab = tierName === 'Diamond' && logo.name === 'Secret';
     const shouldReveal = isSecretCollab && isMounted && isPastRevealDate;
 
-    // Responsive multiplier logic for all screen sizes
     const getResponsiveMultiplier = () => {
         // Desktop Multipliers
         if (!isMobile) {
-            if (tierName === 'Case Collaborator') return 1.0;
-            if (tierName === 'Platinum') return 0.75;
-            return 0.9; // Scale up Grid logos (Gold, Silver)
+            if (tierName === 'Diamond') return 1.0; // Visually constrained by w-[75%] wrapper
+            if (tierName === 'Platinum') return 0.75; // 280 * 0.75 = 210px (smaller than Diamond's ~240px)
+            if (tierName === 'Gold') return 0.8; // 240 * 0.8 = 192px
+            return 0.85; // Silver
         }
 
-        // Mobile Multipliers
-        if (tierName === 'Case Collaborator') return 1.2;
-        if (tierName === 'Platinum') return 0.55;
-        if (compact) return 1.0; // Base 0.5x is already applied below
-        return 0.5; // Default grid logos (Gold, etc.)
+        // Mobile Multipliers (Aggressively scaled down because Diamond is forced into 3 columns)
+        if (tierName === 'Diamond') return 1.0; // Constrained by w-[75%] inside 1/3 grid width (logo ends up ~85px)
+        if (tierName === 'Platinum') return 0.26; // 280 * 0.26 = 72px
+        if (tierName === 'Gold') return 0.27; // 240 * 0.27 = 64px
+        if (compact) return 0.45; // Silver marquee base is ~120px. 120 * 0.45 = 54px
+        return 0.3; // Default fallback
     };
     
     const multiplier = getResponsiveMultiplier();
@@ -220,7 +267,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
 
     const content = (
         <div
-            className={`relative group flex items-center justify-center transition-[opacity,transform] duration-500 transform-gpu mx-auto ${compact ? 'flex-shrink-0' : ''} ${isMobile ? 'px-4 py-1' : 'p-4'}`}
+            className={`relative group flex items-center justify-center transition-[opacity,transform] duration-500 transform-gpu mx-auto ${compact ? 'flex-shrink-0' : ''} ${isMobile ? 'px-2 py-0.5' : 'p-2'}`}
             style={{ 
                 maxWidth: isMobile ? 'min(100%, ' + targetWidth + 'px)' : targetWidth, 
                 width: isMobile ? (tierName === 'Case Collaborator' ? '90%' : targetWidth + 'px') : targetWidth,
@@ -240,10 +287,12 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
                     </div>
                 ) : logo.src || shouldReveal ? (
                     <Image
-                        src={shouldReveal ? "/assets/sponsors/Logo BCA_Putih.png" : (logo.src || "")}
+                        src={shouldReveal ? "/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png" : (logo.src || "")}
                         alt={shouldReveal ? "BCA" : logo.name}
-                        width={shouldReveal ? Math.round(300 * multiplier) : targetWidth}
-                        height={shouldReveal ? Math.round(150 * multiplier) : targetHeight}
+                        width={(shouldReveal ? Math.round(300 * multiplier) : targetWidth) * 3}
+                        height={(shouldReveal ? Math.round(150 * multiplier) : targetHeight) * 3}
+                        quality={100}
+                        unoptimized
                         className="object-contain w-full h-full"
                         priority={tierIndex === 0}
                     />
@@ -254,6 +303,106 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
         </div>
     );
 
+    const isDiamond = tierName === 'Diamond';
+
+    if (isDiamond) {
+        const glowColor = 'bg-neon-blue/30';
+        const glowHover = 'group-hover/card:bg-neon-blue/50';
+        const borderColor = 'border-neon-blue/40';
+        const tagBg = 'bg-neon-blue/10';
+        const textColor = 'text-neon-blue drop-shadow-[0_0_8px_rgba(29,188,211,0.5)]';
+
+        const diamondContent = (
+            <motion.div 
+                whileHover={{ y: -10, scale: 1.02 }}
+                transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
+                className={`relative flex items-center justify-center p-2 md:p-8 bg-black/80 backdrop-blur-2xl border ${borderColor} rounded-xl md:rounded-[2rem] shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden group/card ${isMobile ? 'w-full min-h-[140px]' : 'w-[320px] min-h-[340px]'}`}
+            >
+                {/* Glowing Orb Backgrounds similar to TalkshowCTA */}
+                <div className={`absolute top-0 right-0 w-12 h-12 md:w-32 md:h-32 ${glowColor} rounded-full blur-[20px] lg:blur-[40px] -mr-4 -mt-4 md:-mr-6 md:-mt-6 ${glowHover} transition-colors duration-500`} />
+                <div className={`absolute bottom-0 left-0 w-12 h-12 md:w-32 md:h-32 bg-neon-purple/20 group-hover/card:bg-neon-purple/40 rounded-full blur-[20px] lg:blur-[40px] -ml-4 -mb-4 md:-ml-6 md:-mb-6 transition-colors duration-500`} />
+
+                {/* Centered Technical Badge */}
+                <div className="absolute top-2 md:top-8 left-0 w-full flex justify-center z-10">
+                    <div className="relative flex items-center justify-center border-y border-neon-blue/40 bg-gradient-to-r from-transparent via-neon-blue/10 to-transparent px-3 py-1 md:px-8 md:py-2 backdrop-blur-sm">
+                        {/* Corner Accents */}
+                        <div className="absolute top-0 left-0 w-1 h-1 md:w-2 md:h-2 border-t border-l border-neon-blue shadow-[0_0_5px_rgba(29,188,211,0.5)]" />
+                        <div className="absolute top-0 right-0 w-1 h-1 md:w-2 md:h-2 border-t border-r border-neon-blue shadow-[0_0_5px_rgba(29,188,211,0.5)]" />
+                        <div className="absolute bottom-0 left-0 w-1 h-1 md:w-2 md:h-2 border-b border-l border-neon-blue shadow-[0_0_5px_rgba(29,188,211,0.5)]" />
+                        <div className="absolute bottom-0 right-0 w-1 h-1 md:w-2 md:h-2 border-b border-r border-neon-blue shadow-[0_0_5px_rgba(29,188,211,0.5)]" />
+                        
+                        {/* Inner Content */}
+                        <div className="flex items-center gap-1.5 md:gap-3 opacity-90">
+                            {/* Left Dot */}
+                            <span className="relative flex h-1 w-1 md:h-1.5 md:w-1.5 shrink-0">
+                                <span className="animate-ping absolute inline-flex h-full w-full bg-neon-blue opacity-75"></span>
+                                <span className="relative inline-flex h-full w-full bg-neon-blue shadow-[0_0_8px_rgba(29,188,211,1)]"></span>
+                            </span>
+                            
+                            <span className="text-[5px] sm:text-[6px] md:text-[11px] font-raela font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]">
+                                {logo.boxLabel}
+                            </span>
+
+                            {/* Right Dot */}
+                            <span className="relative flex h-1 w-1 md:h-1.5 md:w-1.5 shrink-0">
+                                <span className="animate-ping absolute inline-flex h-full w-full bg-neon-blue opacity-75"></span>
+                                <span className="relative inline-flex h-full w-full bg-neon-blue shadow-[0_0_8px_rgba(29,188,211,1)]"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Logo Area */}
+                <div className="flex items-center justify-center w-[75%] relative z-20 mt-3 md:mt-8 transition-transform duration-500 group-hover/card:scale-110">
+                    {content}
+                </div>
+            </motion.div>
+        );
+
+        if (logo.href && (shouldReveal || !isSecretCollab)) {
+            return (
+                <a 
+                    key={logo.name} 
+                    href={logo.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="cursor-pointer block"
+                    onClick={() => {
+                        sendGAEvent('event', 'click_sponsor_logo', {
+                            sponsor_name: logo.name === 'Secret' ? 'BCA' : logo.name,
+                            destination: logo.href,
+                        });
+                    }}
+                >
+                    {diamondContent}
+                </a>
+            );
+        }
+
+        return <div key={logo.name} className="block">{diamondContent}</div>;
+    }
+
+    // Default wrapping for Platinum, Gold, Silver
+    const wrappedContent = (
+        <div className={`flex flex-col items-center justify-center ${compact ? 'flex-shrink-0' : (isMobile ? 'w-full' : 'w-auto')}`}>
+            {logo.boxLabel && (
+                <div className="text-center mb-2 md:mb-4">
+                    <div className="inline-block px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm">
+                        <span className="text-[8px] md:text-[10px] font-raela font-black uppercase tracking-[0.3em] text-white/70">
+                            {logo.boxLabel}
+                        </span>
+                    </div>
+                </div>
+            )}
+            {content}
+            {logo.boxLabel === 'Case Collaborator' && isMounted && !isPastRevealDate && (
+                <div className="mt-4 flex justify-center">
+                    <CaseRevealCountdown accentColor="#1DBCD3" size="sm" showGlass={true} />
+                </div>
+            )}
+        </div>
+    );
+
     if (logo.href && (shouldReveal || !isSecretCollab)) {
         return (
             <a 
@@ -261,7 +410,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
                 href={logo.href} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={`flex items-center justify-center cursor-pointer ${compact ? 'flex-shrink-0' : (isMobile ? 'w-full' : 'w-auto')}`}
+                className="cursor-pointer"
                 onClick={() => {
                     sendGAEvent('event', 'click_sponsor_logo', {
                         sponsor_name: logo.name === 'Secret' ? 'BCA' : logo.name,
@@ -269,12 +418,12 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
                     });
                 }}
             >
-                {content}
+                {wrappedContent}
             </a>
         );
     }
 
-    return <div key={logo.name} className={compact ? 'flex-shrink-0' : ''}>{content}</div>;
+    return <div key={logo.name} className={compact ? 'flex-shrink-0' : ''}>{wrappedContent}</div>;
 }
 
 export function Sponsors() {
@@ -318,7 +467,7 @@ export function Sponsors() {
                     <div className="h-1 w-24 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-orange mx-auto mt-6 rounded-full opacity-50" />
                 </motion.div>
 
-                <div className="flex flex-col gap-16 md:gap-24">
+                <div className="flex flex-col gap-12 md:gap-16">
                     {activeTiers.map((tier, tierIndex) => (
                         <motion.div
                             key={tier.tierName}
@@ -328,20 +477,7 @@ export function Sponsors() {
                             transition={{ delay: tierIndex * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                             className="w-full"
                         >
-                            {tier.tierName === 'Case Collaborator' && (
-                                <div className="text-center mb-1">
-                                    <div className="inline-block px-4 py-1.5 rounded-full border border-[#005baa]/40 bg-[#005baa]/10 backdrop-blur-sm shadow-[0_0_15px_rgba(0,91,170,0.2)] mb-1">
-                                        <span className="text-[10px] md:text-xs font-raela font-black uppercase tracking-[0.3em] text-[#00bfff] drop-shadow-[0_0_8px_rgba(0,191,255,0.6)]">
-                                            {tier.tierName}
-                                        </span>
-                                    </div>
-                                    {isMounted && !isPastRevealDate && (
-                                        <div className="mt-6 flex justify-center">
-                                            <CaseRevealCountdown accentColor="#1DBCD3" size="md" showGlass={true} />
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+
                             {isMobile && (tier.tierName === 'Silver' || tier.tierName === 'Bronze') ? (
                                 <SponsorMarquee 
                                     logos={tier.logos} 
@@ -351,8 +487,12 @@ export function Sponsors() {
                                     tierIndex={tierIndex}
                                 />
                             ) : (
-                                <div className={`relative z-10 flex items-center justify-center ${isMobile ? 'px-4' : 'md:gap-16'}`}>
-                                    <div className={`w-full ${isMobile ? (tier.logos.length === 1 ? 'flex flex-col items-center justify-center gap-4' : 'grid grid-cols-2 gap-2') : 'flex flex-wrap items-center justify-center gap-8 md:gap-16'}`}>
+                                <div className={`relative z-10 flex items-center justify-center ${isMobile ? 'px-2' : 'md:gap-8'}`}>
+                                    <div className={`w-full ${
+                                        tier.tierName === 'Diamond' 
+                                            ? (isMobile ? 'grid grid-cols-3 gap-1.5 sm:gap-2' : 'flex flex-wrap items-center justify-center gap-10 md:gap-24')
+                                            : (isMobile ? (tier.logos.length === 1 ? 'flex flex-col items-center justify-center gap-2' : 'grid grid-cols-2 gap-x-2 gap-y-4') : 'flex flex-wrap items-center justify-center gap-6 md:gap-10')
+                                    }`}>
                                         {tier.logos.map((logo) => (
                                             <SponsorCard 
                                                 key={logo.name} 
@@ -364,6 +504,17 @@ export function Sponsors() {
                                             />
                                         ))}
                                     </div>
+                                </div>
+                            )}
+
+                            {/* Render Countdown globally for Diamond Tier below the grid */}
+                            {tier.tierName === 'Diamond' && isMounted && !isPastRevealDate && (
+                                <div className="w-full flex flex-col items-center justify-center mt-8 md:mt-12 px-4 relative z-20">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <span className="w-2 h-2 rounded-full bg-neon-orange animate-pulse shadow-[0_0_10px_rgba(255,139,83,0.8)]" />
+                                        <span className="text-xs md:text-sm text-neon-orange uppercase tracking-[0.3em] font-mono font-bold drop-shadow-[0_0_8px_rgba(255,139,83,0.5)]">Case Collaborator Reveal</span>
+                                    </div>
+                                    <CaseRevealCountdown accentColor="#1DBCD3" size="md" showGlass={true} />
                                 </div>
                             )}
                         </motion.div>
