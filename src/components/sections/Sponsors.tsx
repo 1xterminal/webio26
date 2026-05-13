@@ -276,7 +276,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
         >
             {/* Premium background glow on hover */}
             <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl blur-3xl scale-125"
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl scale-125"
                 style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
             />
             
@@ -291,8 +291,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
                         alt={shouldReveal ? "BCA" : logo.name}
                         width={(shouldReveal ? Math.round(300 * multiplier) : targetWidth) * 3}
                         height={(shouldReveal ? Math.round(150 * multiplier) : targetHeight) * 3}
-                        quality={100}
-                        unoptimized
+                        quality={80}
                         className="object-contain w-full h-full"
                         priority={tierIndex === 0}
                     />
@@ -316,15 +315,15 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
             <motion.div 
                 whileHover={{ y: -10, scale: 1.02 }}
                 transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
-                className={`relative flex items-center justify-center p-2 md:p-8 bg-black/80 backdrop-blur-2xl border ${borderColor} rounded-xl md:rounded-[2rem] shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden group/card ${isMobile ? 'w-full min-h-[140px]' : 'w-[320px] min-h-[340px]'}`}
+                className={`relative flex items-center justify-center p-2 md:p-8 bg-[#0a0a0a] border ${borderColor} rounded-xl md:rounded-[2rem] overflow-hidden group/card ${isMobile ? 'w-full min-h-[140px]' : 'w-[320px] min-h-[340px]'}`}
             >
-                {/* Glowing Orb Backgrounds similar to TalkshowCTA */}
-                <div className={`absolute top-0 right-0 w-12 h-12 md:w-32 md:h-32 ${glowColor} rounded-full blur-[20px] lg:blur-[40px] -mr-4 -mt-4 md:-mr-6 md:-mt-6 ${glowHover} transition-colors duration-500`} />
-                <div className={`absolute bottom-0 left-0 w-12 h-12 md:w-32 md:h-32 bg-neon-purple/20 group-hover/card:bg-neon-purple/40 rounded-full blur-[20px] lg:blur-[40px] -ml-4 -mb-4 md:-ml-6 md:-mb-6 transition-colors duration-500`} />
+                {/* Glowing Orb Backgrounds (Replaced blur with radial gradients) */}
+                <div className="absolute top-0 right-0 w-24 h-24 md:w-48 md:h-48 rounded-full -mr-12 -mt-12 md:-mr-24 md:-mt-24 transition-opacity duration-500 opacity-30 group-hover/card:opacity-60" style={{ background: 'radial-gradient(circle, rgba(29,188,211,1) 0%, transparent 70%)' }} />
+                <div className="absolute bottom-0 left-0 w-24 h-24 md:w-48 md:h-48 rounded-full -ml-12 -mb-12 md:-ml-24 md:-mb-24 transition-opacity duration-500 opacity-30 group-hover/card:opacity-60" style={{ background: 'radial-gradient(circle, rgba(157,78,221,1) 0%, transparent 70%)' }} />
 
                 {/* Centered Technical Badge */}
                 <div className="absolute top-2 md:top-8 left-0 w-full flex justify-center z-10">
-                    <div className="relative flex items-center justify-center border-y border-neon-blue/40 bg-gradient-to-r from-transparent via-neon-blue/10 to-transparent px-3 py-1 md:px-8 md:py-2 backdrop-blur-sm">
+                    <div className="relative flex items-center justify-center border-y border-neon-blue/40 bg-gradient-to-r from-transparent via-neon-blue/10 to-transparent px-3 py-1 md:px-8 md:py-2">
                         {/* Corner Accents */}
                         <div className="absolute top-0 left-0 w-1 h-1 md:w-2 md:h-2 border-t border-l border-neon-blue shadow-[0_0_5px_rgba(29,188,211,0.5)]" />
                         <div className="absolute top-0 right-0 w-1 h-1 md:w-2 md:h-2 border-t border-r border-neon-blue shadow-[0_0_5px_rgba(29,188,211,0.5)]" />
@@ -524,8 +523,8 @@ export function Sponsors() {
 
             {/* Subtle background ambient elements */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-5xl pointer-events-none z-0 opacity-20" aria-hidden="true">
-                <div className="absolute top-0 left-0 w-96 h-96 bg-neon-blue rounded-full max-md:blur-[40px] md:blur-[140px] opacity-20" />
-                <div className="absolute bottom-0 right-0 w-96 h-96 bg-neon-purple rounded-full max-md:blur-[40px] md:blur-[140px] opacity-20" />
+                <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(29,188,211,1) 0%, transparent 70%)' }} />
+                <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(157,78,221,1) 0%, transparent 70%)' }} />
             </div>
         </section>
     );
