@@ -13,8 +13,10 @@ interface SponsorLogo {
     width: number;
     height: number;
     src?: string;
+    multiSrc?: { src: string; width: number; height: number; name: string }[];
     href?: string;
     boxLabel?: string;
+    colSpan2?: boolean;
 }
 
 interface SponsorTier {
@@ -27,11 +29,17 @@ const sponsorTiers: SponsorTier[] = [
         tierName: 'Diamond',
         logos: [
             {
-                name: 'V3 Production',
+                name: 'Festival Partner',
                 width: 280,
-                height: 140,
-                src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/v3 production.png',
-                boxLabel: 'Festival Partner'
+                height: 280,
+                boxLabel: 'Festival Partner',
+                colSpan2: true,
+                multiSrc: [
+                    { src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/v3 production.png', width: 280, height: 140, name: 'V3 Production' },
+                    { src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/TokoTekno_putih.png', width: 280, height: 140, name: 'TokoTekno' },
+                    { src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/lamzu_putih.png', width: 280, height: 140, name: 'Lamzu' },
+                    { src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/yunzi_putih.png', width: 280, height: 140, name: 'Yunzi' }
+                ]
             },
             { 
                 name: 'Secret', 
@@ -267,8 +275,8 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
 
     const content = (
         <div
-            className={`relative group flex items-center justify-center transition-[opacity,transform] duration-500 transform-gpu mx-auto ${compact ? 'flex-shrink-0' : ''} ${isMobile ? 'px-2 py-0.5' : 'p-2'}`}
-            style={{ 
+            className={`relative group flex items-center justify-center transition-[opacity,transform] duration-500 transform-gpu mx-auto ${compact ? 'flex-shrink-0' : ''} ${isMobile ? 'px-2 py-0.5' : 'p-2'} ${tierName === 'Diamond' ? 'w-full h-full' : ''}`}
+            style={tierName === 'Diamond' ? {} : { 
                 maxWidth: isMobile ? 'min(100%, ' + targetWidth + 'px)' : targetWidth, 
                 width: isMobile ? (tierName === 'Case Collaborator' ? '90%' : targetWidth + 'px') : targetWidth,
                 aspectRatio: `${logo.width} / ${logo.height}`
@@ -276,14 +284,37 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
         >
             {/* Premium background glow on hover */}
             <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl scale-125"
+                className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl scale-125 ${logo.multiSrc ? 'hidden' : ''}`}
                 style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
             />
             
-            <div className={`relative z-10 w-full h-full flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isSecretCollab && !shouldReveal ? 'opacity-80 group-hover:opacity-100 group-hover:scale-110' : 'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110'}`}>
+            <div className={`relative z-10 w-full h-full flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                isSecretCollab && !shouldReveal 
+                    ? 'opacity-80 group-hover:opacity-100 group-hover:scale-110' 
+                    : logo.multiSrc 
+                        ? '' // Individual hover applied per item for Festival Partners
+                        : 'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110'
+            }`}>
                 {isSecretCollab && !shouldReveal ? (
                     <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-black/50 border border-white/20 flex items-center justify-center shadow-[0_0_20px_rgba(255,139,83,0.3)]">
                         <span className="text-3xl md:text-5xl font-bold text-white/90 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">?</span>
+                    </div>
+                ) : logo.multiSrc ? (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-10 w-full h-full place-items-center px-2 py-2 md:px-6 md:py-4">
+                        {logo.multiSrc.map((item, idx) => (
+                            <div key={idx} className="relative w-full h-full flex flex-col items-center justify-center group/item">
+                                <div className="absolute inset-0 opacity-0 group-hover/item:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl scale-125" style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)' }} />
+                                <Image
+                                    src={item.src}
+                                    alt={item.name}
+                                    width={Math.round(item.width * multiplier) * 3}
+                                    height={Math.round(item.height * multiplier) * 3}
+                                    quality={100}
+                                    className="object-contain w-[70%] h-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale opacity-60 group-hover/item:grayscale-0 group-hover/item:opacity-100 group-hover/item:scale-110"
+                                    priority={tierIndex === 0}
+                                />
+                            </div>
+                        ))}
                     </div>
                 ) : logo.src || shouldReveal ? (
                     <Image
@@ -291,8 +322,8 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
                         alt={shouldReveal ? "BCA" : logo.name}
                         width={(shouldReveal ? Math.round(300 * multiplier) : targetWidth) * 3}
                         height={(shouldReveal ? Math.round(150 * multiplier) : targetHeight) * 3}
-                        quality={80}
-                        className="object-contain w-full h-full"
+                        quality={100}
+                        className={tierName === 'Diamond' ? "object-contain w-[85%] md:w-[45%] h-full" : "object-contain w-full h-full"}
                         priority={tierIndex === 0}
                     />
                 ) : (
@@ -313,9 +344,9 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
 
         const diamondContent = (
             <motion.div 
-                whileHover={{ y: -10, scale: 1.02 }}
+                whileHover={logo.multiSrc ? { y: -5 } : { y: -10, scale: 1.02 }}
                 transition={{ duration: 0.4, type: "tween", ease: "easeOut" }}
-                className={`relative flex items-center justify-center max-md:p-1 md:p-8 bg-[#0a0a0a] border ${borderColor} rounded-xl md:rounded-[2rem] overflow-hidden group/card ${isMobile ? 'w-full min-h-[85px]' : 'w-[320px] min-h-[340px]'}`}
+                className={`relative flex flex-col items-center justify-center max-md:p-3 md:p-6 bg-[#0a0a0a] border ${borderColor} rounded-xl md:rounded-[2rem] overflow-hidden group/card w-full h-full min-h-[140px] md:min-h-[220px]`}
             >
                 {/* Glowing Orb Backgrounds (Replaced blur with radial gradients) */}
                 <div className="absolute top-0 right-0 w-24 h-24 md:w-48 md:h-48 rounded-full -mr-12 -mt-12 md:-mr-24 md:-mt-24 transition-opacity duration-500 opacity-30 group-hover/card:opacity-60" style={{ background: 'radial-gradient(circle, rgba(29,188,211,1) 0%, transparent 70%)' }} />
@@ -352,7 +383,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
                 </div>
 
                 {/* Logo Area */}
-                <div className="flex items-center justify-center max-md:w-[95%] md:w-[75%] relative z-20 max-md:mt-3 md:mt-8 transition-transform duration-500 group-hover/card:scale-110">
+                <div className={`flex items-center justify-center w-full relative z-20 mt-4 md:mt-8 transition-transform duration-500 ${logo.multiSrc ? '' : 'group-hover/card:scale-105'} h-full`}>
                     {content}
                 </div>
             </motion.div>
@@ -365,7 +396,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
                     href={logo.href} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="cursor-pointer block"
+                    className={`cursor-pointer block h-full ${logo.colSpan2 ? 'col-span-2' : 'col-span-1'}`}
                     onClick={() => {
                         sendGAEvent('event', 'click_sponsor_logo', {
                             sponsor_name: logo.name === 'Secret' ? 'BCA' : logo.name,
@@ -378,7 +409,7 @@ function SponsorCard({ logo, tierName, isMounted, isPastRevealDate, tierIndex, c
             );
         }
 
-        return <div key={logo.name} className="block">{diamondContent}</div>;
+        return <div key={logo.name} className={`block h-full ${logo.colSpan2 ? 'col-span-2' : 'col-span-1'}`}>{diamondContent}</div>;
     }
 
     // Default wrapping for Platinum, Gold, Silver
@@ -446,7 +477,7 @@ export function Sponsors() {
     const activeTiers = useMemo(() => sponsorTiers
         .map(tier => ({
             ...tier,
-            logos: tier.logos.filter(logo => logo.src || logo.name || (tier.tierName === 'Case Collaborator' && logo.name === 'Secret'))
+            logos: tier.logos.filter(logo => logo.src || logo.multiSrc || logo.name || (tier.tierName === 'Case Collaborator' && logo.name === 'Secret'))
         }))
         .filter(tier => tier.logos.length > 0), []);
 
@@ -489,7 +520,7 @@ export function Sponsors() {
                                 <div className={`relative z-10 flex items-center justify-center ${isMobile ? 'px-2' : 'md:gap-8'}`}>
                                     <div className={`w-full ${
                                         tier.tierName === 'Diamond' 
-                                            ? (isMobile ? 'grid grid-cols-3 gap-1.5 sm:gap-2' : 'flex flex-wrap items-center justify-center gap-10 md:gap-24')
+                                            ? 'grid grid-cols-2 gap-3 md:gap-6 w-full max-w-4xl mx-auto'
                                             : (isMobile ? (tier.logos.length === 1 ? 'flex flex-col items-center justify-center gap-2' : 'grid grid-cols-2 gap-x-2 gap-y-4') : 'flex flex-wrap items-center justify-center gap-6 md:gap-10')
                                     }`}>
                                         {tier.logos.map((logo) => (
