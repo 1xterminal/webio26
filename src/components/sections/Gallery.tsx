@@ -1,11 +1,37 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import WebGLGallery from '@/lib/WebGLGallery';
 
 export default function Gallery() {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+    const [hasExploredArchive, setHasExploredArchive] = useState(false);
+
+    const hideExplorePrompt = useCallback(() => {
+        setHasExploredArchive(true);
+    }, []);
+
+    const handlePointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+        if (hasExploredArchive) return;
+        pointerStartRef.current = { x: event.clientX, y: event.clientY };
+    }, [hasExploredArchive]);
+
+    const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+        if (hasExploredArchive || !pointerStartRef.current) return;
+
+        const deltaX = Math.abs(event.clientX - pointerStartRef.current.x);
+        const deltaY = Math.abs(event.clientY - pointerStartRef.current.y);
+
+        if (Math.max(deltaX, deltaY) >= 8) {
+            hideExplorePrompt();
+        }
+    }, [hasExploredArchive, hideExplorePrompt]);
+
+    const handlePointerEnd = useCallback(() => {
+        pointerStartRef.current = null;
+    }, []);
 
     useEffect(() => {
         if (!containerRef.current || !canvasRef.current) return;
@@ -16,7 +42,7 @@ export default function Gallery() {
         const initGallery = () => {
             if (isInitialized || !containerRef.current || !canvasRef.current) return;
             isInitialized = true;
-            galleryApp = new WebGLGallery(containerRef.current, canvasRef.current);
+            galleryApp = new WebGLGallery(containerRef.current, canvasRef.current, hideExplorePrompt);
         };
 
         const executeInit = () => {
@@ -45,38 +71,48 @@ export default function Gallery() {
                 galleryApp.destroy();
             }
         };
-    }, []);
+    }, [hideExplorePrompt]);
 
     return (
         <section
-            className="relative w-full h-screen overflow-hidden flex items-center justify-center -my-20 z-0"
-            style={{
-                // This creates a seamless fade at the top and bottom of the component
-                maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
-            }}
+            className="relative w-full h-[82vh] min-h-[620px] overflow-hidden flex items-center justify-center z-0"
         >
             {/* Overlay Text */}
-            <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center pt-24 select-none">
+            <div
+                aria-hidden={hasExploredArchive}
+                className="absolute inset-0 z-20 pointer-events-none flex flex-col items-center justify-center select-none transition-all duration-500 ease-[0.16,1,0.3,1]"
+                style={{
+                    opacity: hasExploredArchive ? 0 : 1,
+                    transform: hasExploredArchive ? 'scale(0.98)' : 'scale(1)',
+                }}
+            >
                 <h2 className="font-raela font-bold text-4xl text-white uppercase tracking-widest drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] text-center">
                     Archived Memories
                 </h2>
                 <p className="text-white/40 mt-2 font-sans text-sm md:text-base tracking-wide uppercase hidden md:block">
-                    Drag around to explore the history
+                    Drag around to explore the archive
                 </p>
                 <p className="text-white/40 mt-2 font-sans text-sm tracking-wide uppercase md:hidden">
-                    Swipe &amp; pinch to explore
+                    Swipe &amp; pinch through the archive
                 </p>
             </div>
 
             {/* WebGL Canvas Container */}
-            <div ref={containerRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing">
+            <div
+                ref={containerRef}
+                data-archive-explored={hasExploredArchive}
+                className="absolute inset-0 cursor-grab active:cursor-grabbing"
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerEnd}
+                onPointerCancel={handlePointerEnd}
+                onPointerLeave={handlePointerEnd}
+                onTouchStart={(event) => {
+                    if (event.touches.length > 1) hideExplorePrompt();
+                }}
+            >
                 <canvas ref={canvasRef} className="w-full h-full outline-none touch-pan-y" />
             </div>
-
-            {/* Subtle Gradient Overlays for Depth, removed hard black background to allow seamless scroll */}
-            <div className="absolute inset-0 pointer-events-none bg-linear-to-b from-black/50 via-transparent to-black/50 z-10" />
-            <div className="absolute inset-0 pointer-events-none bg-linear-to-r from-black/80 via-transparent to-black/80 z-10" />
         </section>
     );
 }

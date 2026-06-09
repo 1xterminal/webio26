@@ -69,6 +69,8 @@ export default class WebGLGallery {
     isHovered: boolean = false;
     isInView: boolean = true;
     observer!: IntersectionObserver;
+    private onExplore?: () => void;
+    private hasReportedExplore: boolean = false;
 
     // Binded methods for cleanup
     private boundOnResize: () => void;
@@ -79,9 +81,10 @@ export default class WebGLGallery {
     private boundOnTouchMove: (e: TouchEvent) => void;
     private boundOnTouchEnd: () => void;
 
-    constructor(container: HTMLElement, canvas: HTMLCanvasElement) {
+    constructor(container: HTMLElement, canvas: HTMLCanvasElement, onExplore?: () => void) {
         this.container = container;
         this.canvas = canvas;
+        this.onExplore = onExplore;
         this.clock = new THREE.Clock();
 
         // Responsive mesh count for mobile performance
@@ -99,6 +102,12 @@ export default class WebGLGallery {
         this.boundOnTouchEnd = this.onTouchEnd.bind(this);
 
         this.init();
+    }
+
+    private reportExplore() {
+        if (this.hasReportedExplore) return;
+        this.hasReportedExplore = true;
+        this.onExplore?.();
     }
 
     async init() {
@@ -373,12 +382,12 @@ export default class WebGLGallery {
     onPointerMove(e: PointerEvent) {
         if (!this.drag.isDown) return;
 
+        const totalDx = Math.abs(e.clientX - this.drag.startX);
+        const totalDy = Math.abs(e.clientY - this.drag.startY);
+        const maxDelta = Math.max(totalDx, totalDy);
+
         // Direction lock for touch devices
         if (this.isTouchDevice && this.drag.direction === 'undecided') {
-            const totalDx = Math.abs(e.clientX - this.drag.startX);
-            const totalDy = Math.abs(e.clientY - this.drag.startY);
-            const maxDelta = Math.max(totalDx, totalDy);
-
             if (maxDelta < this.directionLockThreshold) return; // wait for enough movement
 
             if (totalDy > totalDx) {
@@ -394,6 +403,10 @@ export default class WebGLGallery {
 
         // If vertical was decided, do nothing
         if (this.drag.direction === 'vertical') return;
+
+        if (maxDelta >= this.directionLockThreshold) {
+            this.reportExplore();
+        }
 
         const dx = e.clientX - this.drag.lastX;
         const dy = e.clientY - this.drag.lastY;
@@ -428,6 +441,7 @@ export default class WebGLGallery {
     onTouchStart(e: TouchEvent) {
         if (e.touches.length === 2) {
             e.preventDefault(); // prevent native pinch-zoom on the page
+            this.reportExplore();
             this.pinch.active = true;
             this.pinch.startDistance = this.getTouchDistance(e.touches);
             this.pinch.lastDistance = this.pinch.startDistance;

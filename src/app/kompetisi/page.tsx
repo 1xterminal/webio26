@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
-export default function ImpactArchiveRedirect() {
+export default function CompetitionArchiveRedirect() {
   redirect('/#memories');
 }

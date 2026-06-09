@@ -2,8 +2,8 @@ import HomePageClient from '@/components/pages/HomePageClient';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'I/O FESTIVAL 2026 | Technology into Action, Ideas into Impact',
-  description: 'Buktikan Inovasi Teknologimu! Ajang kompetisi IT bergengsi skala nasional untuk Mahasiswa & SMA/SMK. Ikuti UI/UX, Web Dev & Business Case.',
+  title: 'I/O FESTIVAL 2026 | Thank You Archive',
+  description: 'Thank you for being part of I/O Festival 2026. Revisit memories and partners from the festival by BEM FTI UNTAR.',
 };
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
         '@id': 'https://iofest.com/#website',
         url: 'https://iofest.com/',
         name: 'I/O FESTIVAL 2026',
-        description: 'Buktikan Inovasi Teknologimu! Ajang kompetisi IT bergengsi skala nasional untuk Mahasiswa & SMA/SMK.',
+        description: 'Memories and partner acknowledgements from I/O Festival 2026 by BEM FTI UNTAR.',
         publisher: {
           '@id': 'https://iofest.com/#organization'
         }
@@ -33,11 +33,11 @@ export default function Home() {
       {
         '@type': 'Event',
         name: 'I/O FESTIVAL 2026',
-        description: 'I/O Festival 2026 adalah kompetisi IT tingkat nasional bergengsi untuk mahasiswa dan siswa SMA/SMK. Ikuti cabang lomba UI/UX Design, Web Development, dan Business Case dengan total hadiah puluhan juta rupiah.',
+        description: 'I/O Festival 2026 brought students, judges, partners, and committees together for a national technology festival by BEM FTI UNTAR.',
         startDate: '2026-03-01T08:00:00+07:00',
-        endDate: '2026-06-30T18:00:00+07:00',
+        endDate: '2026-06-05T18:00:00+07:00',
         eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
-        eventStatus: 'https://schema.org/EventScheduled',
+        eventStatus: 'https://schema.org/EventCompleted',
         location: {
           '@type': 'Place',
           name: 'Universitas Tarumanagara',
@@ -53,14 +53,6 @@ export default function Home() {
         image: ['https://iofest.com/icon.png'],
         organizer: {
           '@id': 'https://iofest.com/#organization'
-        },
-        offers: {
-          '@type': 'Offer',
-          url: 'https://iofest.com/kompetisi',
-          priceCurrency: 'IDR',
-          price: '0',
-          availability: 'https://schema.org/InStock',
-          validFrom: '2026-03-01T08:00:00+07:00'
         }
       }
     ]
