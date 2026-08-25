@@ -32,10 +32,10 @@ import { SmoothScroll } from '@/components/effects/SmoothScroll';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://iofest.com'),
   title: {
-    default: 'I/O FESTIVAL 2026 | Technology into Action, Ideas into Impact',
+    default: 'I/O FESTIVAL 2026 | Thank You Archive',
     template: '%s | I/O FESTIVAL 2026',
   },
-  description: 'I/O Festival 2026: Ajang kompetisi IT nasional bergengsi (UI/UX, Web Dev, Business Case) untuk Mahasiswa & SMA/SMK. Menangkan total hadiah puluhan juta rupiah! 🚀',
+  description: 'Thank you for being part of I/O Festival 2026. Revisit memories and partners from the festival by BEM FTI UNTAR.',
   keywords: [
     'I/O Festival 2026', 'Kompetisi IT Nasional 2026', 'Lomba UI/UX Design', 'Lomba Web Development', 'Lomba Business Case',
     'Lomba IT Mahasiswa', 'Lomba IT SMA SMK', 'IT Festival Indonesia', 'BEM FTI UNTAR', 'Universitas Tarumanagara',
@@ -53,8 +53,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'id_ID',
     url: 'https://iofest.com',
-    title: 'I/O FESTIVAL 2026 | Buktikan Inovasi Teknologimu! 🔥',
-    description: 'Ikuti kompetisi IT skala nasional terbaik: UI/UX, Web Development, dan Business Case. Raih hadiah puluhan juta rupiah & sertifikat nasional. Daftar sekarang!',
+    title: 'I/O FESTIVAL 2026 | Thank You Archive',
+    description: 'Thank you for being part of I/O Festival 2026. Revisit memories and partners from the festival.',
     siteName: 'I/O FESTIVAL 2026',
     images: [
       {
@@ -67,8 +67,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'I/O FESTIVAL 2026 | Buktikan Skill IT Kamu! 🚀',
-    description: 'Kompetisi IT Nasional: UI/UX, Web Dev, dan Business Case. Registrasi sekarang dan jadilah pemenang di I/O Festival 2026! ✨',
+    title: 'I/O FESTIVAL 2026 | Thank You Archive',
+    description: 'Revisit memories and partners from I/O Festival 2026 by BEM FTI UNTAR.',
     creator: '@iofestival',
     images: ['/icon.png'],
   },

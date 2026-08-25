@@ -6,6 +6,13 @@
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://iofest.com';
 
+export const SITE_PHASE = 'archive' as const;
+
+export const ARCHIVE_COPY = {
+    instagramCta: 'Follow @iofest.untar',
+    instagramUrl: 'https://instagram.com/iofest.untar',
+};
+
 // --- COMPETITION DATES ---
 export const DATES = {
     REGISTRATION_OPEN: new Date("2026-03-15T00:00:00+07:00"),
@@ -20,21 +27,10 @@ export const DATES = {
     FINAL_AWARDING: new Date('2026-06-04T00:00:00+07:00'),
 };
 
-// --- WEBGL GALLERY CONFIG ---
-export const GALLERY_CONFIG = {
-    MESH_COUNT_DESKTOP: 200,
-    MESH_COUNT_MOBILE: 80,
-    CAMERA_Z: 10,
-    DRAG_SENSITIVITY: 1.5,
-    DRAG_DAMPING: 0.1,
-    MAX_Z: 12,
-    MIN_Z: -30,
-};
-
 // --- THEME COLORS ---
 export const COLORS = {
-    NEON_ORANGE: '#ff8c42',
-    NEON_PURPLE: '#a64dff',
+    NEON_ORANGE: '#FF8B53',
+    NEON_PURPLE: '#B664FB',
     NEON_CYAN: '#55D5E7',
     BACKGROUND: '#0A0A0A',
 };

@@ -24,13 +24,25 @@ import { sendGAEvent } from '@next/third-parties/google';
 // ─── Static data outside component for zero re-allocation cost ─────────────
 // (react-best-practices: hoist static JSX/data; clean-code: meaningful names)
 
-interface NavItem {
+export interface NavItem {
   name: string;
   href: string;
   hasDropdown?: boolean;
   dropdownType?: string;
   /** Primary CTA items shown with full brightness & shimmer underline */
   isHighlight: boolean;
+  tone?: 'default' | 'muted';
+}
+
+interface NavbarProps {
+  items?: NavItem[];
+  activeHref?: string;
+  showRegistration?: boolean;
+  ariaLabel?: string;
+  logoHref?: string;
+  logoAriaLabel?: string;
+  logoSize?: 'default' | 'compact';
+  centerItems?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -71,7 +83,16 @@ const SUB_MENU_VARIANTS = {
 };
 
 // ─── Main component ──────────────────────────────────────────────────────────
-export function Navbar() {
+export function Navbar({
+  items = NAV_ITEMS,
+  activeHref,
+  showRegistration = true,
+  ariaLabel = 'Main navigation',
+  logoHref = '/',
+  logoAriaLabel = 'I/O Festival Home',
+  logoSize = 'default',
+  centerItems = false,
+}: NavbarProps = {}) {
   const [isOpen, setIsOpen]                   = useState(false);
   const [isScrolled, setIsScrolled]           = useState(false);
   const [activeDropdown, setActiveDropdown]   = useState<string | null>(null);
@@ -128,10 +149,10 @@ export function Navbar() {
     <>
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <motion.nav
-        initial={{ y: -100, opacity: 0 }}
+        initial={false}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        aria-label="Main navigation"
+        aria-label={ariaLabel}
         className={`fixed top-0 left-0 w-full z-[60] flex justify-center pointer-events-none ${transitionClass} ${
           isScrolled ? 'pt-4 px-4' : 'pt-0 px-0'
         }`}
@@ -145,8 +166,8 @@ export function Navbar() {
         >
           {/* Logo */}
           <Link
-            href="/"
-            aria-label="I/O Festival Home"
+            href={logoHref}
+            aria-label={logoAriaLabel}
             className="flex items-center gap-2 font-raela font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity"
           >
             <Image
@@ -156,7 +177,13 @@ export function Navbar() {
               width={200}
               height={60}
               className={`w-auto object-contain transform-gpu will-change-[height] ${transitionClass} ${
-                isScrolled ? 'h-8 md:h-10' : 'h-10 md:h-14'
+                logoSize === 'compact'
+                  ? isScrolled
+                    ? 'h-7 md:h-9'
+                    : 'h-9 md:h-12'
+                  : isScrolled
+                    ? 'h-8 md:h-10'
+                    : 'h-10 md:h-14'
               }`}
               priority
             />
@@ -164,11 +191,11 @@ export function Navbar() {
 
           {/* ── Desktop Nav Items ───────────────────────────────────────── */}
           <div
-            className={`hidden md:flex items-center ${transitionClass} ${
+            className={`hidden md:flex items-center ${centerItems ? 'absolute left-1/2 -translate-x-1/2' : ''} ${transitionClass} ${
               isScrolled ? 'gap-5 xl:gap-7' : 'gap-6 xl:gap-9'
             }`}
           >
-            {NAV_ITEMS.map((item) =>
+            {items.map((item) =>
               item.hasDropdown ? (
                 <DropdownTrigger
                   key={item.name}
@@ -183,6 +210,7 @@ export function Navbar() {
                   key={item.name}
                   item={item}
                   isScrolled={isScrolled}
+                  isActive={activeHref === item.href}
                   onClick={closeDropdown}
                 />
               )
@@ -191,11 +219,13 @@ export function Navbar() {
 
           {/* ── CTA / Hamburger ─────────────────────────────────────────── */}
           <div className="flex items-center gap-4">
-            <RegisterButton
-              regStatus={regStatus}
-              isScrolled={isScrolled}
-              transitionClass={transitionClass}
-            />
+            {showRegistration && (
+              <RegisterButton
+                regStatus={regStatus}
+                isScrolled={isScrolled}
+                transitionClass={transitionClass}
+              />
+            )}
             <button
               onClick={toggleMenu}
               className="md:hidden p-2 text-white hover:text-neon-orange transition-colors"
@@ -370,7 +400,7 @@ export function Navbar() {
             exit="hidden"
             className="fixed inset-0 z-[55] bg-black/95 md:backdrop-blur-md flex flex-col items-center justify-center space-y-6 md:hidden"
           >
-            {NAV_ITEMS.map((item) =>
+            {items.map((item) =>
               item.hasDropdown ? (
                 <MobileDropdownItem
                   key={item.name}
@@ -387,10 +417,15 @@ export function Navbar() {
                   key={item.name}
                   href={item.href}
                   onClick={closeMenu}
+                  aria-current={activeHref === item.href ? 'location' : undefined}
                   className={`text-3xl font-raela font-bold transition-colors ${
-                    item.isHighlight
+                    activeHref === item.href
+                      ? 'text-[#55D5E7]'
+                      : item.isHighlight
                       ? 'text-white hover:text-neon-orange'
-                      : 'text-white/50 hover:text-white'
+                      : item.tone === 'default'
+                        ? 'text-white/80 hover:text-white'
+                        : 'text-white/50 hover:text-white'
                   }`}
                 >
                   {item.name}
@@ -399,24 +434,26 @@ export function Navbar() {
             )}
 
             {/* Mobile CTA */}
-            {regStatus === 'open' ? (
-              <Link
-                href={REGISTRATION_URL}
-                onClick={closeMenu}
-                className="mt-8 bg-neon-orange text-white px-8 py-3 rounded-full font-bold text-lg tracking-wider shadow-[0_0_20px_rgba(255,139,83,0.4)]"
-              >
-                Register
-              </Link>
-            ) : (
-              <span
-                className={`mt-8 px-8 py-3 rounded-full font-bold text-lg tracking-wider cursor-not-allowed ${
-                  regStatus === 'upcoming'
-                    ? 'bg-white/20 text-white/50'
-                    : 'bg-white/10 text-white/30'
-                }`}
-              >
-                {regStatus === 'upcoming' ? 'Coming Soon' : 'Closed'}
-              </span>
+            {showRegistration && (
+              regStatus === 'open' ? (
+                <Link
+                  href={REGISTRATION_URL}
+                  onClick={closeMenu}
+                  className="mt-8 bg-neon-orange text-white px-8 py-3 rounded-full font-bold text-lg tracking-wider shadow-[0_0_20px_rgba(255,139,83,0.4)]"
+                >
+                  Register
+                </Link>
+              ) : (
+                <span
+                  className={`mt-8 px-8 py-3 rounded-full font-bold text-lg tracking-wider cursor-not-allowed ${
+                    regStatus === 'upcoming'
+                      ? 'bg-white/20 text-white/50'
+                      : 'bg-white/10 text-white/30'
+                  }`}
+                >
+                  {regStatus === 'upcoming' ? 'Coming Soon' : 'Closed'}
+                </span>
+              )
             )}
           </motion.div>
         )}
@@ -488,30 +525,39 @@ function DropdownTrigger({
 interface NavLinkProps {
   item: NavItem;
   isScrolled: boolean;
+  isActive?: boolean;
   onClick?: () => void;
 }
 
-function NavLink({ item, isScrolled, onClick }: NavLinkProps) {
+function NavLink({ item, isScrolled, isActive = false, onClick }: NavLinkProps) {
+  const inactiveToneClass =
+    item.tone === 'default' ? 'text-white/80 hover:text-white' : 'text-white/45 hover:text-white/80';
+
   return (
     <Link
       href={item.href}
       onClick={onClick}
+      aria-current={isActive ? 'location' : undefined}
       className={`font-raela font-bold transition-all duration-300 relative group ${
         isScrolled ? 'text-sm' : 'text-base'
       } ${
-        item.isHighlight
+        isActive
+          ? 'text-white'
+          : item.isHighlight
           ? 'text-white hover:text-neon-orange'
-          : 'text-white/45 hover:text-white/80'
+          : inactiveToneClass
       }`}
     >
       <span className={item.isHighlight ? 'tracking-wide' : undefined}>
         {item.name}
       </span>
 
-      {item.isHighlight ? (
+      {isActive ? (
+        <span className="absolute -bottom-1 left-0 h-px w-full bg-[#55D5E7]" />
+      ) : item.isHighlight ? (
         <ShimmerUnderline />
       ) : (
-        <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/40 group-hover:w-full transition-all duration-300" />
+        <span className="absolute -bottom-1 left-0 h-px w-0 bg-white/55 group-hover:w-full transition-all duration-300" />
       )}
     </Link>
   );
@@ -567,6 +613,8 @@ function MobileDropdownItem({
   isPastRevealDate,
   isMounted,
 }: MobileDropdownItemProps) {
+  const inactiveToneClass = item.tone === 'default' ? 'text-white/80 hover:text-white' : 'text-white/50 hover:text-white';
+
   return (
     <div className="flex flex-col items-center">
       <button
@@ -575,7 +623,7 @@ function MobileDropdownItem({
         className={`text-3xl font-raela font-bold transition-colors flex items-center gap-2 ${
           item.isHighlight
             ? 'text-white hover:text-neon-orange'
-            : 'text-white/50 hover:text-white'
+            : inactiveToneClass
         }`}
       >
         {item.name}

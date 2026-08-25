@@ -10,12 +10,45 @@ function ScrollRestorer() {
     const lenis = useLenis();
 
     useEffect(() => {
-        if (lenis) {
-            // Only scroll to top if there is no hash in the URL
-            if (!window.location.hash) {
-                lenis.scrollTo(0, { immediate: true });
+        if (!lenis) return;
+
+        const scrollToHash = (hash: string, immediate = true) => {
+            const id = decodeURIComponent(hash.replace('#', ''));
+            const target = document.getElementById(id);
+            if (!target) return false;
+
+            lenis.scrollTo(target, {
+                immediate,
+                offset: -96,
+            });
+            return true;
+        };
+
+        const restoreScroll = () => {
+            if (window.location.hash) {
+                scrollToHash(window.location.hash);
+                return;
             }
-        }
+
+            lenis.scrollTo(0, { immediate: true });
+        };
+
+        const frame = requestAnimationFrame(restoreScroll);
+        const timeout = window.setTimeout(restoreScroll, 2200);
+
+        const handleHashChange = () => {
+            window.setTimeout(() => {
+                scrollToHash(window.location.hash, false);
+            }, 0);
+        };
+
+        window.addEventListener('hashchange', handleHashChange);
+
+        return () => {
+            cancelAnimationFrame(frame);
+            window.clearTimeout(timeout);
+            window.removeEventListener('hashchange', handleHashChange);
+        };
     }, [pathname, searchParams, lenis]);
 
     return null;

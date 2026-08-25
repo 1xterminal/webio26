@@ -42,3 +42,9 @@ next-env.d.ts
 
 # etc
 .archive
+.impeccable/
+.playwright-cli/
+output/
+/public/2026_pics/*
+!/public/2026_pics/optimized/
+!/public/2026_pics/optimized/*.webp
