@@ -36,11 +36,13 @@ export interface NavItem {
 
 interface NavbarProps {
   items?: NavItem[];
+  activeHref?: string;
   showRegistration?: boolean;
   ariaLabel?: string;
   logoHref?: string;
   logoAriaLabel?: string;
   logoSize?: 'default' | 'compact';
+  centerItems?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -83,11 +85,13 @@ const SUB_MENU_VARIANTS = {
 // ─── Main component ──────────────────────────────────────────────────────────
 export function Navbar({
   items = NAV_ITEMS,
+  activeHref,
   showRegistration = true,
   ariaLabel = 'Main navigation',
   logoHref = '/',
   logoAriaLabel = 'I/O Festival Home',
   logoSize = 'default',
+  centerItems = false,
 }: NavbarProps = {}) {
   const [isOpen, setIsOpen]                   = useState(false);
   const [isScrolled, setIsScrolled]           = useState(false);
@@ -187,7 +191,7 @@ export function Navbar({
 
           {/* ── Desktop Nav Items ───────────────────────────────────────── */}
           <div
-            className={`hidden md:flex items-center ${transitionClass} ${
+            className={`hidden md:flex items-center ${centerItems ? 'absolute left-1/2 -translate-x-1/2' : ''} ${transitionClass} ${
               isScrolled ? 'gap-5 xl:gap-7' : 'gap-6 xl:gap-9'
             }`}
           >
@@ -206,6 +210,7 @@ export function Navbar({
                   key={item.name}
                   item={item}
                   isScrolled={isScrolled}
+                  isActive={activeHref === item.href}
                   onClick={closeDropdown}
                 />
               )
@@ -412,8 +417,11 @@ export function Navbar({
                   key={item.name}
                   href={item.href}
                   onClick={closeMenu}
+                  aria-current={activeHref === item.href ? 'location' : undefined}
                   className={`text-3xl font-raela font-bold transition-colors ${
-                    item.isHighlight
+                    activeHref === item.href
+                      ? 'text-[#55D5E7]'
+                      : item.isHighlight
                       ? 'text-white hover:text-neon-orange'
                       : item.tone === 'default'
                         ? 'text-white/80 hover:text-white'
@@ -517,10 +525,11 @@ function DropdownTrigger({
 interface NavLinkProps {
   item: NavItem;
   isScrolled: boolean;
+  isActive?: boolean;
   onClick?: () => void;
 }
 
-function NavLink({ item, isScrolled, onClick }: NavLinkProps) {
+function NavLink({ item, isScrolled, isActive = false, onClick }: NavLinkProps) {
   const inactiveToneClass =
     item.tone === 'default' ? 'text-white/80 hover:text-white' : 'text-white/45 hover:text-white/80';
 
@@ -528,10 +537,13 @@ function NavLink({ item, isScrolled, onClick }: NavLinkProps) {
     <Link
       href={item.href}
       onClick={onClick}
+      aria-current={isActive ? 'location' : undefined}
       className={`font-raela font-bold transition-all duration-300 relative group ${
         isScrolled ? 'text-sm' : 'text-base'
       } ${
-        item.isHighlight
+        isActive
+          ? 'text-white'
+          : item.isHighlight
           ? 'text-white hover:text-neon-orange'
           : inactiveToneClass
       }`}
@@ -540,7 +552,9 @@ function NavLink({ item, isScrolled, onClick }: NavLinkProps) {
         {item.name}
       </span>
 
-      {item.isHighlight ? (
+      {isActive ? (
+        <span className="absolute -bottom-1 left-0 h-px w-full bg-[#55D5E7]" />
+      ) : item.isHighlight ? (
         <ShimmerUnderline />
       ) : (
         <span className="absolute -bottom-1 left-0 h-px w-0 bg-white/55 group-hover:w-full transition-all duration-300" />

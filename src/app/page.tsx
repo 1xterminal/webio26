@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'I/O FESTIVAL 2026 | Thank You Archive',
-  description: 'Thank you for being part of I/O Festival 2026. Revisit memories and partners from the festival by BEM FTI UNTAR.',
+  description: 'Photos and partner credits from I/O Festival 2026 at Universitas Tarumanagara by BEM FTI UNTAR.',
 };
 
 export default function Home() {

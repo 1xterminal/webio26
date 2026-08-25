@@ -9,9 +9,6 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://iofest.com'
 export const SITE_PHASE = 'archive' as const;
 
 export const ARCHIVE_COPY = {
-    headline: 'THANK YOU, I/O FESTIVAL 2026',
-    futureLine: 'See you at I/O Festival 2027.',
-    memoryCta: 'Explore Memories',
     instagramCta: 'Follow @iofest.untar',
     instagramUrl: 'https://instagram.com/iofest.untar',
 };
@@ -28,17 +25,6 @@ export const DATES = {
     JUDGING_END: new Date("2026-05-10T23:59:59+07:00"),
     FINALIST_ANNOUNCE: new Date('2026-05-13T00:00:00+07:00'),
     FINAL_AWARDING: new Date('2026-06-04T00:00:00+07:00'),
-};
-
-// --- WEBGL GALLERY CONFIG ---
-export const GALLERY_CONFIG = {
-    MESH_COUNT_DESKTOP: 200,
-    MESH_COUNT_MOBILE: 80,
-    CAMERA_Z: 10,
-    DRAG_SENSITIVITY: 1.5,
-    DRAG_DAMPING: 0.1,
-    MAX_Z: 12,
-    MIN_Z: -30,
 };
 
 // --- THEME COLORS ---

@@ -1,425 +1,176 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useEffect, useState, type PointerEvent } from 'react';
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
-import { ArrowDown, ExternalLink, Instagram, Mail } from 'lucide-react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { ArrowDown, ArrowUpRight, Instagram, Mail } from 'lucide-react';
 import { Navbar, type NavItem } from '@/components/layout/Navbar';
+import { Sponsors } from '@/components/sections/Sponsors';
+import Gallery from '@/components/sections/Gallery';
 import { ARCHIVE_COPY } from '@/lib/constants';
 
-const Gallery = dynamic(() => import('@/components/sections/Gallery').then((mod) => mod.default), {
-  ssr: false,
-});
-
-const coverImages = Array.from({ length: 17 }, (_, index) => `/covers/image_${index}.webp`);
-
 const archiveNavItems: NavItem[] = [
-  { name: 'Memories', href: '#memories', isHighlight: true },
+  { name: 'Memories', href: '#memories', isHighlight: false, tone: 'default' },
   { name: 'Partners', href: '#partners', isHighlight: false, tone: 'default' },
   { name: 'Contact', href: '#contact', isHighlight: false, tone: 'default' },
 ];
 
-const partnerGroups = [
-  {
-    title: 'Festival Partners',
-    logos: [
-      { name: 'V3 Production', src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/v3 production.png' },
-      { name: 'TokoTekno', src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/TokoTekno_putih.png' },
-      { name: 'Lamzu', src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/lamzu_putih.png' },
-      { name: 'Yunzi', src: '/assets/sponsors/DIAMOND/FESTIVAL PARTNER/yunzi_putih.png' },
-    ],
-  },
-  {
-    title: 'Diamond Partners',
-    logos: [
-      { name: 'BCA', src: '/assets/sponsors/DIAMOND/OFFICIAL CASE COLLABORATOR/bca.png' },
-      { name: 'Archipelago', src: '/assets/sponsors/DIAMOND/OFFICIAL APPAREL/archipelago.png' },
-    ],
-  },
-  {
-    title: 'Platinum & Gold',
-    logos: [
-      { name: 'Seindonesia', src: '/assets/sponsors/PLATINUM/seindonesia.png' },
-      { name: 'Digisnap', src: '/assets/sponsors/PLATINUM/digisnap.png' },
-      { name: 'Rumah Nenek', src: '/assets/sponsors/GOLD/rumah nenek.png' },
-    ],
-  },
-  {
-    title: 'Community Supporters',
-    logos: [
-      { name: 'Alleyway Muse', src: '/assets/sponsors/SILVER/alleyway.png' },
-      { name: 'JND Dimsum', src: '/assets/sponsors/SILVER/jnd.png' },
-      { name: 'Anamcara', src: '/assets/sponsors/SILVER/anamcara.png' },
-      { name: 'Cendol Duren', src: '/assets/sponsors/SILVER/cendol duren.png' },
-      { name: 'Djadoel Cake', src: '/assets/sponsors/SILVER/djadoel cake.png' },
-      { name: 'Nailboo', src: '/assets/sponsors/SILVER/nailboo.png' },
-      { name: 'Suki Bento', src: '/assets/sponsors/SILVER/suki suki bento.png' },
-      { name: 'Unomi', src: '/assets/sponsors/SILVER/unomi.png' },
-      { name: 'Dooble G', src: '/assets/sponsors/SILVER/dooble g.png' },
-      { name: 'Es Teh Makassar', src: '/assets/sponsors/SILVER/es teh makassar.png' },
-      { name: 'Hoky Food', src: '/assets/sponsors/SILVER/hoky food.png' },
-      { name: 'Jacks Hotdog', src: '/assets/sponsors/SILVER/jacks hotdog.png' },
-      { name: 'Khong Thai Tea', src: '/assets/sponsors/SILVER/khong thai tea.png' },
-    ],
-  },
-];
+const archiveSectionIds = ['memories', 'partners', 'contact'] as const;
 
 export default function HomePageClient() {
+  const activeHref = useArchiveSection();
+
   return (
-    <main id="main-content" className="relative min-h-screen overflow-hidden bg-[#0A0A0A] text-white">
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(circle at 12% 8%, rgba(255,139,83,0.16), transparent 28%), radial-gradient(circle at 86% 12%, rgba(85,213,231,0.14), transparent 32%), radial-gradient(circle at 52% 54%, rgba(182,100,251,0.08), transparent 42%), #0A0A0A',
-        }}
-      />
+    <main id="main-content" className="relative min-h-screen overflow-hidden bg-[#050505] text-white">
       <Navbar
         items={archiveNavItems}
         showRegistration={false}
         ariaLabel="Archive navigation"
         logoAriaLabel="I/O Festival 2026 archive home"
         logoSize="compact"
+        centerItems
+        activeHref={activeHref}
       />
       <div className="relative z-10">
         <ThankYouHero />
         <MemoryAtlasSection />
-        <PartnersSection />
+        <div id="partners" className="scroll-mt-20">
+          <Sponsors />
+        </div>
         <ArchiveFooter />
       </div>
     </main>
   );
 }
 
+function useArchiveSection() {
+  const [activeHref, setActiveHref] = useState<string>();
+
+  useEffect(() => {
+    const sections = archiveSectionIds
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
+
+        if (visibleSection) setActiveHref(`#${visibleSection.target.id}`);
+      },
+      { rootMargin: '-20% 0px -62% 0px', threshold: [0, 0.1, 0.25] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  return activeHref;
+}
+
 function ThankYouHero() {
-  const mosaicBackground = usePhotoMosaic(coverImages);
-  const prefersReducedMotion = useReducedMotion();
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const rotateX = useSpring(useTransform(pointerY, [-1, 1], [5, -5]), { stiffness: 120, damping: 22 });
-  const rotateY = useSpring(useTransform(pointerX, [-1, 1], [-7, 7]), { stiffness: 120, damping: 22 });
-  const titleBackground =
-    mosaicBackground || 'linear-gradient(90deg, #55D5E7 0%, #FFFFFF 38%, #FF8B53 100%)';
-
-  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
-    if (prefersReducedMotion) return;
-
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-
-    pointerX.set(x);
-    pointerY.set(y);
-  };
-
-  const handlePointerLeave = () => {
-    pointerX.set(0);
-    pointerY.set(0);
-  };
-
   return (
-    <section
-      className="relative isolate flex min-h-screen items-center overflow-hidden px-4 pb-16 pt-32 md:px-8 md:pb-24 md:pt-28"
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-    >
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#55D5E7] to-transparent opacity-70" />
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#0A0A0A]/35" />
-      <div
-        aria-hidden="true"
-        className="absolute left-1/2 top-[50%] -z-10 h-[55vh] min-h-[390px] w-[min(1200px,96vw)] -translate-x-1/2 -translate-y-1/2 blur-[6px]"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.44) 16%, rgba(0,0,0,0.62) 50%, rgba(0,0,0,0.44) 84%, transparent 100%)',
-          clipPath: 'polygon(0 10%, 100% 0, 100% 90%, 0 100%)',
-        }}
-      />
-      <motion.div
-        aria-hidden="true"
-        className="absolute left-1/2 top-[50%] -z-10 h-[42vh] min-h-[340px] w-[min(1020px,86vw)] -translate-x-1/2 -translate-y-1/2 opacity-20 blur-[2px]"
-        animate={prefersReducedMotion ? undefined : { opacity: [0.14, 0.24, 0.14] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        style={{
-          backgroundImage: titleBackground,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 52%',
-          clipPath: 'polygon(0 18%, 100% 0, 100% 82%, 0 100%)',
-          maskImage: 'linear-gradient(90deg, transparent, black 24%, black 76%, transparent)',
-          WebkitMaskImage: 'linear-gradient(90deg, transparent, black 24%, black 76%, transparent)',
-          filter: 'brightness(0.74) saturate(0.9)',
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute left-1/2 top-[50%] -z-10 h-[48vh] min-h-[380px] w-[min(1140px,92vw)] -translate-x-1/2 -translate-y-1/2 border-y border-white/10"
-        style={{
-          clipPath: 'polygon(0 12%, 100% 0, 100% 88%, 0 100%)',
-          background:
-            'linear-gradient(90deg, transparent, rgba(85,213,231,0.06) 22%, rgba(255,255,255,0.025) 50%, rgba(255,139,83,0.06) 78%, transparent)',
-        }}
-      />
+    <section className="relative min-h-[100svh] overflow-hidden border-b border-white/10 bg-[#050505] px-5 pb-5 pt-24 text-white md:px-[5vw] md:pb-7 md:pt-28">
+      <div className="relative mx-auto flex min-h-[calc(100svh-7.25rem)] max-w-[1800px] flex-col">
+        <div className="grid flex-1 items-center gap-10 py-5 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-14 lg:py-6 xl:gap-20">
+          <div className="order-1 relative z-10 lg:order-1">
+            <h1 className="max-w-[6.5ch] font-raela text-[clamp(5rem,11vw,12rem)] font-black uppercase leading-[0.78] tracking-[-0.045em] text-white">
+              <span className="block">Thank</span>
+              <span className="block">you.</span>
+            </h1>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 36 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full"
-        >
-          <p className="font-raela mb-6 text-3xl font-black uppercase leading-none tracking-[0.12em] text-white/84 drop-shadow-[0_10px_28px_rgba(255,255,255,0.12)] sm:text-4xl md:mb-7 md:text-5xl lg:text-6xl">
-            Thank You
-          </p>
-          <motion.h1
-            aria-label="I/O Festival 2026"
-            className="font-raela relative mx-auto max-w-[min(100%,13ch)] text-[3.7rem] font-black uppercase leading-[0.78] tracking-normal sm:text-[6.2rem] md:text-[8.3rem] lg:text-[10.6rem] xl:text-[12.3rem]"
-            style={{
-              rotateX: prefersReducedMotion ? 0 : rotateX,
-              rotateY: prefersReducedMotion ? 0 : rotateY,
-              transformPerspective: 900,
-              transformStyle: 'preserve-3d',
-            }}
-          >
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 block text-transparent opacity-95 blur-[0.5px]"
-              style={{
-                WebkitTextStroke: '6px rgba(0,0,0,0.48)',
-                transform: 'translate3d(0, 0.02em, -68px)',
-              }}
-            >
-              <span className="block">I/O Festival</span>
-              <span className="block">2026</span>
-            </span>
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 block text-transparent opacity-82 blur-[1px]"
-              style={{
-                WebkitTextStroke: '1.5px rgba(85,213,231,0.42)',
-                transform: 'translate3d(-0.035em, -0.035em, -48px)',
-              }}
-            >
-              <span className="block">I/O Festival</span>
-              <span className="block">2026</span>
-            </span>
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 block text-transparent opacity-82"
-              style={{
-                WebkitTextStroke: '1.5px rgba(255,139,83,0.4)',
-                transform: 'translate3d(0.045em, 0.05em, -32px)',
-              }}
-            >
-              <span className="block">I/O Festival</span>
-              <span className="block">2026</span>
-            </span>
-            <span
-              aria-hidden="true"
-              className="block bg-clip-text text-transparent"
-              style={{
-                backgroundImage: titleBackground,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                WebkitTextFillColor: 'transparent',
-                filter:
-                  'brightness(1.16) saturate(1.42) contrast(1.2) drop-shadow(0 0 14px rgba(255,255,255,0.12)) drop-shadow(0 18px 28px rgba(85,213,231,0.2)) drop-shadow(0 38px 84px rgba(0,0,0,0.72))',
-                transform: 'translateZ(52px)',
-              }}
-            >
-              I/O Festival
-            </span>
-            <span
-              aria-hidden="true"
-              className="block bg-clip-text text-transparent"
-              style={{
-                backgroundImage: titleBackground,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center 68%',
-                WebkitTextFillColor: 'transparent',
-                filter:
-                  'brightness(1.16) saturate(1.42) contrast(1.2) drop-shadow(0 0 14px rgba(255,255,255,0.12)) drop-shadow(0 18px 28px rgba(255,139,83,0.2)) drop-shadow(0 38px 84px rgba(0,0,0,0.72))',
-                transform: 'translateZ(52px)',
-              }}
-            >
-              2026
-            </span>
-          </motion.h1>
-          <p className="mx-auto mt-9 max-w-2xl font-jakarta text-lg font-light leading-relaxed text-white/92 drop-shadow-[0_12px_30px_rgba(0,0,0,0.72)] md:mt-10 md:text-2xl">
-            {ARCHIVE_COPY.futureLine}
-          </p>
+            <p className="mt-7 max-w-[33rem] font-jakarta text-[15px] leading-[1.55] text-white/68 sm:text-base md:mt-9 md:text-[17px]">
+              I/O Festival 2026 is over. Thank you for building, judging, supporting, and showing up.
+            </p>
 
-          <div className="mt-12 flex flex-col justify-center gap-2.5 sm:flex-row">
+            <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 font-jakarta text-[10px] font-semibold uppercase tracking-[0.16em] text-white/48 md:mt-9 md:text-[11px]">
+              <span>04—05 June 2026</span>
+              <span className="h-px w-6 bg-[#FF8B53]" />
+              <span>Universitas Tarumanagara</span>
+            </div>
+
             <a
               href="#memories"
-              className="group inline-flex items-center justify-center gap-3 bg-white px-5 py-4 font-raela text-sm font-black uppercase tracking-[0.18em] text-black transition-colors hover:bg-[#55D5E7]"
+              className="group mt-10 inline-flex items-center gap-3 border-b border-white/45 pb-2 font-jakarta text-[11px] font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#55D5E7] focus-visible:ring-offset-4 focus-visible:ring-offset-[#050505] sm:text-xs"
             >
-              {ARCHIVE_COPY.memoryCta}
-              <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
-            </a>
-            <a
-              href={ARCHIVE_COPY.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-3 border border-white/30 px-5 py-4 font-raela text-sm font-black uppercase tracking-[0.18em] text-white/88 transition-colors hover:border-[#FF8B53]/85 hover:text-white"
-            >
-              {ARCHIVE_COPY.instagramCta}
-              <ExternalLink className="h-4 w-4 text-[#55D5E7]/85 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#FF8B53]" />
+              View the photos
+              <ArrowDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-y-1 motion-reduce:transition-none" />
             </a>
           </div>
-        </motion.div>
+
+          <HeroPhotoSheet />
+        </div>
       </div>
     </section>
   );
 }
 
-function usePhotoMosaic(imagePaths: string[]) {
-  const [mosaic, setMosaic] = useState<string | null>(null);
+const HERO_PHOTOS = [
+  { src: '/2026_pics/optimized/DSC07707.webp', alt: 'I/O Festival 2026 opening ceremony on stage', label: 'Opening ceremony' },
+  { src: '/2026_pics/optimized/DSC07714.webp', alt: 'I/O Festival 2026 participants gathered on stage', label: 'On stage together' },
+  { src: '/2026_pics/optimized/IMG_3977.webp', alt: 'I/O Festival 2026 audience during the event', label: 'In the room' },
+  { src: '/2026_pics/optimized/IMG_4017.webp', alt: 'I/O Festival 2026 winners holding their awards', label: 'Winner moment' },
+] as const;
 
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadImage = (src: string) =>
-      new Promise<HTMLImageElement | null>((resolve) => {
-        const image = new window.Image();
-        image.onload = () => resolve(image);
-        image.onerror = () => resolve(null);
-        image.src = src;
-      });
-
-    const drawCover = (
-      context: CanvasRenderingContext2D,
-      image: HTMLImageElement,
-      x: number,
-      y: number,
-      width: number,
-      height: number
-    ) => {
-      const sourceRatio = image.naturalWidth / image.naturalHeight;
-      const targetRatio = width / height;
-      let sourceWidth = image.naturalWidth;
-      let sourceHeight = image.naturalHeight;
-      let sourceX = 0;
-      let sourceY = 0;
-
-      if (sourceRatio > targetRatio) {
-        sourceWidth = image.naturalHeight * targetRatio;
-        sourceX = (image.naturalWidth - sourceWidth) / 2;
-      } else {
-        sourceHeight = image.naturalWidth / targetRatio;
-        sourceY = (image.naturalHeight - sourceHeight) / 2;
-      }
-
-      context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
-    };
-
-    async function createMosaic() {
-      const images = (await Promise.all(imagePaths.map(loadImage))).filter(Boolean) as HTMLImageElement[];
-      if (cancelled || images.length === 0) return;
-
-      const canvas = document.createElement('canvas');
-      canvas.width = 1800;
-      canvas.height = 900;
-      const context = canvas.getContext('2d');
-      if (!context) return;
-
-      context.fillStyle = '#0A0A0A';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      context.filter = 'brightness(1.08) saturate(1.32) contrast(1.18)';
-
-      const tileWidth = 180;
-      const tileHeight = 130;
-      let imageIndex = 0;
-
-      for (let y = -tileHeight; y < canvas.height + tileHeight; y += tileHeight) {
-        for (let x = -tileWidth; x < canvas.width + tileWidth; x += tileWidth) {
-          const image = images[imageIndex % images.length];
-          const offsetX = ((imageIndex * 37) % 76) - 38;
-          const offsetY = ((imageIndex * 29) % 52) - 26;
-          drawCover(context, image, x + offsetX, y + offsetY, tileWidth + 32, tileHeight + 28);
-          imageIndex += 1;
-        }
-      }
-
-      context.filter = 'none';
-      const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, 'rgba(85,213,231,0.58)');
-      gradient.addColorStop(0.42, 'rgba(255,255,255,0.16)');
-      gradient.addColorStop(1, 'rgba(255,139,83,0.58)');
-      context.globalCompositeOperation = 'source-atop';
-      context.fillStyle = gradient;
-      context.fillRect(0, 0, canvas.width, canvas.height);
-
-      context.globalCompositeOperation = 'source-over';
-      context.fillStyle = 'rgba(10,10,10,0.04)';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-
-      if (!cancelled) setMosaic(`url(${canvas.toDataURL('image/webp', 0.86)})`);
-    }
-
-    createMosaic();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [imagePaths]);
-
-  return mosaic;
-}
-
-function MemoryAtlasSection() {
+function HeroPhotoSheet() {
   return (
-    <div id="memories" className="relative scroll-mt-20 px-4 py-16 md:px-8 md:py-24">
-      <Gallery />
+    <div className="order-2 relative w-full lg:order-2">
+      <div className="grid w-full grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
+        {HERO_PHOTOS.map((photo, index) => (
+          <HeroPhotoCard
+            key={photo.src}
+            photo={photo}
+            priority={index < 2}
+            className="aspect-[4/3] w-full"
+          />
+        ))}
+      </div>
     </div>
   );
 }
 
-function PartnersSection() {
+function HeroPhotoCard({ photo, priority = false, className }: { photo: (typeof HERO_PHOTOS)[number]; priority?: boolean; className: string }) {
   return (
-    <section id="partners" className="relative scroll-mt-24 px-4 py-16 md:px-8 md:py-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="border-y border-white/10 py-8 md:py-10">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            <h2 className="font-raela text-5xl font-black uppercase leading-[0.92] tracking-normal md:text-8xl lg:col-span-7">
-              With
-              <span className="block text-[#55D5E7]">Gratitude</span>
+    <a
+      href={photo.src}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={'Open ' + photo.alt + ' in a new tab'}
+      className={'group relative min-h-0 overflow-hidden border border-white/15 bg-[#151515] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#55D5E7] ' + className}
+    >
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        priority={priority}
+        sizes="(min-width: 1024px) 56vw, 100vw"
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] motion-reduce:transition-none"
+      />
+      <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 border-t border-white/15 bg-[#050505]/85 px-3 py-3 font-jakarta text-[9px] font-semibold uppercase tracking-[0.14em] text-white/85 transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:bg-[#050505]/95">
+        <span>{photo.label}</span>
+        <ArrowUpRight aria-hidden="true" className="h-3 w-3 text-white/55" />
+      </span>
+    </a>
+  );
+}
+
+function MemoryAtlasSection() {
+  return (
+    <section id="memories" aria-labelledby="memories-title" className="relative scroll-mt-20 border-b border-white/10 bg-[#050505] px-5 py-20 md:px-10 md:py-28">
+      <div className="mx-auto max-w-[1400px]">
+        <div className="grid gap-8 border-t border-white/15 pt-7 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.42fr)] md:items-end md:gap-12 md:pt-9">
+          <div>
+            <h2 id="memories-title" className="max-w-[10ch] font-raela text-5xl font-black uppercase leading-[0.86] tracking-[-0.04em] sm:text-6xl md:text-8xl">
+              The photographs.
             </h2>
-            <p className="font-jakarta text-base leading-relaxed text-white/60 md:text-lg lg:col-span-5">
-              Thank you to every partner and supporter who stood with I/O Festival 2026 from preparation
-              to awarding day.
-            </p>
           </div>
+          <p className="max-w-md font-jakarta text-sm leading-relaxed text-white/46 md:justify-self-end md:text-[15px]">
+            Photographs from 04—05 June 2026 at Universitas Tarumanagara.
+          </p>
         </div>
 
-        <div className="mt-10 space-y-5">
-          {partnerGroups.map((group) => (
-            <div key={group.title} className="border border-white/10 bg-white/[0.018] p-4 md:p-6">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="h-px flex-1 bg-gradient-to-r from-[#FF8B53] via-[#B664FB] to-[#55D5E7]" />
-                <h3 className="font-raela text-xs font-black uppercase tracking-[0.28em] text-white/50">
-                  {group.title}
-                </h3>
-                <span className="h-px flex-1 bg-gradient-to-r from-[#55D5E7] via-[#B664FB] to-[#FF8B53]" />
-              </div>
-              <div className="grid grid-cols-2 items-center gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                {group.logos.map((logo) => (
-                  <div
-                    key={logo.name}
-                    className="flex h-24 items-center justify-center border border-white/10 bg-[#0A0A0A] p-4 transition-colors hover:border-white/20"
-                  >
-                    <Image
-                      src={logo.src}
-                      alt={logo.name}
-                      width={220}
-                      height={120}
-                      className="max-h-14 w-auto object-contain opacity-75 grayscale transition-all hover:opacity-100 hover:grayscale-0"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+        <div className="mt-12 overflow-hidden border-y border-white/15 md:mt-16">
+          <Gallery />
         </div>
       </div>
     </section>
@@ -428,59 +179,89 @@ function PartnersSection() {
 
 function ArchiveFooter() {
   return (
-    <footer id="contact" className="relative scroll-mt-24 border-t border-white/10 px-4 py-16 md:px-8 md:py-20">
-      <div className="mx-auto flex max-w-7xl flex-col gap-10 md:flex-row md:items-end md:justify-between">
-        <div>
+    <footer id="contact" className="relative flex min-h-[100svh] scroll-mt-20 flex-col bg-[#F2F0E8] px-5 py-16 text-[#080808] md:px-10 md:py-24">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col">
+        <div className="grid gap-10 border-b border-black/15 pb-14 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-16 md:pb-20">
+          <div>
+            <h2 className="max-w-[9ch] font-raela text-[clamp(4rem,10.5vw,10.5rem)] font-black uppercase leading-[0.76] tracking-[-0.045em]">
+              <span className="block">See you at</span>
+              <span className="block">I/O Festival</span>
+              <span className="block">2027.</span>
+            </h2>
+          </div>
+
           <Image
             src="/assets/logo/logo-io.webp"
-            alt="I/O Festival 2026"
+            alt="I/O Festival"
             width={220}
             height={70}
-            className="h-12 w-auto object-contain"
+            className="h-20 w-auto object-contain drop-shadow-[0_8px_18px_rgba(8,8,8,0.12)] md:h-28"
           />
-          <p className="mt-5 max-w-xl font-jakarta text-sm leading-relaxed text-white/45">
-            I/O Festival 2026 has closed. Thank you for building, judging, supporting, and showing up
-            with us at Universitas Tarumanagara.
-          </p>
-          <div className="mt-6 flex items-center gap-4">
-            <Image
-              src="/assets/logo/LOGO FTI UNTAR.png"
-              alt="FTI UNTAR"
-              width={120}
-              height={60}
-              className="h-8 w-auto object-contain opacity-45"
-            />
-            <div className="h-7 w-px bg-white/10" />
-            <Image
-              src="/assets/logo/logo bem fti white.png"
-              alt="BEM FTI UNTAR"
-              width={120}
-              height={60}
-              className="h-8 w-auto object-contain opacity-45"
-            />
+        </div>
+
+        <div className="grid gap-12 py-10 md:grid-cols-[minmax(0,1fr)_minmax(300px,0.72fr)] md:gap-20 md:py-14">
+          <div>
+            <p className="max-w-xl font-jakarta text-sm leading-relaxed text-black/58 md:text-[15px]">
+              I/O Festival 2026 has closed. Thank you for building, judging, supporting, and showing up with us at Universitas Tarumanagara.
+            </p>
+
+            <div className="mt-8 flex items-center gap-6 md:mt-10 md:gap-7">
+              <Image
+                src="/assets/logo/LOGO FTI UNTAR.png"
+                alt="FTI UNTAR"
+                width={120}
+                height={60}
+                className="h-11 w-auto object-contain brightness-0 opacity-80 md:h-12"
+              />
+              <div className="h-9 w-px bg-black/20" />
+              <Image
+                src="/assets/logo/logo bem fti white.png"
+                alt="BEM FTI UNTAR"
+                width={120}
+                height={60}
+                className="h-11 w-auto object-contain brightness-0 opacity-80 md:h-12"
+              />
+            </div>
+          </div>
+
+          <div className="border-t border-black/15">
+            <FooterLink href={ARCHIVE_COPY.instagramUrl} label="@iofest.untar" icon={<Instagram className="h-4 w-4" />} external />
+            <FooterLink href="mailto:iobemftiuntar@gmail.com" label="iobemftiuntar@gmail.com" icon={<Mail className="h-4 w-4" />} />
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 md:items-end">
-          <a
-            href={ARCHIVE_COPY.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 font-jakarta text-sm font-semibold text-white/65 transition-colors hover:text-white"
-          >
-            <Instagram className="h-4 w-4 text-[#FF8B53]" />
-            @iofest.untar
-          </a>
-          <a
-            href="mailto:iobemftiuntar@gmail.com"
-            className="inline-flex items-center gap-3 font-jakarta text-sm font-semibold text-white/65 transition-colors hover:text-white"
-          >
-            <Mail className="h-4 w-4 text-[#55D5E7]" />
-            iobemftiuntar@gmail.com
-          </a>
-          <p className="pt-5 font-jakarta text-xs text-white/25">© 2026 I/O Festival · BEM FTI UNTAR</p>
+        <div className="flex flex-col gap-3 border-t border-black/15 pt-5 font-jakarta text-[9px] font-semibold uppercase tracking-[0.16em] text-black/38 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 I/O Festival · BEM FTI UNTAR</p>
+          <p>Technology into action</p>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterLink({
+  href,
+  label,
+  icon,
+  external = false,
+}: {
+  href: string;
+  label: string;
+  icon: ReactNode;
+  external?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      className="group flex items-center justify-between gap-5 border-b border-black/15 py-5 font-jakarta text-sm font-semibold transition-colors hover:text-black/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4 focus-visible:ring-offset-[#F2F0E8]"
+    >
+      <span className="flex items-center gap-3">
+        {icon}
+        {label}
+      </span>
+      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+    </a>
   );
 }
